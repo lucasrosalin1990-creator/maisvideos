@@ -10,28 +10,25 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     
-    <!-- FONTES: LUCKIEST GUY (TÍTULOS/DESTAQUES) + PLUS JAKARTA SANS (LEITURA ULTRA-NÍTIDA) -->
+    <!-- FONTE PADRÃO ÚNICA, MODERNA E ULTRA-LEGÍVEL -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <style>
-        body { 
+        * { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
+        }
+
+        body { 
             background-color: #07090F; 
             color: #F1F5F9; 
-            letter-spacing: -0.01em; 
+            letter-spacing: -0.015em; 
             overflow-x: hidden;
             position: relative;
         }
 
-        /* FONTE DE IMPACTO DO TIKTOK */
-        .font-display {
-            font-family: 'Luckiest Guy', cursive;
-            letter-spacing: 0.03em;
-        }
-
-        /* EFEITO SAAS: FUNDO EM MATRIZ DE PONTOS (IGUAL À FOTO) */
+        /* EFEITO SAAS: FUNDO EM MATRIZ DE PONTOS */
         .bg-dots {
             position: fixed;
             top: 0;
@@ -44,7 +41,7 @@
             z-index: 0;
         }
 
-        /* LUZ AMBIENTE SAAS (FEIXE CORAL / CIANO) */
+        /* LUZ AMBIENTE SAAS */
         .ambient-glow-right {
             position: fixed;
             top: -150px;
@@ -80,6 +77,20 @@
             border-color: rgba(255, 42, 95, 0.35);
         }
 
+        /* ANIMAÇÃO DO BANNER INFINITO NO TOPO */
+        @keyframes ticker-scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-ticker {
+            display: flex;
+            width: max-content;
+            animation: ticker-scroll 32s linear infinite;
+        }
+        .animate-ticker:hover {
+            animation-play-state: paused;
+        }
+
         .custom-scroll::-webkit-scrollbar { height: 6px; width: 6px; }
         .custom-scroll::-webkit-scrollbar-track { background: rgba(11, 16, 29, 0.6); border-radius: 99px; }
         .custom-scroll::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 99px; }
@@ -94,10 +105,151 @@
     <div class="ambient-glow-right"></div>
     <div class="ambient-glow-left"></div>
 
+    <!-- ============================================================ -->
+    <!-- BANNER INFINITO DE GANHOS DO TIKTOK SHOP NO TOPO -->
+    <!-- ============================================================ -->
+    <div class="border-b border-slate-800/80 bg-[#060810]/95 backdrop-blur-md overflow-hidden py-2 relative z-50">
+        <div class="animate-ticker flex items-center gap-4">
+            
+            <!-- CARD 1 -->
+            <div class="flex-shrink-0 flex items-center gap-3 bg-[#0D1220] border border-slate-800 px-3 py-1.5 rounded-xl text-xs">
+                <span class="text-[10px] bg-white text-black font-extrabold px-2 py-0.5 rounded-md">Hoje</span>
+                <div class="text-[11px] leading-tight">
+                    <span class="text-slate-400 block text-[9px] uppercase font-semibold">GMV atribuído</span>
+                    <span class="font-extrabold text-white font-mono">R$ 14,8 mil</span>
+                </div>
+                <div class="text-[11px] leading-tight border-l border-slate-800 pl-2.5">
+                    <span class="text-slate-400 block text-[9px] uppercase font-semibold">Itens</span>
+                    <span class="font-extrabold text-white font-mono">48</span>
+                </div>
+                <div class="text-[11px] leading-tight border-l border-slate-800 pl-2.5">
+                    <span class="text-slate-400 block text-[9px] uppercase font-semibold">Comissão estimada</span>
+                    <span class="font-extrabold text-emerald-400 font-mono">+R$ 1.620,00</span>
+                </div>
+            </div>
+
+            <!-- CARD 2 -->
+            <div class="flex-shrink-0 flex items-center gap-3 bg-[#0D1220] border border-slate-800 px-3 py-1.5 rounded-xl text-xs">
+                <span class="text-[10px] bg-[#FF2A5F]/20 text-[#FF2A5F] border border-[#FF2A5F]/30 font-extrabold px-2 py-0.5 rounded-md">Últimos 7 dias</span>
+                <div class="text-[11px] leading-tight">
+                    <span class="text-slate-400 block text-[9px] uppercase font-semibold">GMV atribuído</span>
+                    <span class="font-extrabold text-white font-mono">R$ 82,4 mil</span>
+                </div>
+                <div class="text-[11px] leading-tight border-l border-slate-800 pl-2.5">
+                    <span class="text-slate-400 block text-[9px] uppercase font-semibold">Itens</span>
+                    <span class="font-extrabold text-white font-mono">264</span>
+                </div>
+                <div class="text-[11px] leading-tight border-l border-slate-800 pl-2.5">
+                    <span class="text-slate-400 block text-[9px] uppercase font-semibold">Comissão estimada</span>
+                    <span class="font-extrabold text-emerald-400 font-mono">+R$ 9.480,00</span>
+                </div>
+            </div>
+
+            <!-- CARD 3 -->
+            <div class="flex-shrink-0 flex items-center gap-3 bg-[#0D1220] border border-slate-800 px-3 py-1.5 rounded-xl text-xs">
+                <span class="text-[10px] bg-white text-black font-extrabold px-2 py-0.5 rounded-md">Hoje</span>
+                <div class="text-[11px] leading-tight">
+                    <span class="text-slate-400 block text-[9px] uppercase font-semibold">GMV atribuído</span>
+                    <span class="font-extrabold text-white font-mono">R$ 26,1 mil</span>
+                </div>
+                <div class="text-[11px] leading-tight border-l border-slate-800 pl-2.5">
+                    <span class="text-slate-400 block text-[9px] uppercase font-semibold">Itens</span>
+                    <span class="font-extrabold text-white font-mono">87</span>
+                </div>
+                <div class="text-[11px] leading-tight border-l border-slate-800 pl-2.5">
+                    <span class="text-slate-400 block text-[9px] uppercase font-semibold">Comissão estimada</span>
+                    <span class="font-extrabold text-emerald-400 font-mono">+R$ 3.140,00</span>
+                </div>
+            </div>
+
+            <!-- CARD 4 -->
+            <div class="flex-shrink-0 flex items-center gap-3 bg-[#0D1220] border border-slate-800 px-3 py-1.5 rounded-xl text-xs">
+                <span class="text-[10px] bg-[#FF2A5F]/20 text-[#FF2A5F] border border-[#FF2A5F]/30 font-extrabold px-2 py-0.5 rounded-md">Últimos 7 dias</span>
+                <div class="text-[11px] leading-tight">
+                    <span class="text-slate-400 block text-[9px] uppercase font-semibold">GMV atribuído</span>
+                    <span class="font-extrabold text-white font-mono">R$ 154,8 mil</span>
+                </div>
+                <div class="text-[11px] leading-tight border-l border-slate-800 pl-2.5">
+                    <span class="text-slate-400 block text-[9px] uppercase font-semibold">Itens</span>
+                    <span class="font-extrabold text-white font-mono">490</span>
+                </div>
+                <div class="text-[11px] leading-tight border-l border-slate-800 pl-2.5">
+                    <span class="text-slate-400 block text-[9px] uppercase font-semibold">Comissão estimada</span>
+                    <span class="font-extrabold text-emerald-400 font-mono">+R$ 18.250,00</span>
+                </div>
+            </div>
+
+            <!-- CARD 5 -->
+            <div class="flex-shrink-0 flex items-center gap-3 bg-[#0D1220] border border-slate-800 px-3 py-1.5 rounded-xl text-xs">
+                <span class="text-[10px] bg-white text-black font-extrabold px-2 py-0.5 rounded-md">Hoje</span>
+                <div class="text-[11px] leading-tight">
+                    <span class="text-slate-400 block text-[9px] uppercase font-semibold">GMV atribuído</span>
+                    <span class="font-extrabold text-white font-mono">R$ 38,9 mil</span>
+                </div>
+                <div class="text-[11px] leading-tight border-l border-slate-800 pl-2.5">
+                    <span class="text-slate-400 block text-[9px] uppercase font-semibold">Itens</span>
+                    <span class="font-extrabold text-white font-mono">112</span>
+                </div>
+                <div class="text-[11px] leading-tight border-l border-slate-800 pl-2.5">
+                    <span class="text-slate-400 block text-[9px] uppercase font-semibold">Comissão estimada</span>
+                    <span class="font-extrabold text-emerald-400 font-mono">+R$ 4.790,00</span>
+                </div>
+            </div>
+
+            <!-- DUPLICAÇÃO PARA O LOOP INFINITO PERFEITO -->
+            <div class="flex-shrink-0 flex items-center gap-3 bg-[#0D1220] border border-slate-800 px-3 py-1.5 rounded-xl text-xs">
+                <span class="text-[10px] bg-white text-black font-extrabold px-2 py-0.5 rounded-md">Hoje</span>
+                <div class="text-[11px] leading-tight">
+                    <span class="text-slate-400 block text-[9px] uppercase font-semibold">GMV atribuído</span>
+                    <span class="font-extrabold text-white font-mono">R$ 14,8 mil</span>
+                </div>
+                <div class="text-[11px] leading-tight border-l border-slate-800 pl-2.5">
+                    <span class="text-slate-400 block text-[9px] uppercase font-semibold">Itens</span>
+                    <span class="font-extrabold text-white font-mono">48</span>
+                </div>
+                <div class="text-[11px] leading-tight border-l border-slate-800 pl-2.5">
+                    <span class="text-slate-400 block text-[9px] uppercase font-semibold">Comissão estimada</span>
+                    <span class="font-extrabold text-emerald-400 font-mono">+R$ 1.620,00</span>
+                </div>
+            </div>
+            <div class="flex-shrink-0 flex items-center gap-3 bg-[#0D1220] border border-slate-800 px-3 py-1.5 rounded-xl text-xs">
+                <span class="text-[10px] bg-[#FF2A5F]/20 text-[#FF2A5F] border border-[#FF2A5F]/30 font-extrabold px-2 py-0.5 rounded-md">Últimos 7 dias</span>
+                <div class="text-[11px] leading-tight">
+                    <span class="text-slate-400 block text-[9px] uppercase font-semibold">GMV atribuído</span>
+                    <span class="font-extrabold text-white font-mono">R$ 82,4 mil</span>
+                </div>
+                <div class="text-[11px] leading-tight border-l border-slate-800 pl-2.5">
+                    <span class="text-slate-400 block text-[9px] uppercase font-semibold">Itens</span>
+                    <span class="font-extrabold text-white font-mono">264</span>
+                </div>
+                <div class="text-[11px] leading-tight border-l border-slate-800 pl-2.5">
+                    <span class="text-slate-400 block text-[9px] uppercase font-semibold">Comissão estimada</span>
+                    <span class="font-extrabold text-emerald-400 font-mono">+R$ 9.480,00</span>
+                </div>
+            </div>
+            <div class="flex-shrink-0 flex items-center gap-3 bg-[#0D1220] border border-slate-800 px-3 py-1.5 rounded-xl text-xs">
+                <span class="text-[10px] bg-white text-black font-extrabold px-2 py-0.5 rounded-md">Hoje</span>
+                <div class="text-[11px] leading-tight">
+                    <span class="text-slate-400 block text-[9px] uppercase font-semibold">GMV atribuído</span>
+                    <span class="font-extrabold text-white font-mono">R$ 26,1 mil</span>
+                </div>
+                <div class="text-[11px] leading-tight border-l border-slate-800 pl-2.5">
+                    <span class="text-slate-400 block text-[9px] uppercase font-semibold">Itens</span>
+                    <span class="font-extrabold text-white font-mono">87</span>
+                </div>
+                <div class="text-[11px] leading-tight border-l border-slate-800 pl-2.5">
+                    <span class="text-slate-400 block text-[9px] uppercase font-semibold">Comissão estimada</span>
+                    <span class="font-extrabold text-emerald-400 font-mono">+R$ 3.140,00</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     <!-- MODAL DE IDENTIFICAÇÃO DO USUÁRIO -->
     <div id="modal-nome" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/85 backdrop-blur-md px-4 transition-opacity duration-300 hidden">
         <div class="saas-card rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl relative border-[#FF2A5F]/40 card-glow-coral">
-            <h3 class="font-display text-2xl text-center text-white mb-1">IDENTIFICAÇÃO DA LICENÇA</h3>
+            <h3 class="text-xl font-black text-center text-white mb-1">Identificação da Licença</h3>
             <p class="text-xs text-slate-400 text-center mb-6">Personalize sua área de trabalho.</p>
             <div class="space-y-4">
                 <div>
@@ -111,8 +263,8 @@
                         <option value="Assinatura Mensal">Assinatura Mensal</option>
                     </select>
                 </div>
-                <button onclick="salvarDadosCliente()" class="w-full py-3.5 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-display text-base tracking-wider rounded-xl transition shadow-lg shadow-[#FF2A5F]/25 mt-2">
-                    ACESSAR PLATAFORMA
+                <button onclick="salvarDadosCliente()" class="w-full py-3 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-extrabold text-sm rounded-xl transition shadow-lg shadow-[#FF2A5F]/25 mt-2">
+                    Acessar Plataforma
                 </button>
             </div>
         </div>
@@ -124,7 +276,7 @@
             <div class="flex items-center justify-between pb-4 border-b border-slate-800">
                 <div class="flex items-center gap-3">
                     <span id="roteiro-tag-categoria" class="text-[10px] uppercase font-black bg-[#FF2A5F]/15 text-[#FF2A5F] border border-[#FF2A5F]/30 px-2.5 py-0.5 rounded-full">CATEGORIA</span>
-                    <h3 id="roteiro-prod-nome" class="font-display text-base sm:text-lg text-white truncate max-w-[280px]">Nome do Produto</h3>
+                    <h3 id="roteiro-prod-nome" class="text-sm sm:text-base font-extrabold text-white truncate max-w-[280px]">Nome do Produto</h3>
                 </div>
                 <button onclick="fecharModalRoteiro()" class="text-slate-400 hover:text-white p-1">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
@@ -135,7 +287,7 @@
                 <!-- 1. GANCHO -->
                 <div class="bg-[#080B14]/80 border border-[#FF2A5F]/30 rounded-2xl p-4">
                     <div class="flex items-center justify-between mb-1.5">
-                        <span class="font-display text-sm text-[#FF2A5F] tracking-wide flex items-center gap-1.5">
+                        <span class="font-extrabold text-[#FF2A5F] flex items-center gap-1.5 text-xs">
                             <span class="w-2 h-2 rounded-full bg-[#FF2A5F]"></span> 1. GANCHO (0 a 3s)
                         </span>
                         <span class="text-[10px] text-slate-500 font-mono">Retenção de Atenção</span>
@@ -146,7 +298,7 @@
                 <!-- 2. CORPO -->
                 <div class="bg-[#080B14]/80 border border-slate-800 rounded-2xl p-4">
                     <div class="flex items-center justify-between mb-1.5">
-                        <span class="font-display text-sm text-cyan-400 tracking-wide flex items-center gap-1.5">
+                        <span class="font-extrabold text-cyan-400 flex items-center gap-1.5 text-xs">
                             <span class="w-2 h-2 rounded-full bg-cyan-400"></span> 2. CORPO (3 a 25s)
                         </span>
                         <span class="text-[10px] text-slate-500 font-mono">Demonstração / Desejo</span>
@@ -157,7 +309,7 @@
                 <!-- 3. CTA -->
                 <div class="bg-[#080B14]/80 border border-emerald-500/30 rounded-2xl p-4">
                     <div class="flex items-center justify-between mb-1.5">
-                        <span class="font-display text-sm text-emerald-400 tracking-wide flex items-center gap-1.5">
+                        <span class="font-extrabold text-emerald-400 flex items-center gap-1.5 text-xs">
                             <span class="w-2 h-2 rounded-full bg-emerald-400"></span> 3. CTA (Final)
                         </span>
                         <span class="text-[10px] text-slate-500 font-mono">Chamada para Ação</span>
@@ -166,8 +318,8 @@
                 </div>
             </div>
 
-            <button id="btn-aplicar-roteiro" class="w-full py-3.5 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-display text-sm tracking-wider rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-[#FF2A5F]/20">
-                <span>USAR ESTE PRODUTO NO MULTIPLICADOR</span>
+            <button id="btn-aplicar-roteiro" class="w-full py-3 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-extrabold text-xs rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-[#FF2A5F]/20">
+                <span>Usar este Produto no Multiplicador</span>
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
             </button>
         </div>
@@ -177,13 +329,13 @@
     <div id="render-sandbox" style="position:fixed; top:-9999px; left:-9999px; width:320px; height:240px; overflow:hidden; opacity:0; pointer-events:none;"></div>
 
     <!-- CABEÇALHO -->
-    <header class="border-b border-slate-800/80 bg-[#070A12]/80 backdrop-blur-md sticky top-0 z-50 relative">
+    <header class="border-b border-slate-800/80 bg-[#070A12]/80 backdrop-blur-md sticky top-0 z-40 relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center gap-2.5">
-                <div class="w-9 h-9 rounded-xl bg-[#0F1424] border border-[#FF2A5F]/40 flex items-center justify-center text-sm font-display text-[#FF2A5F] shadow-md">
+                <div class="w-8 h-8 rounded-xl bg-[#0F1424] border border-[#FF2A5F]/40 flex items-center justify-center text-xs font-black text-[#FF2A5F] shadow-md">
                     +V
                 </div>
-                <span class="text-lg font-black tracking-tight text-white leading-tight">
+                <span class="text-base font-black tracking-tight text-white leading-tight">
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FF2A5F] to-cyan-400">+</span>VIDEOS
                 </span>
             </div>
@@ -191,34 +343,34 @@
             <div class="flex items-center gap-3">
                 <button onclick="abrirModalNome()" class="flex items-center gap-2 bg-[#0C101D]/80 border border-slate-800 hover:border-[#FF2A5F]/40 px-3 py-1.5 rounded-xl text-xs text-slate-300 transition">
                     <span class="w-2 h-2 rounded-full bg-[#FF2A5F]"></span>
-                    <span id="label-nome-cliente" class="font-bold text-white">Criador PRO</span>
+                    <span id="label-nome-cliente" class="font-bold text-white">lucas</span>
                 </button>
             </div>
         </div>
     </header>
 
     <!-- ÁREA PRINCIPAL -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full space-y-8 relative z-10">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full space-y-6 relative z-10">
         
-        <!-- PROVA SOCIAL + HERO COM CORES MESCLADAS (IGUAL À FOTO) -->
-        <div class="text-center sm:text-left pt-2 pb-1 max-w-4xl">
-            <!-- Badge de Criadores (Como na Foto) -->
-            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/80 border border-slate-800 text-xs mb-4">
+        <!-- PROVA SOCIAL + HERO COMPACTO (REDUZIDO EM 50%) -->
+        <div class="text-center sm:text-left pt-1 max-w-3xl">
+            <!-- Badge de Criadores -->
+            <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-slate-900/80 border border-slate-800 text-[11px] mb-3">
                 <div class="flex items-center -space-x-1.5">
-                    <span class="w-5 h-5 rounded-full bg-cyan-500 flex items-center justify-center text-[10px] font-black text-black">T</span>
-                    <span class="w-5 h-5 rounded-full bg-rose-500 flex items-center justify-center text-[10px] font-black text-white">★</span>
-                    <span class="w-5 h-5 rounded-full bg-amber-500 flex items-center justify-center text-[10px] font-black text-black">✓</span>
+                    <span class="w-4 h-4 rounded-full bg-cyan-500 flex items-center justify-center text-[9px] font-black text-black">T</span>
+                    <span class="w-4 h-4 rounded-full bg-rose-500 flex items-center justify-center text-[9px] font-black text-white">★</span>
+                    <span class="w-4 h-4 rounded-full bg-amber-500 flex items-center justify-center text-[9px] font-black text-black">✓</span>
                 </div>
-                <span class="text-amber-400 text-xs">★★★★★</span>
+                <span class="text-amber-400 text-[10px]">★★★★★</span>
                 <span class="text-slate-300 text-[11px] font-semibold"><strong class="text-white">176+</strong> criadores no radar</span>
             </div>
 
-            <!-- TÍTULO PRINCIPAL: LUCKIEST GUY + DESTAQUE MESCLADO -->
-            <h1 class="font-display text-3xl sm:text-5xl lg:text-6xl text-white tracking-wide leading-[1.15]">
+            <!-- TÍTULO PRINCIPAL: REDUZIDO EM 50%, FONTE NÍTIDA E LIMPA -->
+            <h1 class="text-lg sm:text-2xl lg:text-3xl font-black text-white tracking-tight leading-snug">
                 Descubra o que está vendendo <span class="text-[#FF2A5F]">agora</span> e transforme em <span class="text-[#FF2A5F]">dezenas de vídeos</span> prontos pra postar.
             </h1>
 
-            <p class="text-sm sm:text-base text-slate-300 mt-4 leading-relaxed max-w-2xl font-normal">
+            <p class="text-xs sm:text-sm text-slate-400 mt-2 leading-relaxed max-w-xl font-normal">
                 Pare de adivinhar. Selecione um produto vencedor, limpe as pausas e multiplique seus criativos em lote com 1 clique.
             </p>
         </div>
@@ -226,39 +378,39 @@
         <!-- ============================================================ -->
         <!-- 1. RADAR TIKTOK SHOP (50 PRODUTOS • CARROSSEL HORIZONTAL) -->
         <!-- ============================================================ -->
-        <section class="saas-card rounded-3xl p-5 sm:p-6 shadow-xl">
+        <section class="saas-card rounded-3xl p-5 shadow-xl">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
                 <div class="flex items-center gap-2">
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <h2 class="font-display text-lg sm:text-xl text-white tracking-wide">Top 50 Produtos TikTok Shop</h2>
+                    <h2 class="text-sm sm:text-base font-black text-white">Top 50 Produtos TikTok Shop</h2>
                 </div>
 
                 <!-- ABAS DE CATEGORIAS -->
                 <div class="flex items-center gap-1.5 overflow-x-auto custom-scroll pb-1">
-                    <button onclick="filtrarCategoria('fitness')" id="tab-fitness" class="categoria-tab px-3.5 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap bg-[#FF2A5F] text-white font-display tracking-wider">Fitness</button>
-                    <button onclick="filtrarCategoria('eletronicos')" id="tab-eletronicos" class="categoria-tab px-3.5 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap text-slate-400 hover:text-white bg-slate-900/80 font-display tracking-wider">Eletrônicos</button>
-                    <button onclick="filtrarCategoria('achadinhos')" id="tab-achadinhos" class="categoria-tab px-3.5 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap text-slate-400 hover:text-white bg-slate-900/80 font-display tracking-wider">Achadinhos</button>
-                    <button onclick="filtrarCategoria('moveis')" id="tab-moveis" class="categoria-tab px-3.5 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap text-slate-400 hover:text-white bg-slate-900/80 font-display tracking-wider">Casa & Móveis</button>
-                    <button onclick="filtrarCategoria('beleza')" id="tab-beleza" class="categoria-tab px-3.5 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap text-slate-400 hover:text-white bg-slate-900/80 font-display tracking-wider">Beleza</button>
+                    <button onclick="filtrarCategoria('fitness')" id="tab-fitness" class="categoria-tab px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap bg-[#FF2A5F] text-white">Fitness</button>
+                    <button onclick="filtrarCategoria('eletronicos')" id="tab-eletronicos" class="categoria-tab px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap text-slate-400 hover:text-white bg-slate-900/80">Eletrônicos</button>
+                    <button onclick="filtrarCategoria('achadinhos')" id="tab-achadinhos" class="categoria-tab px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap text-slate-400 hover:text-white bg-slate-900/80">Achadinhos</button>
+                    <button onclick="filtrarCategoria('moveis')" id="tab-moveis" class="categoria-tab px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap text-slate-400 hover:text-white bg-slate-900/80">Casa & Móveis</button>
+                    <button onclick="filtrarCategoria('beleza')" id="tab-beleza" class="categoria-tab px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap text-slate-400 hover:text-white bg-slate-900/80">Beleza</button>
                 </div>
             </div>
 
             <!-- CARROSSEL HORIZONTAL INTERATIVO -->
-            <div id="radar-carrossel" class="flex gap-4 overflow-x-auto custom-scroll pb-3 pt-1"></div>
+            <div id="radar-carrossel" class="flex gap-3 overflow-x-auto custom-scroll pb-3 pt-1"></div>
         </section>
 
         <!-- ============================================================ -->
         <!-- 2. REMOVEDOR DE PAUSAS (JUMP CUT) -->
         <!-- ============================================================ -->
-        <section class="saas-card rounded-3xl p-5 sm:p-6 shadow-xl">
+        <section class="saas-card rounded-3xl p-5 shadow-xl">
             <div class="flex items-center justify-between mb-4">
-                <h2 class="font-display text-lg sm:text-xl text-white tracking-wide">Removedor de Pausas</h2>
+                <h2 class="text-sm sm:text-base font-black text-white">Removedor de Pausas</h2>
                 <span class="text-xs text-slate-400 font-medium">Corte automático de silêncios</span>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 <div class="lg:col-span-2">
-                    <div onclick="document.getElementById('input-editor-raw').click()" class="border-2 border-dashed border-slate-800 hover:border-[#FF2A5F]/50 bg-[#080B14]/70 rounded-2xl p-5 text-center cursor-pointer transition flex flex-col items-center justify-center min-h-[120px]">
+                    <div onclick="document.getElementById('input-editor-raw').click()" class="border-2 border-dashed border-slate-800 hover:border-[#FF2A5F]/50 bg-[#080B14]/70 rounded-2xl p-4 text-center cursor-pointer transition flex flex-col items-center justify-center min-h-[110px]">
                         <p class="text-xs font-bold text-slate-200">Clique para selecionar vídeos com pausas</p>
                         <p class="text-[11px] text-slate-500 mt-0.5 font-mono">MP4, MOV ou WebM</p>
                         <input type="file" id="input-editor-raw" multiple accept="video/*" class="hidden" onchange="adicionarVideosEditor(this.files)">
@@ -278,8 +430,8 @@
                             <option value="agressivo">Agressivo (Ultra dinâmico)</option>
                         </select>
                     </div>
-                    <button id="btn-processar-silencio" onclick="executarLimpezaSilencios()" disabled class="w-full mt-3 py-3 rounded-xl bg-slate-800 text-slate-500 font-display text-xs tracking-wider transition cursor-not-allowed">
-                        CORTAR PAUSAS DA FILA
+                    <button id="btn-processar-silencio" onclick="executarLimpezaSilencios()" disabled class="w-full mt-3 py-2.5 rounded-xl bg-slate-800 text-slate-500 font-black text-xs transition cursor-not-allowed">
+                        Cortar Pausas da Fila
                     </button>
                 </div>
             </div>
@@ -302,20 +454,20 @@
         <!-- ============================================================ -->
         <!-- 3. MULTIPLICADOR EM MASSA -->
         <!-- ============================================================ -->
-        <section class="saas-card rounded-3xl p-5 sm:p-6 shadow-xl">
+        <section class="saas-card rounded-3xl p-5 shadow-xl">
             <div class="flex items-center justify-between mb-4">
-                <h2 class="font-display text-lg sm:text-xl text-white tracking-wide">Multiplicador em Massa</h2>
+                <h2 class="text-sm sm:text-base font-black text-white">Multiplicador em Massa</h2>
                 <div class="flex items-center gap-2">
                     <label class="text-[11px] text-slate-400 font-medium">Prefixo:</label>
                     <input type="text" id="cfg-prefix" value="Criativo" oninput="atualizarPreviaNome()" class="bg-[#080B14]/80 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-white focus:outline-none focus:border-[#FF2A5F] w-32 font-medium">
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                 <!-- Ganchos -->
                 <div class="bg-[#080B14]/80 border border-slate-800 rounded-2xl p-4">
                     <div class="flex items-center justify-between mb-2">
-                        <span class="font-display text-xs text-white tracking-wide">1. Ganchos</span>
+                        <span class="text-xs font-bold text-white">1. Ganchos</span>
                         <span id="badge-ganchos" class="text-[10px] bg-slate-800 px-2 py-0.5 rounded-full text-slate-400 font-mono">0 vídeos</span>
                     </div>
                     <div onclick="document.getElementById('input-ganchos').click()" class="border border-dashed border-slate-700 hover:border-[#FF2A5F] bg-slate-900/50 rounded-xl p-3 text-center cursor-pointer transition mb-2">
@@ -328,7 +480,7 @@
                 <!-- Corpos -->
                 <div class="bg-[#080B14]/80 border border-slate-800 rounded-2xl p-4">
                     <div class="flex items-center justify-between mb-2">
-                        <span class="font-display text-xs text-white tracking-wide">2. Corpos</span>
+                        <span class="text-xs font-bold text-white">2. Corpos</span>
                         <span id="badge-corpos" class="text-[10px] bg-slate-800 px-2 py-0.5 rounded-full text-slate-400 font-mono">0 vídeos</span>
                     </div>
                     <div onclick="document.getElementById('input-corpos').click()" class="border border-dashed border-slate-700 hover:border-[#FF2A5F] bg-slate-900/50 rounded-xl p-3 text-center cursor-pointer transition mb-2">
@@ -341,7 +493,7 @@
                 <!-- CTAs -->
                 <div class="bg-[#080B14]/80 border border-slate-800 rounded-2xl p-4">
                     <div class="flex items-center justify-between mb-2">
-                        <span class="font-display text-xs text-white tracking-wide">3. CTAs</span>
+                        <span class="text-xs font-bold text-white">3. CTAs</span>
                         <span id="badge-ctas" class="text-[10px] bg-slate-800 px-2 py-0.5 rounded-full text-slate-400 font-mono">0 vídeos</span>
                     </div>
                     <div onclick="document.getElementById('input-ctas').click()" class="border border-dashed border-slate-700 hover:border-[#FF2A5F] bg-slate-900/50 rounded-xl p-3 text-center cursor-pointer transition mb-2">
@@ -356,7 +508,7 @@
                 <div class="flex items-center gap-4 text-xs">
                     <div>
                         <span class="text-slate-500 block font-medium">Total de Vídeos:</span>
-                        <span id="total-variacoes" class="font-display text-2xl text-[#FF2A5F]">0</span>
+                        <span id="total-variacoes" class="text-xl font-black text-[#FF2A5F]">0</span>
                     </div>
                     <div class="h-8 w-px bg-slate-800"></div>
                     <div>
@@ -374,8 +526,8 @@
 
                 <div class="flex items-center gap-2 w-full sm:w-auto">
                     <button id="btn-cancel" onclick="abortarProcesso()" class="hidden px-4 py-2.5 rounded-xl bg-rose-500/10 text-rose-400 border border-rose-500/20 font-bold text-xs">Parar</button>
-                    <button id="btn-start" onclick="iniciarMultiplicacao()" disabled class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-slate-800 text-slate-500 font-display text-xs tracking-wider transition cursor-not-allowed">
-                        GERAR VÍDEOS EM MASSA
+                    <button id="btn-start" onclick="iniciarMultiplicacao()" disabled class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-slate-800 text-slate-500 font-extrabold text-xs transition cursor-not-allowed">
+                        Gerar Vídeos em Massa
                     </button>
                 </div>
             </div>
@@ -392,9 +544,9 @@
 
             <div id="results-section" class="hidden mt-6 pt-5 border-t border-slate-800">
                 <div class="flex items-center justify-between mb-4">
-                    <span class="font-display text-sm text-white tracking-wide">Criativos Prontos:</span>
-                    <button id="btn-zip" onclick="baixarZipCompleto()" class="px-4 py-2 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] text-white font-display text-xs tracking-wider rounded-xl shadow-md">
-                        BAIXAR TODOS (.ZIP)
+                    <span class="text-xs font-black text-white">Criativos Prontos:</span>
+                    <button id="btn-zip" onclick="baixarZipCompleto()" class="px-4 py-2 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] text-white font-extrabold text-xs rounded-xl shadow-md">
+                        Baixar Todos (.ZIP)
                     </button>
                 </div>
                 <div id="videos-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3"></div>
@@ -403,7 +555,7 @@
 
     </main>
 
-    <footer class="border-t border-slate-900/80 bg-[#07090F]/90 py-5 text-center text-xs text-slate-500 relative z-10 font-medium">
+    <footer class="border-t border-slate-900/80 bg-[#07090F]/90 py-4 text-center text-xs text-slate-500 relative z-10 font-medium">
         +VIDEOS • Multiplique seus vídeos e otimize seu tempo © 2026
     </footer>
 
@@ -477,10 +629,10 @@
         function filtrarCategoria(cat) {
             categoriaAtiva = cat;
             document.querySelectorAll('.categoria-tab').forEach(b => {
-                b.className = "categoria-tab px-3.5 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap text-slate-400 hover:text-white bg-slate-900/80 font-display tracking-wider";
+                b.className = "categoria-tab px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap text-slate-400 hover:text-white bg-slate-900/80";
             });
             const btnAtivo = document.getElementById('tab-' + cat);
-            if (btnAtivo) btnAtivo.className = "categoria-tab px-3.5 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap bg-[#FF2A5F] text-white font-display tracking-wider";
+            if (btnAtivo) btnAtivo.className = "categoria-tab px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap bg-[#FF2A5F] text-white";
             renderizarCarrosselRadar();
         }
 
@@ -491,12 +643,12 @@
 
             lista.forEach((p, idx) => {
                 const card = document.createElement('div');
-                card.className = "flex-shrink-0 w-44 bg-[#080B14]/90 border border-slate-800 hover:border-[#FF2A5F]/50 rounded-2xl p-3 flex flex-col justify-between transition group shadow-md";
+                card.className = "flex-shrink-0 w-40 bg-[#080B14]/90 border border-slate-800 hover:border-[#FF2A5F]/50 rounded-2xl p-3 flex flex-col justify-between transition group shadow-md";
                 card.innerHTML = `
                     <div>
                         <div class="relative bg-black rounded-xl overflow-hidden aspect-square mb-2">
                             <img src="${p.img}" alt="${p.nome}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.src='https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=300'">
-                            <span class="absolute top-1.5 left-1.5 bg-black/80 font-display text-[#FF2A5F] text-xs px-2 py-0.5 rounded">#${idx + 1}</span>
+                            <span class="absolute top-1.5 left-1.5 bg-black/80 font-bold text-[#FF2A5F] text-[10px] px-1.5 py-0.5 rounded">#${idx + 1}</span>
                             <span class="absolute bottom-1.5 right-1.5 bg-emerald-500 text-black text-[9px] font-black px-1.5 py-0.5 rounded">${p.crescimento}</span>
                         </div>
                         <h4 class="text-xs font-bold text-white line-clamp-2 leading-tight mb-1" title="${p.nome}">${p.nome}</h4>
@@ -505,8 +657,8 @@
                             <span class="text-slate-500 font-mono text-[10px]">${p.vendas}</span>
                         </div>
                     </div>
-                    <button onclick="abrirRoteiroProduto('${p.id}')" class="w-full py-1.5 bg-[#FF2A5F]/10 hover:bg-[#FF2A5F]/20 text-[#FF2A5F] border border-[#FF2A5F]/30 text-xs font-display tracking-wide rounded-lg transition">
-                        VER ROTEIRO
+                    <button onclick="abrirRoteiroProduto('${p.id}')" class="w-full py-1.5 bg-[#FF2A5F]/10 hover:bg-[#FF2A5F]/20 text-[#FF2A5F] border border-[#FF2A5F]/30 text-xs font-bold tracking-wide rounded-lg transition">
+                        Ver Roteiro
                     </button>
                 `;
                 container.appendChild(card);
@@ -565,7 +717,7 @@
         }
 
         function salvarDadosCliente() {
-            const nome = document.getElementById('input-nome-cliente').value.trim() || 'Criador PRO';
+            const nome = document.getElementById('input-nome-cliente').value.trim() || 'lucas';
             localStorage.setItem('maisvideos_cliente_nome', nome);
             document.getElementById('label-nome-cliente').innerText = nome;
             document.getElementById('modal-nome').classList.add('hidden');
@@ -609,13 +761,13 @@
             if (filaVideosEditor.length === 0) {
                 container.classList.add('hidden');
                 btn.disabled = true;
-                btn.className = "w-full mt-3 py-3 rounded-xl bg-slate-800 text-slate-500 font-display text-xs tracking-wider transition cursor-not-allowed";
+                btn.className = "w-full mt-3 py-2.5 rounded-xl bg-slate-800 text-slate-500 font-extrabold text-xs transition cursor-not-allowed";
                 return;
             }
 
             container.classList.remove('hidden');
             btn.disabled = false;
-            btn.className = "w-full mt-3 py-3 rounded-xl bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] text-white font-display text-xs tracking-wider transition cursor-pointer shadow-md";
+            btn.className = "w-full mt-3 py-2.5 rounded-xl bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] text-white font-extrabold text-xs transition cursor-pointer shadow-md";
 
             filaVideosEditor.forEach((arq, idx) => {
                 const li = document.createElement('li');
@@ -839,9 +991,9 @@
                     <span class="text-[10px] text-emerald-400 font-bold block mb-2">-${economizado}% de pausas eliminadas</span>
                 </div>
                 <div class="grid grid-cols-3 gap-1 pt-2 border-t border-slate-800">
-                    <button onclick="injetarNaMatriz('${idTemp}', 'ganchos')" class="bg-[#FF2A5F]/10 text-[#FF2A5F] py-1.5 rounded-lg text-[10px] font-display tracking-wider">+ GANCHO</button>
-                    <button onclick="injetarNaMatriz('${idTemp}', 'corpos')" class="bg-cyan-500/10 text-cyan-300 py-1.5 rounded-lg text-[10px] font-display tracking-wider">+ CORPO</button>
-                    <button onclick="injetarNaMatriz('${idTemp}', 'ctas')" class="bg-emerald-500/10 text-emerald-300 py-1.5 rounded-lg text-[10px] font-display tracking-wider">+ CTA</button>
+                    <button onclick="injetarNaMatriz('${idTemp}', 'ganchos')" class="bg-[#FF2A5F]/10 text-[#FF2A5F] py-1.5 rounded-lg text-[10px] font-bold">+ Gancho</button>
+                    <button onclick="injetarNaMatriz('${idTemp}', 'corpos')" class="bg-cyan-500/10 text-cyan-300 py-1.5 rounded-lg text-[10px] font-bold">+ Corpo</button>
+                    <button onclick="injetarNaMatriz('${idTemp}', 'ctas')" class="bg-emerald-500/10 text-emerald-300 py-1.5 rounded-lg text-[10px] font-bold">+ CTA</button>
                 </div>
             `;
             grid.appendChild(card);
@@ -901,10 +1053,10 @@
 
             if (midias.ganchos.length > 0 && midias.corpos.length > 0 && midias.ctas.length > 0) {
                 btn.disabled = false;
-                btn.className = "w-full sm:w-auto px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] text-white font-display text-xs tracking-wider transition cursor-pointer shadow-md";
+                btn.className = "w-full sm:w-auto px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] text-white font-extrabold text-xs transition cursor-pointer shadow-md";
             } else {
                 btn.disabled = true;
-                btn.className = "w-full sm:w-auto px-6 py-2.5 rounded-xl bg-slate-800 text-slate-500 font-display text-xs tracking-wider transition cursor-not-allowed";
+                btn.className = "w-full sm:w-auto px-6 py-2.5 rounded-xl bg-slate-800 text-slate-500 font-extrabold text-xs transition cursor-not-allowed";
             }
         }
 
@@ -1077,8 +1229,8 @@
             card.className = 'bg-[#080B14] border border-slate-800 rounded-xl p-2.5 flex flex-col justify-between';
             card.innerHTML = `
                 <video src="${url}" controls playsinline preload="metadata" class="w-full rounded-lg mb-2 aspect-[9/16] bg-black object-contain max-h-40"></video>
-                <a href="${url}" download="${nomeArquivo}" class="w-full text-center py-2 bg-[#FF2A5F]/20 text-[#FF2A5F] hover:bg-[#FF2A5F] hover:text-white font-display text-xs tracking-wider rounded-lg transition">
-                    BAIXAR VÍDEO
+                <a href="${url}" download="${nomeArquivo}" class="w-full text-center py-2 bg-[#FF2A5F]/20 text-[#FF2A5F] hover:bg-[#FF2A5F] hover:text-white font-bold text-xs rounded-lg transition">
+                    Baixar Vídeo
                 </a>
             `;
             grid.appendChild(card);
@@ -1095,7 +1247,7 @@
             const conteudo = await zip.generateAsync({ type: 'blob' });
             saveAs(conteudo, 'Criativos_MaisVideos.zip');
 
-            btn.innerText = 'BAIXAR TODOS (.ZIP)';
+            btn.innerText = 'Baixar Todos (.ZIP)';
             btn.disabled = false;
         }
     </script>
