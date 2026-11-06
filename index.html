@@ -9,50 +9,122 @@
     <!-- Bibliotecas ZIP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    
+    <!-- FONTES: LUCKIEST GUY (TÍTULOS/DESTAQUES) + PLUS JAKARTA SANS (LEITURA ULTRA-NÍTIDA) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
-        * { font-family: 'Outfit', sans-serif; }
-        body { background-color: #06080E; color: #F1F5F9; letter-spacing: -0.01em; }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: #07090F; 
+            color: #F1F5F9; 
+            letter-spacing: -0.01em; 
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* FONTE DE IMPACTO DO TIKTOK */
+        .font-display {
+            font-family: 'Luckiest Guy', cursive;
+            letter-spacing: 0.03em;
+        }
+
+        /* EFEITO SAAS: FUNDO EM MATRIZ DE PONTOS (IGUAL À FOTO) */
+        .bg-dots {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1.2px, transparent 1.2px);
+            background-size: 22px 22px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* LUZ AMBIENTE SAAS (FEIXE CORAL / CIANO) */
+        .ambient-glow-right {
+            position: fixed;
+            top: -150px;
+            right: 5%;
+            width: 550px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 42, 95, 0.12), transparent 70%);
+            filter: blur(70px);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .ambient-glow-left {
+            position: fixed;
+            top: -150px;
+            left: 5%;
+            width: 550px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 210, 255, 0.09), transparent 70%);
+            filter: blur(70px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* CARDS MODERNOS COM VIDRO FUMÊ */
+        .saas-card {
+            background: rgba(13, 18, 32, 0.75);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            transition: all 0.25s ease;
+        }
+        .saas-card:hover {
+            border-color: rgba(255, 42, 95, 0.35);
+        }
+
         .custom-scroll::-webkit-scrollbar { height: 6px; width: 6px; }
-        .custom-scroll::-webkit-scrollbar-track { background: #0B101D; border-radius: 99px; }
+        .custom-scroll::-webkit-scrollbar-track { background: rgba(11, 16, 29, 0.6); border-radius: 99px; }
         .custom-scroll::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 99px; }
-        .custom-scroll::-webkit-scrollbar-thumb:hover { background: #00D2FF; }
-        .cyan-glow { box-shadow: 0 0 35px -5px rgba(0, 210, 255, 0.15); }
+        .custom-scroll::-webkit-scrollbar-thumb:hover { background: #FF2A5F; }
+        .card-glow-coral { box-shadow: 0 0 35px -5px rgba(255, 42, 95, 0.2); }
     </style>
 </head>
-<body class="min-h-screen flex flex-col bg-[#06080E] text-slate-100 selection:bg-cyan-500 selection:text-black">
+<body class="min-h-screen flex flex-col selection:bg-[#FF2A5F] selection:text-white">
+
+    <!-- FUNDO TECNOLÓGICO SAAS -->
+    <div class="bg-dots"></div>
+    <div class="ambient-glow-right"></div>
+    <div class="ambient-glow-left"></div>
 
     <!-- MODAL DE IDENTIFICAÇÃO DO USUÁRIO -->
     <div id="modal-nome" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/85 backdrop-blur-md px-4 transition-opacity duration-300 hidden">
-        <div class="bg-[#0D1220] border border-cyan-500/30 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl relative cyan-glow">
-            <h3 class="text-xl font-extrabold text-center text-white mb-1">Identificação da Licença</h3>
+        <div class="saas-card rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl relative border-[#FF2A5F]/40 card-glow-coral">
+            <h3 class="font-display text-2xl text-center text-white mb-1">IDENTIFICAÇÃO DA LICENÇA</h3>
             <p class="text-xs text-slate-400 text-center mb-6">Personalize sua área de trabalho.</p>
             <div class="space-y-4">
                 <div>
                     <label class="block text-xs font-semibold text-slate-300 mb-1.5">Seu Nome / Marca:</label>
-                    <input type="text" id="input-nome-cliente" placeholder="Ex: Lucas Martins" class="w-full bg-[#080B14] border border-slate-700 focus:border-cyan-400 rounded-xl px-4 py-3 text-sm text-white focus:outline-none transition">
+                    <input type="text" id="input-nome-cliente" placeholder="Ex: Lucas Martins" class="w-full bg-[#080B14]/90 border border-slate-700 focus:border-[#FF2A5F] rounded-xl px-4 py-3 text-sm text-white focus:outline-none transition font-medium">
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-slate-300 mb-1.5">Plano:</label>
-                    <select id="select-tipo-plano" class="w-full bg-[#080B14] border border-slate-700 focus:border-cyan-400 rounded-xl px-4 py-3 text-sm text-white focus:outline-none transition">
+                    <select id="select-tipo-plano" class="w-full bg-[#080B14]/90 border border-slate-700 focus:border-[#FF2A5F] rounded-xl px-4 py-3 text-sm text-white focus:outline-none transition font-medium">
                         <option value="Licença Vitalícia">Licença Vitalícia</option>
                         <option value="Assinatura Mensal">Assinatura Mensal</option>
                     </select>
                 </div>
-                <button onclick="salvarDadosCliente()" class="w-full py-3 bg-gradient-to-r from-cyan-400 to-blue-500 text-black font-extrabold text-sm rounded-xl transition shadow-lg shadow-cyan-500/20 mt-2">
-                    Acessar Ferramentas
+                <button onclick="salvarDadosCliente()" class="w-full py-3.5 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-display text-base tracking-wider rounded-xl transition shadow-lg shadow-[#FF2A5F]/25 mt-2">
+                    ACESSAR PLATAFORMA
                 </button>
             </div>
         </div>
     </div>
 
     <!-- MODAL DE ROTEIRO COMPLETO (GANCHO + CORPO + CTA) -->
-    <div id="modal-roteiro" class="fixed inset-0 z-[110] flex items-center justify-center bg-black/80 backdrop-blur-sm px-4 hidden">
-        <div class="bg-[#0D1220] border border-cyan-500/40 rounded-3xl p-6 max-w-xl w-full shadow-2xl relative cyan-glow max-h-[90vh] overflow-y-auto custom-scroll">
+    <div id="modal-roteiro" class="fixed inset-0 z-[110] flex items-center justify-center bg-black/85 backdrop-blur-md px-4 hidden">
+        <div class="saas-card border-[#FF2A5F]/40 rounded-3xl p-6 max-w-xl w-full shadow-2xl relative card-glow-coral max-h-[90vh] overflow-y-auto custom-scroll">
             <div class="flex items-center justify-between pb-4 border-b border-slate-800">
                 <div class="flex items-center gap-3">
-                    <span id="roteiro-tag-categoria" class="text-[10px] uppercase font-black bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 px-2.5 py-0.5 rounded-full">Categoria</span>
-                    <h3 id="roteiro-prod-nome" class="text-sm sm:text-base font-bold text-white truncate max-w-[280px]">Nome do Produto</h3>
+                    <span id="roteiro-tag-categoria" class="text-[10px] uppercase font-black bg-[#FF2A5F]/15 text-[#FF2A5F] border border-[#FF2A5F]/30 px-2.5 py-0.5 rounded-full">CATEGORIA</span>
+                    <h3 id="roteiro-prod-nome" class="font-display text-base sm:text-lg text-white truncate max-w-[280px]">Nome do Produto</h3>
                 </div>
                 <button onclick="fecharModalRoteiro()" class="text-slate-400 hover:text-white p-1">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
@@ -61,41 +133,41 @@
 
             <div class="space-y-4 my-5 text-xs">
                 <!-- 1. GANCHO -->
-                <div class="bg-[#080B14] border border-cyan-500/30 rounded-2xl p-4">
+                <div class="bg-[#080B14]/80 border border-[#FF2A5F]/30 rounded-2xl p-4">
                     <div class="flex items-center justify-between mb-1.5">
-                        <span class="font-extrabold text-cyan-400 flex items-center gap-1.5">
-                            <span class="w-2 h-2 rounded-full bg-cyan-400"></span> 1. GANCHO (0 a 3s)
+                        <span class="font-display text-sm text-[#FF2A5F] tracking-wide flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-[#FF2A5F]"></span> 1. GANCHO (0 a 3s)
                         </span>
                         <span class="text-[10px] text-slate-500 font-mono">Retenção de Atenção</span>
                     </div>
-                    <p id="roteiro-gancho-texto" class="text-slate-200 leading-relaxed font-medium">Texto do gancho...</p>
+                    <p id="roteiro-gancho-texto" class="text-slate-100 leading-relaxed font-semibold">Texto do gancho...</p>
                 </div>
 
                 <!-- 2. CORPO -->
-                <div class="bg-[#080B14] border border-slate-800 rounded-2xl p-4">
+                <div class="bg-[#080B14]/80 border border-slate-800 rounded-2xl p-4">
                     <div class="flex items-center justify-between mb-1.5">
-                        <span class="font-extrabold text-sky-300 flex items-center gap-1.5">
-                            <span class="w-2 h-2 rounded-full bg-sky-400"></span> 2. CORPO (3 a 25s)
+                        <span class="font-display text-sm text-cyan-400 tracking-wide flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-cyan-400"></span> 2. CORPO (3 a 25s)
                         </span>
                         <span class="text-[10px] text-slate-500 font-mono">Demonstração / Desejo</span>
                     </div>
-                    <p id="roteiro-corpo-texto" class="text-slate-300 leading-relaxed">Texto do corpo...</p>
+                    <p id="roteiro-corpo-texto" class="text-slate-300 leading-relaxed font-normal">Texto do corpo...</p>
                 </div>
 
                 <!-- 3. CTA -->
-                <div class="bg-[#080B14] border border-blue-500/30 rounded-2xl p-4">
+                <div class="bg-[#080B14]/80 border border-emerald-500/30 rounded-2xl p-4">
                     <div class="flex items-center justify-between mb-1.5">
-                        <span class="font-extrabold text-blue-400 flex items-center gap-1.5">
-                            <span class="w-2 h-2 rounded-full bg-blue-400"></span> 3. CTA (Final)
+                        <span class="font-display text-sm text-emerald-400 tracking-wide flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400"></span> 3. CTA (Final)
                         </span>
                         <span class="text-[10px] text-slate-500 font-mono">Chamada para Ação</span>
                     </div>
-                    <p id="roteiro-cta-texto" class="text-slate-200 leading-relaxed font-medium">Texto da chamada...</p>
+                    <p id="roteiro-cta-texto" class="text-slate-100 leading-relaxed font-semibold">Texto da chamada...</p>
                 </div>
             </div>
 
-            <button id="btn-aplicar-roteiro" class="w-full py-3 bg-gradient-to-r from-cyan-400 to-blue-500 hover:brightness-110 text-black font-extrabold text-xs rounded-xl transition flex items-center justify-center gap-2">
-                <span>Usar este Produto no Multiplicador</span>
+            <button id="btn-aplicar-roteiro" class="w-full py-3.5 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-display text-sm tracking-wider rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-[#FF2A5F]/20">
+                <span>USAR ESTE PRODUTO NO MULTIPLICADOR</span>
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
             </button>
         </div>
@@ -105,20 +177,20 @@
     <div id="render-sandbox" style="position:fixed; top:-9999px; left:-9999px; width:320px; height:240px; overflow:hidden; opacity:0; pointer-events:none;"></div>
 
     <!-- CABEÇALHO -->
-    <header class="border-b border-slate-800/80 bg-[#090D18]/90 backdrop-blur-md sticky top-0 z-50">
+    <header class="border-b border-slate-800/80 bg-[#070A12]/80 backdrop-blur-md sticky top-0 z-50 relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center gap-2.5">
-                <div class="w-9 h-9 rounded-xl bg-[#0F1424] border border-cyan-500/40 flex items-center justify-center text-sm font-black text-cyan-400 shadow-md">
+                <div class="w-9 h-9 rounded-xl bg-[#0F1424] border border-[#FF2A5F]/40 flex items-center justify-center text-sm font-display text-[#FF2A5F] shadow-md">
                     +V
                 </div>
                 <span class="text-lg font-black tracking-tight text-white leading-tight">
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">+</span>VIDEOS
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FF2A5F] to-cyan-400">+</span>VIDEOS
                 </span>
             </div>
 
             <div class="flex items-center gap-3">
-                <button onclick="abrirModalNome()" class="flex items-center gap-2 bg-slate-900 border border-slate-800 hover:border-cyan-500/40 px-3 py-1.5 rounded-xl text-xs text-slate-300 transition">
-                    <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+                <button onclick="abrirModalNome()" class="flex items-center gap-2 bg-[#0C101D]/80 border border-slate-800 hover:border-[#FF2A5F]/40 px-3 py-1.5 rounded-xl text-xs text-slate-300 transition">
+                    <span class="w-2 h-2 rounded-full bg-[#FF2A5F]"></span>
                     <span id="label-nome-cliente" class="font-bold text-white">Criador PRO</span>
                 </button>
             </div>
@@ -126,32 +198,48 @@
     </header>
 
     <!-- ÁREA PRINCIPAL -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full space-y-8">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full space-y-8 relative z-10">
         
-        <!-- SLOGAN DIRETO -->
-        <div class="text-center sm:text-left pt-2 pb-1">
-            <h1 class="text-2xl sm:text-4xl font-black text-white tracking-tight">
-                Multiplique seus vídeos e otimize seu tempo.
+        <!-- PROVA SOCIAL + HERO COM CORES MESCLADAS (IGUAL À FOTO) -->
+        <div class="text-center sm:text-left pt-2 pb-1 max-w-4xl">
+            <!-- Badge de Criadores (Como na Foto) -->
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/80 border border-slate-800 text-xs mb-4">
+                <div class="flex items-center -space-x-1.5">
+                    <span class="w-5 h-5 rounded-full bg-cyan-500 flex items-center justify-center text-[10px] font-black text-black">T</span>
+                    <span class="w-5 h-5 rounded-full bg-rose-500 flex items-center justify-center text-[10px] font-black text-white">★</span>
+                    <span class="w-5 h-5 rounded-full bg-amber-500 flex items-center justify-center text-[10px] font-black text-black">✓</span>
+                </div>
+                <span class="text-amber-400 text-xs">★★★★★</span>
+                <span class="text-slate-300 text-[11px] font-semibold"><strong class="text-white">176+</strong> criadores no radar</span>
+            </div>
+
+            <!-- TÍTULO PRINCIPAL: LUCKIEST GUY + DESTAQUE MESCLADO -->
+            <h1 class="font-display text-3xl sm:text-5xl lg:text-6xl text-white tracking-wide leading-[1.15]">
+                Descubra o que está vendendo <span class="text-[#FF2A5F]">agora</span> e transforme em <span class="text-[#FF2A5F]">dezenas de vídeos</span> prontos pra postar.
             </h1>
+
+            <p class="text-sm sm:text-base text-slate-300 mt-4 leading-relaxed max-w-2xl font-normal">
+                Pare de adivinhar. Selecione um produto vencedor, limpe as pausas e multiplique seus criativos em lote com 1 clique.
+            </p>
         </div>
 
         <!-- ============================================================ -->
         <!-- 1. RADAR TIKTOK SHOP (50 PRODUTOS • CARROSSEL HORIZONTAL) -->
         <!-- ============================================================ -->
-        <section class="bg-[#0D1220] border border-slate-800/80 rounded-3xl p-5 sm:p-6">
+        <section class="saas-card rounded-3xl p-5 sm:p-6 shadow-xl">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
                 <div class="flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <h2 class="text-sm sm:text-base font-extrabold text-white">Top 50 Produtos TikTok Shop</h2>
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <h2 class="font-display text-lg sm:text-xl text-white tracking-wide">Top 50 Produtos TikTok Shop</h2>
                 </div>
 
                 <!-- ABAS DE CATEGORIAS -->
                 <div class="flex items-center gap-1.5 overflow-x-auto custom-scroll pb-1">
-                    <button onclick="filtrarCategoria('fitness')" id="tab-fitness" class="categoria-tab px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap bg-cyan-500 text-black">Fitness</button>
-                    <button onclick="filtrarCategoria('eletronicos')" id="tab-eletronicos" class="categoria-tab px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap text-slate-400 hover:text-white bg-slate-900">Eletrônicos</button>
-                    <button onclick="filtrarCategoria('achadinhos')" id="tab-achadinhos" class="categoria-tab px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap text-slate-400 hover:text-white bg-slate-900">Achadinhos</button>
-                    <button onclick="filtrarCategoria('moveis')" id="tab-moveis" class="categoria-tab px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap text-slate-400 hover:text-white bg-slate-900">Casa & Móveis</button>
-                    <button onclick="filtrarCategoria('beleza')" id="tab-beleza" class="categoria-tab px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap text-slate-400 hover:text-white bg-slate-900">Beleza</button>
+                    <button onclick="filtrarCategoria('fitness')" id="tab-fitness" class="categoria-tab px-3.5 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap bg-[#FF2A5F] text-white font-display tracking-wider">Fitness</button>
+                    <button onclick="filtrarCategoria('eletronicos')" id="tab-eletronicos" class="categoria-tab px-3.5 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap text-slate-400 hover:text-white bg-slate-900/80 font-display tracking-wider">Eletrônicos</button>
+                    <button onclick="filtrarCategoria('achadinhos')" id="tab-achadinhos" class="categoria-tab px-3.5 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap text-slate-400 hover:text-white bg-slate-900/80 font-display tracking-wider">Achadinhos</button>
+                    <button onclick="filtrarCategoria('moveis')" id="tab-moveis" class="categoria-tab px-3.5 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap text-slate-400 hover:text-white bg-slate-900/80 font-display tracking-wider">Casa & Móveis</button>
+                    <button onclick="filtrarCategoria('beleza')" id="tab-beleza" class="categoria-tab px-3.5 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap text-slate-400 hover:text-white bg-slate-900/80 font-display tracking-wider">Beleza</button>
                 </div>
             </div>
 
@@ -162,47 +250,47 @@
         <!-- ============================================================ -->
         <!-- 2. REMOVEDOR DE PAUSAS (JUMP CUT) -->
         <!-- ============================================================ -->
-        <section class="bg-[#0D1220] border border-slate-800/80 rounded-3xl p-5 sm:p-6">
+        <section class="saas-card rounded-3xl p-5 sm:p-6 shadow-xl">
             <div class="flex items-center justify-between mb-4">
-                <h2 class="text-sm sm:text-base font-extrabold text-white">Removedor de Pausas</h2>
-                <span class="text-[11px] text-slate-400">Corte automático de silêncios</span>
+                <h2 class="font-display text-lg sm:text-xl text-white tracking-wide">Removedor de Pausas</h2>
+                <span class="text-xs text-slate-400 font-medium">Corte automático de silêncios</span>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
                 <div class="lg:col-span-2">
-                    <div onclick="document.getElementById('input-editor-raw').click()" class="border-2 border-dashed border-slate-800 hover:border-cyan-500/50 bg-[#080B14] rounded-2xl p-5 text-center cursor-pointer transition flex flex-col items-center justify-center min-h-[120px]">
+                    <div onclick="document.getElementById('input-editor-raw').click()" class="border-2 border-dashed border-slate-800 hover:border-[#FF2A5F]/50 bg-[#080B14]/70 rounded-2xl p-5 text-center cursor-pointer transition flex flex-col items-center justify-center min-h-[120px]">
                         <p class="text-xs font-bold text-slate-200">Clique para selecionar vídeos com pausas</p>
-                        <p class="text-[11px] text-slate-500 mt-0.5">MP4, MOV ou WebM</p>
+                        <p class="text-[11px] text-slate-500 mt-0.5 font-mono">MP4, MOV ou WebM</p>
                         <input type="file" id="input-editor-raw" multiple accept="video/*" class="hidden" onchange="adicionarVideosEditor(this.files)">
                     </div>
 
                     <div id="editor-queue-container" class="mt-3 hidden">
-                        <ul id="editor-queue-list" class="space-y-1.5 max-h-32 overflow-y-auto custom-scroll pr-1"></ul>
+                        <ul id="editor-queue-list" class="space-y-1.5 max-h-32 overflow-y-auto custom-scroll pr-1 font-medium"></ul>
                     </div>
                 </div>
 
-                <div class="bg-[#080B14] border border-slate-800/80 rounded-2xl p-4 flex flex-col justify-between">
+                <div class="bg-[#080B14]/80 border border-slate-800/80 rounded-2xl p-4 flex flex-col justify-between">
                     <div>
                         <label class="block text-xs font-semibold text-slate-300 mb-1">Ritmo do Corte:</label>
-                        <select id="editor-cfg-sensibilidade" class="w-full bg-[#0D1220] border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-400">
+                        <select id="editor-cfg-sensibilidade" class="w-full bg-[#0D1220] border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#FF2A5F] font-medium">
                             <option value="equilibrado" selected>Equilibrado (Recomendado)</option>
                             <option value="suave">Suave (Mais natural)</option>
                             <option value="agressivo">Agressivo (Ultra dinâmico)</option>
                         </select>
                     </div>
-                    <button id="btn-processar-silencio" onclick="executarLimpezaSilencios()" disabled class="w-full mt-3 py-3 rounded-xl bg-slate-800 text-slate-500 font-extrabold text-xs transition cursor-not-allowed">
-                        Cortar Pausas da Fila
+                    <button id="btn-processar-silencio" onclick="executarLimpezaSilencios()" disabled class="w-full mt-3 py-3 rounded-xl bg-slate-800 text-slate-500 font-display text-xs tracking-wider transition cursor-not-allowed">
+                        CORTAR PAUSAS DA FILA
                     </button>
                 </div>
             </div>
 
-            <div id="editor-progress-box" class="hidden mt-4 bg-[#080B14] border border-cyan-500/30 rounded-xl p-3 text-xs">
+            <div id="editor-progress-box" class="hidden mt-4 bg-[#080B14]/80 border border-[#FF2A5F]/30 rounded-xl p-3 text-xs">
                 <div class="flex items-center justify-between mb-1.5 font-bold">
                     <span id="editor-progress-title" class="text-white">Processando...</span>
-                    <span id="editor-progress-pct" class="text-cyan-400">0%</span>
+                    <span id="editor-progress-pct" class="text-[#FF2A5F] font-mono">0%</span>
                 </div>
                 <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden">
-                    <div id="editor-progress-bar" class="h-full bg-gradient-to-r from-cyan-400 to-blue-500 transition-all duration-200" style="width: 0%"></div>
+                    <div id="editor-progress-bar" class="h-full bg-gradient-to-r from-[#FF2A5F] to-cyan-400 transition-all duration-200" style="width: 0%"></div>
                 </div>
             </div>
 
@@ -214,65 +302,65 @@
         <!-- ============================================================ -->
         <!-- 3. MULTIPLICADOR EM MASSA -->
         <!-- ============================================================ -->
-        <section class="bg-[#0D1220] border border-slate-800/80 rounded-3xl p-5 sm:p-6">
+        <section class="saas-card rounded-3xl p-5 sm:p-6 shadow-xl">
             <div class="flex items-center justify-between mb-4">
-                <h2 class="text-sm sm:text-base font-extrabold text-white">Multiplicador em Massa</h2>
+                <h2 class="font-display text-lg sm:text-xl text-white tracking-wide">Multiplicador em Massa</h2>
                 <div class="flex items-center gap-2">
-                    <label class="text-[11px] text-slate-400">Prefixo:</label>
-                    <input type="text" id="cfg-prefix" value="Criativo" oninput="atualizarPreviaNome()" class="bg-[#080B14] border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-white focus:outline-none focus:border-cyan-400 w-32">
+                    <label class="text-[11px] text-slate-400 font-medium">Prefixo:</label>
+                    <input type="text" id="cfg-prefix" value="Criativo" oninput="atualizarPreviaNome()" class="bg-[#080B14]/80 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-white focus:outline-none focus:border-[#FF2A5F] w-32 font-medium">
                 </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
                 <!-- Ganchos -->
-                <div class="bg-[#080B14] border border-slate-800 rounded-2xl p-4">
+                <div class="bg-[#080B14]/80 border border-slate-800 rounded-2xl p-4">
                     <div class="flex items-center justify-between mb-2">
-                        <span class="text-xs font-bold text-white">1. Ganchos</span>
-                        <span id="badge-ganchos" class="text-[10px] bg-slate-800 px-2 py-0.5 rounded-full text-slate-400">0 vídeos</span>
+                        <span class="font-display text-xs text-white tracking-wide">1. Ganchos</span>
+                        <span id="badge-ganchos" class="text-[10px] bg-slate-800 px-2 py-0.5 rounded-full text-slate-400 font-mono">0 vídeos</span>
                     </div>
-                    <div onclick="document.getElementById('input-ganchos').click()" class="border border-dashed border-slate-700 hover:border-cyan-400 bg-slate-900/50 rounded-xl p-3 text-center cursor-pointer transition mb-2">
+                    <div onclick="document.getElementById('input-ganchos').click()" class="border border-dashed border-slate-700 hover:border-[#FF2A5F] bg-slate-900/50 rounded-xl p-3 text-center cursor-pointer transition mb-2">
                         <p class="text-[11px] font-bold text-slate-300">+ Adicionar Ganchos</p>
                         <input type="file" id="input-ganchos" multiple accept="video/*" class="hidden" onchange="adicionarArquivos('ganchos')">
                     </div>
-                    <ul id="list-ganchos" class="space-y-1 max-h-28 overflow-y-auto custom-scroll pr-1 empty:hidden text-xs"></ul>
+                    <ul id="list-ganchos" class="space-y-1 max-h-28 overflow-y-auto custom-scroll pr-1 empty:hidden text-xs font-medium"></ul>
                 </div>
 
                 <!-- Corpos -->
-                <div class="bg-[#080B14] border border-slate-800 rounded-2xl p-4">
+                <div class="bg-[#080B14]/80 border border-slate-800 rounded-2xl p-4">
                     <div class="flex items-center justify-between mb-2">
-                        <span class="text-xs font-bold text-white">2. Corpos</span>
-                        <span id="badge-corpos" class="text-[10px] bg-slate-800 px-2 py-0.5 rounded-full text-slate-400">0 vídeos</span>
+                        <span class="font-display text-xs text-white tracking-wide">2. Corpos</span>
+                        <span id="badge-corpos" class="text-[10px] bg-slate-800 px-2 py-0.5 rounded-full text-slate-400 font-mono">0 vídeos</span>
                     </div>
-                    <div onclick="document.getElementById('input-corpos').click()" class="border border-dashed border-slate-700 hover:border-cyan-400 bg-slate-900/50 rounded-xl p-3 text-center cursor-pointer transition mb-2">
+                    <div onclick="document.getElementById('input-corpos').click()" class="border border-dashed border-slate-700 hover:border-[#FF2A5F] bg-slate-900/50 rounded-xl p-3 text-center cursor-pointer transition mb-2">
                         <p class="text-[11px] font-bold text-slate-300">+ Adicionar Corpos</p>
                         <input type="file" id="input-corpos" multiple accept="video/*" class="hidden" onchange="adicionarArquivos('corpos')">
                     </div>
-                    <ul id="list-corpos" class="space-y-1 max-h-28 overflow-y-auto custom-scroll pr-1 empty:hidden text-xs"></ul>
+                    <ul id="list-corpos" class="space-y-1 max-h-28 overflow-y-auto custom-scroll pr-1 empty:hidden text-xs font-medium"></ul>
                 </div>
 
                 <!-- CTAs -->
-                <div class="bg-[#080B14] border border-slate-800 rounded-2xl p-4">
+                <div class="bg-[#080B14]/80 border border-slate-800 rounded-2xl p-4">
                     <div class="flex items-center justify-between mb-2">
-                        <span class="text-xs font-bold text-white">3. CTAs</span>
-                        <span id="badge-ctas" class="text-[10px] bg-slate-800 px-2 py-0.5 rounded-full text-slate-400">0 vídeos</span>
+                        <span class="font-display text-xs text-white tracking-wide">3. CTAs</span>
+                        <span id="badge-ctas" class="text-[10px] bg-slate-800 px-2 py-0.5 rounded-full text-slate-400 font-mono">0 vídeos</span>
                     </div>
-                    <div onclick="document.getElementById('input-ctas').click()" class="border border-dashed border-slate-700 hover:border-cyan-400 bg-slate-900/50 rounded-xl p-3 text-center cursor-pointer transition mb-2">
+                    <div onclick="document.getElementById('input-ctas').click()" class="border border-dashed border-slate-700 hover:border-[#FF2A5F] bg-slate-900/50 rounded-xl p-3 text-center cursor-pointer transition mb-2">
                         <p class="text-[11px] font-bold text-slate-300">+ Adicionar CTAs</p>
                         <input type="file" id="input-ctas" multiple accept="video/*" class="hidden" onchange="adicionarArquivos('ctas')">
                     </div>
-                    <ul id="list-ctas" class="space-y-1 max-h-28 overflow-y-auto custom-scroll pr-1 empty:hidden text-xs"></ul>
+                    <ul id="list-ctas" class="space-y-1 max-h-28 overflow-y-auto custom-scroll pr-1 empty:hidden text-xs font-medium"></ul>
                 </div>
             </div>
 
-            <div class="bg-[#080B14] border border-slate-800 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="bg-[#080B14]/80 border border-slate-800 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div class="flex items-center gap-4 text-xs">
                     <div>
-                        <span class="text-slate-500 block">Total de Vídeos:</span>
-                        <span id="total-variacoes" class="text-lg font-black text-cyan-400">0</span>
+                        <span class="text-slate-500 block font-medium">Total de Vídeos:</span>
+                        <span id="total-variacoes" class="font-display text-2xl text-[#FF2A5F]">0</span>
                     </div>
                     <div class="h-8 w-px bg-slate-800"></div>
                     <div>
-                        <span class="text-slate-500 block">Formato:</span>
+                        <span class="text-slate-500 block font-medium">Formato:</span>
                         <select id="cfg-ratio" class="bg-transparent text-white font-bold focus:outline-none cursor-pointer">
                             <option value="9:16">9:16 Vertical (TikTok/Reels)</option>
                             <option value="16:9">16:9 Horizontal</option>
@@ -286,27 +374,27 @@
 
                 <div class="flex items-center gap-2 w-full sm:w-auto">
                     <button id="btn-cancel" onclick="abortarProcesso()" class="hidden px-4 py-2.5 rounded-xl bg-rose-500/10 text-rose-400 border border-rose-500/20 font-bold text-xs">Parar</button>
-                    <button id="btn-start" onclick="iniciarMultiplicacao()" disabled class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-slate-800 text-slate-500 font-extrabold text-xs transition cursor-not-allowed">
-                        Gerar Vídeos em Massa
+                    <button id="btn-start" onclick="iniciarMultiplicacao()" disabled class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-slate-800 text-slate-500 font-display text-xs tracking-wider transition cursor-not-allowed">
+                        GERAR VÍDEOS EM MASSA
                     </button>
                 </div>
             </div>
 
-            <div id="progress-card" class="hidden mt-4 bg-[#080B14] border border-cyan-500/30 rounded-xl p-3 text-xs">
+            <div id="progress-card" class="hidden mt-4 bg-[#080B14]/80 border border-[#FF2A5F]/30 rounded-xl p-3 text-xs">
                 <div class="flex items-center justify-between mb-1.5 font-bold">
                     <span id="progress-detail" class="text-white">Renderizando...</span>
-                    <span id="progress-pct" class="text-cyan-400">0%</span>
+                    <span id="progress-pct" class="text-[#FF2A5F] font-mono">0%</span>
                 </div>
                 <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden">
-                    <div id="progress-bar" class="h-full bg-gradient-to-r from-cyan-400 to-blue-500 transition-all duration-200" style="width: 0%"></div>
+                    <div id="progress-bar" class="h-full bg-gradient-to-r from-[#FF2A5F] to-cyan-400 transition-all duration-200" style="width: 0%"></div>
                 </div>
             </div>
 
             <div id="results-section" class="hidden mt-6 pt-5 border-t border-slate-800">
                 <div class="flex items-center justify-between mb-4">
-                    <span class="text-xs font-bold text-white">Criativos Prontos:</span>
-                    <button id="btn-zip" onclick="baixarZipCompleto()" class="px-4 py-2 bg-gradient-to-r from-cyan-400 to-blue-500 text-black font-extrabold text-xs rounded-xl shadow-md">
-                        Baixar Todos (.ZIP)
+                    <span class="font-display text-sm text-white tracking-wide">Criativos Prontos:</span>
+                    <button id="btn-zip" onclick="baixarZipCompleto()" class="px-4 py-2 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] text-white font-display text-xs tracking-wider rounded-xl shadow-md">
+                        BAIXAR TODOS (.ZIP)
                     </button>
                 </div>
                 <div id="videos-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3"></div>
@@ -315,11 +403,11 @@
 
     </main>
 
-    <footer class="border-t border-slate-900 bg-[#07090F] py-4 text-center text-xs text-slate-600">
+    <footer class="border-t border-slate-900/80 bg-[#07090F]/90 py-5 text-center text-xs text-slate-500 relative z-10 font-medium">
         +VIDEOS • Multiplique seus vídeos e otimize seu tempo © 2026
     </footer>
 
-    <!-- MOTOR JAVASCRIPT: 50 PRODUTOS + ROTEIROS COMPLETOS + MOTORES DE VÍDEO -->
+    <!-- MOTOR JAVASCRIPT: 50 PRODUTOS + ROTEIROS COMPLETOS + ENGINES DE VÍDEO -->
     <script>
         const bancoProdutos = {
             fitness: [
@@ -389,10 +477,10 @@
         function filtrarCategoria(cat) {
             categoriaAtiva = cat;
             document.querySelectorAll('.categoria-tab').forEach(b => {
-                b.className = "categoria-tab px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap text-slate-400 hover:text-white bg-slate-900";
+                b.className = "categoria-tab px-3.5 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap text-slate-400 hover:text-white bg-slate-900/80 font-display tracking-wider";
             });
             const btnAtivo = document.getElementById('tab-' + cat);
-            if (btnAtivo) btnAtivo.className = "categoria-tab px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap bg-cyan-500 text-black";
+            if (btnAtivo) btnAtivo.className = "categoria-tab px-3.5 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap bg-[#FF2A5F] text-white font-display tracking-wider";
             renderizarCarrosselRadar();
         }
 
@@ -403,22 +491,22 @@
 
             lista.forEach((p, idx) => {
                 const card = document.createElement('div');
-                card.className = "flex-shrink-0 w-44 bg-[#080B14] border border-slate-800 hover:border-cyan-500/40 rounded-2xl p-3 flex flex-col justify-between transition group shadow-md";
+                card.className = "flex-shrink-0 w-44 bg-[#080B14]/90 border border-slate-800 hover:border-[#FF2A5F]/50 rounded-2xl p-3 flex flex-col justify-between transition group shadow-md";
                 card.innerHTML = `
                     <div>
                         <div class="relative bg-black rounded-xl overflow-hidden aspect-square mb-2">
                             <img src="${p.img}" alt="${p.nome}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.src='https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=300'">
-                            <span class="absolute top-1.5 left-1.5 bg-black/80 text-cyan-400 text-[10px] font-black px-1.5 py-0.5 rounded">#${idx + 1}</span>
+                            <span class="absolute top-1.5 left-1.5 bg-black/80 font-display text-[#FF2A5F] text-xs px-2 py-0.5 rounded">#${idx + 1}</span>
                             <span class="absolute bottom-1.5 right-1.5 bg-emerald-500 text-black text-[9px] font-black px-1.5 py-0.5 rounded">${p.crescimento}</span>
                         </div>
                         <h4 class="text-xs font-bold text-white line-clamp-2 leading-tight mb-1" title="${p.nome}">${p.nome}</h4>
                         <div class="flex items-center justify-between text-[11px] mb-2 font-bold">
-                            <span class="text-cyan-400">${p.preco}</span>
+                            <span class="text-[#FF2A5F] font-bold">${p.preco}</span>
                             <span class="text-slate-500 font-mono text-[10px]">${p.vendas}</span>
                         </div>
                     </div>
-                    <button onclick="abrirRoteiroProduto('${p.id}')" class="w-full py-1.5 bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-[11px] font-bold rounded-lg transition">
-                        Ver Roteiro
+                    <button onclick="abrirRoteiroProduto('${p.id}')" class="w-full py-1.5 bg-[#FF2A5F]/10 hover:bg-[#FF2A5F]/20 text-[#FF2A5F] border border-[#FF2A5F]/30 text-xs font-display tracking-wide rounded-lg transition">
+                        VER ROTEIRO
                     </button>
                 `;
                 container.appendChild(card);
@@ -521,13 +609,13 @@
             if (filaVideosEditor.length === 0) {
                 container.classList.add('hidden');
                 btn.disabled = true;
-                btn.className = "w-full mt-3 py-3 rounded-xl bg-slate-800 text-slate-500 font-extrabold text-xs transition cursor-not-allowed";
+                btn.className = "w-full mt-3 py-3 rounded-xl bg-slate-800 text-slate-500 font-display text-xs tracking-wider transition cursor-not-allowed";
                 return;
             }
 
             container.classList.remove('hidden');
             btn.disabled = false;
-            btn.className = "w-full mt-3 py-3 rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 text-black font-extrabold text-xs transition cursor-pointer shadow-md";
+            btn.className = "w-full mt-3 py-3 rounded-xl bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] text-white font-display text-xs tracking-wider transition cursor-pointer shadow-md";
 
             filaVideosEditor.forEach((arq, idx) => {
                 const li = document.createElement('li');
@@ -743,7 +831,7 @@
             window._videosLimpos[idTemp] = arquivo;
 
             const card = document.createElement('div');
-            card.className = 'bg-[#080B14] border border-cyan-500/20 rounded-xl p-3 flex flex-col justify-between';
+            card.className = 'bg-[#080B14] border border-[#FF2A5F]/20 rounded-xl p-3 flex flex-col justify-between';
             card.innerHTML = `
                 <div>
                     <video src="${url}" controls playsinline preload="metadata" class="w-full rounded-lg mb-2 max-h-28 bg-black object-contain"></video>
@@ -751,9 +839,9 @@
                     <span class="text-[10px] text-emerald-400 font-bold block mb-2">-${economizado}% de pausas eliminadas</span>
                 </div>
                 <div class="grid grid-cols-3 gap-1 pt-2 border-t border-slate-800">
-                    <button onclick="injetarNaMatriz('${idTemp}', 'ganchos')" class="bg-cyan-500/10 text-cyan-300 py-1.5 rounded-lg text-[10px] font-bold">+ Gancho</button>
-                    <button onclick="injetarNaMatriz('${idTemp}', 'corpos')" class="bg-sky-500/10 text-sky-300 py-1.5 rounded-lg text-[10px] font-bold">+ Corpo</button>
-                    <button onclick="injetarNaMatriz('${idTemp}', 'ctas')" class="bg-blue-500/10 text-blue-300 py-1.5 rounded-lg text-[10px] font-bold">+ CTA</button>
+                    <button onclick="injetarNaMatriz('${idTemp}', 'ganchos')" class="bg-[#FF2A5F]/10 text-[#FF2A5F] py-1.5 rounded-lg text-[10px] font-display tracking-wider">+ GANCHO</button>
+                    <button onclick="injetarNaMatriz('${idTemp}', 'corpos')" class="bg-cyan-500/10 text-cyan-300 py-1.5 rounded-lg text-[10px] font-display tracking-wider">+ CORPO</button>
+                    <button onclick="injetarNaMatriz('${idTemp}', 'ctas')" class="bg-emerald-500/10 text-emerald-300 py-1.5 rounded-lg text-[10px] font-display tracking-wider">+ CTA</button>
                 </div>
             `;
             grid.appendChild(card);
@@ -813,10 +901,10 @@
 
             if (midias.ganchos.length > 0 && midias.corpos.length > 0 && midias.ctas.length > 0) {
                 btn.disabled = false;
-                btn.className = "w-full sm:w-auto px-6 py-2.5 rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 text-black font-extrabold text-xs transition cursor-pointer shadow-md";
+                btn.className = "w-full sm:w-auto px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] text-white font-display text-xs tracking-wider transition cursor-pointer shadow-md";
             } else {
                 btn.disabled = true;
-                btn.className = "w-full sm:w-auto px-6 py-2.5 rounded-xl bg-slate-800 text-slate-500 font-extrabold text-xs transition cursor-not-allowed";
+                btn.className = "w-full sm:w-auto px-6 py-2.5 rounded-xl bg-slate-800 text-slate-500 font-display text-xs tracking-wider transition cursor-not-allowed";
             }
         }
 
@@ -989,8 +1077,8 @@
             card.className = 'bg-[#080B14] border border-slate-800 rounded-xl p-2.5 flex flex-col justify-between';
             card.innerHTML = `
                 <video src="${url}" controls playsinline preload="metadata" class="w-full rounded-lg mb-2 aspect-[9/16] bg-black object-contain max-h-40"></video>
-                <a href="${url}" download="${nomeArquivo}" class="w-full text-center py-2 bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500 hover:text-black font-bold text-[11px] rounded-lg transition">
-                    Baixar
+                <a href="${url}" download="${nomeArquivo}" class="w-full text-center py-2 bg-[#FF2A5F]/20 text-[#FF2A5F] hover:bg-[#FF2A5F] hover:text-white font-display text-xs tracking-wider rounded-lg transition">
+                    BAIXAR VÍDEO
                 </a>
             `;
             grid.appendChild(card);
@@ -1007,7 +1095,7 @@
             const conteudo = await zip.generateAsync({ type: 'blob' });
             saveAs(conteudo, 'Criativos_MaisVideos.zip');
 
-            btn.innerText = 'Baixar Todos (.ZIP)';
+            btn.innerText = 'BAIXAR TODOS (.ZIP)';
             btn.disabled = false;
         }
     </script>
