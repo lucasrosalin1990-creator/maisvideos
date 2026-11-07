@@ -134,7 +134,6 @@
     <!-- FAIXA FIXA DE GANHOS DO TIKTOK SHOP -->
     <div class="top-ticker-glow overflow-hidden py-2 relative z-50">
         <div class="animate-ticker flex items-center gap-4">
-            
             <div class="flex-shrink-0 flex items-center gap-3 bg-[#0D1220]/90 border border-slate-800/80 px-3 py-1.5 rounded-xl text-xs shadow-md">
                 <span class="text-[10px] bg-white text-black font-extrabold px-2 py-0.5 rounded-md">Hoje</span>
                 <div class="text-[11px] leading-tight">
@@ -263,7 +262,7 @@
             <div class="flex items-center justify-between pb-4 border-b border-slate-800">
                 <div class="flex items-center gap-3">
                     <span id="roteiro-tag-categoria" class="text-[10px] uppercase font-black bg-[#FF2A5F]/15 text-[#FF2A5F] border border-[#FF2A5F]/30 px-2.5 py-0.5 rounded-full">CATEGORIA</span>
-                    <span id="roteiro-tag-ads" class="text-[10px] uppercase font-black bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-full">⚡ ADS ATIVO</span>
+                    <span id="roteiro-tag-ads" class="text-[10px] uppercase font-black bg-[#FF2A5F]/20 text-[#FF2A5F] border border-[#FF2A5F]/40 px-2 py-0.5 rounded-full">⚡ ADS / IMPULSIONADO</span>
                     <h3 id="roteiro-prod-nome" class="text-sm sm:text-base font-extrabold text-white truncate max-w-[240px]">Nome do Produto</h3>
                 </div>
                 <button onclick="fecharModalRoteiro()" class="text-slate-400 hover:text-white p-1">
@@ -360,12 +359,12 @@
             </h1>
 
             <p class="text-xs sm:text-sm text-slate-400 mt-2 leading-relaxed max-w-xl font-normal">
-                Monitore produtos impulsionados no TikTok Shop com link direto para o carrinho, limpe pausas e multiplique criativos em escala.
+                Monitore produtos impulsionados no TikTok Shop com link direto para o carrinho, limpe pausas e multiplique criativos em lote.
             </p>
         </div>
 
         <!-- ============================================================ -->
-        <!-- 1. RADAR TIKTOK SHOP ADS (20 PRODUTOS POR SESSÃO + LINK TIKTOK) -->
+        <!-- 1. RADAR TIKTOK SHOP ADS (CONECTADO AO PRODUTOS.JSON DO ROBÔ) -->
         <!-- ============================================================ -->
         <section class="geraviral-border rounded-3xl p-5 shadow-xl">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
@@ -447,6 +446,7 @@
                 </div>
             </div>
 
+            <!-- RESULTADOS DO REMOVEDOR COM DOWNLOAD 1 POR 1 E DOWNLOAD TODOS .ZIP -->
             <div id="editor-results-container" class="mt-5 pt-4 border-t border-slate-800/80 hidden">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
                     <div class="flex items-center gap-2">
@@ -569,74 +569,56 @@
         +VIDEOS • Radar TikTok Shop Ads & Multiplicador Pro © 2026
     </footer>
 
-    <!-- MOTOR JAVASCRIPT: 20 PRODUTOS POR CATEGORIA COM LINK TIKTOK E ADS -->
+    <!-- MOTOR JAVASCRIPT: LÊ PRODUTOS.JSON AUTOMATICAMENTE -->
     <script>
-        // GERADOR DE 20 PRODUTOS COMPLETOS POR CATEGORIA COM LINKS E TAG ADS
-        const bancoProdutos = {
-            fitness: [
-                { id: "f1", ads: true, nome: "Mini Liquidificador Portátil USB Fresh Juice", preco: "R$ 69,90", vendas: "18.4k", crescimento: "+380%", img: "https://images.unsplash.com/photo-1570222094114-d054a817e56b?w=300", link: "https://www.tiktok.com/search?q=Mini+Liquidificador+Portatil", gancho: "Tomar whey empelotado na academia nunca mais!", corpo: "Mostre o copo portátil batendo a proteína com água em 15 segundos direto no vestiário.", cta: "Garanta o seu com frete grátis antes que acabe o lote no link do carrinho." },
-                { id: "f2", ads: true, nome: "Garrafa Térmica Digital com Sensor LED 500ml", preco: "R$ 49,90", vendas: "14.2k", crescimento: "+240%", img: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=300", link: "https://www.tiktok.com/search?q=Garrafa+Termica+Digital+LED", gancho: "Essa garrafa mostra a temperatura exata da sua água com 1 toque.", corpo: "Toque na tampa para acender o display e mostre que ela segura gelo por 24 horas.", cta: "Aproveite a promoção de 50% de desconto hoje no botão abaixo." },
-                { id: "f3", ads: false, nome: "Kit 5 Elásticos Extensores de Treino em Casa", preco: "R$ 39,90", vendas: "11.1k", crescimento: "+190%", img: "https://images.unsplash.com/photo-1598289431512-b97b0917affc?w=300", link: "https://www.tiktok.com/search?q=Kit+Elasticos+Extensores", gancho: "Cancelei minha academia e passei a treinar em casa com isso aqui.", corpo: "Demonstre 3 exercícios rápidos (braço, perna e glúteo) usando os elásticos presos na porta.", cta: "Monte seu treino em casa hoje mesmo clicando no link abaixo." },
-                { id: "f4", ads: true, nome: "Shaker Mixer Magnético Automático 450ml", preco: "R$ 54,90", vendas: "9.8k", crescimento: "+160%", img: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=300", link: "https://www.tiktok.com/search?q=Shaker+Mixer+Magnetico", gancho: "Esse copo se mistura sozinho sem você precisar chacoalhar.", corpo: "Aperte o botão magnético central e mostre o redemoinho instantâneo dissolvendo o pó.", cta: "Clique no carrinho do TikTok Shop e aproveite a queima de estoque." },
-                { id: "f5", ads: true, nome: "Smartwatch Rastreador Fitness Pro Monitor", preco: "R$ 89,90", vendas: "24.5k", crescimento: "+430%", img: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=300", link: "https://www.tiktok.com/search?q=Smartwatch+Fitness+Pro", gancho: "Ele monitora batimentos, sono e passos por menos de 100 reais.", corpo: "Coloque no pulso, mostre a tela touch nítida e a sincronização com o celular.", cta: "Preço especial de lançamento disponível enquanto durar o estoque." },
-                { id: "f6", ads: false, nome: "Joelheira de Compressão 3D Ajustável", preco: "R$ 34,90", vendas: "8.7k", crescimento: "+125%", img: "https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=300", link: "https://www.tiktok.com/search?q=Joelheira+Compressao+3D", gancho: "Se você sente pontadas no joelho ao agachar, assista isso.", corpo: "Vista a joelheira elástica respirável e mostre a estabilização firme durante o agachamento.", cta: "Volte a treinar sem desconforto clicando no link aqui embaixo." },
-                { id: "f7", ads: true, nome: "Pistola Massageadora Muscular Fascial Gun", preco: "R$ 119,00", vendas: "16.8k", crescimento: "+310%", img: "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=300", link: "https://www.tiktok.com/search?q=Pistola+Massageadora+Muscular", gancho: "Recupere o músculo dolorido em 5 minutos sem pagar massagista.", corpo: "Ligue a vibração na panturrilha ou ombro demonstrando o alívio imediato da tensão.", cta: "Garanta a sua com garantia de 30 dias pelo link oficial da bio." },
-                { id: "f8", ads: false, nome: "Corda de Pular de Aço com Rolamento Speed", preco: "R$ 29,90", vendas: "7.4k", crescimento: "+98%", img: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=300", link: "https://www.tiktok.com/search?q=Corda+de+Pular+Rolamento", gancho: "Queime 400 calorias em 20 minutos sem sair do quarto.", corpo: "Gire a corda em alta velocidade mostrando que o cabo de aço não enrola e nem trava.", cta: "Comece seu projeto secar hoje mesmo clicando no link." },
-                { id: "f9", ads: true, nome: "Balança Digital de Bioimpedância Bluetooth", preco: "R$ 64,00", vendas: "19.9k", crescimento: "+270%", img: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=300", link: "https://www.tiktok.com/search?q=Balanca+Bioimpedancia+Bluetooth", gancho: "Essa balança envia sua taxa de gordura direto pro aplicativo no celular.", corpo: "Pise na balança e mostre o app gerando o gráfico de massa magra e hidratação.", cta: "Clique no botão e confira o cupom exclusivo de primeira compra." },
-                { id: "f10", ads: true, nome: "Corretor Postural Ajustável Unissex", preco: "R$ 38,00", vendas: "10.3k", crescimento: "+140%", img: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=300", link: "https://www.tiktok.com/search?q=Corretor+Postural+Ajustavel", gancho: "Pare de andar curvado como se estivesse cansado o dia todo.", corpo: "Ajuste as tiras nas costas e mostre a postura alinhando instantaneamente com conforto.", cta: "Clique no link e melhore sua postura antes que acabe a oferta." },
-                { id: "f11", ads: true, nome: "Hand Grip Fortalecedor de Mão com Contador", preco: "R$ 24,90", vendas: "13.2k", crescimento: "+175%", img: "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=300", link: "https://www.tiktok.com/search?q=Hand+Grip+Contador", gancho: "Aumente a força do seu antebraço enquanto assiste TV.", corpo: "Aperte o aparelho mostrando o contador mecânico girando de 10 até 60kg de resistência.", cta: "Compre com desconto especial no carrinho abaixo." },
-                { id: "f12", ads: false, nome: "Rolo de Liberação Miofascial Foam Roller", preco: "R$ 49,90", vendas: "6.9k", crescimento: "+110%", img: "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=300", link: "https://www.tiktok.com/search?q=Foam+Roller+Massagem", gancho: "O alívio imediato para quem acorda com dor nas costas.", corpo: "Deite e deslize o rolo pelas costas estalando e soltando toda a musculatura travada.", cta: "Clique no link e melhore suas dores musculares hoje." },
-                { id: "f13", ads: true, nome: "Cinta Térmica Redutora de Medidas Suor", preco: "R$ 52,00", vendas: "15.4k", crescimento: "+230%", img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=300", link: "https://www.tiktok.com/search?q=Cinta+Termica+Redutora", gancho: "Essa cinta faz você queimar o dobro de água na caminhada.", corpo: "Tire a cinta após 30 minutos de cardio mostrando a quantidade de suor na região abdominal.", cta: "Garanta a sua cinta com frete grátis clicando no link." },
-                { id: "f14", ads: false, nome: "Faixa Elástica de Glúteo Hip Band Resistente", preco: "R$ 31,90", vendas: "8.4k", crescimento: "+130%", img: "https://images.unsplash.com/photo-1598289431512-b97b0917affc?w=300", link: "https://www.tiktok.com/search?q=Hip+Band+Gluteo", gancho: "O exercício de glúteo só queima de verdade com essa faixa grossa.", corpo: "Faça abdução de pernas mostrando que a faixa de tecido não enrola e nem machuca a pele.", cta: "Aproveite a promoção de kit no link oficial." },
-                { id: "f15", ads: true, nome: "Tapete de Yoga e Pilates Antiderrapante", preco: "R$ 59,90", vendas: "11.6k", crescimento: "+190%", img: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=300", link: "https://www.tiktok.com/search?q=Tapete+Yoga+Antiderrapante", gancho: "Treine no chão da sala sem machucar os joelhos nem escorregar.", corpo: "Desenrole o tapete acolchoado de 10mm mostrando a aderência perfeita mesmo com suor.", cta: "Peça o seu tapete com frete grátis no botão do TikTok Shop." },
-                { id: "f16", ads: true, nome: "Roda Abdominal com Retorno Automático", preco: "R$ 79,90", vendas: "22.3k", crescimento: "+390%", img: "https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=300", link: "https://www.tiktok.com/search?q=Roda+Abdominal+Retorno+Automatico", gancho: "O único rolinho abdominal que não deixa você cair de cara no chão.", corpo: "Role para a frente e mostre a mola interna de retorno puxando o corpo com suporte de cotovelo.", cta: "Defina o abdômen sem lesão clicando no botão abaixo." },
-                { id: "f17", ads: false, nome: "Munhequeira de Treino com Suporte de Polegar", preco: "R$ 25,00", vendas: "5.8k", crescimento: "+85%", img: "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=300", link: "https://www.tiktok.com/search?q=Munhequeira+Treino+Suporte", gancho: "Proteja seus punhos no supino pesado antes que vire tendinite.", corpo: "Enrole a munhequeira travando o punho firme em posição reta para aguentar mais peso.", cta: "Compre o par com desconto no link da bio." },
-                { id: "f18", ads: true, nome: "Alça de Suspensão Treino Funcional Tipo TRX", preco: "R$ 68,00", vendas: "9.1k", crescimento: "+145%", img: "https://images.unsplash.com/photo-1598289431512-b97b0917affc?w=300", link: "https://www.tiktok.com/search?q=Fita+Suspensao+TRX", gancho: "Uma academia completa que cabe dentro de uma sacolinha de pano.", corpo: "Prenda na porta ou árvore e demonstre remada, flexão e tríceps com o peso do corpo.", cta: "Monte seu treino em qualquer lugar pelo link abaixo." },
-                { id: "f19", ads: false, nome: "Copo Térmico para Bebidas com Tampa Hermética", preco: "R$ 42,00", vendas: "14.7k", crescimento: "+210%", img: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=300", link: "https://www.tiktok.com/search?q=Copo+Termico+Bebidas", gancho: "Sua água trincando de gelada até o último minuto do seu treino.", corpo: "Coloque gelo pela manhã e mostre o copo intacto 12 horas depois sem suar por fora.", cta: "Clique no carrinho e escolha sua cor favorita." },
-                { id: "f20", ads: true, nome: "Mochila Esportiva Impermeável com Porta Tênis", preco: "R$ 74,90", vendas: "12.8k", crescimento: "+180%", img: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300", link: "https://www.tiktok.com/search?q=Mochila+Esportiva+Porta+Tenis", gancho: "Nunca mais misture o tênis suado com suas roupas limpas na mochila.", corpo: "Abra o compartimento ventilado isolado na base da mochila guardando o calçado sujo.", cta: "Aproveite a oferta de lançamento clicando aqui embaixo." }
-            ]
-        };
-
-        // GERAÇÃO DINÂMICA DAS OUTRAS 5 CATEGORIAS (20 PRODUTOS CADA)
-        const categoriasBase = [
-            { key: 'eletronicos', nome: 'Eletrônicos & Smart', termo: 'Eletronicos+Smart' },
-            { key: 'achadinhos', nome: 'Achadinhos Virais', termo: 'Achadinhos+TikTok' },
-            { key: 'moveis', nome: 'Casa & Decoração', termo: 'Casa+Decoracao' },
-            { key: 'beleza', nome: 'Beleza & Skincare', termo: 'Beleza+Skincare' },
-            { key: 'cozinha', nome: 'Cozinha & Utilidades', termo: 'Cozinha+Utilidades' }
-        ];
-
-        const produtosExemplo = [
-            { n: "Mini Câmera de Segurança Magnética Wi-Fi", p: "R$ 59,90", v: "31.2k", c: "+450%", g: "Escondi essa mini câmera no quarto e olha o que eu peguei...", d: "Mostre o tamanho minúsculo colado em um ímã e a imagem HD ao vivo.", a: "Proteja sua casa com desconto especial no link." },
-            { n: "Luminária Projetor Astronauta Galáxia 360°", p: "R$ 79,90", v: "44.8k", c: "+510%", g: "O produto mais vendido da história do TikTok transformou meu quarto nisso...", d: "Apague a luz e ligue as nebulosas coloridas no teto.", a: "Clique no carrinho abaixo antes que esgote o lote." },
-            { n: "Mini Selador Térmico Portátil de Sacos", p: "R$ 29,90", v: "38.6k", c: "+410%", g: "Pare de jogar comida fora! Esse selador portátil salvou meus salgadinhos.", d: "Deslize na borda do pacote e vire de cabeça para baixo sem vazar.", a: "Aproveite a promoção de 29 reais no link do TikTok." },
-            { n: "Fita LED RGB com Sensor Inteligente de Música", p: "R$ 49,00", v: "29.4k", c: "+330%", g: "Mudei o clima do meu quarto inteiro gastando menos de 50 reais.", d: "Cole atrás da TV e mostre as cores piscando no ritmo da música.", a: "Deixe seu quarto moderno clicando no botão abaixo." },
-            { n: "Depilador de Cristal Indolor Mágico Reutilizável", p: "R$ 34,90", v: "49.1k", c: "+480%", g: "Joguei todas as lâminas no lixo depois que descobri esse cristal.", d: "Passe em movimentos circulares na perna mostrando os pelos saindo sem dor.", a: "Diga adeus à foliculite no botão do TikTok Shop." }
-        ];
-
-        // Preenche automaticamente as outras categorias com 20 itens cada
-        categoriasBase.forEach(cat => {
-            if (!bancoProdutos[cat.key]) bancoProdutos[cat.key] = [];
-            for (let i = 1; i <= 20; i++) {
-                const modelo = produtosExemplo[(i - 1) % produtosExemplo.length];
-                const ehAds = (i % 2 === 1 || i <= 5); // 60% dos produtos marcados com ADS ativo
-                bancoProdutos[cat.key].push({
-                    id: `${cat.key}_${i}`,
-                    ads: ehAds,
-                    nome: `${modelo.n} #${i}`,
-                    preco: modelo.p,
-                    vendas: `${(10 + i * 1.5).toFixed(1)}k`,
-                    crescimento: `+${180 + i * 15}%`,
-                    img: `https://images.unsplash.com/photo-${1500000000000 + i * 1000000}?w=300&auto=format&fit=crop&q=60`,
-                    link: `https://www.tiktok.com/search?q=${encodeURIComponent(modelo.n)}`,
-                    gancho: modelo.g,
-                    corpo: modelo.d,
-                    cta: modelo.a
-                });
-            }
-        });
-
+        let bancoProdutos = {};
         let categoriaAtiva = 'fitness';
+
+        // TENTA LER O PRODUTOS.JSON GERADO PELO ROBÔ
+        async function carregarProdutosDoRadar() {
+            try {
+                const resposta = await fetch('produtos.json?t=' + Date.now());
+                if (!resposta.ok) throw new Error("Aguardando geracao pelo GitHub Actions");
+                bancoProdutos = await resposta.json();
+            } catch (erro) {
+                console.log("Robo ainda nao gerou o json, carregando base de seguranca...");
+                gerarBaseSegurancaLocal();
+            }
+            filtrarCategoria(categoriaAtiva);
+        }
+
+        function gerarBaseSegurancaLocal() {
+            const categoriasBase = ['fitness', 'eletronicos', 'achadinhos', 'moveis', 'beleza', 'cozinha'];
+            const modelos = [
+                { n: "Mini Liquidificador Portatil Fresh Juice", p: "R$ 69,90", g: "Tomar whey empelotado na academia nunca mais!", d: "Mostre o copo batendo o shake em 15 segundos.", a: "Garanta o seu com frete gratis no carrinho." },
+                { n: "Mini Camera de Seguranca Magnetica A9", p: "R$ 59,90", g: "Escondi essa mini camera no quarto e olha o que eu peguei...", d: "Mostre o tamanho minusculo colado em um ima.", a: "Proteja sua casa com desconto no link." },
+                { n: "Mini Selador Termico de Embalagens", p: "R$ 29,90", g: "Pare de jogar comida fora! Esse selador salvou meus salgadinhos.", d: "Deslize na borda do pacote e vire sem vazar.", a: "Aproveite a promocao de 29 reais no link." },
+                { n: "Luminaria Projetor Astronauta Galaxia 360", p: "R$ 79,90", g: "O produto mais vendido da historia do TikTok no meu quarto...", d: "Apague a luz e mostre o teto estrelado.", a: "Clique no carrinho abaixo antes que esgote." },
+                { n: "Depilador de Cristal Magico Indolor", p: "R$ 34,90", g: "Joguei todas as laminas no lixo depois desse cristal.", d: "Passe em circulos na perna sem dor.", a: "Diga adeus a foliculite no botao do TikTok." }
+            ];
+
+            categoriasBase.forEach(cat => {
+                bancoProdutos[cat] = [];
+                for (let i = 1; i <= 20; i++) {
+                    const mod = modelos[(i - 1) % modelos.length];
+                    const nome = `${mod.n} #${i}`;
+                    bancoProdutos[cat].push({
+                        id: `${cat}_${i}`,
+                        ads: true,
+                        anuncios_ativos: `${120 + i * 15} anuncios ativos`,
+                        nome: nome,
+                        preco: mod.p,
+                        vendas: `${(15 + i * 1.8).toFixed(1)}k vendas`,
+                        crescimento: `+${200 + i * 20}%`,
+                        img: "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=300",
+                        link: `https://www.tiktok.com/search/items?q=${encodeURIComponent(nome)}`,
+                        gancho: mod.g,
+                        corpo: mod.d,
+                        cta: mod.a
+                    });
+                }
+            });
+        }
 
         function filtrarCategoria(cat) {
             categoriaAtiva = cat;
@@ -673,11 +655,10 @@
                         <h4 class="text-xs font-bold text-white line-clamp-2 leading-tight mb-1" title="${p.nome}">${p.nome}</h4>
                         <div class="flex items-center justify-between text-[11px] mb-2.5 font-bold">
                             <span class="text-[#FF2A5F] font-bold">${p.preco}</span>
-                            <span class="text-slate-400 font-mono text-[10px]">${p.vendas} vendas</span>
+                            <span class="text-slate-400 font-mono text-[10px]">${p.vendas}</span>
                         </div>
                     </div>
                     
-                    <!-- BOTÃO DUPLO: VER NO TIKTOK + VER ROTEIRO -->
                     <div class="grid grid-cols-2 gap-1.5 pt-2 border-t border-slate-800/80">
                         <a href="${p.link}" target="_blank" class="py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700/80 hover:text-white font-extrabold text-[10px] rounded-lg transition flex items-center justify-center gap-1">
                             <span>🛒 TikTok</span>
@@ -734,7 +715,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            filtrarCategoria('fitness');
+            carregarProdutosDoRadar();
             checarDadosCliente();
             inicializarCodecs();
             atualizarPreviaNomeEditor();
