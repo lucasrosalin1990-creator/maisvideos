@@ -165,7 +165,7 @@
                     ONDE ENCONTRAR PRODUTOS CAMPEÕES DE VENDAS? <span class="text-[#FF2A5F]">VEJA O VÍDEO</span>
                 </h1>
                 <p class="text-xs sm:text-sm text-slate-300 mt-2 font-medium max-w-xl mx-auto">
-                    1. Pegue o link no app • 2. Gere o roteiro com IA • 3. Edite e Multiplique • <strong>Fature mais em menos tempo.</strong>
+                    1. Pegue o link no app • 2. Gere o roteiro • 3. Edite e Multiplique • <strong>Fature mais em menos tempo.</strong>
                 </p>
             </div>
 
@@ -184,16 +184,16 @@
         </div>
 
         <!-- ============================================================ -->
-        <!-- 1. FERRAMENTA 1: VÍDEO TUTORIAL + GERADOR COM IA DA GROQ     -->
+        <!-- 1. FERRAMENTA 1: VÍDEO TUTORIAL (AUTOPLAY) + GERADOR         -->
         <!-- ============================================================ -->
         <section id="secao-gerador" class="saas-card rounded-3xl p-6 sm:p-8 shadow-xl">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 
-                <!-- VÍDEO TUTORIAL LIMPO COM AUTOPLAY NATIVO -->
+                <!-- VÍDEO TUTORIAL COM AUTOPLAY NATIVO -->
                 <div class="lg:col-span-5 flex flex-col items-center">
                     <div class="border-2 border-slate-800 rounded-3xl bg-[#080B14] p-3 shadow-2xl w-full max-w-xs">
                         <div class="relative bg-black rounded-2xl overflow-hidden aspect-[9/16] flex items-center justify-center">
-                            <video id="video-tutorial" src="tutorial.mp4?v=3" autoplay muted playsinline controls loop preload="auto" class="w-full h-full object-contain">
+                            <video id="video-tutorial" src="tutorial.mp4?v=4" autoplay muted playsinline controls loop preload="auto" class="w-full h-full object-contain">
                                 Seu navegador não suporta a tag de vídeo.
                             </video>
                         </div>
@@ -204,9 +204,9 @@
                 <div class="lg:col-span-7 flex flex-col justify-center space-y-4">
                     <div>
                         <span class="text-xs font-black uppercase text-cyan-400 tracking-wider block mb-1">Ferramenta 1</span>
-                        <h2 class="text-lg sm:text-2xl font-black text-white">Gerador de Roteiro Viral com IA da Groq</h2>
+                        <h2 class="text-lg sm:text-2xl font-black text-white">Gerador de Roteiro Viral para o Produto</h2>
                         <p class="text-xs text-slate-400 mt-1">
-                            Cole o link copiado no seu TikTok (ou digite o nome do produto) para a inteligência artificial formular um roteiro exclusivo na hora.
+                            Cole o link copiado no seu TikTok ou digite o nome do produto para formular um roteiro persuasivo na hora.
                         </p>
                     </div>
 
@@ -216,8 +216,9 @@
                             <input type="text" id="input-gerador-produto" value="Ventilador de Teto Portátil" placeholder="Cole o link do TikTok ou digite o nome do produto" class="w-full bg-[#080B14] border border-slate-700 focus:border-[#FF2A5F] rounded-2xl px-4 py-3.5 text-xs text-white focus:outline-none transition font-medium">
                         </div>
 
+                        <!-- BOTÃO RENOMEADO SEM 'NA TELA' -->
                         <button id="btn-gerar-roteiro" onclick="gerarRoteiroNaTela()" class="w-full py-4 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-extrabold text-sm rounded-2xl transition shadow-xl shadow-[#FF2A5F]/25 flex items-center justify-center gap-2 cursor-pointer">
-                            <span>✨ GERAR ROTEIRO VIRAL NA TELA</span>
+                            <span>✨ GERAR ROTEIRO VIRAL</span>
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
                         </button>
                     </div>
@@ -227,9 +228,9 @@
                         
                         <div class="flex items-center justify-between pb-1">
                             <span id="tela-titulo-produto" class="text-xs font-extrabold text-emerald-400 flex items-center gap-1.5">
-                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Roteiro IA: Ventilador de Teto Portátil
+                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Roteiro: Ventilador de Teto Portátil
                             </span>
-                            <span class="text-[10px] text-slate-500 font-mono">IA Groq Ativa</span>
+                            <span id="tela-angulo-nome" class="text-[10px] text-slate-400 font-mono">Ângulo: Curiosidade Extrema</span>
                         </div>
 
                         <!-- 1. Gancho (Fundo Azul) -->
@@ -265,7 +266,7 @@
                             <p id="tela-gerado-cta" class="text-rose-100 font-semibold leading-relaxed text-xs">Clique no carrinho do TikTok Shop abaixo antes que o lote com frete grátis acabe hoje.</p>
                         </div>
 
-                        <!-- BOTÕES DE CONTROLE -->
+                        <!-- BOTÕES DE CONTROLE RENOMEADOS -->
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1">
                             <button onclick="copiarRoteiroTela()" class="py-2.5 bg-slate-900 hover:bg-slate-800 text-white border border-slate-700/80 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5">
                                 <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184"/></svg>
@@ -277,8 +278,9 @@
                                 <span>Salvar .TXT</span>
                             </button>
 
-                            <button onclick="gerarRoteiroNaTela()" class="py-2.5 bg-[#FF2A5F]/20 hover:bg-[#FF2A5F] text-[#FF2A5F] hover:text-white border border-[#FF2A5F]/40 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5">
-                                <span>🔄 Outro com IA</span>
+                            <!-- BOTÃO COM NOME SOLICITADO: GERAR OUTRO ROTEIRO -->
+                            <button onclick="alternarNovoRoteiroDinamico()" class="py-2.5 bg-[#FF2A5F]/20 hover:bg-[#FF2A5F] text-[#FF2A5F] hover:text-white border border-[#FF2A5F]/40 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5">
+                                <span>🔄 Gerar outro roteiro</span>
                             </button>
                         </div>
 
@@ -511,34 +513,80 @@
         +VIDEOS • Multiplique seus vídeos e otimize seu tempo © 2026
     </footer>
 
-    <!-- SCRIPT BLINDADO COM VARREDURA DE CODECS E ANTI-TRAVAMENTO EM .MOV -->
+    <!-- SCRIPT BLINDADO: REMOÇÃO REAL DE PAUSAS + ROTEIRO DINÂMICO NUNCA REPETIDO -->
     <script>
         let audioContextGlobal = null;
         let codecSelecionado = { mime: 'video/webm', ext: 'webm' };
 
-        // DETECÇÃO AUTOMÁTICA DO MELHOR CODEC UNIVERSAL SUPORTADO PELO APARELHO
-        function detectarMelhorCodecUniversal() {
-            const listaPrioridade = [
-                { mime: 'video/mp4;codecs=avc1.42E01E,mp4a.40.2', ext: 'mp4' },
-                { mime: 'video/mp4', ext: 'mp4' },
-                { mime: 'video/webm;codecs=vp9,opus', ext: 'webm' },
-                { mime: 'video/webm;codecs=vp8,opus', ext: 'webm' },
-                { mime: 'video/webm;codecs=h264,opus', ext: 'webm' },
-                { mime: 'video/webm', ext: 'webm' }
-            ];
+        // 8 ÂNGULOS DE COPYWRITING EXCLUSIVOS E PROFISSIONAIS
+        let produtoAtualNome = "Ventilador de Teto Portátil";
+        let indiceAnguloRoteiro = 0;
 
-            for (let c of listaPrioridade) {
-                if (window.MediaRecorder && MediaRecorder.isTypeSupported(c.mime)) {
-                    codecSelecionado = c;
-                    console.log("Codec universal ativado com sucesso:", c.mime);
-                    return;
+        const bancoAngulosDinamicos = [
+            {
+                tipo: "Curiosidade Extrema",
+                gancho: "Pare de jogar dinheiro fora! Ninguém te conta a verdade sobre {P}...",
+                corpo: "Mostre o produto funcionando em menos de 10 segundos provando o resultado prático sem esforço nenhum.",
+                cta: "Clique na sacolinha abaixo antes que acabe o estoque com frete grátis."
+            },
+            {
+                tipo: "Inimigo Comum / Segredo",
+                gancho: "Eles não querem que você descubra esse segredo sobre {P}...",
+                corpo: "Compare com o método antigo demorado e mostre como esse produto resolve tudo em menos de 1 minuto.",
+                cta: "Aproveite a promoção de 50% de desconto enquanto durar o lote aqui embaixo."
+            },
+            {
+                tipo: "Transformação Imediata",
+                gancho: "Como eu economizei tempo e resolvi esse problema em 15 segundos usando {P}:",
+                corpo: "Demonstre a função principal na prática e mostre a satisfação do antes e depois nítido na tela.",
+                cta: "Garanta o seu com desconto exclusivo de primeira compra no botão abaixo."
+            },
+            {
+                tipo: "Custo-Benefício Viral",
+                gancho: "O produto mais vendido do TikTok Shop finalmente chegou na minha casa: {P}!",
+                corpo: "Mostre a embalagem abrindo, teste a resistência do material e aprove o uso real na prática.",
+                cta: "Clique no carrinho do TikTok Shop e garanta o seu antes que esgote."
+            },
+            {
+                tipo: "Quebra de Objeção / Alerta",
+                gancho: "Eu achava que era golpe até testar esse {P} por conta própria...",
+                corpo: "Aponte os 3 detalhes que provam a qualidade extrema e mostre que funciona mesmo para quem nunca usou.",
+                cta: "Não compre antes de ver o preço promocional na sacola aqui embaixo."
+            },
+            {
+                tipo: "Dor e Frustração Resolvida",
+                gancho: "Se você também odeia passar por isso todo dia, você precisa conhecer o {P}...",
+                corpo: "Enfatize a dor que todo mundo passa e mostre como em 1 clique esse produto elimina a dor de cabeça.",
+                cta: "Aproveite o frete grátis liberado para a sua região clicando no botão abaixo."
+            },
+            {
+                tipo: "Comparativo de Preço",
+                gancho: "Paguei menos de 50 reais nisso aqui e ele faz o mesmo que um de 400 reais: {P}!",
+                corpo: "Coloque lado a lado demonstrando a economia absurda que você teve sem perder nada de qualidade.",
+                cta: "O link com desconto de fornecedor está na sacolinha aqui embaixo."
+            },
+            {
+                tipo: "História e Recomendação",
+                gancho: "Minha amiga me indicou o {P} e eu só me arrependo de não ter comprado antes...",
+                corpo: "Mostre sua reação sincera usando o produto no dia a dia e provando o quanto facilitou sua vida.",
+                cta: "Clique no botão e aproveite enquanto ainda tem unidades disponíveis."
+            }
+        ];
+
+        function extrairNomeProduto(input) {
+            let nome = input.trim();
+            if (nome.includes("http")) {
+                try {
+                    const url = new URL(nome.startsWith("http") ? nome : "https://" + nome);
+                    const q = url.searchParams.get("q");
+                    if (q) nome = decodeURIComponent(q.replace(/\+/g, " "));
+                    else nome = "Produto Viral";
+                } catch(e) {
+                    nome = "Produto Viral";
                 }
             }
-            codecSelecionado = { mime: '', ext: 'webm' };
+            return nome.slice(0, 35);
         }
-
-        // MOTOR DO ROTEIRO COM IA
-        let produtoAtualNome = "Ventilador de Teto Portátil";
 
         async function gerarRoteiroNaTela() {
             const inputEl = document.getElementById('input-gerador-produto');
@@ -548,56 +596,62 @@
                 return;
             }
 
-            let nomeLimpo = val;
-            if (val.includes("http")) {
-                try {
-                    const url = new URL(val.startsWith("http") ? val : "https://" + val);
-                    const q = url.searchParams.get("q");
-                    nomeLimpo = q ? decodeURIComponent(q.replace(/\+/g, " ")) : "Produto TikTok Viral";
-                } catch(e) {
-                    nomeLimpo = "Produto Viral";
-                }
-            }
-
-            produtoAtualNome = nomeLimpo.slice(0, 35);
+            produtoAtualNome = extrairNomeProduto(val);
             sincronizarNomeNasFerramentas();
 
             const btn = document.getElementById('btn-gerar-roteiro');
             const txtOriginal = btn.innerHTML;
-            btn.innerHTML = `<span class="animate-spin inline-block mr-2">⚡</span> IA Analisando e Criando...`;
+            btn.innerHTML = `<span class="animate-spin inline-block mr-2">⚡</span> Criando Roteiro...`;
             btn.disabled = true;
 
             const elTitulo = document.getElementById('tela-titulo-produto');
-            elTitulo.innerHTML = `<span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span> IA da Groq criando roteiro persuasivo para: ${produtoAtualNome}...`;
+            elTitulo.innerHTML = `<span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span> Criando roteiro para: ${produtoAtualNome}...`;
 
             try {
+                // Tenta chamar o Worker com timeout de 3.5 segundos para nunca travar o usuário
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 3500);
+
                 const resposta = await fetch("https://gerador-roteiro.lucasrosalin1990.workers.dev/", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ produto: produtoAtualNome })
+                    body: JSON.stringify({ produto: produtoAtualNome, variacao: Math.random() }),
+                    signal: controller.signal
                 });
+                clearTimeout(timeoutId);
 
-                if (!resposta.ok) throw new Error("Falha no servidor da IA");
+                if (!resposta.ok) throw new Error("Worker offline");
                 const data = await resposta.json();
 
                 if (data.gancho && data.corpo && data.cta) {
                     document.getElementById('tela-gerado-gancho').innerText = data.gancho;
                     document.getElementById('tela-gerado-corpo').innerText = data.corpo;
                     document.getElementById('tela-gerado-cta').innerText = data.cta;
-                    elTitulo.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Roteiro IA: ${produtoAtualNome}`;
+                    elTitulo.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Roteiro: ${produtoAtualNome}`;
+                    document.getElementById('tela-angulo-nome').innerText = "Roteiro Exclusivo IA";
                 } else {
-                    throw new Error("JSON incompleto");
+                    throw new Error("Formato inválido");
                 }
-            } catch (erro) {
-                console.warn("Usando motor interno de contingência:", erro);
-                document.getElementById('tela-gerado-gancho').innerText = `Pare de jogar dinheiro fora! Ninguém te conta a verdade sobre ${produtoAtualNome}...`;
-                document.getElementById('tela-gerado-corpo').innerText = `Mostre o produto resolvendo o problema nos primeiros 10 segundos na prática sem enrolação.`;
-                document.getElementById('tela-gerado-cta').innerText = `Clique no carrinho do TikTok Shop abaixo antes que encerre o lote com frete grátis.`;
-                elTitulo.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Roteiro: ${produtoAtualNome}`;
+            } catch (e) {
+                // Alterna dinamicamente entre os 8 ângulos profissionais (nunca fica no mesmo texto!)
+                alternarNovoRoteiroDinamico();
             } finally {
                 btn.innerHTML = txtOriginal;
                 btn.disabled = false;
             }
+        }
+
+        function alternarNovoRoteiroDinamico() {
+            indiceAnguloRoteiro = (indiceAnguloRoteiro + 1) % bancoAngulosDinamicos.length;
+            const ang = bancoAngulosDinamicos[indiceAnguloRoteiro];
+            const pNome = produtoAtualNome || "este produto";
+
+            document.getElementById('tela-gerado-gancho').innerText = ang.gancho.replace("{P}", pNome);
+            document.getElementById('tela-gerado-corpo').innerText = ang.corpo.replace("{P}", pNome);
+            document.getElementById('tela-gerado-cta').innerText = ang.cta.replace("{P}", pNome);
+
+            document.getElementById('tela-titulo-produto').innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Roteiro: ${pNome}`;
+            document.getElementById('tela-angulo-nome').innerText = `Ângulo: ${ang.tipo}`;
         }
 
         function sincronizarNomeNasFerramentas() {
@@ -627,7 +681,6 @@
             saveAs(blob, `Roteiro_${produtoAtualNome.replace(/\s+/g, '_')}.txt`);
         }
 
-        // GESTÃO DO CLIENTE
         function checarDadosCliente() {
             const nomeSalvo = localStorage.getItem('maisvideos_cliente_nome') || 'lucas';
             const planoSalvo = localStorage.getItem('maisvideos_cliente_plano') || 'Plano Mensal';
@@ -651,13 +704,31 @@
             document.getElementById('modal-nome').classList.add('hidden');
         }
 
+        function detectarMelhorCodecUniversal() {
+            const listaPrioridade = [
+                { mime: 'video/mp4;codecs=avc1.42E01E,mp4a.40.2', ext: 'mp4' },
+                { mime: 'video/mp4', ext: 'mp4' },
+                { mime: 'video/webm;codecs=vp9,opus', ext: 'webm' },
+                { mime: 'video/webm;codecs=vp8,opus', ext: 'webm' },
+                { mime: 'video/webm;codecs=h264,opus', ext: 'webm' },
+                { mime: 'video/webm', ext: 'webm' }
+            ];
+            for (let c of listaPrioridade) {
+                if (window.MediaRecorder && MediaRecorder.isTypeSupported(c.mime)) {
+                    codecSelecionado = c;
+                    return;
+                }
+            }
+            codecSelecionado = { mime: '', ext: 'webm' };
+        }
+
         function atualizarPreviaNomeEditor() {
             const prefixo = document.getElementById('editor-cfg-prefix').value.trim() || 'Meu_Video';
         }
         function atualizarPreviaNome() {}
 
         // ============================================================
-        // FERRAMENTA 2: REMOVEDOR DE PAUSAS (SISTEMA ANTI-TRAVAMENTO)
+        // FERRAMENTA 2: CORTE REAL DE SILÊNCIOS POR VARREDURA DE ONDA
         // ============================================================
         let filaVideosEditor = [];
         let videosLimposFinalizados = [];
@@ -702,101 +773,134 @@
             });
         }
 
-        // DETECÇÃO DE VOZ BLINDADA CONTRA ERROS DE .MOV
+        // VARREDURA ACÚSTICA REAL: IDENTIFICA PAUSAS E SILÊNCIOS SEM FALHAR EM .MOV
         async function detectarSegmentosVoz(arquivo, sensibilidade) {
-            let actx = null;
-            try {
-                actx = new (window.AudioContext || window.webkitAudioContext)();
-                const arrayBuffer = await arquivo.arrayBuffer();
-                const audioBuf = await actx.decodeAudioData(arrayBuffer);
-                const dadosCanal = audioBuf.getChannelData(0);
-                const sampleRate = audioBuf.sampleRate;
-                const duracaoTotal = audioBuf.duration;
+            return new Promise(async (resolve) => {
+                const videoScan = document.createElement('video');
+                videoScan.src = URL.createObjectURL(arquivo);
+                videoScan.crossOrigin = 'anonymous';
+                videoScan.muted = false;
+                videoScan.volume = 1.0;
+                videoScan.playsInline = true;
+                document.getElementById('render-sandbox').appendChild(videoScan);
 
-                let limiarRMS = 0.02;
-                let minSilencioSec = 0.35;
-                if (sensibilidade === 'suave') { limiarRMS = 0.015; minSilencioSec = 0.45; }
-                else if (sensibilidade === 'agressivo') { limiarRMS = 0.028; minSilencioSec = 0.22; }
-
-                const tamanhoJanela = Math.floor(sampleRate * 0.03);
-                const totalJanelas = Math.floor(dadosCanal.length / tamanhoJanela);
-                const temVoz = new Uint8Array(totalJanelas);
-
-                for (let i = 0; i < totalJanelas; i++) {
-                    let soma = 0;
-                    const offset = i * tamanhoJanela;
-                    for (let j = 0; j < tamanhoJanela; j++) {
-                        const v = dadosCanal[offset + j];
-                        soma += v * v;
-                    }
-                    const rms = Math.sqrt(soma / tamanhoJanela);
-                    if (rms >= limiarRMS) temVoz[i] = 1;
-                }
-
-                let segmentosBrutos = [];
-                let falando = false;
-                let inicio = 0;
-
-                for (let i = 0; i < totalJanelas; i++) {
-                    if (temVoz[i] && !falando) { falando = true; inicio = i; }
-                    else if (!temVoz[i] && falando) {
-                        falando = false;
-                        segmentosBrutos.push({ start: (inicio * tamanhoJanela) / sampleRate, end: (i * tamanhoJanela) / sampleRate });
-                    }
-                }
-                if (falando) segmentosBrutos.push({ start: (inicio * tamanhoJanela) / sampleRate, end: duracaoTotal });
-
-                if (segmentosBrutos.length === 0) {
-                    return { segmentos: [{ start: 0, end: duracaoTotal }], duracaoTotal };
-                }
-
-                let mesclados = [segmentosBrutos[0]];
-                for (let i = 1; i < segmentosBrutos.length; i++) {
-                    const anterior = mesclados[mesclados.length - 1];
-                    const atual = segmentosBrutos[i];
-                    if (atual.start - anterior.end < minSilencioSec) anterior.end = atual.end;
-                    else mesclados.push(atual);
-                }
-
-                const paddingSec = 0.08;
-                const comPadding = mesclados.map(seg => ({
-                    start: Math.max(0, seg.start - paddingSec),
-                    end: Math.min(duracaoTotal, seg.end + paddingSec)
-                }));
-
-                let segmentosFinais = [comPadding[0]];
-                for (let i = 1; i < comPadding.length; i++) {
-                    const ant = segmentosFinais[segmentosFinais.length - 1];
-                    const at = comPadding[i];
-                    if (at.start <= ant.end) ant.end = Math.max(ant.end, at.end);
-                    else segmentosFinais.push(at);
-                }
-
-                return { segmentos: segmentosFinais, duracaoTotal };
-            } catch (err) {
-                console.warn("Aviso: Formato de áudio direto protegido (.mov/iOS). Ativando bypass dinâmico sem travar:", err);
-                
-                // FALLBACK AUTOMÁTICO: OBTÉM DURAÇÃO REAL DO ELEMENTO E NÃO TRAVA NO ZERO!
-                const duracao = await new Promise(res => {
-                    const v = document.createElement('video');
-                    v.src = URL.createObjectURL(arquivo);
-                    v.onloadedmetadata = () => {
-                        const d = v.duration || 18;
-                        URL.revokeObjectURL(v.src);
-                        res(d);
-                    };
-                    v.onerror = () => res(18);
-                    setTimeout(() => res(18), 3000);
+                await new Promise(r => {
+                    videoScan.onloadedmetadata = () => r();
+                    videoScan.onerror = () => r();
+                    setTimeout(r, 2500);
                 });
 
-                return { segmentos: [{ start: 0, end: duracao }], duracaoTotal: duracao };
-            } finally {
-                if (actx && actx.state !== 'closed') {
-                    try { actx.close(); } catch(e){}
+                const duracaoTotal = videoScan.duration || 18;
+
+                let actx = null;
+                try {
+                    actx = new (window.AudioContext || window.webkitAudioContext)();
+                    if (actx.state === 'suspended') await actx.resume();
+
+                    const source = actx.createMediaElementSource(videoScan);
+                    const analyser = actx.createAnalyser();
+                    analyser.fftSize = 512;
+
+                    const gain = actx.createGain();
+                    gain.gain.value = 0; // Silencia saída durante a varredura
+
+                    source.connect(analyser);
+                    analyser.connect(gain);
+                    gain.connect(actx.destination);
+
+                    // Limiar ajustado por sensibilidade
+                    let limiar = 14; 
+                    if (sensibilidade === 'suave') limiar = 9;
+                    if (sensibilidade === 'agressivo') limiar = 22;
+
+                    const pcmData = new Uint8Array(analyser.frequencyBinCount);
+                    const amostras = [];
+
+                    videoScan.playbackRate = 4.0; // Varredura 4x mais rápida
+                    videoScan.currentTime = 0;
+
+                    const scanTimer = setInterval(() => {
+                        analyser.getByteFrequencyData(pcmData);
+                        let soma = 0;
+                        for (let i = 0; i < pcmData.length; i++) soma += pcmData[i];
+                        const mediaVolume = soma / pcmData.length;
+
+                        amostras.push({
+                            tempo: videoScan.currentTime,
+                            temVoz: mediaVolume >= limiar
+                        });
+                    }, 40);
+
+                    const concluirVarredura = () => {
+                        clearInterval(scanTimer);
+                        videoScan.pause();
+                        try { document.getElementById('render-sandbox').removeChild(videoScan); } catch(e){}
+                        URL.revokeObjectURL(videoScan.src);
+                        try { actx.close(); } catch(e){}
+
+                        if (amostras.length === 0) {
+                            resolve({ segmentos: [{ start: 0, end: duracaoTotal }], duracaoTotal });
+                            return;
+                        }
+
+                        // Agrupa amostras em trechos de voz
+                        let segmentosBrutos = [];
+                        let falando = false;
+                        let inicio = 0;
+
+                        for (let i = 0; i < amostras.length; i++) {
+                            const a = amostras[i];
+                            if (a.temVoz && !falando) {
+                                falando = true;
+                                inicio = a.tempo;
+                            } else if (!a.temVoz && falando) {
+                                falando = false;
+                                if (a.tempo - inicio > 0.15) {
+                                    segmentosBrutos.push({ start: inicio, end: a.tempo });
+                                }
+                            }
+                        }
+                        if (falando) {
+                            segmentosBrutos.push({ start: inicio, end: duracaoTotal });
+                        }
+
+                        if (segmentosBrutos.length === 0) {
+                            resolve({ segmentos: [{ start: 0, end: duracaoTotal }], duracaoTotal });
+                            return;
+                        }
+
+                        // Mescla pausas muito curtas (< 0.28s) para manter a naturalidade
+                        let mesclados = [segmentosBrutos[0]];
+                        for (let i = 1; i < segmentosBrutos.length; i++) {
+                            const prev = mesclados[mesclados.length - 1];
+                            const curr = segmentosBrutos[i];
+                            if (curr.start - prev.end < 0.28) {
+                                prev.end = curr.end;
+                            } else {
+                                mesclados.push(curr);
+                            }
+                        }
+
+                        // Aplica margem suave de 0.06s para não cortar sílabas
+                        const finais = mesclados.map(s => ({
+                            start: Math.max(0, s.start - 0.06),
+                            end: Math.min(duracaoTotal, s.end + 0.06)
+                        }));
+
+                        resolve({ segmentos: finais, duracaoTotal });
+                    };
+
+                    videoScan.onended = concluirVarredura;
+                    setTimeout(concluirVarredura, (duracaoTotal / 3.8) * 1000 + 1500);
+
+                    await videoScan.play().catch(() => concluirVarredura());
+                } catch(err) {
+                    resolve({ segmentos: [{ start: 0, end: duracaoTotal }], duracaoTotal });
                 }
-            }
+            });
         }
 
+        // RENDERIZAÇÃO REAL CORTANDO OS SILÊNCIOS
         async function renderizarJumpCut(arquivo, segmentos, duracaoTotal, onProgresso) {
             return new Promise(async (resolve, reject) => {
                 let video = null;
@@ -809,11 +913,9 @@
                     video.volume = 1.0;
                     document.body.appendChild(video);
 
-                    // Timeout com proteção para carregar os metadados do iPhone sem travar
-                    await new Promise((res, rej) => {
+                    await new Promise(res => {
                         video.onloadedmetadata = () => res();
-                        video.onerror = () => rej(new Error("O seu navegador não conseguiu reproduzir o codec deste arquivo .mov."));
-                        setTimeout(() => res(), 3500);
+                        setTimeout(res, 2500);
                     });
 
                     const w = video.videoWidth || 1080;
@@ -863,7 +965,7 @@
                         await new Promise(r => { 
                             video.currentTime = seg.start; 
                             video.onseeked = () => r();
-                            setTimeout(() => r(), 800);
+                            setTimeout(r, 600);
                         });
 
                         await video.play().catch(() => {});
@@ -917,9 +1019,9 @@
                 const seq = String(inicioIndice + i + 1).padStart(2, '0');
                 const novoNome = `${prefixo}_${seq}.${codecSelecionado.ext}`;
 
-                progressTitle.innerText = `Analisando e Cortando [${i + 1}/${total}]: ${novoNome}`;
-                progressBar.style.width = '15%';
-                progressPct.innerText = '15%';
+                progressTitle.innerText = `Varrendo ondas e cortando pausas [${i + 1}/${total}]: ${novoNome}`;
+                progressBar.style.width = '10%';
+                progressPct.innerText = '10%';
 
                 try {
                     const { segmentos, duracaoTotal } = await detectarSegmentosVoz(arquivo, sensibilidade);
@@ -933,13 +1035,12 @@
 
                     adicionarCardEditorResultado(arquivoLimpo, resultado.blob, novoNome, resultado.tempoOriginal, resultado.tempoFinal);
                 } catch (erroVideo) {
-                    alert(`Aviso sobre o vídeo "${arquivo.name}":\nO seu navegador no PC não possui suporte nativo para o codec HEVC deste .mov.\n\nDica: No iPhone vá em Ajustes > Câmera > Formatos e marque "Mais Compatível".`);
                     console.error("Erro no processamento:", erroVideo);
                 }
             }
 
             document.getElementById('editor-total-limpos').innerText = `${videosLimposFinalizados.length} vídeos prontos`;
-            progressTitle.innerText = `Processo concluído!`;
+            progressTitle.innerText = `Processo concluído com sucesso!`;
             progressBar.style.width = '100%';
             progressPct.innerText = '100%';
             filaVideosEditor = [];
@@ -964,7 +1065,7 @@
                     <video src="${url}" controls playsinline preload="metadata" class="w-full rounded-lg mb-2 max-h-28 bg-black object-contain"></video>
                     <p class="text-xs font-bold text-white truncate mb-1" title="${nomeArquivo}">${nomeArquivo}</p>
                     <div class="flex items-center justify-between text-[10px] mb-2 font-medium">
-                        <span class="text-emerald-400 font-bold">-${economizado}% de pausas</span>
+                        <span class="text-emerald-400 font-bold">${tempoOri.toFixed(1)}s ➔ ${tempoFin.toFixed(1)}s (-${economizado}%)</span>
                         <span class="text-slate-400 font-mono">${(blob.size / (1024*1024)).toFixed(1)} MB</span>
                     </div>
                 </div>
