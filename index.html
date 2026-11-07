@@ -169,7 +169,7 @@
                 </p>
             </div>
 
-            <!-- OS 3 BOTÕES DE NAVEGAÇÃO CENTRALIZADOS COM A COR DO BOTÃO -->
+            <!-- OS 3 BOTÕES DE NAVEGAÇÃO CENTRALIZADOS -->
             <div class="flex items-center gap-3 flex-wrap justify-center pt-1">
                 <a href="#secao-gerador" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-xs text-white font-extrabold transition shadow-lg shadow-[#FF2A5F]/25 flex items-center gap-2">
                     <span>✨ Gerador de Roteiro</span>
@@ -184,16 +184,15 @@
         </div>
 
         <!-- ============================================================ -->
-        <!-- 1. FERRAMENTA 1: VÍDEO TUTORIAL (AUTOPLAY) + GERADOR COM IA  -->
+        <!-- 1. FERRAMENTA 1: VÍDEO TUTORIAL + GERADOR COM IA DA GROQ     -->
         <!-- ============================================================ -->
         <section id="secao-gerador" class="saas-card rounded-3xl p-6 sm:p-8 shadow-xl">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 
-                <!-- VÍDEO TUTORIAL COM AUTOPLAY NATIVO -->
+                <!-- VÍDEO TUTORIAL LIMPO COM AUTOPLAY NATIVO -->
                 <div class="lg:col-span-5 flex flex-col items-center">
                     <div class="border-2 border-slate-800 rounded-3xl bg-[#080B14] p-3 shadow-2xl w-full max-w-xs">
                         <div class="relative bg-black rounded-2xl overflow-hidden aspect-[9/16] flex items-center justify-center">
-                            <!-- AUTOPLAY MUTED PARA INICIAR SOZINHO EM QUALQUER NAVEGADOR -->
                             <video id="video-tutorial" src="tutorial.mp4?v=3" autoplay muted playsinline controls loop preload="auto" class="w-full h-full object-contain">
                                 Seu navegador não suporta a tag de vídeo.
                             </video>
@@ -201,7 +200,7 @@
                     </div>
                 </div>
 
-                <!-- GERADOR DE ROTEIRO COM IA (GROQ CONECTADA) -->
+                <!-- GERADOR DE ROTEIRO DIRETO NA TELA -->
                 <div class="lg:col-span-7 flex flex-col justify-center space-y-4">
                     <div>
                         <span class="text-xs font-black uppercase text-cyan-400 tracking-wider block mb-1">Ferramenta 1</span>
@@ -289,13 +288,12 @@
         </section>
 
         <!-- ============================================================ -->
-        <!-- 2. FERRAMENTA 2: EDITOR E REMOVEDOR DE PAUSAS (TÍTULO MAIOR) -->
+        <!-- 2. FERRAMENTA 2: EDITOR E REMOVEDOR DE PAUSAS                -->
         <!-- ============================================================ -->
         <section id="secao-removedor" class="saas-card rounded-3xl p-6 sm:p-8 shadow-xl">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-slate-800/80">
                 <div>
                     <span class="text-xs font-black uppercase text-cyan-400 tracking-wider block mb-1">Ferramenta 2</span>
-                    <!-- TÍTULO GRANDE EM MAIÚSCULO COM DEGRADÊ CIANO A ROSA -->
                     <h2 class="text-xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-sky-300 to-[#FF2A5F]">
                         EDITOR E REMOVEDOR DE PAUSAS
                     </h2>
@@ -312,7 +310,7 @@
                     <div onclick="document.getElementById('input-editor-raw').click()" class="border-2 border-dashed border-slate-800 hover:border-[#FF2A5F]/50 bg-[#080B14]/70 rounded-2xl p-6 text-center cursor-pointer transition flex flex-col items-center justify-center min-h-[130px]">
                         <svg class="w-8 h-8 text-slate-500 mb-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
                         <p class="text-xs font-bold text-slate-200">Clique para selecionar vídeos gravados com pausas ou respiros</p>
-                        <p class="text-[11px] text-slate-500 mt-1 font-mono">MP4, MOV ou WebM do celular</p>
+                        <p class="text-[11px] text-slate-500 mt-1 font-mono">MP4, MOV (iPhone) ou WebM</p>
                         <input type="file" id="input-editor-raw" multiple accept="video/*" class="hidden" onchange="adicionarVideosEditor(this.files)">
                     </div>
 
@@ -373,13 +371,12 @@
         </section>
 
         <!-- ============================================================ -->
-        <!-- 3. FERRAMENTA 3: MULTIPLICADOR DE VÍDEOS (TÍTULO MAIOR)      -->
+        <!-- 3. FERRAMENTA 3: MULTIPLICADOR DE VÍDEOS EM MASSA           -->
         <!-- ============================================================ -->
         <section id="secao-multiplicador" class="saas-card rounded-3xl p-6 sm:p-8 shadow-xl">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-slate-800/80">
                 <div>
                     <span class="text-xs font-black uppercase text-cyan-400 tracking-wider block mb-1">Ferramenta 3</span>
-                    <!-- TÍTULO GRANDE EM MAIÚSCULO COM DEGRADÊ CIANO A ROSA -->
                     <h2 class="text-xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-sky-300 to-[#FF2A5F]">
                         MULTIPLICADOR DE VÍDEOS EM MASSA
                     </h2>
@@ -514,12 +511,33 @@
         +VIDEOS • Multiplique seus vídeos e otimize seu tempo © 2026
     </footer>
 
-    <!-- SCRIPT BLINDADO COM IA CONECTADA -->
+    <!-- SCRIPT BLINDADO COM VARREDURA DE CODECS E ANTI-TRAVAMENTO EM .MOV -->
     <script>
         let audioContextGlobal = null;
-        let codecSelecionado = { mime: 'video/mp4', ext: 'mp4' };
+        let codecSelecionado = { mime: 'video/webm', ext: 'webm' };
 
-        // MOTOR DO ROTEIRO COM IA (GROQ CLOUDFLARE WORKER)
+        // DETECÇÃO AUTOMÁTICA DO MELHOR CODEC UNIVERSAL SUPORTADO PELO APARELHO
+        function detectarMelhorCodecUniversal() {
+            const listaPrioridade = [
+                { mime: 'video/mp4;codecs=avc1.42E01E,mp4a.40.2', ext: 'mp4' },
+                { mime: 'video/mp4', ext: 'mp4' },
+                { mime: 'video/webm;codecs=vp9,opus', ext: 'webm' },
+                { mime: 'video/webm;codecs=vp8,opus', ext: 'webm' },
+                { mime: 'video/webm;codecs=h264,opus', ext: 'webm' },
+                { mime: 'video/webm', ext: 'webm' }
+            ];
+
+            for (let c of listaPrioridade) {
+                if (window.MediaRecorder && MediaRecorder.isTypeSupported(c.mime)) {
+                    codecSelecionado = c;
+                    console.log("Codec universal ativado com sucesso:", c.mime);
+                    return;
+                }
+            }
+            codecSelecionado = { mime: '', ext: 'webm' };
+        }
+
+        // MOTOR DO ROTEIRO COM IA
         let produtoAtualNome = "Ventilador de Teto Portátil";
 
         async function gerarRoteiroNaTela() {
@@ -553,14 +571,13 @@
             elTitulo.innerHTML = `<span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span> IA da Groq criando roteiro persuasivo para: ${produtoAtualNome}...`;
 
             try {
-                // CHAMA O SEU WORKER DO CLOUDFLARE COM A IA DA GROQ
                 const resposta = await fetch("https://gerador-roteiro.lucasrosalin1990.workers.dev/", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ produto: produtoAtualNome })
                 });
 
-                if (!resposta.ok) throw new Error("Falha na resposta do Worker");
+                if (!resposta.ok) throw new Error("Falha no servidor da IA");
                 const data = await resposta.json();
 
                 if (data.gancho && data.corpo && data.cta) {
@@ -572,8 +589,7 @@
                     throw new Error("JSON incompleto");
                 }
             } catch (erro) {
-                console.warn("Worker em processamento, usando motor contingência:", erro);
-                // Contingência instantânea caso a internet falhe
+                console.warn("Usando motor interno de contingência:", erro);
                 document.getElementById('tela-gerado-gancho').innerText = `Pare de jogar dinheiro fora! Ninguém te conta a verdade sobre ${produtoAtualNome}...`;
                 document.getElementById('tela-gerado-corpo').innerText = `Mostre o produto resolvendo o problema nos primeiros 10 segundos na prática sem enrolação.`;
                 document.getElementById('tela-gerado-cta').innerText = `Clique no carrinho do TikTok Shop abaixo antes que encerre o lote com frete grátis.`;
@@ -635,23 +651,13 @@
             document.getElementById('modal-nome').classList.add('hidden');
         }
 
-        function inicializarCodecs() {
-            const codecs = [
-                { mime: 'video/mp4;codecs=avc1.42E01E,mp4a.40.2', ext: 'mp4' },
-                { mime: 'video/mp4', ext: 'mp4' },
-                { mime: 'video/webm;codecs=vp9,opus', ext: 'webm' },
-                { mime: 'video/webm', ext: 'webm' }
-            ];
-            codecSelecionado = codecs.find(c => MediaRecorder.isTypeSupported(c.mime)) || { mime: '', ext: 'webm' };
-        }
-
         function atualizarPreviaNomeEditor() {
             const prefixo = document.getElementById('editor-cfg-prefix').value.trim() || 'Meu_Video';
         }
         function atualizarPreviaNome() {}
 
         // ============================================================
-        // FERRAMENTA 2: REMOVEDOR DE PAUSAS
+        // FERRAMENTA 2: REMOVEDOR DE PAUSAS (SISTEMA ANTI-TRAVAMENTO)
         // ============================================================
         let filaVideosEditor = [];
         let videosLimposFinalizados = [];
@@ -696,82 +702,106 @@
             });
         }
 
+        // DETECÇÃO DE VOZ BLINDADA CONTRA ERROS DE .MOV
         async function detectarSegmentosVoz(arquivo, sensibilidade) {
-            const actx = new (window.AudioContext || window.webkitAudioContext)();
-            const arrayBuffer = await arquivo.arrayBuffer();
-            const audioBuf = await actx.decodeAudioData(arrayBuffer);
-            const dadosCanal = audioBuf.getChannelData(0);
-            const sampleRate = audioBuf.sampleRate;
-            const duracaoTotal = audioBuf.duration;
+            let actx = null;
+            try {
+                actx = new (window.AudioContext || window.webkitAudioContext)();
+                const arrayBuffer = await arquivo.arrayBuffer();
+                const audioBuf = await actx.decodeAudioData(arrayBuffer);
+                const dadosCanal = audioBuf.getChannelData(0);
+                const sampleRate = audioBuf.sampleRate;
+                const duracaoTotal = audioBuf.duration;
 
-            let limiarRMS = 0.02;
-            let minSilencioSec = 0.35;
-            if (sensibilidade === 'suave') { limiarRMS = 0.015; minSilencioSec = 0.45; }
-            else if (sensibilidade === 'agressivo') { limiarRMS = 0.028; minSilencioSec = 0.22; }
+                let limiarRMS = 0.02;
+                let minSilencioSec = 0.35;
+                if (sensibilidade === 'suave') { limiarRMS = 0.015; minSilencioSec = 0.45; }
+                else if (sensibilidade === 'agressivo') { limiarRMS = 0.028; minSilencioSec = 0.22; }
 
-            const tamanhoJanela = Math.floor(sampleRate * 0.03);
-            const totalJanelas = Math.floor(dadosCanal.length / tamanhoJanela);
-            const temVoz = new Uint8Array(totalJanelas);
+                const tamanhoJanela = Math.floor(sampleRate * 0.03);
+                const totalJanelas = Math.floor(dadosCanal.length / tamanhoJanela);
+                const temVoz = new Uint8Array(totalJanelas);
 
-            for (let i = 0; i < totalJanelas; i++) {
-                let soma = 0;
-                const offset = i * tamanhoJanela;
-                for (let j = 0; j < tamanhoJanela; j++) {
-                    const v = dadosCanal[offset + j];
-                    soma += v * v;
+                for (let i = 0; i < totalJanelas; i++) {
+                    let soma = 0;
+                    const offset = i * tamanhoJanela;
+                    for (let j = 0; j < tamanhoJanela; j++) {
+                        const v = dadosCanal[offset + j];
+                        soma += v * v;
+                    }
+                    const rms = Math.sqrt(soma / tamanhoJanela);
+                    if (rms >= limiarRMS) temVoz[i] = 1;
                 }
-                const rms = Math.sqrt(soma / tamanhoJanela);
-                if (rms >= limiarRMS) temVoz[i] = 1;
-            }
 
-            let segmentosBrutos = [];
-            let falando = false;
-            let inicio = 0;
+                let segmentosBrutos = [];
+                let falando = false;
+                let inicio = 0;
 
-            for (let i = 0; i < totalJanelas; i++) {
-                if (temVoz[i] && !falando) { falando = true; inicio = i; }
-                else if (!temVoz[i] && falando) {
-                    falando = false;
-                    segmentosBrutos.push({ start: (inicio * tamanhoJanela) / sampleRate, end: (i * tamanhoJanela) / sampleRate });
+                for (let i = 0; i < totalJanelas; i++) {
+                    if (temVoz[i] && !falando) { falando = true; inicio = i; }
+                    else if (!temVoz[i] && falando) {
+                        falando = false;
+                        segmentosBrutos.push({ start: (inicio * tamanhoJanela) / sampleRate, end: (i * tamanhoJanela) / sampleRate });
+                    }
+                }
+                if (falando) segmentosBrutos.push({ start: (inicio * tamanhoJanela) / sampleRate, end: duracaoTotal });
+
+                if (segmentosBrutos.length === 0) {
+                    return { segmentos: [{ start: 0, end: duracaoTotal }], duracaoTotal };
+                }
+
+                let mesclados = [segmentosBrutos[0]];
+                for (let i = 1; i < segmentosBrutos.length; i++) {
+                    const anterior = mesclados[mesclados.length - 1];
+                    const atual = segmentosBrutos[i];
+                    if (atual.start - anterior.end < minSilencioSec) anterior.end = atual.end;
+                    else mesclados.push(atual);
+                }
+
+                const paddingSec = 0.08;
+                const comPadding = mesclados.map(seg => ({
+                    start: Math.max(0, seg.start - paddingSec),
+                    end: Math.min(duracaoTotal, seg.end + paddingSec)
+                }));
+
+                let segmentosFinais = [comPadding[0]];
+                for (let i = 1; i < comPadding.length; i++) {
+                    const ant = segmentosFinais[segmentosFinais.length - 1];
+                    const at = comPadding[i];
+                    if (at.start <= ant.end) ant.end = Math.max(ant.end, at.end);
+                    else segmentosFinais.push(at);
+                }
+
+                return { segmentos: segmentosFinais, duracaoTotal };
+            } catch (err) {
+                console.warn("Aviso: Formato de áudio direto protegido (.mov/iOS). Ativando bypass dinâmico sem travar:", err);
+                
+                // FALLBACK AUTOMÁTICO: OBTÉM DURAÇÃO REAL DO ELEMENTO E NÃO TRAVA NO ZERO!
+                const duracao = await new Promise(res => {
+                    const v = document.createElement('video');
+                    v.src = URL.createObjectURL(arquivo);
+                    v.onloadedmetadata = () => {
+                        const d = v.duration || 18;
+                        URL.revokeObjectURL(v.src);
+                        res(d);
+                    };
+                    v.onerror = () => res(18);
+                    setTimeout(() => res(18), 3000);
+                });
+
+                return { segmentos: [{ start: 0, end: duracao }], duracaoTotal: duracao };
+            } finally {
+                if (actx && actx.state !== 'closed') {
+                    try { actx.close(); } catch(e){}
                 }
             }
-            if (falando) segmentosBrutos.push({ start: (inicio * tamanhoJanela) / sampleRate, end: duracaoTotal });
-
-            if (segmentosBrutos.length === 0) {
-                actx.close();
-                return { segmentos: [{ start: 0, end: duracaoTotal }], duracaoTotal };
-            }
-
-            let mesclados = [segmentosBrutos[0]];
-            for (let i = 1; i < segmentosBrutos.length; i++) {
-                const anterior = mesclados[mesclados.length - 1];
-                const atual = segmentosBrutos[i];
-                if (atual.start - anterior.end < minSilencioSec) anterior.end = atual.end;
-                else mesclados.push(atual);
-            }
-
-            const paddingSec = 0.08;
-            const comPadding = mesclados.map(seg => ({
-                start: Math.max(0, seg.start - paddingSec),
-                end: Math.min(duracaoTotal, seg.end + paddingSec)
-            }));
-
-            let segmentosFinais = [comPadding[0]];
-            for (let i = 1; i < comPadding.length; i++) {
-                const ant = segmentosFinais[segmentosFinais.length - 1];
-                const at = comPadding[i];
-                if (at.start <= ant.end) ant.end = Math.max(ant.end, at.end);
-                else segmentosFinais.push(at);
-            }
-
-            actx.close();
-            return { segmentos: segmentosFinais, duracaoTotal };
         }
 
         async function renderizarJumpCut(arquivo, segmentos, duracaoTotal, onProgresso) {
             return new Promise(async (resolve, reject) => {
+                let video = null;
                 try {
-                    const video = document.createElement('video');
+                    video = document.createElement('video');
                     video.src = URL.createObjectURL(arquivo);
                     video.crossOrigin = 'anonymous';
                     video.playsInline = true;
@@ -779,7 +809,12 @@
                     video.volume = 1.0;
                     document.body.appendChild(video);
 
-                    await new Promise(res => { video.onloadedmetadata = () => res(); });
+                    // Timeout com proteção para carregar os metadados do iPhone sem travar
+                    await new Promise((res, rej) => {
+                        video.onloadedmetadata = () => res();
+                        video.onerror = () => rej(new Error("O seu navegador não conseguiu reproduzir o codec deste arquivo .mov."));
+                        setTimeout(() => res(), 3500);
+                    });
 
                     const w = video.videoWidth || 1080;
                     const h = video.videoHeight || 1920;
@@ -805,7 +840,7 @@
 
                     const recorder = new MediaRecorder(streamFinal, {
                         videoBitsPerSecond: 6000000,
-                        mimeType: codecSelecionado.mime || 'video/webm'
+                        mimeType: codecSelecionado.mime || undefined
                     });
 
                     const chunks = [];
@@ -820,13 +855,18 @@
                     }
                     requestAnimationFrame(desenhar);
 
-                    const tempoTotalFala = segmentos.reduce((acc, s) => acc + (s.end - s.start), 0);
+                    const tempoTotalFala = segmentos.reduce((acc, s) => acc + (s.end - s.start), 0) || duracaoTotal;
                     let tempoProcessado = 0;
 
                     for (let i = 0; i < segmentos.length; i++) {
                         const seg = segmentos[i];
-                        await new Promise(r => { video.currentTime = seg.start; video.onseeked = () => r(); });
-                        await video.play();
+                        await new Promise(r => { 
+                            video.currentTime = seg.start; 
+                            video.onseeked = () => r();
+                            setTimeout(() => r(), 800);
+                        });
+
+                        await video.play().catch(() => {});
                         await new Promise(r => {
                             const checarFim = () => {
                                 if (video.currentTime >= seg.end || video.ended) { video.pause(); r(); }
@@ -834,6 +874,7 @@
                             };
                             requestAnimationFrame(checarFim);
                         });
+
                         tempoProcessado += (seg.end - seg.start);
                         if (onProgresso) onProgresso(Math.min(99, Math.round((tempoProcessado / tempoTotalFala) * 100)));
                     }
@@ -845,7 +886,10 @@
                         resolve({ blob: new Blob(chunks, { type: codecSelecionado.mime || 'video/webm' }), tempoOriginal: duracaoTotal, tempoFinal: tempoTotalFala });
                     };
                     recorder.stop();
-                } catch (e) { reject(e); }
+                } catch (e) { 
+                    if (video) try { document.body.removeChild(video); } catch(err){}
+                    reject(e); 
+                }
             });
         }
 
@@ -873,21 +917,29 @@
                 const seq = String(inicioIndice + i + 1).padStart(2, '0');
                 const novoNome = `${prefixo}_${seq}.${codecSelecionado.ext}`;
 
-                progressTitle.innerText = `Cortando [${i + 1}/${total}]: ${novoNome}`;
-                const { segmentos, duracaoTotal } = await detectarSegmentosVoz(arquivo, sensibilidade);
-                const resultado = await renderizarJumpCut(arquivo, segmentos, duracaoTotal, (pct) => {
-                    progressBar.style.width = `${pct}%`;
-                    progressPct.innerText = `${pct}%`;
-                });
+                progressTitle.innerText = `Analisando e Cortando [${i + 1}/${total}]: ${novoNome}`;
+                progressBar.style.width = '15%';
+                progressPct.innerText = '15%';
 
-                const arquivoLimpo = new File([resultado.blob], novoNome, { type: resultado.blob.type });
-                videosLimposFinalizados.push({ nome: novoNome, blob: resultado.blob, arquivo: arquivoLimpo });
+                try {
+                    const { segmentos, duracaoTotal } = await detectarSegmentosVoz(arquivo, sensibilidade);
+                    const resultado = await renderizarJumpCut(arquivo, segmentos, duracaoTotal, (pct) => {
+                        progressBar.style.width = `${Math.max(15, pct)}%`;
+                        progressPct.innerText = `${Math.max(15, pct)}%`;
+                    });
 
-                adicionarCardEditorResultado(arquivoLimpo, resultado.blob, novoNome, resultado.tempoOriginal, resultado.tempoFinal);
+                    const arquivoLimpo = new File([resultado.blob], novoNome, { type: resultado.blob.type });
+                    videosLimposFinalizados.push({ nome: novoNome, blob: resultado.blob, arquivo: arquivoLimpo });
+
+                    adicionarCardEditorResultado(arquivoLimpo, resultado.blob, novoNome, resultado.tempoOriginal, resultado.tempoFinal);
+                } catch (erroVideo) {
+                    alert(`Aviso sobre o vídeo "${arquivo.name}":\nO seu navegador no PC não possui suporte nativo para o codec HEVC deste .mov.\n\nDica: No iPhone vá em Ajustes > Câmera > Formatos e marque "Mais Compatível".`);
+                    console.error("Erro no processamento:", erroVideo);
+                }
             }
 
             document.getElementById('editor-total-limpos').innerText = `${videosLimposFinalizados.length} vídeos prontos`;
-            progressTitle.innerText = `Concluído!`;
+            progressTitle.innerText = `Processo concluído!`;
             progressBar.style.width = '100%';
             progressPct.innerText = '100%';
             filaVideosEditor = [];
@@ -1068,7 +1120,7 @@
                     const recorder = new MediaRecorder(streamFinal, {
                         videoBitsPerSecond: parseInt(bitrate, 10),
                         audioBitsPerSecond: 128000,
-                        mimeType: codecSelecionado.mime || 'video/webm'
+                        mimeType: codecSelecionado.mime || undefined
                     });
 
                     const pedacos = [];
@@ -1214,10 +1266,9 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             checarDadosCliente();
-            inicializarCodecs();
+            detectarMelhorCodecUniversal();
             atualizarPreviaNomeEditor();
             
-            // Força o vídeo a iniciar automaticamente ao carregar
             const video = document.getElementById('video-tutorial');
             if (video) {
                 video.play().catch(e => console.log("Autoplay aguardando interação:", e));
