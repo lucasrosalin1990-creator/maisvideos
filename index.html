@@ -10,7 +10,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     
-    <!-- FONTE PLUS JAKARTA SANS -->
+    <!-- FONTE MODERNA PLUS JAKARTA SANS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -42,7 +42,7 @@
         }
 
         .saas-card {
-            background: rgba(13, 18, 32, 0.82);
+            background: rgba(13, 18, 32, 0.85);
             backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 42, 95, 0.22);
             box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.12), 0 8px 30px -10px rgba(0, 0, 0, 0.7);
@@ -158,73 +158,6 @@
         </div>
     </div>
 
-    <!-- POP-UP DO ROTEIRO (COPIAR OU SALVAR ONDE QUISER) -->
-    <div id="modal-roteiro-popup" class="fixed inset-0 z-[120] flex items-center justify-center bg-black/85 backdrop-blur-md px-4 hidden">
-        <div class="saas-card rounded-3xl p-6 max-w-xl w-full shadow-2xl relative max-h-[90vh] overflow-y-auto custom-scroll">
-            <div class="flex items-center justify-between pb-4 border-b border-slate-800">
-                <div>
-                    <span class="text-[10px] uppercase font-black bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 px-2.5 py-0.5 rounded-full">ROTEIRO VIRAL GERADO</span>
-                    <h3 id="modal-titulo-produto" class="text-base font-extrabold text-white mt-1.5">Produto TikTok Shop</h3>
-                </div>
-                <button onclick="fecharModalRoteiroPopup()" class="text-slate-400 hover:text-white p-1">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-                </button>
-            </div>
-
-            <div class="space-y-3.5 my-5 text-xs">
-                <!-- Gancho -->
-                <div class="bg-blue-950/40 border border-blue-500/50 rounded-2xl p-4">
-                    <div class="flex items-center justify-between mb-1.5">
-                        <span class="font-extrabold text-blue-400 flex items-center gap-1.5 text-xs">
-                            <span class="w-2 h-2 rounded-full bg-blue-400"></span> 1. GANCHO (Primeiros 3 segundos):
-                        </span>
-                        <span class="text-[10px] text-blue-300 font-mono">Prender Atenção</span>
-                    </div>
-                    <p id="modal-gerado-gancho" class="text-slate-100 font-semibold leading-relaxed text-xs">Carregando gancho...</p>
-                </div>
-
-                <!-- Corpo -->
-                <div class="bg-emerald-950/40 border border-emerald-500/50 rounded-2xl p-4">
-                    <div class="flex items-center justify-between mb-1.5">
-                        <span class="font-extrabold text-emerald-400 flex items-center gap-1.5 text-xs">
-                            <span class="w-2 h-2 rounded-full bg-emerald-400"></span> 2. CORPO (Demonstração e Benefício):
-                        </span>
-                        <span class="text-[10px] text-emerald-300 font-mono">Gerar Desejo</span>
-                    </div>
-                    <p id="modal-gerado-corpo" class="text-slate-200 font-normal leading-relaxed text-xs">Carregando corpo...</p>
-                </div>
-
-                <!-- CTA -->
-                <div class="bg-rose-950/40 border border-rose-500/50 rounded-2xl p-4">
-                    <div class="flex items-center justify-between mb-1.5">
-                        <span class="font-extrabold text-rose-400 flex items-center gap-1.5 text-xs">
-                            <span class="w-2 h-2 rounded-full bg-rose-400"></span> 3. CTA (Chamada de Ação Final):
-                        </span>
-                        <span class="text-[10px] text-rose-300 font-mono">Comprar na Sacola</span>
-                    </div>
-                    <p id="modal-gerado-cta" class="text-slate-100 font-semibold leading-relaxed text-xs">Carregando CTA...</p>
-                </div>
-            </div>
-
-            <!-- BOTÕES DO POPUP -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 border-t border-slate-800/80">
-                <button onclick="copiarRoteiroCompleto()" class="py-3 bg-slate-900 hover:bg-slate-800 text-white border border-slate-700 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5">
-                    <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184"/></svg>
-                    <span>Copiar Roteiro</span>
-                </button>
-
-                <button onclick="baixarRoteiroTxt()" class="py-3 bg-slate-900 hover:bg-slate-800 text-white border border-slate-700 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5">
-                    <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
-                    <span>Baixar em .TXT</span>
-                </button>
-
-                <button onclick="alternarVariacaoRoteiroPopup()" class="py-3 bg-[#FF2A5F]/20 hover:bg-[#FF2A5F] text-[#FF2A5F] hover:text-white border border-[#FF2A5F]/40 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5">
-                    <span>🔄 Outro Roteiro</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
     <!-- CONTAINER OCULTO DE PROCESSAMENTO -->
     <div id="render-sandbox" style="position:fixed; top:-9999px; left:-9999px; width:320px; height:240px; overflow:hidden; opacity:0; pointer-events:none;"></div>
 
@@ -232,7 +165,7 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full space-y-8 relative z-10">
         
         <!-- ============================================================ -->
-        <!-- 1. ONDE ENCONTRAR PRODUTOS CAMPEÕES (VÍDEO TUTORIAL + GERADOR) -->
+        <!-- 1. ONDE ENCONTRAR PRODUTOS CAMPEÕES (VÍDEO + GERADOR NA TELA)-->
         <!-- ============================================================ -->
         <section class="saas-card rounded-3xl p-6 sm:p-8 shadow-xl">
             <!-- TÍTULO GRANDE -->
@@ -246,7 +179,8 @@
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
                 <!-- VÍDEO TUTORIAL -->
                 <div class="lg:col-span-5 flex flex-col items-center">
                     <div class="border-2 border-slate-800 rounded-3xl bg-[#080B14] p-3 shadow-2xl w-full max-w-xs">
@@ -267,35 +201,88 @@
                     </div>
                 </div>
 
-                <!-- GERADOR DE ROTEIRO DIRETO -->
+                <!-- GERADOR DE ROTEIRO DIRETO NA TELA (SUBSTITUI A CAIXA ESTÁTICA) -->
                 <div class="lg:col-span-7 flex flex-col justify-center space-y-4">
                     <div>
                         <span class="text-xs font-black uppercase text-cyan-400 tracking-wider block mb-1">Passo 1</span>
                         <h2 class="text-lg sm:text-2xl font-black text-white">Gerador de Roteiro Viral para o Produto</h2>
                         <p class="text-xs text-slate-400 mt-1">
-                            Cole o link copiado no seu TikTok (ou digite o nome do produto) para gerar um roteiro de vendas pronto para gravação.
+                            Cole o link copiado no seu TikTok (ou digite o nome do produto) para gerar o roteiro de vendas pronto diretamente aqui na tela.
                         </p>
                     </div>
 
-                    <div class="space-y-3 pt-2">
+                    <div class="space-y-3 pt-1">
                         <div>
                             <label class="block text-xs font-bold text-slate-300 mb-1.5">Link do Produto ou Nome:</label>
-                            <input type="text" id="input-gerador-produto" value="Ventilador de Teto Portátil" placeholder="Cole o link do TikTok ou digite o nome do produto" class="w-full bg-[#080B14] border border-slate-700 focus:border-[#FF2A5F] rounded-2xl px-4 py-3.5 text-xs text-white focus:outline-none transition font-medium">
+                            <input type="text" id="input-gerador-produto" value="Ventilador de Teto Portátil" placeholder="Cole o link do TikTok ou digite o nome do produto" class="w-full bg-[#080B14] border border-slate-700 focus:border-[#FF2A5F] rounded-2xl px-4 py-3 text-xs text-white focus:outline-none transition font-medium">
                         </div>
 
-                        <button onclick="gerarEAbrirPopupRoteiro()" class="w-full py-4 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-extrabold text-sm rounded-2xl transition shadow-xl shadow-[#FF2A5F]/25 flex items-center justify-center gap-2 cursor-pointer">
-                            <span>✨ GERAR ROTEIRO COMPLETO (POP-UP)</span>
+                        <button onclick="gerarRoteiroNaTela()" class="w-full py-3.5 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-extrabold text-sm rounded-2xl transition shadow-xl shadow-[#FF2A5F]/25 flex items-center justify-center gap-2 cursor-pointer">
+                            <span>✨ GERAR ROTEIRO VIRAL NA TELA</span>
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
                         </button>
                     </div>
 
-                    <div class="p-4 rounded-2xl bg-[#080B14]/80 border border-slate-800 text-xs text-slate-400 space-y-1">
-                        <p class="flex items-center gap-2 text-slate-300 font-bold">
-                            <span class="text-emerald-400">✓</span> O que você recebe no pop-up:
-                        </p>
-                        <p>• <strong>Gancho forte:</strong> Primeiros 3 segundos para reter a audiência.</p>
-                        <p>• <strong>Corpo do vídeo:</strong> A demonstração exata para gerar desejo de compra.</p>
-                        <p>• <strong>Chamada de ação (CTA):</strong> Para comprar direto na sacola do TikTok.</p>
+                    <!-- CAIXAS DO ROTEIRO GERADO DIRETAMENTE NA TELA -->
+                    <div id="area-roteiro-gerado" class="space-y-3 pt-2">
+                        
+                        <div class="flex items-center justify-between pb-1">
+                            <span id="tela-titulo-produto" class="text-xs font-extrabold text-emerald-400 flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Roteiro: Ventilador de Teto Portátil
+                            </span>
+                            <span class="text-[10px] text-slate-500 font-mono">Pronto para Gravação</span>
+                        </div>
+
+                        <!-- 1. Gancho (Fundo Azul) -->
+                        <div class="bg-blue-950/40 border border-blue-500/50 rounded-2xl p-4">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="font-extrabold text-blue-300 flex items-center gap-1.5 text-xs">
+                                    <span class="w-2 h-2 rounded-full bg-blue-400"></span> 1. GANCHO (Primeiros 3 segundos):
+                                </span>
+                                <span class="text-[10px] text-blue-300/80 font-mono">Prender Atenção</span>
+                            </div>
+                            <p id="tela-gerado-gancho" class="text-blue-100 font-semibold leading-relaxed text-xs">Pare de jogar dinheiro fora! Ninguém te conta isso sobre Ventilador de Teto Portátil...</p>
+                        </div>
+
+                        <!-- 2. Corpo (Fundo Verde) -->
+                        <div class="bg-emerald-950/40 border border-emerald-500/50 rounded-2xl p-4">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="font-extrabold text-emerald-300 flex items-center gap-1.5 text-xs">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span> 2. CORPO (Demonstração e Benefício):
+                                </span>
+                                <span class="text-[10px] text-emerald-300/80 font-mono">Gerar Desejo</span>
+                            </div>
+                            <p id="tela-gerado-corpo" class="text-emerald-100 font-normal leading-relaxed text-xs">Mostre o produto funcionando nos primeiros 10 segundos provando o resultado prático sem esforço nenhum.</p>
+                        </div>
+
+                        <!-- 3. CTA (Fundo Vermelho) -->
+                        <div class="bg-rose-950/40 border border-rose-500/50 rounded-2xl p-4">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="font-extrabold text-rose-300 flex items-center gap-1.5 text-xs">
+                                    <span class="w-2 h-2 rounded-full bg-rose-400"></span> 3. CTA (Chamada de Ação Final):
+                                </span>
+                                <span class="text-[10px] text-rose-300/80 font-mono">Comprar na Sacola</span>
+                            </div>
+                            <p id="tela-gerado-cta" class="text-rose-100 font-semibold leading-relaxed text-xs">Clique na sacolinha abaixo antes que acabe o estoque com frete grátis.</p>
+                        </div>
+
+                        <!-- BOTÕES DE CONTROLE DO ROTEIRO DIRETO NA TELA -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1">
+                            <button onclick="copiarRoteiroTela()" class="py-2.5 bg-slate-900 hover:bg-slate-800 text-white border border-slate-700/80 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5">
+                                <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184"/></svg>
+                                <span>Copiar Roteiro</span>
+                            </button>
+
+                            <button onclick="baixarRoteiroTxtTela()" class="py-2.5 bg-slate-900 hover:bg-slate-800 text-white border border-slate-700/80 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5">
+                                <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+                                <span>Salvar .TXT</span>
+                            </button>
+
+                            <button onclick="alternarVariacaoNaTela()" class="py-2.5 bg-[#FF2A5F]/20 hover:bg-[#FF2A5F] text-[#FF2A5F] hover:text-white border border-[#FF2A5F]/40 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5">
+                                <span>🔄 Outra Variação</span>
+                            </button>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -314,7 +301,7 @@
                 <!-- CAMPO: NOME DO VÍDEO -->
                 <div class="flex items-center gap-2">
                     <label class="text-xs text-slate-400 font-bold">Nome do Vídeo:</label>
-                    <input type="text" id="editor-cfg-prefix" value="Meu_Video" oninput="atualizarPreviaNomeEditor()" class="bg-[#080B14] border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-[#FF2A5F] w-36 font-semibold">
+                    <input type="text" id="editor-cfg-prefix" value="Ventilador_Teto" oninput="atualizarPreviaNomeEditor()" class="bg-[#080B14] border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-[#FF2A5F] w-36 font-semibold">
                 </div>
             </div>
 
@@ -388,7 +375,7 @@
                 <!-- CAMPO: NOME DO VÍDEO -->
                 <div class="flex items-center gap-2">
                     <label class="text-xs text-slate-400 font-bold">Nome do Vídeo:</label>
-                    <input type="text" id="cfg-prefix" value="Meu_Video" oninput="atualizarPreviaNome()" class="bg-[#080B14] border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-[#FF2A5F] w-36 font-semibold">
+                    <input type="text" id="cfg-prefix" value="Ventilador_Teto" oninput="atualizarPreviaNome()" class="bg-[#080B14] border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-[#FF2A5F] w-36 font-semibold">
                 </div>
             </div>
 
@@ -507,12 +494,12 @@
         +VIDEOS • Multiplique seus vídeos e otimize seu tempo © 2026
     </footer>
 
-    <!-- SCRIPT COMPLETO E INTEGRADO -->
+    <!-- SCRIPT BLINDADO E 100% FUNCIONAL -->
     <script>
         let audioContextGlobal = null;
         let codecSelecionado = { mime: 'video/mp4', ext: 'mp4' };
 
-        // CARREGA VÍDEO LOCAL DE TESTE SE NECESSÁRIO
+        // CARREGA VÍDEO LOCAL SE TESTAR FORA DO GITHUB
         function carregarVideoLocal(file) {
             if (!file) return;
             const video = document.getElementById('video-tutorial');
@@ -520,7 +507,7 @@
             video.play();
         }
 
-        // MOTOR DO ROTEIRO
+        // MOTOR DO ROTEIRO GERADO DIRETAMENTE NA TELA
         let produtoAtualNome = "Ventilador de Teto Portátil";
         let indiceAnguloRoteiro = 0;
 
@@ -551,66 +538,75 @@
             }
         ];
 
-        function gerarEAbrirPopupRoteiro() {
-            const input = document.getElementById('input-gerador-produto').value.trim();
-            if (!input) {
+        function gerarRoteiroNaTela() {
+            const inputEl = document.getElementById('input-gerador-produto');
+            const val = inputEl ? inputEl.value.trim() : '';
+            if (!val) {
                 alert("Por favor, digite o nome ou cole o link do produto primeiro!");
                 return;
             }
 
-            let nomeLimpo = input;
-            try {
-                if (input.includes("http")) {
-                    const match = input.match(/q=([^&]+)/);
-                    if (match && match[1]) {
-                        nomeLimpo = decodeURIComponent(match[1].replace(/\+/g, " "));
-                    } else {
-                        nomeLimpo = "Produto TikTok Viral";
-                    }
+            let nomeLimpo = val;
+            if (val.includes("http")) {
+                try {
+                    const url = new URL(val.startsWith("http") ? val : "https://" + val);
+                    const q = url.searchParams.get("q");
+                    if (q) nomeLimpo = decodeURIComponent(q.replace(/\+/g, " "));
+                    else nomeLimpo = "Produto TikTok Viral";
+                } catch(e) {
+                    nomeLimpo = "Produto Viral";
                 }
-            } catch (e) {
-                nomeLimpo = "Produto Viral";
             }
 
             produtoAtualNome = nomeLimpo.slice(0, 35);
             indiceAnguloRoteiro = 0;
-            renderizarTextoPopup();
-
-            // Sincroniza o Nome do Vídeo nas duas ferramentas
-            const limpo = produtoAtualNome.split(" ").slice(0, 2).join("_").replace(/[^a-zA-Z0-9_]/g, "") || "Meu_Video";
-            document.getElementById('cfg-prefix').value = limpo;
-            document.getElementById('editor-cfg-prefix').value = limpo;
-            atualizarPreviaNomeEditor();
-
-            document.getElementById('modal-roteiro-popup').classList.remove('hidden');
+            renderizarRoteiroNaTela();
+            sincronizarNomeNasFerramentas();
         }
 
-        function alternarVariacaoRoteiroPopup() {
+        function alternarVariacaoNaTela() {
             indiceAnguloRoteiro = (indiceAnguloRoteiro + 1) % bancoAngulos.length;
-            renderizarTextoPopup();
+            renderizarRoteiroNaTela();
         }
 
-        function renderizarTextoPopup() {
+        function renderizarRoteiroNaTela() {
             const angulo = bancoAngulos[indiceAnguloRoteiro];
             const pNome = produtoAtualNome || "este produto";
-            document.getElementById('modal-titulo-produto').innerText = pNome;
-            document.getElementById('modal-gerado-gancho').innerText = angulo.gancho.replace("{P}", pNome);
-            document.getElementById('modal-gerado-corpo').innerText = angulo.corpo.replace("{P}", pNome);
-            document.getElementById('modal-gerado-cta').innerText = angulo.cta.replace("{P}", pNome);
+            
+            const elGancho = document.getElementById('tela-gerado-gancho');
+            const elCorpo = document.getElementById('tela-gerado-corpo');
+            const elCta = document.getElementById('tela-gerado-cta');
+            const elTitulo = document.getElementById('tela-titulo-produto');
+
+            if (elGancho) elGancho.innerText = angulo.gancho.replace("{P}", pNome);
+            if (elCorpo) elCorpo.innerText = angulo.corpo.replace("{P}", pNome);
+            if (elCta) elCta.innerText = angulo.cta.replace("{P}", pNome);
+            if (elTitulo) elTitulo.innerText = "Roteiro: " + pNome;
         }
 
-        function fecharModalRoteiroPopup() {
-            document.getElementById('modal-roteiro-popup').classList.add('hidden');
+        function sincronizarNomeNasFerramentas() {
+            const limpo = produtoAtualNome.split(" ").slice(0, 2).join("_").replace(/[^a-zA-Z0-9_]/g, "") || "Meu_Video";
+            const elPrefix = document.getElementById('cfg-prefix');
+            const elEditorPrefix = document.getElementById('editor-cfg-prefix');
+            if (elPrefix) elPrefix.value = limpo;
+            if (elEditorPrefix) elEditorPrefix.value = limpo;
+            atualizarPreviaNomeEditor();
         }
 
-        function copiarRoteiroCompleto() {
-            const texto = `ROTEIRO VIRAL - ${produtoAtualNome}\n\n1. GANCHO:\n${document.getElementById('modal-gerado-gancho').innerText}\n\n2. CORPO:\n${document.getElementById('modal-gerado-corpo').innerText}\n\n3. CTA:\n${document.getElementById('modal-gerado-cta').innerText}`;
+        function copiarRoteiroTela() {
+            const g = document.getElementById('tela-gerado-gancho').innerText;
+            const c = document.getElementById('tela-gerado-corpo').innerText;
+            const cta = document.getElementById('tela-gerado-cta').innerText;
+            const texto = `ROTEIRO VIRAL - ${produtoAtualNome}\n\n1. GANCHO (0-3s):\n${g}\n\n2. CORPO (Demonstração):\n${c}\n\n3. CTA (Final):\n${cta}`;
             navigator.clipboard.writeText(texto);
             alert("✅ Roteiro copiado com sucesso! Pode colar no seu WhatsApp ou Bloco de Notas.");
         }
 
-        function baixarRoteiroTxt() {
-            const texto = `ROTEIRO VIRAL - ${produtoAtualNome}\n\n1. GANCHO:\n${document.getElementById('modal-gerado-gancho').innerText}\n\n2. CORPO:\n${document.getElementById('modal-gerado-corpo').innerText}\n\n3. CTA:\n${document.getElementById('modal-gerado-cta').innerText}`;
+        function baixarRoteiroTxtTela() {
+            const g = document.getElementById('tela-gerado-gancho').innerText;
+            const c = document.getElementById('tela-gerado-corpo').innerText;
+            const cta = document.getElementById('tela-gerado-cta').innerText;
+            const texto = `ROTEIRO VIRAL - ${produtoAtualNome}\n\n1. GANCHO (0-3s):\n${g}\n\n2. CORPO (Demonstração):\n${c}\n\n3. CTA (Final):\n${cta}`;
             const blob = new Blob([texto], { type: "text/plain;charset=utf-8" });
             saveAs(blob, `Roteiro_${produtoAtualNome.replace(/\s+/g, '_')}.txt`);
         }
@@ -760,4 +756,468 @@
                 end: Math.min(duracaoTotal, seg.end + paddingSec)
             }));
 
-            let s
+            let segmentosFinais = [comPadding[0]];
+            for (let i = 1; i < comPadding.length; i++) {
+                const ant = segmentosFinais[segmentosFinais.length - 1];
+                const at = comPadding[i];
+                if (at.start <= ant.end) ant.end = Math.max(ant.end, at.end);
+                else segmentosFinais.push(at);
+            }
+
+            actx.close();
+            return { segmentos: segmentosFinais, duracaoTotal };
+        }
+
+        async function renderizarJumpCut(arquivo, segmentos, duracaoTotal, onProgresso) {
+            return new Promise(async (resolve, reject) => {
+                try {
+                    const video = document.createElement('video');
+                    video.src = URL.createObjectURL(arquivo);
+                    video.crossOrigin = 'anonymous';
+                    video.playsInline = true;
+                    video.muted = false;
+                    video.volume = 1.0;
+                    document.body.appendChild(video);
+
+                    await new Promise(res => { video.onloadedmetadata = () => res(); });
+
+                    const w = video.videoWidth || 1080;
+                    const h = video.videoHeight || 1920;
+                    const canvas = document.createElement('canvas');
+                    canvas.width = w; canvas.height = h;
+                    const ctx = canvas.getContext('2d', { alpha: false });
+
+                    if (!audioContextGlobal || audioContextGlobal.state === 'closed') {
+                        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                        audioContextGlobal = new AudioCtx();
+                    }
+                    if (audioContextGlobal.state === 'suspended') await audioContextGlobal.resume();
+
+                    const audioSource = audioContextGlobal.createMediaElementSource(video);
+                    const audioDestino = audioContextGlobal.createMediaStreamDestination();
+                    audioSource.connect(audioDestino);
+
+                    const streamCanvas = canvas.captureStream(30);
+                    const streamFinal = new MediaStream([
+                        ...streamCanvas.getVideoTracks(),
+                        ...audioDestino.stream.getAudioTracks()
+                    ]);
+
+                    const recorder = new MediaRecorder(streamFinal, {
+                        videoBitsPerSecond: 6000000,
+                        mimeType: codecSelecionado.mime || 'video/webm'
+                    });
+
+                    const chunks = [];
+                    recorder.ondataavailable = e => { if (e.data && e.data.size > 0) chunks.push(e.data); };
+                    recorder.start();
+
+                    let rodando = true;
+                    function desenhar() {
+                        if (!rodando) return;
+                        if (video.readyState >= 2) ctx.drawImage(video, 0, 0, w, h);
+                        requestAnimationFrame(desenhar);
+                    }
+                    requestAnimationFrame(desenhar);
+
+                    const tempoTotalFala = segmentos.reduce((acc, s) => acc + (s.end - s.start), 0);
+                    let tempoProcessado = 0;
+
+                    for (let i = 0; i < segmentos.length; i++) {
+                        const seg = segmentos[i];
+                        await new Promise(r => { video.currentTime = seg.start; video.onseeked = () => r(); });
+                        await video.play();
+                        await new Promise(r => {
+                            const checarFim = () => {
+                                if (video.currentTime >= seg.end || video.ended) { video.pause(); r(); }
+                                else requestAnimationFrame(checarFim);
+                            };
+                            requestAnimationFrame(checarFim);
+                        });
+                        tempoProcessado += (seg.end - seg.start);
+                        if (onProgresso) onProgresso(Math.min(99, Math.round((tempoProcessado / tempoTotalFala) * 100)));
+                    }
+
+                    rodando = false;
+                    recorder.onstop = () => {
+                        try { document.body.removeChild(video); } catch (e) {}
+                        URL.revokeObjectURL(video.src);
+                        resolve({ blob: new Blob(chunks, { type: codecSelecionado.mime || 'video/webm' }), tempoOriginal: duracaoTotal, tempoFinal: tempoTotalFala });
+                    };
+                    recorder.stop();
+                } catch (e) { reject(e); }
+            });
+        }
+
+        async function executarLimpezaSilencios() {
+            if (filaVideosEditor.length === 0) return;
+            const btn = document.getElementById('btn-processar-silencio');
+            const progressBox = document.getElementById('editor-progress-box');
+            const progressBar = document.getElementById('editor-progress-bar');
+            const progressPct = document.getElementById('editor-progress-pct');
+            const progressTitle = document.getElementById('editor-progress-title');
+            const resultsContainer = document.getElementById('editor-results-container');
+            const sensibilidade = document.getElementById('editor-cfg-sensibilidade').value;
+            const prefixo = document.getElementById('editor-cfg-prefix').value.trim() || 'Meu_Video';
+
+            btn.disabled = true;
+            btn.classList.add('opacity-50');
+            progressBox.classList.remove('hidden');
+            resultsContainer.classList.remove('hidden');
+
+            const total = filaVideosEditor.length;
+            const inicioIndice = videosLimposFinalizados.length;
+
+            for (let i = 0; i < total; i++) {
+                const arquivo = filaVideosEditor[i];
+                const seq = String(inicioIndice + i + 1).padStart(2, '0');
+                const novoNome = `${prefixo}_${seq}.${codecSelecionado.ext}`;
+
+                progressTitle.innerText = `Cortando [${i + 1}/${total}]: ${novoNome}`;
+                const { segmentos, duracaoTotal } = await detectarSegmentosVoz(arquivo, sensibilidade);
+                const resultado = await renderizarJumpCut(arquivo, segmentos, duracaoTotal, (pct) => {
+                    progressBar.style.width = `${pct}%`;
+                    progressPct.innerText = `${pct}%`;
+                });
+
+                const arquivoLimpo = new File([resultado.blob], novoNome, { type: resultado.blob.type });
+                videosLimposFinalizados.push({ nome: novoNome, blob: resultado.blob, arquivo: arquivoLimpo });
+
+                adicionarCardEditorResultado(arquivoLimpo, resultado.blob, novoNome, resultado.tempoOriginal, resultado.tempoFinal);
+            }
+
+            document.getElementById('editor-total-limpos').innerText = `${videosLimposFinalizados.length} vídeos prontos`;
+            progressTitle.innerText = `Concluído!`;
+            progressBar.style.width = '100%';
+            progressPct.innerText = '100%';
+            filaVideosEditor = [];
+            atualizarFilaVisualEditor();
+            btn.disabled = false;
+            btn.classList.remove('opacity-50');
+        }
+
+        function adicionarCardEditorResultado(arquivo, blob, nomeArquivo, tempoOri, tempoFin) {
+            const grid = document.getElementById('editor-results-grid');
+            const url = URL.createObjectURL(blob);
+            const economizado = Math.max(0, Math.round(((tempoOri - tempoFin) / tempoOri) * 100));
+
+            window._videosLimpos = window._videosLimpos || {};
+            const idTemp = 'limpo_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6);
+            window._videosLimpos[idTemp] = arquivo;
+
+            const card = document.createElement('div');
+            card.className = 'bg-[#080B14] border border-slate-800 hover:border-[#FF2A5F]/40 rounded-xl p-3 flex flex-col justify-between transition shadow-md';
+            card.innerHTML = `
+                <div>
+                    <video src="${url}" controls playsinline preload="metadata" class="w-full rounded-lg mb-2 max-h-28 bg-black object-contain"></video>
+                    <p class="text-xs font-bold text-white truncate mb-1" title="${nomeArquivo}">${nomeArquivo}</p>
+                    <div class="flex items-center justify-between text-[10px] mb-2 font-medium">
+                        <span class="text-emerald-400 font-bold">-${economizado}% de pausas</span>
+                        <span class="text-slate-400 font-mono">${(blob.size / (1024*1024)).toFixed(1)} MB</span>
+                    </div>
+                </div>
+                
+                <div class="space-y-1.5 pt-2 border-t border-slate-800/80">
+                    <a href="${url}" download="${nomeArquivo}" class="w-full py-1.5 bg-[#FF2A5F]/15 hover:bg-[#FF2A5F] text-[#FF2A5F] hover:text-white font-extrabold text-[11px] rounded-lg transition flex items-center justify-center gap-1.5 text-center">
+                        <span>Baixar Este Vídeo</span>
+                    </a>
+                    <div class="grid grid-cols-3 gap-1">
+                        <button onclick="injetarNaMatriz('${idTemp}', 'ganchos')" class="bg-blue-900/40 hover:bg-blue-800/60 text-blue-200 py-1 rounded text-[9px] font-bold border border-blue-500/30">+ Gancho</button>
+                        <button onclick="injetarNaMatriz('${idTemp}', 'corpos')" class="bg-emerald-900/40 hover:bg-emerald-800/60 text-emerald-200 py-1 rounded text-[9px] font-bold border border-emerald-500/30">+ Corpo</button>
+                        <button onclick="injetarNaMatriz('${idTemp}', 'ctas')" class="bg-rose-900/40 hover:bg-rose-800/60 text-rose-200 py-1 rounded text-[9px] font-bold border border-rose-500/30">+ CTA</button>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        }
+
+        async function baixarZipVideosLimpos() {
+            if (videosLimposFinalizados.length === 0) return;
+            const btn = document.getElementById('btn-zip-editor');
+            const txtOriginal = btn.innerHTML;
+            btn.innerHTML = `<span>Compactando...</span>`;
+            btn.disabled = true;
+
+            const zip = new JSZip();
+            videosLimposFinalizados.forEach(item => {
+                zip.file(item.nome, item.blob);
+            });
+
+            const blobZip = await zip.generateAsync({ type: 'blob' });
+            const prefixo = document.getElementById('editor-cfg-prefix').value.trim() || 'Meu_Video';
+            saveAs(blobZip, `${prefixo}_VideosLimpos.zip`);
+            btn.innerHTML = txtOriginal;
+            btn.disabled = false;
+        }
+
+        function injetarNaMatriz(idTemp, cat) {
+            const arq = window._videosLimpos[idTemp];
+            if (!arq) return;
+            midias[cat].push(arq);
+            atualizarListaVisual(cat);
+            calcularMatriz();
+        }
+
+        // ============================================================
+        // FERRAMENTA 3: MULTIPLICADOR EM MASSA COM EMBARALHAMENTO
+        // ============================================================
+        const midias = { ganchos: [], corpos: [], ctas: [] };
+        let criativosFinalizados = [];
+        let cancelamentoSolicitado = false;
+
+        function adicionarArquivos(cat) {
+            const input = document.getElementById(`input-${cat}`);
+            const novos = Array.from(input.files);
+            if (novos.length === 0) return;
+            midias[cat] = [...midias[cat], ...novos];
+            input.value = '';
+            atualizarListaVisual(cat);
+            calcularMatriz();
+        }
+
+        function removerArquivo(cat, index) {
+            midias[cat].splice(index, 1);
+            atualizarListaVisual(cat);
+            calcularMatriz();
+        }
+
+        function atualizarListaVisual(cat) {
+            const lista = document.getElementById(`list-${cat}`);
+            const badge = document.getElementById(`badge-${cat}`);
+            const itens = midias[cat];
+            badge.innerText = `${itens.length} vídeo${itens.length === 1 ? '' : 's'}`;
+            lista.innerHTML = '';
+
+            itens.forEach((arq, i) => {
+                const li = document.createElement('li');
+                li.className = 'flex items-center justify-between bg-[#080B14] border border-slate-800 px-2 py-1 rounded text-[11px] text-slate-300';
+                li.innerHTML = `
+                    <span class="truncate">${i + 1}. ${arq.name}</span>
+                    <button onclick="removerArquivo('${cat}', ${i})" class="text-slate-500 hover:text-rose-400">✕</button>
+                `;
+                lista.appendChild(li);
+            });
+        }
+
+        function calcularMatriz() {
+            const total = midias.ganchos.length * midias.corpos.length * midias.ctas.length;
+            document.getElementById('total-variacoes').innerText = total;
+            const btn = document.getElementById('btn-start');
+
+            if (midias.ganchos.length > 0 && midias.corpos.length > 0 && midias.ctas.length > 0) {
+                btn.disabled = false;
+                btn.className = "w-full sm:w-auto px-7 py-3.5 rounded-xl bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] text-white font-extrabold text-xs transition cursor-pointer shadow-md";
+            } else {
+                btn.disabled = true;
+                btn.className = "w-full sm:w-auto px-7 py-3.5 rounded-xl bg-slate-800 text-slate-500 font-extrabold text-xs transition cursor-not-allowed";
+            }
+        }
+
+        function abortarProcesso() {
+            cancelamentoSolicitado = true;
+            document.getElementById('progress-detail').innerText = 'Parando renderização...';
+        }
+
+        function preCarregarVideo(arquivo) {
+            return new Promise((resolve, reject) => {
+                const video = document.createElement('video');
+                video.src = URL.createObjectURL(arquivo);
+                video.crossOrigin = 'anonymous';
+                video.playsInline = true;
+                video.muted = false;
+                video.volume = 1.0;
+                video.preload = 'auto';
+                document.body.appendChild(video);
+                video.onloadeddata = () => resolve(video);
+                video.onerror = (e) => reject(e);
+            });
+        }
+
+        async function fundirSemFlashPreto(arquivos, proporcao, modoEnquadramento, bitrate, callbackPasso) {
+            return new Promise(async (resolve, reject) => {
+                try {
+                    const elementos = await Promise.all(arquivos.map(f => preCarregarVideo(f)));
+                    let w = 1080; let h = 1920;
+                    if (proporcao === '16:9') { w = 1920; h = 1080; }
+                    else if (proporcao === '1:1') { w = 1080; h = 1080; }
+
+                    const canvas = document.createElement('canvas');
+                    canvas.width = w; canvas.height = h;
+                    const ctx = canvas.getContext('2d', { alpha: false });
+
+                    if (!audioContextGlobal || audioContextGlobal.state === 'closed') {
+                        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                        audioContextGlobal = new AudioCtx();
+                    }
+                    if (audioContextGlobal.state === 'suspended') await audioContextGlobal.resume();
+
+                    const audioDestino = audioContextGlobal.createMediaStreamDestination();
+                    elementos.forEach(v => {
+                        try {
+                            const fonte = audioContextGlobal.createMediaElementSource(v);
+                            fonte.connect(audioDestino);
+                        } catch (e) {}
+                    });
+
+                    const streamCanvas = canvas.captureStream(30);
+                    const streamFinal = new MediaStream([
+                        ...streamCanvas.getVideoTracks(),
+                        ...audioDestino.stream.getAudioTracks()
+                    ]);
+
+                    const recorder = new MediaRecorder(streamFinal, {
+                        videoBitsPerSecond: parseInt(bitrate, 10),
+                        audioBitsPerSecond: 128000,
+                        mimeType: codecSelecionado.mime || 'video/webm'
+                    });
+
+                    const pedacos = [];
+                    recorder.ondataavailable = e => { if (e.data && e.data.size > 0) pedacos.push(e.data); };
+                    recorder.start();
+
+                    let indiceAtivo = 0;
+                    let renderizando = true;
+
+                    function loopDesenho() {
+                        if (!renderizando) return;
+                        const v = elementos[indiceAtivo];
+                        if (v && v.videoWidth > 0 && v.readyState >= 2) {
+                            const vw = v.videoWidth; const vh = v.videoHeight;
+                            const escala = Math.max(canvas.width / vw, canvas.height / vh);
+                            const dw = Math.round(vw * escala); const dh = Math.round(vh * escala);
+                            const dx = Math.round((canvas.width - dw) / 2); const dy = Math.round((canvas.height - dh) / 2);
+                            ctx.drawImage(v, 0, 0, vw, vh, dx, dy, dw, dh);
+                        }
+                        requestAnimationFrame(loopDesenho);
+                    }
+                    requestAnimationFrame(loopDesenho);
+
+                    for (let i = 0; i < elementos.length; i++) {
+                        if (cancelamentoSolicitado) break;
+                        indiceAtivo = i;
+                        callbackPasso(i + 1, elementos.length);
+                        const video = elementos[i];
+                        await new Promise((res) => {
+                            video.currentTime = 0;
+                            const terminar = () => { video.onended = null; video.onerror = null; res(); };
+                            video.onended = terminar; video.onerror = terminar;
+                            video.play().catch(() => terminar());
+                        });
+                    }
+
+                    renderizando = false;
+                    recorder.onstop = () => {
+                        elementos.forEach(v => {
+                            try { v.pause(); } catch(e){}
+                            try { document.body.removeChild(v); } catch(e){}
+                            URL.revokeObjectURL(v.src);
+                        });
+                        resolve(new Blob(pedacos, { type: codecSelecionado.mime || 'video/webm' }));
+                    };
+                    recorder.stop();
+                } catch (erro) { reject(erro); }
+            });
+        }
+
+        async function iniciarMultiplicacao() {
+            const { ganchos, corpos, ctas } = midias;
+            const total = ganchos.length * corpos.length * ctas.length;
+            if (total === 0) return;
+
+            cancelamentoSolicitado = false;
+            criativosFinalizados = [];
+
+            const btnStart = document.getElementById('btn-start');
+            const btnCancel = document.getElementById('btn-cancel');
+            const progressCard = document.getElementById('progress-card');
+            const progressBar = document.getElementById('progress-bar');
+            const progressPct = document.getElementById('progress-pct');
+            const progressDetail = document.getElementById('progress-detail');
+            const resultsSection = document.getElementById('results-section');
+            const videosGrid = document.getElementById('videos-grid');
+
+            videosGrid.innerHTML = '';
+            resultsSection.classList.add('hidden');
+            progressCard.classList.remove('hidden');
+            btnStart.disabled = true;
+            btnCancel.classList.remove('hidden');
+
+            const ratio = document.getElementById('cfg-ratio').value;
+            const prefixo = document.getElementById('cfg-prefix').value.trim() || 'Meu_Video';
+
+            // Embaralhamento Inteligente (Fisher-Yates)
+            const listaCombinacoes = [];
+            for (let g = 0; g < ganchos.length; g++) {
+                for (let c = 0; c < corpos.length; c++) {
+                    for (let t = 0; t < ctas.length; t++) {
+                        listaCombinacoes.push({ gancho: ganchos[g], corpo: corpos[c], cta: ctas[t] });
+                    }
+                }
+            }
+
+            for (let i = listaCombinacoes.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [listaCombinacoes[i], listaCombinacoes[j]] = [listaCombinacoes[j], listaCombinacoes[i]];
+            }
+
+            for (let i = 0; i < listaCombinacoes.length; i++) {
+                if (cancelamentoSolicitado) break;
+                const item = listaCombinacoes[i];
+                const contador = i + 1;
+                const nomeArquivo = `${prefixo}_${String(contador).padStart(2, '0')}.${codecSelecionado.ext}`;
+
+                progressDetail.innerText = `Gerando aleatório [${contador}/${total}]: ${nomeArquivo}`;
+
+                const blob = await fundirSemFlashPreto([item.gancho, item.corpo, item.cta], ratio, 'cover', 5000000, () => {});
+                criativosFinalizados.push({ name: nomeArquivo, blob });
+                adicionarCardResultado(nomeArquivo, blob);
+                resultsSection.classList.remove('hidden');
+
+                const pct = Math.round((contador / total) * 100);
+                progressBar.style.width = pct + '%';
+                progressPct.innerText = pct + '%';
+            }
+
+            btnCancel.classList.add('hidden');
+            btnStart.disabled = false;
+            progressDetail.innerText = `Concluído! ${criativosFinalizados.length} vídeos gerados e embaralhados.`;
+        }
+
+        function adicionarCardResultado(nomeArquivo, blob) {
+            const grid = document.getElementById('videos-grid');
+            const url = URL.createObjectURL(blob);
+            const card = document.createElement('div');
+            card.className = 'bg-[#080B14] border border-slate-800 rounded-xl p-2.5 flex flex-col justify-between';
+            card.innerHTML = `
+                <video src="${url}" controls playsinline preload="metadata" class="w-full rounded-lg mb-2 aspect-[9/16] bg-black object-contain max-h-40"></video>
+                <a href="${url}" download="${nomeArquivo}" class="w-full text-center py-2 bg-[#FF2A5F]/20 text-[#FF2A5F] hover:bg-[#FF2A5F] hover:text-white font-bold text-xs rounded-lg transition">
+                    Baixar Vídeo
+                </a>
+            `;
+            grid.appendChild(card);
+        }
+
+        async function baixarZipCompleto() {
+            if (criativosFinalizados.length === 0) return;
+            const btn = document.getElementById('btn-zip');
+            btn.innerText = 'Compactando...';
+            btn.disabled = true;
+
+            const zip = new JSZip();
+            criativosFinalizados.forEach(item => { zip.file(item.name, item.blob); });
+            const conteudo = await zip.generateAsync({ type: 'blob' });
+            saveAs(conteudo, 'Criativos_MaisVideos.zip');
+
+            btn.innerText = 'Baixar Todos (.ZIP)';
+            btn.disabled = false;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            checarDadosCliente();
+            inicializarCodecs();
+            atualizarPreviaNomeEditor();
+            renderizarRoteiroNaTela();
+        });
+    </script>
+</body>
+</html>
