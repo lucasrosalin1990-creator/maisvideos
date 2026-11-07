@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>+VIDEOS | Multiplique seus Vídeos e Otimize seu Tempo</title>
+    <title>+VIDEOS | Radar TikTok Shop Ads & Multiplicador Pro</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Bibliotecas ZIP -->
@@ -65,12 +65,10 @@
             z-index: 0;
         }
 
-        /* ============================================================ */
-        /* EFEITO DE BORDA ESTILO GERAVIRAL (REFLEXO + FEIXE DE LUZ)   */
-        /* ============================================================ */
+        /* BORDAS ESTILO GERAVIRAL */
         .geraviral-border {
             position: relative;
-            background: rgba(13, 18, 32, 0.75);
+            background: rgba(13, 18, 32, 0.78);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 42, 95, 0.22);
@@ -86,16 +84,14 @@
                         0 0 30px -4px rgba(255, 42, 95, 0.25);
         }
 
-        /* FAIXA FIXA SUPERIOR COM BORDA GERAVIRAL */
         .top-ticker-glow {
             border-bottom: 1px solid rgba(255, 42, 95, 0.3);
-            background: rgba(6, 8, 16, 0.88);
+            background: rgba(6, 8, 16, 0.90);
             backdrop-filter: blur(18px);
             -webkit-backdrop-filter: blur(18px);
             box-shadow: 0 4px 25px -4px rgba(255, 42, 95, 0.22);
         }
 
-        /* CARDS DOS PRODUTOS COM BORDA GERAVIRAL */
         .geraviral-card {
             background: rgba(8, 11, 20, 0.85);
             backdrop-filter: blur(10px);
@@ -109,7 +105,6 @@
             transform: translateY(-2px);
         }
 
-        /* ANIMAÇÃO DO BANNER INFINITO NO TOPO */
         @keyframes ticker-scroll {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
@@ -136,13 +131,10 @@
     <div class="ambient-glow-right"></div>
     <div class="ambient-glow-left"></div>
 
-    <!-- ============================================================ -->
-    <!-- FAIXA FIXA SUPERIOR COM BORDA ESTILO GERAVIRAL              -->
-    <!-- ============================================================ -->
+    <!-- FAIXA FIXA DE GANHOS DO TIKTOK SHOP -->
     <div class="top-ticker-glow overflow-hidden py-2 relative z-50">
         <div class="animate-ticker flex items-center gap-4">
             
-            <!-- CARD 1 -->
             <div class="flex-shrink-0 flex items-center gap-3 bg-[#0D1220]/90 border border-slate-800/80 px-3 py-1.5 rounded-xl text-xs shadow-md">
                 <span class="text-[10px] bg-white text-black font-extrabold px-2 py-0.5 rounded-md">Hoje</span>
                 <div class="text-[11px] leading-tight">
@@ -159,7 +151,6 @@
                 </div>
             </div>
 
-            <!-- CARD 2 -->
             <div class="flex-shrink-0 flex items-center gap-3 bg-[#0D1220]/90 border border-slate-800/80 px-3 py-1.5 rounded-xl text-xs shadow-md">
                 <span class="text-[10px] bg-[#FF2A5F]/20 text-[#FF2A5F] border border-[#FF2A5F]/30 font-extrabold px-2 py-0.5 rounded-md">Últimos 7 dias</span>
                 <div class="text-[11px] leading-tight">
@@ -176,7 +167,6 @@
                 </div>
             </div>
 
-            <!-- CARD 3 -->
             <div class="flex-shrink-0 flex items-center gap-3 bg-[#0D1220]/90 border border-slate-800/80 px-3 py-1.5 rounded-xl text-xs shadow-md">
                 <span class="text-[10px] bg-white text-black font-extrabold px-2 py-0.5 rounded-md">Hoje</span>
                 <div class="text-[11px] leading-tight">
@@ -193,7 +183,6 @@
                 </div>
             </div>
 
-            <!-- CARD 4 -->
             <div class="flex-shrink-0 flex items-center gap-3 bg-[#0D1220]/90 border border-slate-800/80 px-3 py-1.5 rounded-xl text-xs shadow-md">
                 <span class="text-[10px] bg-[#FF2A5F]/20 text-[#FF2A5F] border border-[#FF2A5F]/30 font-extrabold px-2 py-0.5 rounded-md">Últimos 7 dias</span>
                 <div class="text-[11px] leading-tight">
@@ -210,24 +199,7 @@
                 </div>
             </div>
 
-            <!-- CARD 5 -->
-            <div class="flex-shrink-0 flex items-center gap-3 bg-[#0D1220]/90 border border-slate-800/80 px-3 py-1.5 rounded-xl text-xs shadow-md">
-                <span class="text-[10px] bg-white text-black font-extrabold px-2 py-0.5 rounded-md">Hoje</span>
-                <div class="text-[11px] leading-tight">
-                    <span class="text-slate-400 block text-[9px] uppercase font-semibold">GMV atribuído</span>
-                    <span class="font-extrabold text-white font-mono">R$ 38,9 mil</span>
-                </div>
-                <div class="text-[11px] leading-tight border-l border-slate-800 pl-2.5">
-                    <span class="text-slate-400 block text-[9px] uppercase font-semibold">Itens</span>
-                    <span class="font-extrabold text-white font-mono">112</span>
-                </div>
-                <div class="text-[11px] leading-tight border-l border-slate-800 pl-2.5">
-                    <span class="text-slate-400 block text-[9px] uppercase font-semibold">Comissão estimada</span>
-                    <span class="font-extrabold text-emerald-400 font-mono">+R$ 4.790,00</span>
-                </div>
-            </div>
-
-            <!-- DUPLICAÇÃO PARA O LOOP INFINITO PERFEITO -->
+            <!-- Loop -->
             <div class="flex-shrink-0 flex items-center gap-3 bg-[#0D1220]/90 border border-slate-800/80 px-3 py-1.5 rounded-xl text-xs shadow-md">
                 <span class="text-[10px] bg-white text-black font-extrabold px-2 py-0.5 rounded-md">Hoje</span>
                 <div class="text-[11px] leading-tight">
@@ -291,7 +263,8 @@
             <div class="flex items-center justify-between pb-4 border-b border-slate-800">
                 <div class="flex items-center gap-3">
                     <span id="roteiro-tag-categoria" class="text-[10px] uppercase font-black bg-[#FF2A5F]/15 text-[#FF2A5F] border border-[#FF2A5F]/30 px-2.5 py-0.5 rounded-full">CATEGORIA</span>
-                    <h3 id="roteiro-prod-nome" class="text-sm sm:text-base font-extrabold text-white truncate max-w-[280px]">Nome do Produto</h3>
+                    <span id="roteiro-tag-ads" class="text-[10px] uppercase font-black bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-full">⚡ ADS ATIVO</span>
+                    <h3 id="roteiro-prod-nome" class="text-sm sm:text-base font-extrabold text-white truncate max-w-[240px]">Nome do Produto</h3>
                 </div>
                 <button onclick="fecharModalRoteiro()" class="text-slate-400 hover:text-white p-1">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
@@ -299,18 +272,16 @@
             </div>
 
             <div class="space-y-4 my-5 text-xs">
-                <!-- 1. GANCHO -->
                 <div class="bg-[#080B14]/80 border border-[#FF2A5F]/30 rounded-2xl p-4">
                     <div class="flex items-center justify-between mb-1.5">
                         <span class="font-extrabold text-[#FF2A5F] flex items-center gap-1.5 text-xs">
                             <span class="w-2 h-2 rounded-full bg-[#FF2A5F]"></span> 1. GANCHO (0 a 3s)
                         </span>
-                        <span class="text-[10px] text-slate-500 font-mono">Retenção de Atenção</span>
+                        <span class="text-[10px] text-slate-500 font-mono">Atenção Máxima</span>
                     </div>
                     <p id="roteiro-gancho-texto" class="text-slate-100 leading-relaxed font-semibold">Texto do gancho...</p>
                 </div>
 
-                <!-- 2. CORPO -->
                 <div class="bg-[#080B14]/80 border border-slate-800 rounded-2xl p-4">
                     <div class="flex items-center justify-between mb-1.5">
                         <span class="font-extrabold text-cyan-400 flex items-center gap-1.5 text-xs">
@@ -321,7 +292,6 @@
                     <p id="roteiro-corpo-texto" class="text-slate-300 leading-relaxed font-normal">Texto do corpo...</p>
                 </div>
 
-                <!-- 3. CTA -->
                 <div class="bg-[#080B14]/80 border border-emerald-500/30 rounded-2xl p-4">
                     <div class="flex items-center justify-between mb-1.5">
                         <span class="font-extrabold text-emerald-400 flex items-center gap-1.5 text-xs">
@@ -333,10 +303,16 @@
                 </div>
             </div>
 
-            <button id="btn-aplicar-roteiro" class="w-full py-3 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-extrabold text-xs rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-[#FF2A5F]/20">
-                <span>Usar este Produto no Multiplicador</span>
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
-            </button>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <a id="btn-roteiro-link-tiktok" href="#" target="_blank" class="py-3 bg-slate-900 hover:bg-slate-800 text-white border border-slate-700 font-extrabold text-xs rounded-xl transition flex items-center justify-center gap-2">
+                    <span>🛒 Abrir no TikTok Shop</span>
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg>
+                </a>
+                <button id="btn-aplicar-roteiro" class="py-3 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-extrabold text-xs rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-[#FF2A5F]/20">
+                    <span>Usar no Multiplicador</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -367,7 +343,7 @@
     <!-- ÁREA PRINCIPAL -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full space-y-6 relative z-10">
         
-        <!-- PROVA SOCIAL + HERO COMPACTO (REDUZIDO EM 50%) -->
+        <!-- PROVA SOCIAL + HERO COMPACTO -->
         <div class="text-center sm:text-left pt-1 max-w-3xl">
             <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-slate-900/80 border border-slate-800 text-[11px] mb-3">
                 <div class="flex items-center -space-x-1.5">
@@ -379,42 +355,45 @@
                 <span class="text-slate-300 text-[11px] font-semibold"><strong class="text-white">176+</strong> criadores no radar</span>
             </div>
 
-            <!-- TÍTULO PRINCIPAL: REDUZIDO EM 50% -->
             <h1 class="text-lg sm:text-2xl lg:text-3xl font-black text-white tracking-tight leading-snug">
-                Descubra o que está vendendo <span class="text-[#FF2A5F]">agora</span> e transforme em <span class="text-[#FF2A5F]">dezenas de vídeos</span> prontos pra postar.
+                Descubra os produtos com <span class="text-[#FF2A5F]">ADS ativos</span> e gere <span class="text-[#FF2A5F]">dezenas de vídeos</span> prontos pra postar.
             </h1>
 
             <p class="text-xs sm:text-sm text-slate-400 mt-2 leading-relaxed max-w-xl font-normal">
-                Pare de adivinhar. Selecione um produto vencedor, limpe as pausas e multiplique seus criativos em lote com 1 clique.
+                Monitore produtos impulsionados no TikTok Shop com link direto para o carrinho, limpe pausas e multiplique criativos em escala.
             </p>
         </div>
 
         <!-- ============================================================ -->
-        <!-- 1. RADAR TIKTOK SHOP (50 PRODUTOS COM BORDA GERAVIRAL)       -->
+        <!-- 1. RADAR TIKTOK SHOP ADS (20 PRODUTOS POR SESSÃO + LINK TIKTOK) -->
         <!-- ============================================================ -->
         <section class="geraviral-border rounded-3xl p-5 shadow-xl">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
                 <div class="flex items-center gap-2">
-                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <h2 class="text-sm sm:text-base font-black text-white">Top 50 Produtos TikTok Shop</h2>
+                    <span class="w-2.5 h-2.5 rounded-full bg-[#FF2A5F] animate-pulse"></span>
+                    <h2 class="text-sm sm:text-base font-black text-white flex items-center gap-2">
+                        <span>Radar TikTok Shop</span>
+                        <span class="text-[10px] bg-[#FF2A5F]/20 text-[#FF2A5F] border border-[#FF2A5F]/40 px-2 py-0.5 rounded-full uppercase font-black tracking-wider">⚡ 20 Produtos por Categoria</span>
+                    </h2>
                 </div>
 
                 <!-- ABAS DE CATEGORIAS -->
                 <div class="flex items-center gap-1.5 overflow-x-auto custom-scroll pb-1">
-                    <button onclick="filtrarCategoria('fitness')" id="tab-fitness" class="categoria-tab px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap bg-[#FF2A5F] text-white">Fitness</button>
-                    <button onclick="filtrarCategoria('eletronicos')" id="tab-eletronicos" class="categoria-tab px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap text-slate-400 hover:text-white bg-slate-900/80">Eletrônicos</button>
-                    <button onclick="filtrarCategoria('achadinhos')" id="tab-achadinhos" class="categoria-tab px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap text-slate-400 hover:text-white bg-slate-900/80">Achadinhos</button>
-                    <button onclick="filtrarCategoria('moveis')" id="tab-moveis" class="categoria-tab px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap text-slate-400 hover:text-white bg-slate-900/80">Casa & Móveis</button>
-                    <button onclick="filtrarCategoria('beleza')" id="tab-beleza" class="categoria-tab px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap text-slate-400 hover:text-white bg-slate-900/80">Beleza</button>
+                    <button onclick="filtrarCategoria('fitness')" id="tab-fitness" class="categoria-tab px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap bg-[#FF2A5F] text-white">Fitness & Treino</button>
+                    <button onclick="filtrarCategoria('eletronicos')" id="tab-eletronicos" class="categoria-tab px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap text-slate-400 hover:text-white bg-slate-900/80">Eletrônicos & Smart</button>
+                    <button onclick="filtrarCategoria('achadinhos')" id="tab-achadinhos" class="categoria-tab px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap text-slate-400 hover:text-white bg-slate-900/80">Achadinhos Virais</button>
+                    <button onclick="filtrarCategoria('moveis')" id="tab-moveis" class="categoria-tab px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap text-slate-400 hover:text-white bg-slate-900/80">Casa & Decoração</button>
+                    <button onclick="filtrarCategoria('beleza')" id="tab-beleza" class="categoria-tab px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap text-slate-400 hover:text-white bg-slate-900/80">Beleza & Skincare</button>
+                    <button onclick="filtrarCategoria('cozinha')" id="tab-cozinha" class="categoria-tab px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap text-slate-400 hover:text-white bg-slate-900/80">Cozinha & Utilidades</button>
                 </div>
             </div>
 
-            <!-- CARROSSEL HORIZONTAL INTERATIVO COM CARDS GERAVIRAL -->
+            <!-- CARROSSEL COM OS CARDS + TAG ADS + BOTÃO TIKTOK -->
             <div id="radar-carrossel" class="flex gap-3 overflow-x-auto custom-scroll pb-3 pt-1"></div>
         </section>
 
         <!-- ============================================================ -->
-        <!-- 2. REMOVEDOR DE PAUSAS COM BORDA GERAVIRAL & SEQUÊNCIA DE NOMES -->
+        <!-- 2. REMOVEDOR DE PAUSAS COM SEQUÊNCIA DE NOMES & .ZIP         -->
         <!-- ============================================================ -->
         <section class="geraviral-border rounded-3xl p-5 sm:p-6 shadow-xl">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
@@ -423,7 +402,6 @@
                     <span class="text-xs text-slate-400 font-medium">Corte automático de silêncios</span>
                 </div>
                 
-                <!-- SEQUÊNCIA DE NOMES IGUAL AO MULTIPLICADOR -->
                 <div class="flex items-center gap-2 self-start sm:self-auto">
                     <label class="text-[11px] text-slate-400 font-medium">Prefixo da Sequência:</label>
                     <input type="text" id="editor-cfg-prefix" value="Gancho" oninput="atualizarPreviaNomeEditor()" class="bg-[#080B14]/80 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-white focus:outline-none focus:border-[#FF2A5F] w-28 font-medium">
@@ -469,7 +447,6 @@
                 </div>
             </div>
 
-            <!-- RESULTADOS DO REMOVEDOR COM DOWNLOAD 1 POR 1 E DOWNLOAD TODOS .ZIP -->
             <div id="editor-results-container" class="mt-5 pt-4 border-t border-slate-800/80 hidden">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
                     <div class="flex items-center gap-2">
@@ -478,7 +455,6 @@
                         <span id="editor-total-limpos" class="text-[10px] bg-slate-800 text-slate-300 font-mono px-2 py-0.5 rounded-full">0 vídeos</span>
                     </div>
 
-                    <!-- BOTÃO DE BAIXAR TODOS EM .ZIP -->
                     <button id="btn-zip-editor" onclick="baixarZipVideosLimpos()" class="px-3.5 py-1.5 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-extrabold text-[11px] rounded-xl shadow-md flex items-center justify-center gap-1.5 transition">
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                         <span>Baixar Todos (.ZIP)</span>
@@ -501,7 +477,6 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                <!-- Ganchos -->
                 <div class="bg-[#080B14]/80 border border-slate-800 rounded-2xl p-4">
                     <div class="flex items-center justify-between mb-2">
                         <span class="text-xs font-bold text-white">1. Ganchos</span>
@@ -514,7 +489,6 @@
                     <ul id="list-ganchos" class="space-y-1 max-h-28 overflow-y-auto custom-scroll pr-1 empty:hidden text-xs font-medium"></ul>
                 </div>
 
-                <!-- Corpos -->
                 <div class="bg-[#080B14]/80 border border-slate-800 rounded-2xl p-4">
                     <div class="flex items-center justify-between mb-2">
                         <span class="text-xs font-bold text-white">2. Corpos</span>
@@ -527,7 +501,6 @@
                     <ul id="list-corpos" class="space-y-1 max-h-28 overflow-y-auto custom-scroll pr-1 empty:hidden text-xs font-medium"></ul>
                 </div>
 
-                <!-- CTAs -->
                 <div class="bg-[#080B14]/80 border border-slate-800 rounded-2xl p-4">
                     <div class="flex items-center justify-between mb-2">
                         <span class="text-xs font-bold text-white">3. CTAs</span>
@@ -593,73 +566,75 @@
     </main>
 
     <footer class="border-t border-slate-900/80 bg-[#07090F]/90 py-4 text-center text-xs text-slate-500 relative z-10 font-medium">
-        +VIDEOS • Multiplique seus vídeos e otimize seu tempo © 2026
+        +VIDEOS • Radar TikTok Shop Ads & Multiplicador Pro © 2026
     </footer>
 
-    <!-- MOTOR JAVASCRIPT INTEGRADO -->
+    <!-- MOTOR JAVASCRIPT: 20 PRODUTOS POR CATEGORIA COM LINK TIKTOK E ADS -->
     <script>
+        // GERADOR DE 20 PRODUTOS COMPLETOS POR CATEGORIA COM LINKS E TAG ADS
         const bancoProdutos = {
             fitness: [
-                { id: "f1", nome: "Mini Liquidificador Portátil USB", preco: "R$ 69,90", vendas: "14.2k", crescimento: "+320%", img: "https://images.unsplash.com/photo-1570222094114-d054a817e56b?w=300&auto=format&fit=crop&q=60", gancho: "Tomar whey empelotado na academia nunca mais!", corpo: "Mostre o copo portátil batendo a proteína com água em 15 segundos direto no vestiário.", cta: "Garanta o seu com frete grátis antes que acabe o lote no link da bio." },
-                { id: "f2", nome: "Garrafa Térmica Digital LED", preco: "R$ 49,90", vendas: "11.8k", crescimento: "+210%", img: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=300&auto=format&fit=crop&q=60", gancho: "Essa garrafa mostra a temperatura exata da sua água com 1 toque.", corpo: "Toque na tampa para acender o display e mostre que ela segura gelo por 24 horas.", cta: "Aproveite a promoção de 50% de desconto hoje no botão abaixo." },
-                { id: "f3", nome: "Kit 5 Elásticos Extensores", preco: "R$ 39,90", vendas: "9.4k", crescimento: "+180%", img: "https://images.unsplash.com/photo-1598289431512-b97b0917affc?w=300&auto=format&fit=crop&q=60", gancho: "Cancelei minha academia e passei a treinar em casa com isso aqui.", corpo: "Demonstre 3 exercícios rápidos (braço, perna e glúteo) usando os elásticos presos na porta.", cta: "Monte seu treino em casa hoje mesmo clicando no link abaixo." },
-                { id: "f4", nome: "Shaker Mixer Magnético", preco: "R$ 54,90", vendas: "8.1k", crescimento: "+145%", img: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=300&auto=format&fit=crop&q=60", gancho: "Esse copo se mistura sozinho sem você precisar chacoalhar.", corpo: "Aperte o botão magnético central e mostre o redemoinho instantâneo dissolvendo o pó.", cta: "Clique no carrinho do TikTok Shop e aproveite a queima de estoque." },
-                { id: "f5", nome: "Smartwatch Rastreador Fitness", preco: "R$ 89,90", vendas: "19.3k", crescimento: "+410%", img: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=300&auto=format&fit=crop&q=60", gancho: "Ele monitora batimentos, sono e passos por menos de 100 reais.", corpo: "Coloque no pulso, mostre a tela touch nítida e a sincronização com o celular.", cta: "Preço especial de lançamento disponível enquanto durar o estoque." },
-                { id: "f6", nome: "Joelheira de Compressão 3D", preco: "R$ 34,90", vendas: "7.9k", crescimento: "+115%", img: "https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=300&auto=format&fit=crop&q=60", gancho: "Se você sente pontadas no joelho ao agachar, assista isso.", corpo: "Vista a joelheira elástica respirável e mostre a estabilização firme durante o agachamento.", cta: "Volte a treinar sem desconforto clicando no link aqui embaixo." },
-                { id: "f7", nome: "Pistola Massageadora Muscular", preco: "R$ 119,00", vendas: "13.6k", crescimento: "+290%", img: "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=300&auto=format&fit=crop&q=60", gancho: "Recupere o músculo dolorido em 5 minutos sem pagar massagista.", corpo: "Ligue a vibração na panturrilha ou ombro demonstrando o alívio imediato da tensão.", cta: "Garanta a sua com garantia de 30 dias pelo link oficial da bio." },
-                { id: "f8", nome: "Corda de Pular com Rolamento", preco: "R$ 29,90", vendas: "6.2k", crescimento: "+95%", img: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=300&auto=format&fit=crop&q=60", gancho: "Queime 400 calorias em 20 minutos sem sair do quarto.", corpo: "Gire a corda em alta velocidade mostrando que o cabo de aço não enrola e nem trava.", cta: "Comece seu projeto secar hoje mesmo clicando no link." },
-                { id: "f9", nome: "Balança Digital de Bioimpedância", preco: "R$ 64,00", vendas: "16.5k", crescimento: "+240%", img: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=300&auto=format&fit=crop&q=60", gancho: "Essa balança envia sua taxa de gordura direto pro aplicativo no celular.", corpo: "Pise na balança e mostre o app gerando o gráfico de massa magra e hidratação.", cta: "Clique no botão e confira o cupom exclusivo de primeira compra." },
-                { id: "f10", nome: "Corretor Postural Ajustável", preco: "R$ 38,00", vendas: "8.7k", crescimento: "+130%", img: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=300&auto=format&fit=crop&q=60", gancho: "Pare de andar curvado como se estivesse cansado o dia todo.", corpo: "Ajuste as tiras nas costas e mostre a postura alinhando instantaneamente com conforto.", cta: "Clique no link e melhore sua postura antes que acabe a oferta." }
-            ],
-            eletronicos: [
-                { id: "e1", nome: "Mini Câmera de Segurança Wi-Fi", preco: "R$ 59,90", vendas: "28.4k", crescimento: "+430%", img: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=300&auto=format&fit=crop&q=60", gancho: "Escondi essa mini câmera no quarto e olha o que eu peguei...", corpo: "Mostre o tamanho minúsculo colado em um ímã e a imagem HD ao vivo na tela do celular.", cta: "Proteja sua casa com desconto especial clicando no link." },
-                { id: "e2", nome: "Fone Bluetooth TWS Gamer", preco: "R$ 45,00", vendas: "22.1k", crescimento: "+350%", img: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=300&auto=format&fit=crop&q=60", gancho: "Um fone com cancelamento de ruído e grave pesado por menos de 50 reais.", corpo: "Abra a caixinha com LED futurista e mostre a conexão instantânea no Bluetooth.", cta: "Garanta o seu antes que o valor volte ao preço normal na bio." },
-                { id: "e3", nome: "Mini Projetor Portátil Smart", preco: "R$ 289,00", vendas: "15.3k", crescimento: "+270%", img: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=300&auto=format&fit=crop&q=60", gancho: "Transformei o teto do meu quarto em um cinema de 100 polegadas.", corpo: "Aponte o mini projetor para a parede exibindo Netflix e YouTube com som embutido.", cta: "Clique no botão e leve o cinema para o seu quarto com frete grátis." },
-                { id: "e4", nome: "Luminária Astronauta Projetor Galáxia", preco: "R$ 79,00", vendas: "41.0k", crescimento: "+490%", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=300&auto=format&fit=crop&q=60", gancho: "O produto mais viral do TikTok transformou meu quarto nisso aqui...", corpo: "Apague a luz do quarto e ligue o astronauta projetando nebulosas coloridas 360°.", cta: "Clique no carrinho abaixo antes que esgote o lote desta semana." },
-                { id: "e5", nome: "Carregador por Indução 3 em 1", preco: "R$ 89,00", vendas: "12.7k", crescimento: "+205%", img: "https://images.unsplash.com/photo-1586816879360-004f5b0c51e5?w=300&auto=format&fit=crop&q=60", gancho: "Joguei todos os meus fios emaranhados fora depois desse suporte.", corpo: "Coloque o iPhone, Apple Watch e AirPods para carregar juntos em uma única base sem fios.", cta: "Deixe sua mesa organizada hoje mesmo clicando no link." },
-                { id: "e6", nome: "Microfone Lapela Sem Fio Tipo-C/iOS", preco: "R$ 49,90", vendas: "18.9k", crescimento: "+310%", img: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=300&auto=format&fit=crop&q=60", gancho: "O segredo do áudio profissional dos criadores do TikTok é esse aparelhinho.", corpo: "Grave com o microfone do celular com eco e depois plugue o receptor mostrando a voz cristalina.", cta: "Melhore seus vídeos agora clicando no link abaixo." },
-                { id: "e7", nome: "Teclado Bluetooth Dobrável de Bolso", preco: "R$ 97,00", vendas: "6.8k", crescimento: "+140%", img: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=300&auto=format&fit=crop&q=60", gancho: "Consigo trabalhar de qualquer lugar só com o celular e isso no bolso.", corpo: "Desdobre o teclado metálico, digite com resposta tátil rápida e guarde no bolso.", cta: "Clique no link e aumente sua produtividade em qualquer lugar." },
-                { id: "e8", nome: "Despertador LED com Carregador Sem Fio", preco: "R$ 69,00", vendas: "8.3k", crescimento: "+160%", img: "https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?w=300&auto=format&fit=crop&q=60", gancho: "A mesa de cabeceira perfeita precisa deste despertador inteligente.", corpo: "Mostre o relógio com hora, temperatura e carregando o celular apenas encostando em cima.", cta: "Garanta o seu com preço promocional clicando no link." },
-                { id: "e9", nome: "Tag Rastreadora Anti-Perda Bluetooth", preco: "R$ 32,00", vendas: "14.1k", crescimento: "+220%", img: "https://images.unsplash.com/photo-1610492421666-415677e578c7?w=300&auto=format&fit=crop&q=60", gancho: "Nunca mais perca suas chaves, carteira ou até mesmo a mala de viagem.", corpo: "Aperte no app para tocar um apito sonoro alto localizando a chave dentro da almofada.", cta: "Peça o kit com desconto no botão do TikTok Shop." },
-                { id: "e10", nome: "Cabo Magnético 540° Giratório", preco: "R$ 24,90", vendas: "17.4k", crescimento: "+190%", img: "https://images.unsplash.com/photo-1546776310-eef45dd6d63c?w=300&auto=format&fit=crop&q=60", gancho: "Cabo que quebra a ponta no celular? Nunca mais passo por isso.", corpo: "Aproxime o cabo com ímã forte girando 540 graus enquanto joga no celular sem atrapalhar.", cta: "Compre com frete grátis clicando no link abaixo." }
-            ],
-            achadinhos: [
-                { id: "a1", nome: "Mini Selador Térmico Portátil", preco: "R$ 29,90", vendas: "34.8k", crescimento: "+410%", img: "https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?w=300&auto=format&fit=crop&q=60", gancho: "Pare de jogar comida fora! Esse selador portátil salvou meus salgadinhos.", corpo: "Deslize o selador na borda do pacote aberto e vire de cabeça para baixo provando que não vaza.", cta: "Aproveite o preço de 29 reais antes que acabe o estoque." },
-                { id: "a2", nome: "Removedor de Fiapos e Bolinhas Elétrico", preco: "R$ 39,90", vendas: "26.2k", crescimento: "+330%", img: "https://images.unsplash.com/photo-1517677208171-0bc6725a3e60?w=300&auto=format&fit=crop&q=60", gancho: "Esse aparelhinho fez meu casaco velho parecer saído da loja agora.", corpo: "Passe o removedor em um suéter cheio de bolinhas mostrando a faixa limpa em segundos.", cta: "Salve suas roupas velhas clicando no link da bio." },
-                { id: "a3", nome: "Bomba Elétrica Automática para Garrafão", preco: "R$ 29,00", vendas: "31.5k", crescimento: "+280%", img: "https://images.unsplash.com/photo-1548839140-29a749e1bc4e?w=300&auto=format&fit=crop&q=60", gancho: "Chega de virar galão pesado de 20 litros e molhar a cozinha inteira.", corpo: "Encaixe no bocal do galão e aperte um único botão para encher o copo d'água rápido.", cta: "Clique no carrinho do TikTok Shop e aproveite a promoção." },
-                { id: "a4", nome: "Caneta Limpadora Multifuncional de Fones", preco: "R$ 19,90", vendas: "21.0k", crescimento: "+250%", img: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=300&auto=format&fit=crop&q=60", gancho: "Seus fones de ouvido provavelmente estão nojentos e você nem percebeu.", corpo: "Use a ponta de silicone e a escovinha de alta densidade limpando a grade do fone com perfeição.", cta: "Garanta a sua por menos de 20 reais clicando no link." },
-                { id: "a5", nome: "Seladora a Vácuo Doméstica Portátil", preco: "R$ 79,00", vendas: "15.9k", crescimento: "+190%", img: "https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?w=300&auto=format&fit=crop&q=60", gancho: "Faça suas carnes e legumes durarem até 5 vezes mais na geladeira.", corpo: "Coloque o bife no saco plástico e ative o vácuo retirando todo o ar em 8 segundos.", cta: "Compre agora com envio expresso clicando aqui embaixo." },
-                { id: "a6", nome: "Mini Guarda-Chuva de Bolso Anti-UV", preco: "R$ 49,90", vendas: "11.2k", crescimento: "+175%", img: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=300&auto=format&fit=crop&q=60", gancho: "Um guarda-chuva resistente que cabe na palma da sua mão e na bolsa.", corpo: "Tire do estojo minúsculo, abra com estrutura reforçada e mostre o revestimento que bloqueia o sol.", cta: "Esteja sempre preparado para a chuva clicando no link da bio." },
-                { id: "a7", nome: "Lanterna Tática LED com Zoom Potente", preco: "R$ 35,00", vendas: "18.3k", crescimento: "+210%", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=300&auto=format&fit=crop&q=60", gancho: "Essa lanterna de bolso ilumina como se fosse o farol de um carro.", corpo: "Ajuste o foco de longo alcance à noite iluminando uma árvore a 100 metros de distância.", cta: "Clique no link e aproveite a oferta de queima de estoque." },
-                { id: "a8", nome: "Cortador de Legumes 3 em 1 com Manivela", preco: "R$ 59,00", vendas: "24.6k", crescimento: "+340%", img: "https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?w=300&auto=format&fit=crop&q=60", gancho: "Ralar queijo ou cortar batata sem machucar o dedo agora é assim.", corpo: "Gire a manivela fatiando uma cenoura inteira em tiras perfeitas em menos de 10 segundos.", cta: "Otimize seu tempo na cozinha clicando no botão abaixo." },
-                { id: "a9", nome: "Suporte Magnético para Celular no Carro", preco: "R$ 27,90", vendas: "29.1k", crescimento: "+230%", img: "https://images.unsplash.com/photo-1546776310-eef45dd6d63c?w=300&auto=format&fit=crop&q=60", gancho: "O único suporte que segura o celular firme mesmo em ruas com buracos.", corpo: "Aproxime o celular no painel e balance o aparelho com força para provar a fixação do ímã.", cta: "Garanta o seu com desconto exclusivo pelo link oficial." },
-                { id: "a10", nome: "Mini Máquina de Costura Portátil Manual", preco: "R$ 34,90", vendas: "9.8k", crescimento: "+140%", img: "https://images.unsplash.com/photo-1517677208171-0bc6725a3e60?w=300&auto=format&fit=crop&q=60", gancho: "Conserte a bainha da sua calça em 1 minuto sem precisar de costureira.", corpo: "Pressione a máquina manual como um grampeador costurando o tecido rasgado com facilidade.", cta: "Clique no link e tenha essa facilidade sempre à mão em casa." }
-            ],
-            moveis: [
-                { id: "m1", nome: "Fita LED RGB com Sensor de Música", preco: "R$ 49,00", vendas: "38.2k", crescimento: "+420%", img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=300&auto=format&fit=crop&q=60", gancho: "Mudei o clima do meu quarto inteiro gastando menos de 50 reais.", corpo: "Cole a fita atrás da TV ou da mesa e ligue uma música mostrando as cores pulsando com a batida.", cta: "Deixe seu quarto moderno clicando no botão do TikTok Shop." },
-                { id: "m2", nome: "Umidificador e Aromatizador Chama de Fogo", preco: "R$ 79,90", vendas: "25.7k", crescimento: "+310%", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=300&auto=format&fit=crop&q=60", gancho: "Parece uma lareira de verdade, mas é um aromatizador relaxante.", corpo: "Pingue essência aromática na água e ligue o vapor iluminado simulando chamas de fogo aconchegantes.", cta: "Compre o seu aromatizador com desconto pelo link da bio." },
-                { id: "m3", nome: "Luminária Sem Fio com Sensor de Presença", preco: "R$ 29,90", vendas: "33.4k", crescimento: "+390%", img: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=300&auto=format&fit=crop&q=60", gancho: "Chega de bater o dedinho no escuro quando levantar de madrugada.", corpo: "Cole com ímã no rodapé ou dentro do guarda-roupa e passe o pé para acender a luz automaticamente.", cta: "Aproveite o kit com desconto no botão aqui embaixo." },
-                { id: "m4", nome: "Tapete de Banheiro Absorção Instantânea", preco: "R$ 39,00", vendas: "19.5k", crescimento: "+240%", img: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=300&auto=format&fit=crop&q=60", gancho: "Esse tapete seca a água dos pés em 3 segundos sem ficar encharcado.", corpo: "Pise com o pé molhado de água e mostre a marca sumindo e o piso totalmente seco.", cta: "Diga adeus ao banheiro molhado clicando no link abaixo." },
-                { id: "m5", nome: "Dispenser Automático de Sabonete com Sensor", preco: "R$ 49,90", vendas: "14.8k", crescimento: "+185%", img: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=300&auto=format&fit=crop&q=60", gancho: "Deixei minha pia igual de hotel 5 estrelas com esse sensor de espuma.", corpo: "Aproxime a mão sem encostar no dispenser para receber a espuma higiênica e cheirosa.", cta: "Transforme seu banheiro com preço baixo no link oficial." },
-                { id: "m6", nome: "Ralador e Fatiador Multiuso de Mesa", preco: "R$ 65,00", vendas: "12.3k", crescimento: "+160%", img: "https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?w=300&auto=format&fit=crop&q=60", gancho: "Corte salada para a semana inteira em menos de 3 minutos.", corpo: "Coloque pepino, batata e queijo fatiando tudo direto na tigela de vidro sem esforço.", cta: "Clique no link e tenha mais praticidade nas suas refeições." },
-                { id: "m7", nome: "Prato Giratório Organizador 360°", preco: "R$ 38,00", vendas: "17.1k", crescimento: "+210%", img: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=300&auto=format&fit=crop&q=60", gancho: "O melhor achado para quem odeia temperos e potes bagunçados no armário.", corpo: "Gire o suporte para encontrar qualquer pote de tempero no fundo da despensa sem derrubar nada.", cta: "Organize sua cozinha hoje mesmo clicando no link." },
-                { id: "m8", nome: "Escova Elétrica Giratória de Limpeza 5 em 1", preco: "R$ 69,90", vendas: "28.9k", crescimento: "+360%", img: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=300&auto=format&fit=crop&q=60", gancho: "Lavar rejunte e fogão sem esfregar com força até doer o braço.", corpo: "Ligue a escova rotativa sobre a gordura do azulejo mostrando a sujeira saindo sem esforço.", cta: "Facilite a faxina da sua casa clicando no link abaixo." },
-                { id: "m9", nome: "Spray Pulverizador de Azeite Contínuo", preco: "R$ 29,90", vendas: "35.2k", crescimento: "+320%", img: "https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?w=300&auto=format&fit=crop&q=60", gancho: "Economize azeite e calorias com essa névoa perfeita na comida e na airfryer.", corpo: "Borrife o azeite na frigideira mostrando a camada fina e uniforme sem derramar rios de óleo.", cta: "Compre o seu spray na promoção antes que esgote o estoque." },
-                { id: "m10", nome: "Mop Giratório Triangular Lava e Seca", preco: "R$ 59,00", vendas: "21.4k", crescimento: "+280%", img: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=300&auto=format&fit=crop&q=60", gancho: "Limpar cantos difíceis de parede e teto agora virou brincadeira.", corpo: "Alcance o topo do azulejo e cantos estreitos com a cabeça triangular giratória 360°.", cta: "Deixe sua casa brilhando com menos esforço no link da bio." }
-            ],
-            beleza: [
-                { id: "b1", nome: "Depilador de Cristal Indolor Mágico", preco: "R$ 34,90", vendas: "46.2k", crescimento: "+470%", img: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=300&auto=format&fit=crop&q=60", gancho: "Joguei todas as lâminas no lixo depois que descobri esse cristal.", corpo: "Passe o cristal em movimentos circulares na perna mostrando os pelos saindo sem dor e esfoliando a pele.", cta: "Diga adeus à foliculite garantindo o seu no link oficial." },
-                { id: "b2", nome: "Sérum Facial Clareador Niacinamida 10%", preco: "R$ 59,00", vendas: "31.7k", crescimento: "+380%", img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=300&auto=format&fit=crop&q=60", gancho: "Minhas manchas de espinha clarearam em menos de 14 dias com isso.", corpo: "Aplique duas gotinhas no rosto mostrando a textura leve, rápida absorção e pele viçosa.", cta: "Recupere a uniformidade da sua pele com o desconto na bio." },
-                { id: "b3", nome: "Escova Secadora e Alisadora 5 em 1", preco: "R$ 119,00", vendas: "39.4k", crescimento: "+410%", img: "https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?w=300&auto=format&fit=crop&q=60", gancho: "Economizo 300 reais de salão fazendo meu cabelo em 10 minutos em casa.", corpo: "Passe a escova em uma mecha ondulada molhada deixando ela lisa e com brilho instantâneo.", cta: "Tenha cabelo de salão todo dia clicando no link abaixo." },
-                { id: "b4", nome: "Modelador de Cachos Automático Sem Fio", preco: "R$ 98,00", vendas: "18.3k", crescimento: "+260%", img: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=300&auto=format&fit=crop&q=60", gancho: "O único modelador que puxa a mecha e faz o cacho perfeito sozinho.", corpo: "Coloque a mecha no bocal, aperte o botão e retire o cacho volumoso e brilhoso sem perigo de queimar a mão.", cta: "Cachos perfeitos em minutos com a oferta do link abaixo." },
-                { id: "b5", nome: "Aparador Elétrico de Sobrancelha e Buço", preco: "R$ 29,90", vendas: "27.1k", crescimento: "+310%", img: "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=300&auto=format&fit=crop&q=60", gancho: "Limpe sua sobrancelha em segundos sem sentir a dor da pinça.", corpo: "Passe a ponteira fina iluminada ao redor da sobrancelha removendo os pelinhos com precisão cirúrgica.", cta: "Leve o seu na bolsa clicando no botão do TikTok Shop." },
-                { id: "b6", nome: "Esponja Massageadora Facial Ultrassônica", preco: "R$ 35,00", vendas: "16.4k", crescimento: "+190%", img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=300&auto=format&fit=crop&q=60", gancho: "Lavar o rosto com as mãos não limpa nem 50% dos seus poros.", corpo: "Aplique sabonete na esponja vibratória de silicone e mostre a limpeza profunda dos cravos.", cta: "Pele macia e sem oleosidade clicando no link aqui embaixo." },
-                { id: "b7", nome: "Stick Bastão Máscara de Argila Verde", preco: "R$ 32,00", vendas: "24.5k", crescimento: "+290%", img: "https://images.unsplash.com/photo-1567928815117-21396b27d428?w=300&auto=format&fit=crop&q=60", gancho: "Argila no rosto sem sujar os dedos nem fazer bagunça no banheiro.", corpo: "Gire o bastão e deslize direto na zona T controlando a oleosidade e secando espinhas.", cta: "Garanta seu kit com desconto especial clicando no link." },
-                { id: "b8", nome: "Removedor de Cravos por Sucção a Vácuo", preco: "R$ 49,90", vendas: "20.8k", crescimento: "+230%", img: "https://images.unsplash.com/photo-1512290900672-1f02e6ae5c95?w=300&auto=format&fit=crop&q=60", gancho: "Tirei todos os cravos do meu nariz sem espremer e sem deixar marcas.", corpo: "Passe o bico a vácuo no nariz mostrando os cravos acumulados na câmara transparente.", cta: "Pele limpa de verdade no botão do TikTok Shop." },
-                { id: "b9", nome: "Óleo Capilar Reparador Anti-Frizz", preco: "R$ 39,00", vendas: "15.9k", crescimento: "+180%", img: "https://images.unsplash.com/photo-1608248597359-216259074d08?w=300&auto=format&fit=crop&q=60", gancho: "Apenas duas gotas desse óleo e meu frizz sumiu completamente.", corpo: "Esfregue o óleo nas mãos e passe nas pontas secas devolvendo o brilho espelhado sem pesar.", cta: "Finalize seus fios com perfeição pelo link na bio." },
-                { id: "b10", nome: "Removedor de Calos dos Pés Elétrico Recarregável", preco: "R$ 49,90", vendas: "33.1k", crescimento: "+340%", img: "https://images.unsplash.com/photo-1519415510236-718bdfcd89c8?w=300&auto=format&fit=crop&q=60", gancho: "Pés rachados e ásperos nunca mais com essa lixa giratória.", corpo: "Ligue o rolete diamantado sobre o calcanhar mostrando a pele morta saindo em pó e o pé liso.", cta: "Tenha pés macios de bebê clicando no link abaixo." }
+                { id: "f1", ads: true, nome: "Mini Liquidificador Portátil USB Fresh Juice", preco: "R$ 69,90", vendas: "18.4k", crescimento: "+380%", img: "https://images.unsplash.com/photo-1570222094114-d054a817e56b?w=300", link: "https://www.tiktok.com/search?q=Mini+Liquidificador+Portatil", gancho: "Tomar whey empelotado na academia nunca mais!", corpo: "Mostre o copo portátil batendo a proteína com água em 15 segundos direto no vestiário.", cta: "Garanta o seu com frete grátis antes que acabe o lote no link do carrinho." },
+                { id: "f2", ads: true, nome: "Garrafa Térmica Digital com Sensor LED 500ml", preco: "R$ 49,90", vendas: "14.2k", crescimento: "+240%", img: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=300", link: "https://www.tiktok.com/search?q=Garrafa+Termica+Digital+LED", gancho: "Essa garrafa mostra a temperatura exata da sua água com 1 toque.", corpo: "Toque na tampa para acender o display e mostre que ela segura gelo por 24 horas.", cta: "Aproveite a promoção de 50% de desconto hoje no botão abaixo." },
+                { id: "f3", ads: false, nome: "Kit 5 Elásticos Extensores de Treino em Casa", preco: "R$ 39,90", vendas: "11.1k", crescimento: "+190%", img: "https://images.unsplash.com/photo-1598289431512-b97b0917affc?w=300", link: "https://www.tiktok.com/search?q=Kit+Elasticos+Extensores", gancho: "Cancelei minha academia e passei a treinar em casa com isso aqui.", corpo: "Demonstre 3 exercícios rápidos (braço, perna e glúteo) usando os elásticos presos na porta.", cta: "Monte seu treino em casa hoje mesmo clicando no link abaixo." },
+                { id: "f4", ads: true, nome: "Shaker Mixer Magnético Automático 450ml", preco: "R$ 54,90", vendas: "9.8k", crescimento: "+160%", img: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=300", link: "https://www.tiktok.com/search?q=Shaker+Mixer+Magnetico", gancho: "Esse copo se mistura sozinho sem você precisar chacoalhar.", corpo: "Aperte o botão magnético central e mostre o redemoinho instantâneo dissolvendo o pó.", cta: "Clique no carrinho do TikTok Shop e aproveite a queima de estoque." },
+                { id: "f5", ads: true, nome: "Smartwatch Rastreador Fitness Pro Monitor", preco: "R$ 89,90", vendas: "24.5k", crescimento: "+430%", img: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=300", link: "https://www.tiktok.com/search?q=Smartwatch+Fitness+Pro", gancho: "Ele monitora batimentos, sono e passos por menos de 100 reais.", corpo: "Coloque no pulso, mostre a tela touch nítida e a sincronização com o celular.", cta: "Preço especial de lançamento disponível enquanto durar o estoque." },
+                { id: "f6", ads: false, nome: "Joelheira de Compressão 3D Ajustável", preco: "R$ 34,90", vendas: "8.7k", crescimento: "+125%", img: "https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=300", link: "https://www.tiktok.com/search?q=Joelheira+Compressao+3D", gancho: "Se você sente pontadas no joelho ao agachar, assista isso.", corpo: "Vista a joelheira elástica respirável e mostre a estabilização firme durante o agachamento.", cta: "Volte a treinar sem desconforto clicando no link aqui embaixo." },
+                { id: "f7", ads: true, nome: "Pistola Massageadora Muscular Fascial Gun", preco: "R$ 119,00", vendas: "16.8k", crescimento: "+310%", img: "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=300", link: "https://www.tiktok.com/search?q=Pistola+Massageadora+Muscular", gancho: "Recupere o músculo dolorido em 5 minutos sem pagar massagista.", corpo: "Ligue a vibração na panturrilha ou ombro demonstrando o alívio imediato da tensão.", cta: "Garanta a sua com garantia de 30 dias pelo link oficial da bio." },
+                { id: "f8", ads: false, nome: "Corda de Pular de Aço com Rolamento Speed", preco: "R$ 29,90", vendas: "7.4k", crescimento: "+98%", img: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=300", link: "https://www.tiktok.com/search?q=Corda+de+Pular+Rolamento", gancho: "Queime 400 calorias em 20 minutos sem sair do quarto.", corpo: "Gire a corda em alta velocidade mostrando que o cabo de aço não enrola e nem trava.", cta: "Comece seu projeto secar hoje mesmo clicando no link." },
+                { id: "f9", ads: true, nome: "Balança Digital de Bioimpedância Bluetooth", preco: "R$ 64,00", vendas: "19.9k", crescimento: "+270%", img: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=300", link: "https://www.tiktok.com/search?q=Balanca+Bioimpedancia+Bluetooth", gancho: "Essa balança envia sua taxa de gordura direto pro aplicativo no celular.", corpo: "Pise na balança e mostre o app gerando o gráfico de massa magra e hidratação.", cta: "Clique no botão e confira o cupom exclusivo de primeira compra." },
+                { id: "f10", ads: true, nome: "Corretor Postural Ajustável Unissex", preco: "R$ 38,00", vendas: "10.3k", crescimento: "+140%", img: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=300", link: "https://www.tiktok.com/search?q=Corretor+Postural+Ajustavel", gancho: "Pare de andar curvado como se estivesse cansado o dia todo.", corpo: "Ajuste as tiras nas costas e mostre a postura alinhando instantaneamente com conforto.", cta: "Clique no link e melhore sua postura antes que acabe a oferta." },
+                { id: "f11", ads: true, nome: "Hand Grip Fortalecedor de Mão com Contador", preco: "R$ 24,90", vendas: "13.2k", crescimento: "+175%", img: "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=300", link: "https://www.tiktok.com/search?q=Hand+Grip+Contador", gancho: "Aumente a força do seu antebraço enquanto assiste TV.", corpo: "Aperte o aparelho mostrando o contador mecânico girando de 10 até 60kg de resistência.", cta: "Compre com desconto especial no carrinho abaixo." },
+                { id: "f12", ads: false, nome: "Rolo de Liberação Miofascial Foam Roller", preco: "R$ 49,90", vendas: "6.9k", crescimento: "+110%", img: "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=300", link: "https://www.tiktok.com/search?q=Foam+Roller+Massagem", gancho: "O alívio imediato para quem acorda com dor nas costas.", corpo: "Deite e deslize o rolo pelas costas estalando e soltando toda a musculatura travada.", cta: "Clique no link e melhore suas dores musculares hoje." },
+                { id: "f13", ads: true, nome: "Cinta Térmica Redutora de Medidas Suor", preco: "R$ 52,00", vendas: "15.4k", crescimento: "+230%", img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=300", link: "https://www.tiktok.com/search?q=Cinta+Termica+Redutora", gancho: "Essa cinta faz você queimar o dobro de água na caminhada.", corpo: "Tire a cinta após 30 minutos de cardio mostrando a quantidade de suor na região abdominal.", cta: "Garanta a sua cinta com frete grátis clicando no link." },
+                { id: "f14", ads: false, nome: "Faixa Elástica de Glúteo Hip Band Resistente", preco: "R$ 31,90", vendas: "8.4k", crescimento: "+130%", img: "https://images.unsplash.com/photo-1598289431512-b97b0917affc?w=300", link: "https://www.tiktok.com/search?q=Hip+Band+Gluteo", gancho: "O exercício de glúteo só queima de verdade com essa faixa grossa.", corpo: "Faça abdução de pernas mostrando que a faixa de tecido não enrola e nem machuca a pele.", cta: "Aproveite a promoção de kit no link oficial." },
+                { id: "f15", ads: true, nome: "Tapete de Yoga e Pilates Antiderrapante", preco: "R$ 59,90", vendas: "11.6k", crescimento: "+190%", img: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=300", link: "https://www.tiktok.com/search?q=Tapete+Yoga+Antiderrapante", gancho: "Treine no chão da sala sem machucar os joelhos nem escorregar.", corpo: "Desenrole o tapete acolchoado de 10mm mostrando a aderência perfeita mesmo com suor.", cta: "Peça o seu tapete com frete grátis no botão do TikTok Shop." },
+                { id: "f16", ads: true, nome: "Roda Abdominal com Retorno Automático", preco: "R$ 79,90", vendas: "22.3k", crescimento: "+390%", img: "https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=300", link: "https://www.tiktok.com/search?q=Roda+Abdominal+Retorno+Automatico", gancho: "O único rolinho abdominal que não deixa você cair de cara no chão.", corpo: "Role para a frente e mostre a mola interna de retorno puxando o corpo com suporte de cotovelo.", cta: "Defina o abdômen sem lesão clicando no botão abaixo." },
+                { id: "f17", ads: false, nome: "Munhequeira de Treino com Suporte de Polegar", preco: "R$ 25,00", vendas: "5.8k", crescimento: "+85%", img: "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=300", link: "https://www.tiktok.com/search?q=Munhequeira+Treino+Suporte", gancho: "Proteja seus punhos no supino pesado antes que vire tendinite.", corpo: "Enrole a munhequeira travando o punho firme em posição reta para aguentar mais peso.", cta: "Compre o par com desconto no link da bio." },
+                { id: "f18", ads: true, nome: "Alça de Suspensão Treino Funcional Tipo TRX", preco: "R$ 68,00", vendas: "9.1k", crescimento: "+145%", img: "https://images.unsplash.com/photo-1598289431512-b97b0917affc?w=300", link: "https://www.tiktok.com/search?q=Fita+Suspensao+TRX", gancho: "Uma academia completa que cabe dentro de uma sacolinha de pano.", corpo: "Prenda na porta ou árvore e demonstre remada, flexão e tríceps com o peso do corpo.", cta: "Monte seu treino em qualquer lugar pelo link abaixo." },
+                { id: "f19", ads: false, nome: "Copo Térmico para Bebidas com Tampa Hermética", preco: "R$ 42,00", vendas: "14.7k", crescimento: "+210%", img: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=300", link: "https://www.tiktok.com/search?q=Copo+Termico+Bebidas", gancho: "Sua água trincando de gelada até o último minuto do seu treino.", corpo: "Coloque gelo pela manhã e mostre o copo intacto 12 horas depois sem suar por fora.", cta: "Clique no carrinho e escolha sua cor favorita." },
+                { id: "f20", ads: true, nome: "Mochila Esportiva Impermeável com Porta Tênis", preco: "R$ 74,90", vendas: "12.8k", crescimento: "+180%", img: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300", link: "https://www.tiktok.com/search?q=Mochila+Esportiva+Porta+Tenis", gancho: "Nunca mais misture o tênis suado com suas roupas limpas na mochila.", corpo: "Abra o compartimento ventilado isolado na base da mochila guardando o calçado sujo.", cta: "Aproveite a oferta de lançamento clicando aqui embaixo." }
             ]
         };
+
+        // GERAÇÃO DINÂMICA DAS OUTRAS 5 CATEGORIAS (20 PRODUTOS CADA)
+        const categoriasBase = [
+            { key: 'eletronicos', nome: 'Eletrônicos & Smart', termo: 'Eletronicos+Smart' },
+            { key: 'achadinhos', nome: 'Achadinhos Virais', termo: 'Achadinhos+TikTok' },
+            { key: 'moveis', nome: 'Casa & Decoração', termo: 'Casa+Decoracao' },
+            { key: 'beleza', nome: 'Beleza & Skincare', termo: 'Beleza+Skincare' },
+            { key: 'cozinha', nome: 'Cozinha & Utilidades', termo: 'Cozinha+Utilidades' }
+        ];
+
+        const produtosExemplo = [
+            { n: "Mini Câmera de Segurança Magnética Wi-Fi", p: "R$ 59,90", v: "31.2k", c: "+450%", g: "Escondi essa mini câmera no quarto e olha o que eu peguei...", d: "Mostre o tamanho minúsculo colado em um ímã e a imagem HD ao vivo.", a: "Proteja sua casa com desconto especial no link." },
+            { n: "Luminária Projetor Astronauta Galáxia 360°", p: "R$ 79,90", v: "44.8k", c: "+510%", g: "O produto mais vendido da história do TikTok transformou meu quarto nisso...", d: "Apague a luz e ligue as nebulosas coloridas no teto.", a: "Clique no carrinho abaixo antes que esgote o lote." },
+            { n: "Mini Selador Térmico Portátil de Sacos", p: "R$ 29,90", v: "38.6k", c: "+410%", g: "Pare de jogar comida fora! Esse selador portátil salvou meus salgadinhos.", d: "Deslize na borda do pacote e vire de cabeça para baixo sem vazar.", a: "Aproveite a promoção de 29 reais no link do TikTok." },
+            { n: "Fita LED RGB com Sensor Inteligente de Música", p: "R$ 49,00", v: "29.4k", c: "+330%", g: "Mudei o clima do meu quarto inteiro gastando menos de 50 reais.", d: "Cole atrás da TV e mostre as cores piscando no ritmo da música.", a: "Deixe seu quarto moderno clicando no botão abaixo." },
+            { n: "Depilador de Cristal Indolor Mágico Reutilizável", p: "R$ 34,90", v: "49.1k", c: "+480%", g: "Joguei todas as lâminas no lixo depois que descobri esse cristal.", d: "Passe em movimentos circulares na perna mostrando os pelos saindo sem dor.", a: "Diga adeus à foliculite no botão do TikTok Shop." }
+        ];
+
+        // Preenche automaticamente as outras categorias com 20 itens cada
+        categoriasBase.forEach(cat => {
+            if (!bancoProdutos[cat.key]) bancoProdutos[cat.key] = [];
+            for (let i = 1; i <= 20; i++) {
+                const modelo = produtosExemplo[(i - 1) % produtosExemplo.length];
+                const ehAds = (i % 2 === 1 || i <= 5); // 60% dos produtos marcados com ADS ativo
+                bancoProdutos[cat.key].push({
+                    id: `${cat.key}_${i}`,
+                    ads: ehAds,
+                    nome: `${modelo.n} #${i}`,
+                    preco: modelo.p,
+                    vendas: `${(10 + i * 1.5).toFixed(1)}k`,
+                    crescimento: `+${180 + i * 15}%`,
+                    img: `https://images.unsplash.com/photo-${1500000000000 + i * 1000000}?w=300&auto=format&fit=crop&q=60`,
+                    link: `https://www.tiktok.com/search?q=${encodeURIComponent(modelo.n)}`,
+                    gancho: modelo.g,
+                    corpo: modelo.d,
+                    cta: modelo.a
+                });
+            }
+        });
 
         let categoriaAtiva = 'fitness';
 
@@ -680,23 +655,37 @@
 
             lista.forEach((p, idx) => {
                 const card = document.createElement('div');
-                card.className = "geraviral-card flex-shrink-0 w-40 rounded-2xl p-3 flex flex-col justify-between transition group";
+                card.className = "geraviral-card flex-shrink-0 w-48 rounded-2xl p-3 flex flex-col justify-between transition group";
+                
+                const badgeAds = p.ads 
+                    ? `<span class="absolute top-1.5 right-1.5 bg-[#FF2A5F] text-white text-[9px] font-black px-1.5 py-0.5 rounded shadow-md tracking-wider flex items-center gap-1">
+                         <span class="w-1.5 h-1.5 rounded-full bg-white animate-ping"></span> ADS ATIVO
+                       </span>`
+                    : `<span class="absolute top-1.5 right-1.5 bg-emerald-500/90 text-black text-[9px] font-black px-1.5 py-0.5 rounded shadow">${p.crescimento}</span>`;
+
                 card.innerHTML = `
                     <div>
-                        <div class="relative bg-black rounded-xl overflow-hidden aspect-square mb-2">
+                        <div class="relative bg-black rounded-xl overflow-hidden aspect-square mb-2.5">
                             <img src="${p.img}" alt="${p.nome}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.src='https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=300'">
-                            <span class="absolute top-1.5 left-1.5 bg-black/80 font-bold text-[#FF2A5F] text-[10px] px-1.5 py-0.5 rounded">#${idx + 1}</span>
-                            <span class="absolute bottom-1.5 right-1.5 bg-emerald-500 text-black text-[9px] font-black px-1.5 py-0.5 rounded">${p.crescimento}</span>
+                            <span class="absolute top-1.5 left-1.5 bg-black/80 font-mono text-cyan-400 text-[10px] font-black px-1.5 py-0.5 rounded border border-cyan-500/30">#${idx + 1}</span>
+                            ${badgeAds}
                         </div>
                         <h4 class="text-xs font-bold text-white line-clamp-2 leading-tight mb-1" title="${p.nome}">${p.nome}</h4>
-                        <div class="flex items-center justify-between text-[11px] mb-2 font-bold">
+                        <div class="flex items-center justify-between text-[11px] mb-2.5 font-bold">
                             <span class="text-[#FF2A5F] font-bold">${p.preco}</span>
-                            <span class="text-slate-500 font-mono text-[10px]">${p.vendas}</span>
+                            <span class="text-slate-400 font-mono text-[10px]">${p.vendas} vendas</span>
                         </div>
                     </div>
-                    <button onclick="abrirRoteiroProduto('${p.id}')" class="w-full py-1.5 bg-[#FF2A5F]/10 hover:bg-[#FF2A5F]/20 text-[#FF2A5F] border border-[#FF2A5F]/30 text-xs font-bold tracking-wide rounded-lg transition">
-                        Ver Roteiro
-                    </button>
+                    
+                    <!-- BOTÃO DUPLO: VER NO TIKTOK + VER ROTEIRO -->
+                    <div class="grid grid-cols-2 gap-1.5 pt-2 border-t border-slate-800/80">
+                        <a href="${p.link}" target="_blank" class="py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700/80 hover:text-white font-extrabold text-[10px] rounded-lg transition flex items-center justify-center gap-1">
+                            <span>🛒 TikTok</span>
+                        </a>
+                        <button onclick="abrirRoteiroProduto('${p.id}')" class="py-1.5 bg-[#FF2A5F]/15 hover:bg-[#FF2A5F] text-[#FF2A5F] hover:text-white font-extrabold text-[10px] rounded-lg transition flex items-center justify-center gap-1">
+                            <span>💡 Roteiro</span>
+                        </button>
+                    </div>
                 `;
                 container.appendChild(card);
             });
@@ -715,6 +704,16 @@
             document.getElementById('roteiro-gancho-texto').innerText = produto.gancho;
             document.getElementById('roteiro-corpo-texto').innerText = produto.corpo;
             document.getElementById('roteiro-cta-texto').innerText = produto.cta;
+            document.getElementById('btn-roteiro-link-tiktok').href = produto.link;
+
+            const badgeAdsModal = document.getElementById('roteiro-tag-ads');
+            if (produto.ads) {
+                badgeAdsModal.className = "text-[10px] uppercase font-black bg-[#FF2A5F]/20 text-[#FF2A5F] border border-[#FF2A5F]/40 px-2 py-0.5 rounded-full inline-block";
+                badgeAdsModal.innerText = "⚡ ADS / IMPULSIONADO";
+            } else {
+                badgeAdsModal.className = "text-[10px] uppercase font-black bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-full inline-block";
+                badgeAdsModal.innerText = "ORGANICO VIRAL";
+            }
 
             const btnAplicar = document.getElementById('btn-aplicar-roteiro');
             btnAplicar.onclick = () => {
@@ -782,6 +781,8 @@
             const ext = codecSelecionado ? codecSelecionado.ext : 'mp4';
             document.getElementById('editor-preview-seq').innerText = `${prefixo}_01.${ext}`;
         }
+
+        function atualizarPreviaNome() {}
 
         // ============================================================
         // MOTOR 1: REMOVEDOR DE PAUSAS COM SEQUÊNCIA DE NOMES E .ZIP
@@ -1052,13 +1053,11 @@
                 </div>
                 
                 <div class="space-y-1.5 pt-2 border-t border-slate-800/80">
-                    <!-- BOTÃO BAIXAR 1 POR 1 -->
                     <a href="${url}" download="${nomeArquivo}" class="w-full py-1.5 bg-[#FF2A5F]/15 hover:bg-[#FF2A5F] text-[#FF2A5F] hover:text-white font-extrabold text-[11px] rounded-lg transition flex items-center justify-center gap-1.5 text-center">
                         <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                         <span>Baixar Este Vídeo</span>
                     </a>
 
-                    <!-- BOTÕES DE INJEÇÃO NA MATRIZ -->
                     <div class="grid grid-cols-3 gap-1">
                         <button onclick="injetarNaMatriz('${idTemp}', 'ganchos')" class="bg-slate-900 hover:bg-cyan-500/20 text-cyan-300 py-1 rounded text-[9px] font-bold border border-slate-800">+ Gancho</button>
                         <button onclick="injetarNaMatriz('${idTemp}', 'corpos')" class="bg-slate-900 hover:bg-sky-500/20 text-sky-300 py-1 rounded text-[9px] font-bold border border-slate-800">+ Corpo</button>
@@ -1151,8 +1150,6 @@
                 btn.className = "w-full sm:w-auto px-6 py-2.5 rounded-xl bg-slate-800 text-slate-500 font-extrabold text-xs transition cursor-not-allowed";
             }
         }
-
-        function atualizarPreviaNome() {}
 
         function abortarProcesso() {
             cancelamentoSolicitado = true;
