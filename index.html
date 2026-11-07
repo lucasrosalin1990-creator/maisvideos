@@ -10,7 +10,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     
-    <!-- FONTE MODERNA PLUS JAKARTA SANS -->
+    <!-- FONTE PLUS JAKARTA SANS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -157,71 +157,67 @@
     <!-- ÁREA PRINCIPAL -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full space-y-8 relative z-10">
         
-        <!-- ============================================================ -->
-        <!-- SEÇÃO HERO + BOTÕES DE ATALHO RÁPIDO PARA AS 3 FERRAMENTAS -->
-        <!-- ============================================================ -->
-        <div class="space-y-4">
-            <div class="text-center sm:text-left">
+        <!-- HERO + BOTÕES CENTRALIZADOS -->
+        <div class="space-y-5 text-center">
+            <div>
                 <span class="text-xs uppercase font-black text-[#FF2A5F] tracking-widest block mb-1">Passo a Passo Oficial</span>
                 <h1 class="text-xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight">
                     ONDE ENCONTRAR PRODUTOS CAMPEÕES DE VENDAS? <span class="text-[#FF2A5F]">VEJA O VÍDEO</span>
                 </h1>
-                <p class="text-xs sm:text-sm text-slate-300 mt-1 font-medium">
-                    1. Pegue o link no app • 2. Gere o roteiro • 3. Edite e Multiplique • <strong>Fature mais em menos tempo.</strong>
+                <p class="text-xs sm:text-sm text-slate-300 mt-2 font-medium max-w-xl mx-auto">
+                    1. Pegue o link no app • 2. Gere o roteiro com IA • 3. Edite e Multiplique • <strong>Fature mais em menos tempo.</strong>
                 </p>
             </div>
 
-            <!-- OS 3 BOTÕES DE NAVEGAÇÃO RÁPIDA -->
-            <div class="flex items-center gap-2.5 flex-wrap justify-center sm:justify-start pt-1">
-                <a href="#secao-gerador" class="px-4 py-2 rounded-xl bg-[#0D1220] border border-slate-800 hover:border-[#FF2A5F]/60 text-xs text-slate-200 font-extrabold transition flex items-center gap-2 hover:text-white shadow-md">
-                    <span class="w-2 h-2 rounded-full bg-[#FF2A5F]"></span>
+            <!-- OS 3 BOTÕES DE NAVEGAÇÃO CENTRALIZADOS COM A COR DO BOTÃO -->
+            <div class="flex items-center gap-3 flex-wrap justify-center pt-1">
+                <a href="#secao-gerador" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-xs text-white font-extrabold transition shadow-lg shadow-[#FF2A5F]/25 flex items-center gap-2">
                     <span>✨ Gerador de Roteiro</span>
                 </a>
-                <a href="#secao-removedor" class="px-4 py-2 rounded-xl bg-[#0D1220] border border-slate-800 hover:border-cyan-400/60 text-xs text-slate-200 font-extrabold transition flex items-center gap-2 hover:text-white shadow-md">
-                    <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
-                    <span>⚡ Editor de Pausas</span>
+                <a href="#secao-removedor" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-xs text-white font-extrabold transition shadow-lg shadow-[#FF2A5F]/25 flex items-center gap-2">
+                    <span>⚡ Editor e Removedor de Pausas</span>
                 </a>
-                <a href="#secao-multiplicador" class="px-4 py-2 rounded-xl bg-[#0D1220] border border-slate-800 hover:border-emerald-400/60 text-xs text-slate-200 font-extrabold transition flex items-center gap-2 hover:text-white shadow-md">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                <a href="#secao-multiplicador" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-xs text-white font-extrabold transition shadow-lg shadow-[#FF2A5F]/25 flex items-center gap-2">
                     <span>🎬 Multiplicador de Vídeos</span>
                 </a>
             </div>
         </div>
 
         <!-- ============================================================ -->
-        <!-- 1. FERRAMENTA 1: VÍDEO TUTORIAL + GERADOR DE ROTEIROS       -->
+        <!-- 1. FERRAMENTA 1: VÍDEO TUTORIAL (AUTOPLAY) + GERADOR COM IA  -->
         <!-- ============================================================ -->
         <section id="secao-gerador" class="saas-card rounded-3xl p-6 sm:p-8 shadow-xl">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 
-                <!-- VÍDEO TUTORIAL (SEM OPÇÃO DE TESTE OU FRASE DE GITHUB) -->
+                <!-- VÍDEO TUTORIAL COM AUTOPLAY NATIVO -->
                 <div class="lg:col-span-5 flex flex-col items-center">
                     <div class="border-2 border-slate-800 rounded-3xl bg-[#080B14] p-3 shadow-2xl w-full max-w-xs">
                         <div class="relative bg-black rounded-2xl overflow-hidden aspect-[9/16] flex items-center justify-center">
-                            <video id="video-tutorial" src="tutorial.mp4?v=2" controls playsinline webkit-playsinline preload="metadata" class="w-full h-full object-contain">
+                            <!-- AUTOPLAY MUTED PARA INICIAR SOZINHO EM QUALQUER NAVEGADOR -->
+                            <video id="video-tutorial" src="tutorial.mp4?v=3" autoplay muted playsinline controls loop preload="auto" class="w-full h-full object-contain">
                                 Seu navegador não suporta a tag de vídeo.
                             </video>
                         </div>
                     </div>
                 </div>
 
-                <!-- GERADOR DE ROTEIRO DIRETO NA TELA -->
+                <!-- GERADOR DE ROTEIRO COM IA (GROQ CONECTADA) -->
                 <div class="lg:col-span-7 flex flex-col justify-center space-y-4">
                     <div>
                         <span class="text-xs font-black uppercase text-cyan-400 tracking-wider block mb-1">Ferramenta 1</span>
-                        <h2 class="text-lg sm:text-2xl font-black text-white">Gerador de Roteiro Viral para o Produto</h2>
+                        <h2 class="text-lg sm:text-2xl font-black text-white">Gerador de Roteiro Viral com IA da Groq</h2>
                         <p class="text-xs text-slate-400 mt-1">
-                            Cole o link copiado no seu TikTok (ou digite o nome do produto) para gerar o roteiro de vendas pronto diretamente aqui na tela.
+                            Cole o link copiado no seu TikTok (ou digite o nome do produto) para a inteligência artificial formular um roteiro exclusivo na hora.
                         </p>
                     </div>
 
                     <div class="space-y-3 pt-1">
                         <div>
                             <label class="block text-xs font-bold text-slate-300 mb-1.5">Link do Produto ou Nome:</label>
-                            <input type="text" id="input-gerador-produto" value="Ventilador de Teto Portátil" placeholder="Cole o link do TikTok ou digite o nome do produto" class="w-full bg-[#080B14] border border-slate-700 focus:border-[#FF2A5F] rounded-2xl px-4 py-3 text-xs text-white focus:outline-none transition font-medium">
+                            <input type="text" id="input-gerador-produto" value="Ventilador de Teto Portátil" placeholder="Cole o link do TikTok ou digite o nome do produto" class="w-full bg-[#080B14] border border-slate-700 focus:border-[#FF2A5F] rounded-2xl px-4 py-3.5 text-xs text-white focus:outline-none transition font-medium">
                         </div>
 
-                        <button onclick="gerarRoteiroNaTela()" class="w-full py-3.5 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-extrabold text-sm rounded-2xl transition shadow-xl shadow-[#FF2A5F]/25 flex items-center justify-center gap-2 cursor-pointer">
+                        <button id="btn-gerar-roteiro" onclick="gerarRoteiroNaTela()" class="w-full py-4 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-extrabold text-sm rounded-2xl transition shadow-xl shadow-[#FF2A5F]/25 flex items-center justify-center gap-2 cursor-pointer">
                             <span>✨ GERAR ROTEIRO VIRAL NA TELA</span>
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
                         </button>
@@ -232,9 +228,9 @@
                         
                         <div class="flex items-center justify-between pb-1">
                             <span id="tela-titulo-produto" class="text-xs font-extrabold text-emerald-400 flex items-center gap-1.5">
-                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Roteiro: Ventilador de Teto Portátil
+                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Roteiro IA: Ventilador de Teto Portátil
                             </span>
-                            <span class="text-[10px] text-slate-500 font-mono">Pronto para Gravação</span>
+                            <span class="text-[10px] text-slate-500 font-mono">IA Groq Ativa</span>
                         </div>
 
                         <!-- 1. Gancho (Fundo Azul) -->
@@ -245,7 +241,7 @@
                                 </span>
                                 <span class="text-[10px] text-blue-300/80 font-mono">Prender Atenção</span>
                             </div>
-                            <p id="tela-gerado-gancho" class="text-blue-100 font-semibold leading-relaxed text-xs">Pare de jogar dinheiro fora! Ninguém te conta isso sobre Ventilador de Teto Portátil...</p>
+                            <p id="tela-gerado-gancho" class="text-blue-100 font-semibold leading-relaxed text-xs">Pare de jogar dinheiro fora com ar-condicionado! Esse ventilador portátil de 50 reais mudou meu quarto...</p>
                         </div>
 
                         <!-- 2. Corpo (Fundo Verde) -->
@@ -256,7 +252,7 @@
                                 </span>
                                 <span class="text-[10px] text-emerald-300/80 font-mono">Gerar Desejo</span>
                             </div>
-                            <p id="tela-gerado-corpo" class="text-emerald-100 font-normal leading-relaxed text-xs">Mostre o produto funcionando nos primeiros 10 segundos provando o resultado prático sem esforço nenhum.</p>
+                            <p id="tela-gerado-corpo" class="text-emerald-100 font-normal leading-relaxed text-xs">Mostre como ele ventila forte sem fazer barulho, conecta direto no bocal da lâmpada ou tomada e refrigera o cômodo em 2 minutos.</p>
                         </div>
 
                         <!-- 3. CTA (Fundo Vermelho) -->
@@ -267,10 +263,10 @@
                                 </span>
                                 <span class="text-[10px] text-rose-300/80 font-mono">Comprar na Sacola</span>
                             </div>
-                            <p id="tela-gerado-cta" class="text-rose-100 font-semibold leading-relaxed text-xs">Clique na sacolinha abaixo antes que acabe o estoque com frete grátis.</p>
+                            <p id="tela-gerado-cta" class="text-rose-100 font-semibold leading-relaxed text-xs">Clique no carrinho do TikTok Shop abaixo antes que o lote com frete grátis acabe hoje.</p>
                         </div>
 
-                        <!-- BOTÕES DE CONTROLE DO ROTEIRO -->
+                        <!-- BOTÕES DE CONTROLE -->
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1">
                             <button onclick="copiarRoteiroTela()" class="py-2.5 bg-slate-900 hover:bg-slate-800 text-white border border-slate-700/80 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5">
                                 <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184"/></svg>
@@ -282,8 +278,8 @@
                                 <span>Salvar .TXT</span>
                             </button>
 
-                            <button onclick="alternarVariacaoNaTela()" class="py-2.5 bg-[#FF2A5F]/20 hover:bg-[#FF2A5F] text-[#FF2A5F] hover:text-white border border-[#FF2A5F]/40 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5">
-                                <span>🔄 Outra Variação</span>
+                            <button onclick="gerarRoteiroNaTela()" class="py-2.5 bg-[#FF2A5F]/20 hover:bg-[#FF2A5F] text-[#FF2A5F] hover:text-white border border-[#FF2A5F]/40 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5">
+                                <span>🔄 Outro com IA</span>
                             </button>
                         </div>
 
@@ -293,19 +289,21 @@
         </section>
 
         <!-- ============================================================ -->
-        <!-- 2. FERRAMENTA 2: EDITOR E REMOVEDOR DE PAUSAS                -->
+        <!-- 2. FERRAMENTA 2: EDITOR E REMOVEDOR DE PAUSAS (TÍTULO MAIOR) -->
         <!-- ============================================================ -->
-        <section id="secao-removedor" class="saas-card rounded-3xl p-6 sm:p-7 shadow-xl">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
+        <section id="secao-removedor" class="saas-card rounded-3xl p-6 sm:p-8 shadow-xl">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-slate-800/80">
                 <div>
-                    <span class="text-xs font-black uppercase text-cyan-400 tracking-wider block mb-0.5">Ferramenta 2</span>
-                    <h2 class="text-lg sm:text-xl font-black text-white">Editor e Removedor de Pausas</h2>
+                    <span class="text-xs font-black uppercase text-cyan-400 tracking-wider block mb-1">Ferramenta 2</span>
+                    <!-- TÍTULO GRANDE EM MAIÚSCULO COM DEGRADÊ CIANO A ROSA -->
+                    <h2 class="text-xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-sky-300 to-[#FF2A5F]">
+                        EDITOR E REMOVEDOR DE PAUSAS
+                    </h2>
                 </div>
 
-                <!-- CAMPO: NOME DO VÍDEO -->
                 <div class="flex items-center gap-2">
                     <label class="text-xs text-slate-400 font-bold">Nome do Vídeo:</label>
-                    <input type="text" id="editor-cfg-prefix" value="Ventilador_Teto" oninput="atualizarPreviaNomeEditor()" class="bg-[#080B14] border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-[#FF2A5F] w-36 font-semibold">
+                    <input type="text" id="editor-cfg-prefix" value="Ventilador_Teto" oninput="atualizarPreviaNomeEditor()" class="bg-[#080B14] border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#FF2A5F] w-36 font-semibold">
                 </div>
             </div>
 
@@ -338,7 +336,7 @@
                 </div>
             </div>
 
-            <!-- AVISO EM DESTAQUE: NÃO MINIMIZAR A ABA -->
+            <!-- AVISO EM DESTAQUE -->
             <div class="mt-4 p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs flex items-center gap-2.5 shadow-md">
                 <span class="text-lg flex-shrink-0">⚠️</span>
                 <p class="leading-relaxed font-semibold">
@@ -375,19 +373,21 @@
         </section>
 
         <!-- ============================================================ -->
-        <!-- 3. FERRAMENTA 3: MULTIPLICADOR DE VÍDEOS EM MASSA           -->
+        <!-- 3. FERRAMENTA 3: MULTIPLICADOR DE VÍDEOS (TÍTULO MAIOR)      -->
         <!-- ============================================================ -->
-        <section id="secao-multiplicador" class="saas-card rounded-3xl p-6 sm:p-7 shadow-xl">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
+        <section id="secao-multiplicador" class="saas-card rounded-3xl p-6 sm:p-8 shadow-xl">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-slate-800/80">
                 <div>
-                    <span class="text-xs font-black uppercase text-cyan-400 tracking-wider block mb-0.5">Ferramenta 3</span>
-                    <h2 class="text-lg sm:text-xl font-black text-white">Multiplicador de Vídeos em Massa</h2>
+                    <span class="text-xs font-black uppercase text-cyan-400 tracking-wider block mb-1">Ferramenta 3</span>
+                    <!-- TÍTULO GRANDE EM MAIÚSCULO COM DEGRADÊ CIANO A ROSA -->
+                    <h2 class="text-xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-sky-300 to-[#FF2A5F]">
+                        MULTIPLICADOR DE VÍDEOS EM MASSA
+                    </h2>
                 </div>
 
-                <!-- CAMPO: NOME DO VÍDEO -->
                 <div class="flex items-center gap-2">
                     <label class="text-xs text-slate-400 font-bold">Nome do Vídeo:</label>
-                    <input type="text" id="cfg-prefix" value="Ventilador_Teto" oninput="atualizarPreviaNome()" class="bg-[#080B14] border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-[#FF2A5F] w-36 font-semibold">
+                    <input type="text" id="cfg-prefix" value="Ventilador_Teto" oninput="atualizarPreviaNome()" class="bg-[#080B14] border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#FF2A5F] w-36 font-semibold">
                 </div>
             </div>
 
@@ -479,7 +479,7 @@
                 </div>
             </div>
 
-            <!-- AVISO EM DESTAQUE: NÃO MINIMIZAR A ABA -->
+            <!-- AVISO EM DESTAQUE -->
             <div class="mt-4 p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs flex items-center gap-2.5 shadow-md">
                 <span class="text-lg flex-shrink-0">⚠️</span>
                 <p class="leading-relaxed font-semibold">
@@ -514,43 +514,15 @@
         +VIDEOS • Multiplique seus vídeos e otimize seu tempo © 2026
     </footer>
 
-    <!-- SCRIPT BLINDADO E 100% FUNCIONAL -->
+    <!-- SCRIPT BLINDADO COM IA CONECTADA -->
     <script>
         let audioContextGlobal = null;
         let codecSelecionado = { mime: 'video/mp4', ext: 'mp4' };
 
-        // MOTOR DO ROTEIRO GERADO DIRETAMENTE NA TELA
+        // MOTOR DO ROTEIRO COM IA (GROQ CLOUDFLARE WORKER)
         let produtoAtualNome = "Ventilador de Teto Portátil";
-        let indiceAnguloRoteiro = 0;
 
-        const bancoAngulos = [
-            {
-                tipo: "Curiosidade / Choque",
-                gancho: "Pare de jogar dinheiro fora! Ninguém te conta isso sobre {P}...",
-                corpo: "Mostre o produto funcionando nos primeiros 10 segundos provando o resultado prático sem esforço nenhum.",
-                cta: "Clique na sacolinha abaixo antes que acabe o estoque com frete grátis."
-            },
-            {
-                tipo: "Inimigo Comum / Segredo",
-                gancho: "Eles não querem que você descubra esse segredo sobre {P}...",
-                corpo: "Compare com o método antigo demorado e mostre como esse produto resolve tudo em menos de 1 minuto.",
-                cta: "Aproveite a promoção de 50% de desconto enquanto durar o lote aqui embaixo."
-            },
-            {
-                tipo: "Transformação Rápida",
-                gancho: "Como eu economizei tempo e resolvi isso em 15 segundos usando {P}:",
-                corpo: "Demonstre a função principal na prática e mostre a satisfação do antes e depois nítido.",
-                cta: "Garanta o seu com desconto exclusivo de primeira compra no botão abaixo."
-            },
-            {
-                tipo: "Custo-Benefício Viral",
-                gancho: "O produto mais vendido do TikTok Shop finalmente chegou na minha casa: {P}!",
-                corpo: "Mostre a embalagem abrindo, teste a resistência do material e aprove o uso real.",
-                cta: "Clique no carrinho do TikTok Shop e garanta o seu antes que esgote."
-            }
-        ];
-
-        function gerarRoteiroNaTela() {
+        async function gerarRoteiroNaTela() {
             const inputEl = document.getElementById('input-gerador-produto');
             const val = inputEl ? inputEl.value.trim() : '';
             if (!val) {
@@ -563,37 +535,53 @@
                 try {
                     const url = new URL(val.startsWith("http") ? val : "https://" + val);
                     const q = url.searchParams.get("q");
-                    if (q) nomeLimpo = decodeURIComponent(q.replace(/\+/g, " "));
-                    else nomeLimpo = "Produto TikTok Viral";
+                    nomeLimpo = q ? decodeURIComponent(q.replace(/\+/g, " ")) : "Produto TikTok Viral";
                 } catch(e) {
                     nomeLimpo = "Produto Viral";
                 }
             }
 
             produtoAtualNome = nomeLimpo.slice(0, 35);
-            indiceAnguloRoteiro = 0;
-            renderizarRoteiroNaTela();
             sincronizarNomeNasFerramentas();
-        }
 
-        function alternarVariacaoNaTela() {
-            indiceAnguloRoteiro = (indiceAnguloRoteiro + 1) % bancoAngulos.length;
-            renderizarRoteiroNaTela();
-        }
+            const btn = document.getElementById('btn-gerar-roteiro');
+            const txtOriginal = btn.innerHTML;
+            btn.innerHTML = `<span class="animate-spin inline-block mr-2">⚡</span> IA Analisando e Criando...`;
+            btn.disabled = true;
 
-        function renderizarRoteiroNaTela() {
-            const angulo = bancoAngulos[indiceAnguloRoteiro];
-            const pNome = produtoAtualNome || "este produto";
-            
-            const elGancho = document.getElementById('tela-gerado-gancho');
-            const elCorpo = document.getElementById('tela-gerado-corpo');
-            const elCta = document.getElementById('tela-gerado-cta');
             const elTitulo = document.getElementById('tela-titulo-produto');
+            elTitulo.innerHTML = `<span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span> IA da Groq criando roteiro persuasivo para: ${produtoAtualNome}...`;
 
-            if (elGancho) elGancho.innerText = angulo.gancho.replace("{P}", pNome);
-            if (elCorpo) elCorpo.innerText = angulo.corpo.replace("{P}", pNome);
-            if (elCta) elCta.innerText = angulo.cta.replace("{P}", pNome);
-            if (elTitulo) elTitulo.innerText = "Roteiro: " + pNome;
+            try {
+                // CHAMA O SEU WORKER DO CLOUDFLARE COM A IA DA GROQ
+                const resposta = await fetch("https://gerador-roteiro.lucasrosalin1990.workers.dev/", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ produto: produtoAtualNome })
+                });
+
+                if (!resposta.ok) throw new Error("Falha na resposta do Worker");
+                const data = await resposta.json();
+
+                if (data.gancho && data.corpo && data.cta) {
+                    document.getElementById('tela-gerado-gancho').innerText = data.gancho;
+                    document.getElementById('tela-gerado-corpo').innerText = data.corpo;
+                    document.getElementById('tela-gerado-cta').innerText = data.cta;
+                    elTitulo.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Roteiro IA: ${produtoAtualNome}`;
+                } else {
+                    throw new Error("JSON incompleto");
+                }
+            } catch (erro) {
+                console.warn("Worker em processamento, usando motor contingência:", erro);
+                // Contingência instantânea caso a internet falhe
+                document.getElementById('tela-gerado-gancho').innerText = `Pare de jogar dinheiro fora! Ninguém te conta a verdade sobre ${produtoAtualNome}...`;
+                document.getElementById('tela-gerado-corpo').innerText = `Mostre o produto resolvendo o problema nos primeiros 10 segundos na prática sem enrolação.`;
+                document.getElementById('tela-gerado-cta').innerText = `Clique no carrinho do TikTok Shop abaixo antes que encerre o lote com frete grátis.`;
+                elTitulo.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Roteiro: ${produtoAtualNome}`;
+            } finally {
+                btn.innerHTML = txtOriginal;
+                btn.disabled = false;
+            }
         }
 
         function sincronizarNomeNasFerramentas() {
@@ -1002,7 +990,7 @@
 
             itens.forEach((arq, i) => {
                 const li = document.createElement('li');
-                li.className = 'flex items-center justify-between bg-[#080B14] border border-slate-800 px-2 py-1 rounded text-[11px] text-slate-300';
+                li.className = 'flex items-center justify-between bg-[#0D1220] border border-slate-800 px-2 py-1 rounded text-[11px] text-slate-300';
                 li.innerHTML = `
                     <span class="truncate">${i + 1}. ${arq.name}</span>
                     <button onclick="removerArquivo('${cat}', ${i})" class="text-slate-500 hover:text-rose-400">✕</button>
@@ -1228,7 +1216,12 @@
             checarDadosCliente();
             inicializarCodecs();
             atualizarPreviaNomeEditor();
-            renderizarRoteiroNaTela();
+            
+            // Força o vídeo a iniciar automaticamente ao carregar
+            const video = document.getElementById('video-tutorial');
+            if (video) {
+                video.play().catch(e => console.log("Autoplay aguardando interação:", e));
+            }
         });
     </script>
 </body>
