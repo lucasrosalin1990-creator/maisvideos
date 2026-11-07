@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -98,18 +98,11 @@
                 <span class="text-slate-400 text-[10px] border-l border-slate-800 pl-2">Itens: <strong class="text-white font-mono">87</strong></span>
                 <span class="text-emerald-400 font-mono font-bold text-[10px] border-l border-slate-800 pl-2">+R$ 3.140,00</span>
             </div>
-            <!-- Loop -->
-            <div class="flex-shrink-0 flex items-center gap-3 bg-[#0D1220]/90 border border-slate-800/80 px-3 py-1.5 rounded-xl text-xs shadow-md">
-                <span class="text-[10px] bg-white text-black font-extrabold px-2 py-0.5 rounded-md">Hoje</span>
-                <span class="text-slate-400 text-[10px]">GMV: <strong class="text-white font-mono">R$ 14,8 mil</strong></span>
-                <span class="text-slate-400 text-[10px] border-l border-slate-800 pl-2">Itens: <strong class="text-white font-mono">48</strong></span>
-                <span class="text-emerald-400 font-mono font-bold text-[10px] border-l border-slate-800 pl-2">+R$ 1.620,00</span>
-            </div>
             <div class="flex-shrink-0 flex items-center gap-3 bg-[#0D1220]/90 border border-slate-800/80 px-3 py-1.5 rounded-xl text-xs shadow-md">
                 <span class="text-[10px] bg-[#FF2A5F]/20 text-[#FF2A5F] border border-[#FF2A5F]/30 font-extrabold px-2 py-0.5 rounded-md">Últimos 7 dias</span>
-                <span class="text-slate-400 text-[10px]">GMV: <strong class="text-white font-mono">R$ 82,4 mil</strong></span>
-                <span class="text-slate-400 text-[10px] border-l border-slate-800 pl-2">Itens: <strong class="text-white font-mono">264</strong></span>
-                <span class="text-emerald-400 font-mono font-bold text-[10px] border-l border-slate-800 pl-2">+R$ 9.480,00</span>
+                <span class="text-slate-400 text-[10px]">GMV: <strong class="text-white font-mono">R$ 154,8 mil</strong></span>
+                <span class="text-slate-400 text-[10px] border-l border-slate-800 pl-2">Itens: <strong class="text-white font-mono">490</strong></span>
+                <span class="text-emerald-400 font-mono font-bold text-[10px] border-l border-slate-800 pl-2">+R$ 18.250,00</span>
             </div>
         </div>
     </div>
@@ -165,46 +158,57 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full space-y-8 relative z-10">
         
         <!-- ============================================================ -->
-        <!-- 1. ONDE ENCONTRAR PRODUTOS CAMPEÕES (VÍDEO + GERADOR NA TELA)-->
+        <!-- SEÇÃO HERO + BOTÕES DE ATALHO RÁPIDO PARA AS 3 FERRAMENTAS -->
         <!-- ============================================================ -->
-        <section class="saas-card rounded-3xl p-6 sm:p-8 shadow-xl">
-            <!-- TÍTULO GRANDE -->
-            <div class="text-center sm:text-left mb-6 pb-6 border-b border-slate-800/80">
+        <div class="space-y-4">
+            <div class="text-center sm:text-left">
                 <span class="text-xs uppercase font-black text-[#FF2A5F] tracking-widest block mb-1">Passo a Passo Oficial</span>
                 <h1 class="text-xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight">
                     ONDE ENCONTRAR PRODUTOS CAMPEÕES DE VENDAS? <span class="text-[#FF2A5F]">VEJA O VÍDEO</span>
                 </h1>
-                <p class="text-xs sm:text-sm text-slate-300 mt-2 font-medium">
+                <p class="text-xs sm:text-sm text-slate-300 mt-1 font-medium">
                     1. Pegue o link no app • 2. Gere o roteiro • 3. Edite e Multiplique • <strong>Fature mais em menos tempo.</strong>
                 </p>
             </div>
 
+            <!-- OS 3 BOTÕES DE NAVEGAÇÃO RÁPIDA -->
+            <div class="flex items-center gap-2.5 flex-wrap justify-center sm:justify-start pt-1">
+                <a href="#secao-gerador" class="px-4 py-2 rounded-xl bg-[#0D1220] border border-slate-800 hover:border-[#FF2A5F]/60 text-xs text-slate-200 font-extrabold transition flex items-center gap-2 hover:text-white shadow-md">
+                    <span class="w-2 h-2 rounded-full bg-[#FF2A5F]"></span>
+                    <span>✨ Gerador de Roteiro</span>
+                </a>
+                <a href="#secao-removedor" class="px-4 py-2 rounded-xl bg-[#0D1220] border border-slate-800 hover:border-cyan-400/60 text-xs text-slate-200 font-extrabold transition flex items-center gap-2 hover:text-white shadow-md">
+                    <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+                    <span>⚡ Editor de Pausas</span>
+                </a>
+                <a href="#secao-multiplicador" class="px-4 py-2 rounded-xl bg-[#0D1220] border border-slate-800 hover:border-emerald-400/60 text-xs text-slate-200 font-extrabold transition flex items-center gap-2 hover:text-white shadow-md">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                    <span>🎬 Multiplicador de Vídeos</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 1. FERRAMENTA 1: VÍDEO TUTORIAL + GERADOR DE ROTEIROS       -->
+        <!-- ============================================================ -->
+        <section id="secao-gerador" class="saas-card rounded-3xl p-6 sm:p-8 shadow-xl">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 
-                <!-- VÍDEO TUTORIAL -->
+                <!-- VÍDEO TUTORIAL (SEM OPÇÃO DE TESTE OU FRASE DE GITHUB) -->
                 <div class="lg:col-span-5 flex flex-col items-center">
                     <div class="border-2 border-slate-800 rounded-3xl bg-[#080B14] p-3 shadow-2xl w-full max-w-xs">
                         <div class="relative bg-black rounded-2xl overflow-hidden aspect-[9/16] flex items-center justify-center">
-                            <video id="video-tutorial" src="tutorial.mp4" controls playsinline webkit-playsinline preload="metadata" class="w-full h-full object-contain">
+                            <video id="video-tutorial" src="tutorial.mp4?v=2" controls playsinline webkit-playsinline preload="metadata" class="w-full h-full object-contain">
                                 Seu navegador não suporta a tag de vídeo.
                             </video>
-                        </div>
-                        
-                        <!-- BOTÃO DE TESTE LOCAL IMEDIATO -->
-                        <div class="mt-3 text-center">
-                            <label class="text-[11px] text-cyan-400 hover:underline cursor-pointer font-bold block">
-                                📁 Escolher vídeo gravado para testar agora
-                                <input type="file" accept="video/*" class="hidden" onchange="carregarVideoLocal(this.files[0])">
-                            </label>
-                            <p class="text-[10px] text-slate-500 mt-0.5 font-mono">(Ou suba com o nome tutorial.mp4 no GitHub)</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- GERADOR DE ROTEIRO DIRETO NA TELA (SUBSTITUI A CAIXA ESTÁTICA) -->
+                <!-- GERADOR DE ROTEIRO DIRETO NA TELA -->
                 <div class="lg:col-span-7 flex flex-col justify-center space-y-4">
                     <div>
-                        <span class="text-xs font-black uppercase text-cyan-400 tracking-wider block mb-1">Passo 1</span>
+                        <span class="text-xs font-black uppercase text-cyan-400 tracking-wider block mb-1">Ferramenta 1</span>
                         <h2 class="text-lg sm:text-2xl font-black text-white">Gerador de Roteiro Viral para o Produto</h2>
                         <p class="text-xs text-slate-400 mt-1">
                             Cole o link copiado no seu TikTok (ou digite o nome do produto) para gerar o roteiro de vendas pronto diretamente aqui na tela.
@@ -266,7 +270,7 @@
                             <p id="tela-gerado-cta" class="text-rose-100 font-semibold leading-relaxed text-xs">Clique na sacolinha abaixo antes que acabe o estoque com frete grátis.</p>
                         </div>
 
-                        <!-- BOTÕES DE CONTROLE DO ROTEIRO DIRETO NA TELA -->
+                        <!-- BOTÕES DE CONTROLE DO ROTEIRO -->
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1">
                             <button onclick="copiarRoteiroTela()" class="py-2.5 bg-slate-900 hover:bg-slate-800 text-white border border-slate-700/80 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5">
                                 <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184"/></svg>
@@ -289,13 +293,13 @@
         </section>
 
         <!-- ============================================================ -->
-        <!-- 2. EDITOR E REMOVEDOR DE PAUSAS (LIMPO E SIMPLIFICADO)        -->
+        <!-- 2. FERRAMENTA 2: EDITOR E REMOVEDOR DE PAUSAS                -->
         <!-- ============================================================ -->
-        <section class="saas-card rounded-3xl p-6 sm:p-7 shadow-xl">
+        <section id="secao-removedor" class="saas-card rounded-3xl p-6 sm:p-7 shadow-xl">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
                 <div>
-                    <span class="text-xs font-black uppercase text-cyan-400 tracking-wider block mb-0.5">Passo 2</span>
-                    <h2 class="text-lg sm:text-xl font-black text-white">Editor e Remover de Pausas</h2>
+                    <span class="text-xs font-black uppercase text-cyan-400 tracking-wider block mb-0.5">Ferramenta 2</span>
+                    <h2 class="text-lg sm:text-xl font-black text-white">Editor e Removedor de Pausas</h2>
                 </div>
 
                 <!-- CAMPO: NOME DO VÍDEO -->
@@ -334,6 +338,14 @@
                 </div>
             </div>
 
+            <!-- AVISO EM DESTAQUE: NÃO MINIMIZAR A ABA -->
+            <div class="mt-4 p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs flex items-center gap-2.5 shadow-md">
+                <span class="text-lg flex-shrink-0">⚠️</span>
+                <p class="leading-relaxed font-semibold">
+                    <strong class="text-white">IMPORTANTE:</strong> Ao utilizar as ferramentas, não minimize a aba ou saia da tela para que o vídeo seja editado corretamente.
+                </p>
+            </div>
+
             <div id="editor-progress-box" class="hidden mt-4 bg-[#080B14] border border-[#FF2A5F]/30 rounded-xl p-3 text-xs">
                 <div class="flex items-center justify-between mb-1.5 font-bold">
                     <span id="editor-progress-title" class="text-white">Processando...</span>
@@ -363,12 +375,12 @@
         </section>
 
         <!-- ============================================================ -->
-        <!-- 3. MULTIPLICADOR DE VÍDEOS EM MASSA (CORES PERSONALIZADAS)    -->
+        <!-- 3. FERRAMENTA 3: MULTIPLICADOR DE VÍDEOS EM MASSA           -->
         <!-- ============================================================ -->
-        <section class="saas-card rounded-3xl p-6 sm:p-7 shadow-xl">
+        <section id="secao-multiplicador" class="saas-card rounded-3xl p-6 sm:p-7 shadow-xl">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
                 <div>
-                    <span class="text-xs font-black uppercase text-cyan-400 tracking-wider block mb-0.5">Passo 3</span>
+                    <span class="text-xs font-black uppercase text-cyan-400 tracking-wider block mb-0.5">Ferramenta 3</span>
                     <h2 class="text-lg sm:text-xl font-black text-white">Multiplicador de Vídeos em Massa</h2>
                 </div>
 
@@ -467,6 +479,14 @@
                 </div>
             </div>
 
+            <!-- AVISO EM DESTAQUE: NÃO MINIMIZAR A ABA -->
+            <div class="mt-4 p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs flex items-center gap-2.5 shadow-md">
+                <span class="text-lg flex-shrink-0">⚠️</span>
+                <p class="leading-relaxed font-semibold">
+                    <strong class="text-white">IMPORTANTE:</strong> Ao utilizar as ferramentas, não minimize a aba ou saia da tela para que o vídeo seja renderizado e multiplicado corretamente.
+                </p>
+            </div>
+
             <div id="progress-card" class="hidden mt-4 bg-[#080B14] border border-[#FF2A5F]/30 rounded-xl p-3 text-xs">
                 <div class="flex items-center justify-between mb-1.5 font-bold">
                     <span id="progress-detail" class="text-white">Renderizando...</span>
@@ -498,14 +518,6 @@
     <script>
         let audioContextGlobal = null;
         let codecSelecionado = { mime: 'video/mp4', ext: 'mp4' };
-
-        // CARREGA VÍDEO LOCAL SE TESTAR FORA DO GITHUB
-        function carregarVideoLocal(file) {
-            if (!file) return;
-            const video = document.getElementById('video-tutorial');
-            video.src = URL.createObjectURL(file);
-            video.play();
-        }
 
         // MOTOR DO ROTEIRO GERADO DIRETAMENTE NA TELA
         let produtoAtualNome = "Ventilador de Teto Portátil";
