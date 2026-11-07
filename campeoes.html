@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>+VIDEOS | Central de Produtos Campeões TikTok Shop Ads</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        * { font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { 
+            background-color: #06080F; 
+            color: #F1F5F9; 
+            letter-spacing: -0.015em; 
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .bg-dots {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1.2px, transparent 1.2px);
+            background-size: 22px 22px;
+            pointer-events: none; z-index: 0;
+        }
+
+        .ambient-glow-right {
+            position: fixed; top: -150px; right: 5%; width: 550px; height: 400px;
+            background: radial-gradient(circle, rgba(255, 42, 95, 0.12), transparent 70%);
+            filter: blur(75px); pointer-events: none; z-index: 0;
+        }
+        .ambient-glow-left {
+            position: fixed; top: -150px; left: 5%; width: 550px; height: 400px;
+            background: radial-gradient(circle, rgba(0, 210, 255, 0.09), transparent 70%);
+            filter: blur(75px); pointer-events: none; z-index: 0;
+        }
+
+        .geraviral-border {
+            position: relative;
+            background: rgba(13, 18, 32, 0.85);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 42, 95, 0.22);
+            box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.12), 0 8px 30px -10px rgba(0, 0, 0, 0.7);
+            transition: all 0.3s ease;
+        }
+        .geraviral-card {
+            background: rgba(8, 11, 20, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+            transition: all 0.25s ease;
+        }
+        .geraviral-card:hover {
+            border-color: rgba(255, 42, 95, 0.45);
+            box-shadow: inset 0 1px 0 0 rgba(255, 42, 95, 0.25), 0 0 20px -5px rgba(255, 42, 95, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .custom-scroll::-webkit-scrollbar { height: 6px; width: 6px; }
+        .custom-scroll::-webkit-scrollbar-track { background: rgba(11, 16, 29, 0.6); border-radius: 99px; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 99px; }
+        .custom-scroll::-webkit-scrollbar-thumb:hover { background: #FF2A5F; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-[#FF2A5F] selection:text-white">
+
+    <div class="bg-dots"></div>
+    <div class="ambient-glow-right"></div>
+    <div class="ambient-glow-left"></div>
+
+    <!-- MODAL DE ROTEIRO (GANCHO + CORPO + CTA) -->
+    <div id="modal-roteiro" class="fixed inset-0 z-[110] flex items-center justify-center bg-black/85 backdrop-blur-md px-4 hidden">
+        <div class="geraviral-border rounded-3xl p-6 max-w-xl w-full shadow-2xl relative max-h-[90vh] overflow-y-auto custom-scroll">
+            <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+                <div class="flex items-center gap-2.5">
+                    <span id="roteiro-tag-categoria" class="text-[10px] uppercase font-black bg-[#FF2A5F]/15 text-[#FF2A5F] border border-[#FF2A5F]/30 px-2.5 py-0.5 rounded-full">CATEGORIA</span>
+                    <span class="text-[10px] uppercase font-black bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 px-2 py-0.5 rounded-full">⚡ ADS ATIVO</span>
+                    <h3 id="roteiro-prod-nome" class="text-sm sm:text-base font-extrabold text-white truncate max-w-[220px]">Nome do Produto</h3>
+                </div>
+                <button onclick="fecharModalRoteiro()" class="text-slate-400 hover:text-white p-1">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+
+            <div class="space-y-4 my-5 text-xs">
+                <div class="bg-[#080B14]/80 border border-[#FF2A5F]/30 rounded-2xl p-4">
+                    <span class="font-extrabold text-[#FF2A5F] flex items-center gap-1.5 mb-1 text-xs">
+                        <span class="w-2 h-2 rounded-full bg-[#FF2A5F]"></span> 1. GANCHO (0 a 3s)
+                    </span>
+                    <p id="roteiro-gancho-texto" class="text-slate-100 font-semibold leading-relaxed">Texto do gancho...</p>
+                </div>
+                <div class="bg-[#080B14]/80 border border-slate-800 rounded-2xl p-4">
+                    <span class="font-extrabold text-cyan-400 flex items-center gap-1.5 mb-1 text-xs">
+                        <span class="w-2 h-2 rounded-full bg-cyan-400"></span> 2. CORPO (3 a 25s)
+                    </span>
+                    <p id="roteiro-corpo-texto" class="text-slate-300 font-normal leading-relaxed">Texto do corpo...</p>
+                </div>
+                <div class="bg-[#080B14]/80 border border-emerald-500/30 rounded-2xl p-4">
+                    <span class="font-extrabold text-emerald-400 flex items-center gap-1.5 mb-1 text-xs">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400"></span> 3. CTA (Final)
+                    </span>
+                    <p id="roteiro-cta-texto" class="text-slate-100 font-semibold leading-relaxed">Texto do CTA...</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <a id="btn-roteiro-link-tiktok" href="#" target="_blank" class="py-3 bg-slate-900 hover:bg-slate-800 text-white border border-slate-700 font-extrabold text-xs rounded-xl transition flex items-center justify-center gap-2">
+                    <span>🛒 Abrir no TikTok Shop</span>
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg>
+                </a>
+                <a id="btn-roteiro-usar-multiplicador" href="index.html" class="py-3 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-extrabold text-xs rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-[#FF2A5F]/20">
+                    <span>Multiplicar Este Vídeo</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- CABEÇALHO -->
+    <header class="border-b border-slate-800/80 bg-[#070A12]/80 backdrop-blur-md sticky top-0 z-40 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-xl bg-[#0F1424] border border-[#FF2A5F]/40 flex items-center justify-center text-xs font-black text-[#FF2A5F] shadow-md">+V</div>
+                <span class="text-base font-black tracking-tight text-white leading-tight">
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FF2A5F] to-cyan-400">+</span>VIDEOS
+                </span>
+                <span class="text-xs bg-slate-900 border border-slate-800 px-2.5 py-0.5 rounded-full text-slate-400 font-semibold ml-2 hidden sm:inline">Central de Campeões</span>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="flex items-center gap-2 bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 px-3.5 py-1.5 rounded-xl text-xs text-white font-bold transition">
+                    <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg>
+                    <span>Voltar para as Ferramentas</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full space-y-8 relative z-10">
+        
+        <!-- HEADER DA PÁGINA -->
+        <div class="text-center sm:text-left max-w-3xl">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF2A5F]/10 border border-[#FF2A5F]/30 text-[11px] font-bold text-[#FF2A5F] mb-3">
+                <span class="w-2 h-2 rounded-full bg-[#FF2A5F] animate-pulse"></span>
+                Curadoria VIP • Somente Produtos com ADS e Tráfego Ativo no Brasil
+            </div>
+            <h1 class="text-2xl sm:text-4xl font-black text-white tracking-tight leading-tight">
+                Ranking de Produtos <span class="text-[#FF2A5F]">Campeões de Vendas</span>
+            </h1>
+            <p class="text-xs sm:text-sm text-slate-400 mt-2 leading-relaxed">
+                Produtos minerados diretamente dos anúncios ativos no TikTok Shop. Selecione o produto, veja o link no carrinho ou use o roteiro viral validado.
+            </p>
+        </div>
+
+        <!-- BARRA DE CATEGORIAS (12 NICHOS OFICIAIS + TOP 20 GERAL) -->
+        <div class="geraviral-border rounded-2xl p-2.5">
+            <div class="flex items-center gap-1.5 overflow-x-auto custom-scroll pb-1">
+                <button onclick="selecionarAba('geral')" id="tab-geral" class="cat-btn px-4 py-2 rounded-xl text-xs font-extrabold whitespace-nowrap transition bg-[#FF2A5F] text-white">🏆 Top 20 Geral</button>
+                <button onclick="selecionarAba('eletrodomesticos')" id="tab-eletrodomesticos" class="cat-btn px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition bg-slate-900/80 text-slate-400 hover:text-white">⚡ Eletrodomésticos</button>
+                <button onclick="selecionarAba('celulares')" id="tab-celulares" class="cat-btn px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition bg-slate-900/80 text-slate-400 hover:text-white">📱 Celulares & Tablets</button>
+                <button onclick="selecionarAba('cozinha')" id="tab-cozinha" class="cat-btn px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition bg-slate-900/80 text-slate-400 hover:text-white">🍳 Utensílios de Cozinha</button>
+                <button onclick="selecionarAba('ferramentas')" id="tab-ferramentas" class="cat-btn px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition bg-slate-900/80 text-slate-400 hover:text-white">🔧 Ferramentas</button>
+                <button onclick="selecionarAba('computador')" id="tab-computador" class="cat-btn px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition bg-slate-900/80 text-slate-400 hover:text-white">💻 Acessórios PC</button>
+                <button onclick="selecionarAba('fitness')" id="tab-fitness" class="cat-btn px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition bg-slate-900/80 text-slate-400 hover:text-white">🏋️ Fitness</button>
+                <button onclick="selecionarAba('masculino')" id="tab-masculino" class="cat-btn px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition bg-slate-900/80 text-slate-400 hover:text-white">👔 Peças Masculinas</button>
+                <button onclick="selecionarAba('feminino')" id="tab-feminino" class="cat-btn px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition bg-slate-900/80 text-slate-400 hover:text-white">👗 Peças Femininas</button>
+                <button onclick="selecionarAba('saude')" id="tab-saude" class="cat-btn px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition bg-slate-900/80 text-slate-400 hover:text-white">💊 Saúde</button>
+                <button onclick="selecionarAba('cuidados')" id="tab-cuidados" class="cat-btn px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition bg-slate-900/80 text-slate-400 hover:text-white">💄 Cuidados Pessoais</button>
+                <button onclick="selecionarAba('moveis')" id="tab-moveis" class="cat-btn px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition bg-slate-900/80 text-slate-400 hover:text-white">🏠 Móveis</button>
+                <button onclick="selecionarAba('audio')" id="tab-audio" class="cat-btn px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition bg-slate-900/80 text-slate-400 hover:text-white">🎧 Áudio & Vídeo</button>
+            </div>
+        </div>
+
+        <!-- CABEÇALHO DO GRID -->
+        <div class="flex items-center justify-between">
+            <h2 id="titulo-secao-ativa" class="text-base sm:text-lg font-black text-white flex items-center gap-2">
+                <span>Top 20 Produtos Mais Vendidos Geral</span>
+            </h2>
+            <span id="contador-secao-ativa" class="text-xs bg-slate-900 border border-slate-800 text-slate-400 font-mono px-3 py-1 rounded-full">20 produtos</span>
+        </div>
+
+        <!-- GRID DE PRODUTOS -->
+        <div id="grid-campeoes" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
+    </main>
+
+    <footer class="border-t border-slate-900/80 bg-[#07090F]/90 py-5 text-center text-xs text-slate-500 relative z-10 font-medium">
+        +VIDEOS • Central de Inteligência TikTok Shop Ads © 2026
+    </footer>
+
+    <!-- SCRIPT DE INTELIGÊNCIA E DADOS DAS 12 CATEGORIAS -->
+    <script>
+        // ESTRUTURA MODULAR PRONTA PARA OS LINKS REAIS QUE VOCÊ MANDAR
+        const catalogoCampeoes = {
+            geral: [],
+            eletrodomesticos: [],
+            celulares: [],
+            cozinha: [],
+            ferramentas: [],
+            computador: [],
+            fitness: [],
+            masculino: [],
+            feminino: [],
+            saude: [],
+            cuidados: [],
+            moveis: [],
+            audio: []
+        };
+
+        // NOMES E METADADOS DAS 12 CATEGORIAS
+        const metaCategorias = {
+            geral: { titulo: "🏆 Top 20 Geral (Mais Impulsionados do Brasil)", qtd: 20 },
+            eletrodomesticos: { titulo: "⚡ Top 5 Eletrodomésticos com ADS", qtd: 5 },
+            celulares: { titulo: "📱 Top 5 Celulares & Tablets com ADS", qtd: 5 },
+            cozinha: { titulo: "🍳 Top 5 Utensílios de Cozinha com ADS", qtd: 5 },
+            ferramentas: { titulo: "🔧 Top 5 Ferramentas com ADS", qtd: 5 },
+            computador: { titulo: "💻 Top 5 Acessórios para Computador com ADS", qtd: 5 },
+            fitness: { titulo: "🏋️ Top 5 Fitness com ADS", qtd: 5 },
+            masculino: { titulo: "👔 Top 5 Peças Masculinas com ADS", qtd: 5 },
+            feminino: { titulo: "👗 Top 5 Peças Femininas com ADS", qtd: 5 },
+            saude: { titulo: "💊 Top 5 Saúde com ADS", qtd: 5 },
+            cuidados: { titulo: "💄 Top 5 Cuidados Pessoais com ADS", qtd: 5 },
+            moveis: { titulo: "🏠 Top 5 Móveis com ADS", qtd: 5 },
+            audio: { titulo: "🎧 Top 5 Áudio & Vídeo com ADS", qtd: 5 }
+        };
+
+        // BASE DE EXEMPLOS PRÉ-CONFIGURADA (SUBSTITUÍVEL PELOS SEUS LINKS DE AMANHÃ)
+        const modelosPorCategoria = {
+            eletrodomesticos: [
+                { n: "Mini Aspirador de Pó Portátil Sem Fio 120W", p: "R$ 69,90", v: "18.4k", c: "+390%", img: "https://images.unsplash.com/photo-1558317374-067fb5f30001?w=400", g: "Esse aspirador de mão puxa até sujeira de teclado e banco de carro.", d: "Ligue sugando moedas e migalhas em 3 segundos.", a: "Garanta o seu com desconto no TikTok Shop." },
+                { n: "Ferro de Passar a Vapor Portátil Bivolt", p: "R$ 59,00", v: "14.2k", c: "+280%", img: "https://images.unsplash.com/photo-1517677208171-0bc6725a3e60?w=400", g: "Desamasse qualquer roupa no cabide em 30 segundos.", d: "Passe o vapor quente em uma camisa amassada deixando lisa na hora.", a: "Clique no carrinho abaixo antes que acabe." },
+                { n: "Ventilador de Mesa Silencioso USB Recarregável", p: "R$ 39,90", v: "22.1k", c: "+410%", img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400", g: "Pare de passar calor no trabalho ou no quarto.", d: "Mostre o vento potente com 3 velocidades sem fazer barulho.", a: "Compre com frete grátis clicando no link." },
+                { n: "Umidificador Ultrassônico de Ambientes Bivolt", p: "R$ 49,90", v: "16.8k", c: "+310%", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400", g: "O ar seco não vai mais atacar sua rinite à noite.", d: "Ligue soltando a névoa perfumada e aromatizante.", a: "Garanta o seu no link do TikTok." },
+                { n: "Mini Geladeira Portátil para Cosméticos e Bebidas", p: "R$ 149,00", v: "9.5k", c: "+220%", img: "https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?w=400", g: "Seus cremes e máscaras geladinhos igual em clínica de estética.", d: "Abra a mini geladeira com iluminação interna e espelho de LED.", a: "Peça a sua na promoção hoje." }
+            ],
+            celulares: [
+                { n: "Suporte Veicular Magnético com Trava Magsafe", p: "R$ 34,90", v: "31.2k", c: "+450%", img: "https://images.unsplash.com/photo-1586816879360-004f5b0c51e5?w=400", g: "O celular não cai nem se você passar na pior lombada.", d: "Encoste o aparelho com ímã forte balançando firme.", a: "Aproveite a promoção de 34 reais no link." },
+                { n: "Película de Privacidade Cerâmica Anti-Espião", p: "R$ 22,00", v: "48.9k", c: "+520%", img: "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=400", g: "Ninguém no ônibus ou metrô vai conseguir ler seu WhatsApp.", d: "Vire o celular de lado mostrando a tela ficando totalmente preta.", a: "Garanta a sua antes do aumento de preço." },
+                { n: "Power Bank Bateria Portátil 20000mAh Indução", p: "R$ 89,00", v: "27.4k", c: "+340%", img: "https://images.unsplash.com/photo-1609592807901-447a242f2759?w=400", g: "Nunca mais fique sem bateria no meio da rua.", d: "Grude o powerbank atrás do celular carregando sem nenhum fio.", a: "Clique no carrinho do TikTok Shop." },
+                { n: "Cabo Turbo 100W 3 em 1 de Nylon Trançado", p: "R$ 29,90", v: "39.1k", c: "+430%", img: "https://images.unsplash.com/photo-1546776310-eef45dd6d63c?w=400", g: "Carregue iPhone, Type-C e Android com um único cabo resistente.", d: "Dobre e puxe o cabo reforçado que não quebra.", a: "Compre agora com frete grátis." },
+                { n: "Caneta Touch Screen Universal com Rejeição de Palma", p: "R$ 45,00", v: "19.3k", c: "+290%", img: "https://images.unsplash.com/photo-1544717305-2782549b5136?w=400", g: "Desenhe e estude no tablet sem pagar 1000 reais na caneta oficial.", d: "Escreva na tela com traço suave sem delay.", a: "Peça a sua no link abaixo." }
+            ]
+        };
+
+        // GERA AUTOMATICAMENTE AS OUTRAS CATEGORIAS E O TOP 20 GERAL
+        Object.keys(metaCategorias).forEach(cat => {
+            if (cat === 'geral') return;
+            catalogoCampeoes[cat] = [];
+            const listaBase = modelosPorCategoria[cat] || [
+                { n: `Produto Viral Impulsionado ${cat.toUpperCase()} #1`, p: "R$ 49,90", v: "24.5k", c: "+380%", img: "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=400", g: "O produto mais vendido dessa categoria no TikTok Shop.", d: "Demonstre a função do produto em 10 segundos.", a: "Clique no link e aproveite a oferta." },
+                { n: `Produto Viral Impulsionado ${cat.toUpperCase()} #2`, p: "R$ 59,90", v: "19.2k", c: "+310%", img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400", g: "Todo mundo está comprando esse produto no TikTok esta semana.", d: "Mostre o resultado antes e depois.", a: "Garanta o seu com desconto hoje." },
+                { n: `Produto Viral Impulsionado ${cat.toUpperCase()} #3`, p: "R$ 39,90", v: "15.8k", c: "+270%", img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400", g: "Pare de perder tempo e use essa solução prática.", d: "Demonstração rápida e clara do benefício.", a: "Aproveite o preço no carrinho abaixo." },
+                { n: `Produto Viral Impulsionado ${cat.toUpperCase()} #4`, p: "R$ 79,90", v: "12.4k", c: "+230%", img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400", g: "Esse achado mudou minha rotina em casa.", d: "Apresentação objetiva do diferencial do produto.", a: "Compre com frete grátis clicando no link." },
+                { n: `Produto Viral Impulsionado ${cat.toUpperCase()} #5`, p: "R$ 29,90", v: "34.1k", c: "+490%", img: "https://images.unsplash.com/photo-1560343090-f0409e92791a?w=400", g: "O menor preço do TikTok Shop para esse item essencial.", d: "Teste de resistência e durabilidade comprovado.", a: "Clique no botão e compre com segurança." }
+            ];
+
+            listaBase.forEach((item, idx) => {
+                const encoded = encodeURIComponent(item.n);
+                const obj = {
+                    id: `${cat}_${idx + 1}`,
+                    nome: item.n,
+                    preco: item.p,
+                    vendas: `${item.v} vendas`,
+                    crescimento: item.c,
+                    img: item.img,
+                    link: `https://www.tiktok.com/search/items?q=${encoded}`,
+                    categoria: metaCategorias[cat].titulo.split(" ")[2] || cat,
+                    gancho: item.g,
+                    corpo: item.d,
+                    cta: item.a
+                };
+                catalogoCampeoes[cat].push(obj);
+                if (catalogoCampeoes.geral.length < 20) {
+                    catalogoCampeoes.geral.push(obj);
+                }
+            });
+        });
+
+        let abaAtiva = 'geral';
+
+        function selecionarAba(aba) {
+            abaAtiva = aba;
+            document.querySelectorAll('.cat-btn').forEach(b => {
+                b.className = "cat-btn px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition bg-slate-900/80 text-slate-400 hover:text-white";
+            });
+            const btn = document.getElementById('tab-' + aba);
+            if (btn) btn.className = "cat-btn px-4 py-2 rounded-xl text-xs font-extrabold whitespace-nowrap transition bg-[#FF2A5F] text-white";
+
+            const meta = metaCategorias[aba] || { titulo: "Produtos Campeões", qtd: 5 };
+            document.getElementById('titulo-secao-ativa').innerText = meta.titulo;
+            document.getElementById('contador-secao-ativa').innerText = `${meta.qtd} produtos com ADS`;
+            renderizarGrid();
+        }
+
+        function renderizarGrid() {
+            const grid = document.getElementById('grid-campeoes');
+            grid.innerHTML = '';
+            const lista = catalogoCampeoes[abaAtiva] || [];
+
+            lista.forEach((p, idx) => {
+                const card = document.createElement('div');
+                card.className = "geraviral-card rounded-2xl p-3.5 flex flex-col justify-between";
+                card.innerHTML = `
+                    <div>
+                        <div class="relative bg-black rounded-xl overflow-hidden aspect-square mb-2.5">
+                            <img src="${p.img}" alt="${p.nome}" class="w-full h-full object-cover">
+                            <span class="absolute top-1.5 left-1.5 bg-black/80 font-mono text-cyan-400 text-[10px] font-black px-2 py-0.5 rounded border border-cyan-500/30">#${idx + 1} TOP</span>
+                            <span class="absolute top-1.5 right-1.5 bg-[#FF2A5F] text-white text-[9px] font-black px-1.5 py-0.5 rounded shadow flex items-center gap-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-white animate-ping"></span> ⚡ ADS ATIVO
+                            </span>
+                        </div>
+                        <h4 class="text-xs font-bold text-white line-clamp-2 leading-tight mb-1" title="${p.nome}">${p.nome}</h4>
+                        <div class="flex items-center justify-between text-xs mb-3 font-bold">
+                            <span class="text-[#FF2A5F] font-bold">${p.preco}</span>
+                            <span class="text-slate-400 font-mono text-[10px]">${p.vendas}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-1.5 pt-2 border-t border-slate-800/80">
+                        <a href="${p.link}" target="_blank" class="py-2 bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700/80 hover:text-white font-extrabold text-[10px] rounded-lg transition flex items-center justify-center gap-1">
+                            <span>🛒 TikTok</span>
+                        </a>
+                        <button onclick="abrirRoteiro('${p.id}')" class="py-2 bg-[#FF2A5F]/15 hover:bg-[#FF2A5F] text-[#FF2A5F] hover:text-white font-extrabold text-[10px] rounded-lg transition flex items-center justify-center gap-1">
+                            <span>💡 Roteiro</span>
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function abrirRoteiro(id) {
+            let item = null;
+            Object.keys(catalogoCampeoes).forEach(cat => {
+                const found = catalogoCampeoes[cat].find(x => x.id === id);
+                if (found) item = found;
+            });
+            if (!item) return;
+
+            document.getElementById('roteiro-prod-nome').innerText = item.nome;
+            document.getElementById('roteiro-tag-categoria').innerText = item.categoria || "TIKTOK SHOP";
+            document.getElementById('roteiro-gancho-texto').innerText = item.gancho;
+            document.getElementById('roteiro-corpo-texto').innerText = item.corpo;
+            document.getElementById('roteiro-cta-texto').innerText = item.cta;
+            document.getElementById('btn-roteiro-link-tiktok').href = item.link;
+
+            const prefixo = item.nome.split(" ").slice(0, 2).join("_").replace(/[^a-zA-Z0-9_]/g, "");
+            document.getElementById('btn-roteiro-usar-multiplicador').href = `index.html?prefix=${prefixo}`;
+            document.getElementById('modal-roteiro').classList.remove('hidden');
+        }
+
+        function fecharModalRoteiro() {
+            document.getElementById('modal-roteiro').classList.add('hidden');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            selecionarAba('geral');
+        });
+    </script>
+</body>
+</html>
