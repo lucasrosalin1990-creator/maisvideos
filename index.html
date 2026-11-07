@@ -53,16 +53,6 @@
             backdrop-filter: blur(18px);
             box-shadow: 0 4px 25px -4px rgba(255, 42, 95, 0.22);
         }
-        .geraviral-card {
-            background: rgba(8, 11, 20, 0.85);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: all 0.25s ease;
-        }
-        .geraviral-card:hover {
-            border-color: rgba(255, 42, 95, 0.45);
-            transform: translateY(-2px);
-        }
 
         @keyframes ticker-scroll {
             0% { transform: translateX(0); }
@@ -133,7 +123,6 @@
                 </span>
             </div>
 
-            <!-- LINK PARA A NOVA PÁGINA DE PRODUTOS CAMPEÕES -->
             <div class="flex items-center gap-3">
                 <a href="campeoes.html" class="flex items-center gap-2 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 px-3.5 py-1.5 rounded-xl text-xs text-white font-extrabold transition shadow-md shadow-[#FF2A5F]/20">
                     <span>🏆 Ranking Campeões</span>
@@ -158,74 +147,85 @@
             </h1>
 
             <p class="text-xs sm:text-sm text-slate-400 mt-2 leading-relaxed max-w-xl font-normal">
-                Limpe os silêncios dos seus vídeos brutos e multiplique criativos em lote direto no seu navegador.
+                Limpe pausas de respiração e multiplique dezenas de criativos únicos embaralhados direto no navegador.
             </p>
         </div>
 
         <!-- ============================================================ -->
-        <!-- VITRINE TEASER DE PRODUTOS CAMPEÕES (LEVA PARA CAMPEOES.HTML) -->
+        <!-- NOVO: GERADOR DINÂMICO DE ROTEIROS COM VÍDEO TUTORIAL         -->
         <!-- ============================================================ -->
-        <section class="geraviral-border rounded-3xl p-5 shadow-xl">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
-                <div>
-                    <h2 class="text-sm sm:text-base font-black text-white flex items-center gap-2">
-                        <span>🔥 Radar de Produtos Campeões (ADS Ativos)</span>
-                    </h2>
-                    <p class="text-[11px] text-slate-400">Classificação semanal dos itens mais impulsionados do TikTok Shop.</p>
+        <section class="geraviral-border rounded-3xl p-5 sm:p-6 shadow-xl">
+            <div class="flex flex-col lg:flex-row gap-6 items-start">
+                
+                <!-- ESPAÇO PARA O VÍDEO TUTORIAL GRAVADO DA TELA DO CELULAR -->
+                <div class="w-full lg:w-72 flex-shrink-0">
+                    <div class="border border-slate-800 rounded-2xl bg-[#080B14] p-3 text-center">
+                        <span class="text-[10px] uppercase font-black text-[#FF2A5F] block mb-1">Vídeo Tutorial Rápido</span>
+                        <div class="relative bg-black rounded-xl overflow-hidden aspect-[9/16] max-h-56 mx-auto flex items-center justify-center border border-slate-800/80">
+                            <!-- Quando você gravar o vídeo, basta colocar o arquivo como tutorial.mp4 na pasta ou link do YouTube -->
+                            <video src="tutorial.mp4" controls playsinline preload="metadata" class="w-full h-full object-contain" poster="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=400">
+                                Seu navegador não suporta tag de vídeo.
+                            </video>
+                        </div>
+                        <p class="text-[11px] text-slate-400 mt-2 font-medium leading-tight">Como achar os produtos de 30k vendas no seu TikTok</p>
+                    </div>
                 </div>
 
-                <a href="campeoes.html" class="self-start sm:self-auto px-4 py-2 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-extrabold text-xs rounded-xl transition shadow-md shadow-[#FF2A5F]/20 flex items-center gap-1.5">
-                    <span>Ver Todas as 12 Categorias</span>
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
-                </a>
-            </div>
-
-            <!-- CARROSSEL TEASER SEM LINKS POLUÍDOS (SOMENTE VITRINE VISUAL) -->
-            <div class="flex gap-3 overflow-x-auto custom-scroll pb-2 pt-1">
-                <a href="campeoes.html" class="geraviral-card flex-shrink-0 w-36 rounded-2xl p-2.5 text-center group block">
-                    <div class="relative bg-black rounded-xl overflow-hidden aspect-square mb-2">
-                        <img src="https://images.unsplash.com/photo-1570222094114-d054a817e56b?w=300" class="w-full h-full object-cover group-hover:scale-105 transition">
-                        <span class="absolute top-1 left-1 bg-black/80 text-cyan-400 text-[9px] font-black px-1.5 py-0.5 rounded">#1 TOP</span>
+                <!-- CAMPO DE ENTRADA DO PRODUTO E GERADOR DE ROTEIROS -->
+                <div class="flex-grow w-full">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+                        <h2 class="text-sm sm:text-base font-black text-white flex items-center gap-2">
+                            <span>✨ Gerador Inteligente de Roteiros Virais</span>
+                        </h2>
+                        <span class="text-[10px] bg-slate-900 border border-slate-800 text-slate-400 font-mono px-2.5 py-0.5 rounded-full">IA Viral v2.0</span>
                     </div>
-                    <span class="text-[9px] bg-[#FF2A5F]/20 text-[#FF2A5F] font-black px-1.5 py-0.5 rounded block mb-1">⚡ ADS ATIVO</span>
-                    <h4 class="text-[11px] font-bold text-white truncate">Mini Liquidificador</h4>
-                </a>
 
-                <a href="campeoes.html" class="geraviral-card flex-shrink-0 w-36 rounded-2xl p-2.5 text-center group block">
-                    <div class="relative bg-black rounded-xl overflow-hidden aspect-square mb-2">
-                        <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=300" class="w-full h-full object-cover group-hover:scale-105 transition">
-                        <span class="absolute top-1 left-1 bg-black/80 text-cyan-400 text-[9px] font-black px-1.5 py-0.5 rounded">#2 TOP</span>
-                    </div>
-                    <span class="text-[9px] bg-[#FF2A5F]/20 text-[#FF2A5F] font-black px-1.5 py-0.5 rounded block mb-1">⚡ ADS ATIVO</span>
-                    <h4 class="text-[11px] font-bold text-white truncate">Mini Câmera A9</h4>
-                </a>
+                    <p class="text-xs text-slate-400 mb-3">
+                        Cole o link copiado do TikTok Shop ou digite o nome do produto para gerar os 3 blocos de gravação instantaneamente.
+                    </p>
 
-                <a href="campeoes.html" class="geraviral-card flex-shrink-0 w-36 rounded-2xl p-2.5 text-center group block">
-                    <div class="relative bg-black rounded-xl overflow-hidden aspect-square mb-2">
-                        <img src="https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?w=300" class="w-full h-full object-cover group-hover:scale-105 transition">
-                        <span class="absolute top-1 left-1 bg-black/80 text-cyan-400 text-[9px] font-black px-1.5 py-0.5 rounded">#3 TOP</span>
+                    <div class="flex flex-col sm:flex-row gap-2 mb-4">
+                        <input type="text" id="input-gerador-produto" placeholder="Cole o link do TikTok ou digite (Ex: Corda de Pular Ajustável)" class="flex-grow bg-[#080B14]/90 border border-slate-700 focus:border-[#FF2A5F] rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none transition font-medium">
+                        <button onclick="gerarRoteiroPersonalizado()" class="px-5 py-2.5 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-extrabold text-xs rounded-xl transition shadow-md shadow-[#FF2A5F]/20 flex items-center justify-center gap-1.5 whitespace-nowrap">
+                            <span>Gerar Roteiro</span>
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+                        </button>
                     </div>
-                    <span class="text-[9px] bg-[#FF2A5F]/20 text-[#FF2A5F] font-black px-1.5 py-0.5 rounded block mb-1">⚡ ADS ATIVO</span>
-                    <h4 class="text-[11px] font-bold text-white truncate">Mini Selador</h4>
-                </a>
 
-                <a href="campeoes.html" class="geraviral-card flex-shrink-0 w-36 rounded-2xl p-2.5 text-center group block">
-                    <div class="relative bg-black rounded-xl overflow-hidden aspect-square mb-2">
-                        <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=300" class="w-full h-full object-cover group-hover:scale-105 transition">
-                        <span class="absolute top-1 left-1 bg-black/80 text-cyan-400 text-[9px] font-black px-1.5 py-0.5 rounded">#4 TOP</span>
-                    </div>
-                    <span class="text-[9px] bg-[#FF2A5F]/20 text-[#FF2A5F] font-black px-1.5 py-0.5 rounded block mb-1">⚡ ADS ATIVO</span>
-                    <h4 class="text-[11px] font-bold text-white truncate">Projetor Astronauta</h4>
-                </a>
+                    <!-- CAIXAS DO ROTEIRO GERADO -->
+                    <div id="caixa-roteiro-gerado" class="space-y-2.5 text-xs">
+                        <!-- Gancho -->
+                        <div class="bg-[#080B14]/80 border border-[#FF2A5F]/30 rounded-xl p-3">
+                            <span class="font-extrabold text-[#FF2A5F] text-[11px] block mb-0.5">1. GANCHO (Primeiros 3 segundos):</span>
+                            <p id="gerado-gancho" class="text-slate-100 font-semibold leading-relaxed">Cole um produto acima e clique em Gerar Roteiro...</p>
+                        </div>
 
-                <a href="campeoes.html" class="geraviral-card flex-shrink-0 w-36 rounded-2xl p-2.5 text-center group block">
-                    <div class="relative bg-black rounded-xl overflow-hidden aspect-square mb-2">
-                        <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=300" class="w-full h-full object-cover group-hover:scale-105 transition">
-                        <span class="absolute top-1 left-1 bg-black/80 text-cyan-400 text-[9px] font-black px-1.5 py-0.5 rounded">#5 TOP</span>
+                        <!-- Corpo -->
+                        <div class="bg-[#080B14]/80 border border-slate-800 rounded-xl p-3">
+                            <span class="font-extrabold text-cyan-400 text-[11px] block mb-0.5">2. CORPO (Demonstração e Benefício):</span>
+                            <p id="gerado-corpo" class="text-slate-300 font-normal leading-relaxed">O roteiro de demonstração aparecerá aqui...</p>
+                        </div>
+
+                        <!-- CTA -->
+                        <div class="bg-[#080B14]/80 border border-emerald-500/30 rounded-xl p-3">
+                            <span class="font-extrabold text-emerald-400 text-[11px] block mb-0.5">3. CTA (Chamada de Ação Final):</span>
+                            <p id="gerado-cta" class="text-slate-100 font-semibold leading-relaxed">A chamada final para o carrinho aparecerá aqui...</p>
+                        </div>
+
+                        <!-- BOTÕES DE AÇÃO: GERAR OUTRA VARIAÇÃO E APLICAR ÀS FERRAMENTAS -->
+                        <div class="flex flex-col sm:flex-row gap-2 pt-2">
+                            <button onclick="alternarVariacaoRoteiro()" class="w-full sm:w-1/2 py-2.5 bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700/80 font-extrabold text-xs rounded-xl transition flex items-center justify-center gap-1.5">
+                                <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/></svg>
+                                <span>🔄 Gerar Outra Variação de Roteiro</span>
+                            </button>
+
+                            <button onclick="aplicarNomeEmTodasFerramentas()" class="w-full sm:w-1/2 py-2.5 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-extrabold text-xs rounded-xl transition shadow-md shadow-[#FF2A5F]/20 flex items-center justify-center gap-1.5">
+                                <span>🎬 Usar Nome no Removedor e Multiplicador</span>
+                            </button>
+                        </div>
                     </div>
-                    <span class="text-[9px] bg-[#FF2A5F]/20 text-[#FF2A5F] font-black px-1.5 py-0.5 rounded block mb-1">⚡ ADS ATIVO</span>
-                    <h4 class="text-[11px] font-bold text-white truncate">Depilador Cristal</h4>
-                </a>
+
+                </div>
             </div>
         </section>
 
@@ -241,8 +241,8 @@
                 
                 <div class="flex items-center gap-2 self-start sm:self-auto">
                     <label class="text-[11px] text-slate-400 font-medium">Prefixo da Sequência:</label>
-                    <input type="text" id="editor-cfg-prefix" value="Gancho" oninput="atualizarPreviaNomeEditor()" class="bg-[#080B14]/80 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-white focus:outline-none focus:border-[#FF2A5F] w-28 font-medium">
-                    <span id="editor-preview-seq" class="text-[10px] text-[#FF2A5F] font-mono font-bold bg-[#080B14] px-2 py-1 rounded-md border border-slate-800">Gancho_01.mp4</span>
+                    <input type="text" id="editor-cfg-prefix" value="Criativo" oninput="atualizarPreviaNomeEditor()" class="bg-[#080B14]/80 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-white focus:outline-none focus:border-[#FF2A5F] w-32 font-medium">
+                    <span id="editor-preview-seq" class="text-[10px] text-[#FF2A5F] font-mono font-bold bg-[#080B14] px-2 py-1 rounded-md border border-slate-800">Criativo_01.mp4</span>
                 </div>
             </div>
 
@@ -302,11 +302,18 @@
         </section>
 
         <!-- ============================================================ -->
-        <!-- 3. MULTIPLICADOR EM MASSA COM BORDA GERAVIRAL                 -->
+        <!-- 3. MULTIPLICADOR EM MASSA COM EMBARALHAMENTO (SHUFFLE MODE)  -->
         <!-- ============================================================ -->
         <section class="geraviral-border rounded-3xl p-5 sm:p-6 shadow-xl">
-            <div class="flex items-center justify-between mb-4">
-                <h2 class="text-sm sm:text-base font-black text-white">Multiplicador em Massa</h2>
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+                <div>
+                    <h2 class="text-sm sm:text-base font-black text-white flex items-center gap-2">
+                        <span>Multiplicador em Massa</span>
+                        <span class="text-[10px] bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 px-2 py-0.5 rounded-full font-bold">🔀 Modo Embaralhado Ativo</span>
+                    </h2>
+                    <p class="text-[11px] text-slate-400">Combina seus ganchos, corpos e CTAs de forma aleatória para máxima variedade.</p>
+                </div>
+                
                 <div class="flex items-center gap-2">
                     <label class="text-[11px] text-slate-400 font-medium">Prefixo:</label>
                     <input type="text" id="cfg-prefix" value="Criativo" oninput="atualizarPreviaNome()" class="bg-[#080B14]/80 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-white focus:outline-none focus:border-[#FF2A5F] w-32 font-medium">
@@ -374,7 +381,7 @@
                 <div class="flex items-center gap-2 w-full sm:w-auto">
                     <button id="btn-cancel" onclick="abortarProcesso()" class="hidden px-4 py-2.5 rounded-xl bg-rose-500/10 text-rose-400 border border-rose-500/20 font-bold text-xs">Parar</button>
                     <button id="btn-start" onclick="iniciarMultiplicacao()" disabled class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-slate-800 text-slate-500 font-extrabold text-xs transition cursor-not-allowed">
-                        Gerar Vídeos em Massa
+                        Gerar Vídeos Embaralhados
                     </button>
                 </div>
             </div>
@@ -411,6 +418,85 @@
         let audioContextGlobal = null;
         let codecSelecionado = { mime: 'video/mp4', ext: 'mp4' };
 
+        // BANCO DE ÂNGULOS DE ROTEIRO PARA ALTERNAR DINAMICAMENTE
+        let produtoAtualNome = "Corda de Pular";
+        let indiceAnguloRoteiro = 0;
+
+        const bancoAngulos = [
+            {
+                tipo: "Curiosidade / Choque",
+                gancho: "Pare de jogar dinheiro fora! Ninguém te conta isso sobre {P}...",
+                corpo: "Mostre o produto funcionando nos primeiros 10 segundos provando o resultado imediato sem esforço.",
+                cta: "Clique na sacolinha abaixo antes que acabe o estoque com frete grátis."
+            },
+            {
+                tipo: "Inimigo Comum / Segredo",
+                gancho: "Eles não querem que você descubra esse segredo sobre {P}...",
+                corpo: "Compare com o método antigo demorado e mostre como esse produto resolve tudo em menos de 1 minuto.",
+                cta: "Aproveite a promoção de 50% de desconto enquanto durar o lote aqui embaixo."
+            },
+            {
+                tipo: "Transformação Rápida / Prova",
+                gancho: "Como eu economizei tempo e resolvi isso em 15 segundos usando {P}:",
+                corpo: "Demonstre a função principal na prática e mostre a satisfação do antes e depois nítido.",
+                cta: "Garanta o seu com desconto exclusivo de primeira compra no botão abaixo."
+            },
+            {
+                tipo: "Custo-Benefício / Viral",
+                gancho: "O produto mais vendido do TikTok Shop finalmente chegou na minha casa: {P}!",
+                corpo: "Mostre a embalagem abrindo, teste a resistência do material e aprove o uso real.",
+                cta: "Clique no carrinho do TikTok Shop e garanta o seu antes que esgote."
+            }
+        ];
+
+        function gerarRoteiroPersonalizado() {
+            const input = document.getElementById('input-gerador-produto').value.trim();
+            if (!input) {
+                alert("Digite o nome ou cole o link do produto primeiro!");
+                return;
+            }
+
+            let nomeLimpo = input;
+            if (input.includes("http")) {
+                const urlObj = new URL(input.startsWith("http") ? input : "https://" + input);
+                const q = urlObj.searchParams.get("q");
+                nomeLimpo = q ? decodeURIComponent(q) : "Produto Viral";
+            }
+            produtoAtualNome = nomeLimpo.slice(0, 30);
+            indiceAnguloRoteiro = 0;
+            renderizarRoteiroAtual();
+            aplicarNomeEmTodasFerramentas();
+        }
+
+        function alternarVariacaoRoteiro() {
+            indiceAnguloRoteiro = (indiceAnguloRoteiro + 1) % bancoAngulos.length;
+            renderizarRoteiroAtual();
+        }
+
+        function renderizarRoteiroAtual() {
+            const angulo = bancoAngulos[indiceAnguloRoteiro];
+            const pNome = produtoAtualNome || "este produto";
+            document.getElementById('gerado-gancho').innerText = angulo.gancho.replace("{P}", pNome);
+            document.getElementById('gerado-corpo').innerText = angulo.corpo.replace("{P}", pNome);
+            document.getElementById('gerado-cta').innerText = angulo.cta.replace("{P}", pNome);
+        }
+
+        // AUTO-PREENCHE O NOME NAS DUAS FERRAMENTAS AO MESMO TEMPO
+        function aplicarNomeEmTodasFerramentas() {
+            const limpo = produtoAtualNome.split(" ").slice(0, 2).join("_").replace(/[^a-zA-Z0-9_]/g, "");
+            const prefixo = limpo || "Criativo";
+
+            // Preenche no Multiplicador
+            document.getElementById('cfg-prefix').value = prefixo;
+            atualizarPreviaNome();
+
+            // Preenche no Removedor de Pausas
+            document.getElementById('editor-cfg-prefix').value = prefixo;
+            atualizarPreviaNomeEditor();
+
+            alert(`✅ Sucesso! O prefixo "${prefixo}" foi preenchido automaticamente tanto no Removedor de Pausas quanto no Multiplicador.`);
+        }
+
         function inicializarCodecs() {
             const codecs = [
                 { mime: 'video/mp4;codecs=avc1.42E01E,mp4a.40.2', ext: 'mp4' },
@@ -422,7 +508,7 @@
         }
 
         function atualizarPreviaNomeEditor() {
-            const prefixo = document.getElementById('editor-cfg-prefix').value.trim() || 'Gancho';
+            const prefixo = document.getElementById('editor-cfg-prefix').value.trim() || 'Criativo';
             const ext = codecSelecionado ? codecSelecionado.ext : 'mp4';
             document.getElementById('editor-preview-seq').innerText = `${prefixo}_01.${ext}`;
         }
@@ -634,7 +720,7 @@
             const progressTitle = document.getElementById('editor-progress-title');
             const resultsContainer = document.getElementById('editor-results-container');
             const sensibilidade = document.getElementById('editor-cfg-sensibilidade').value;
-            const prefixo = document.getElementById('editor-cfg-prefix').value.trim() || 'Gancho';
+            const prefixo = document.getElementById('editor-cfg-prefix').value.trim() || 'Criativo';
 
             btn.disabled = true;
             btn.classList.add('opacity-50');
@@ -715,7 +801,10 @@
             btn.disabled = true;
 
             const zip = new JSZip();
-            videosLimposFinalizados.forEach(item => { zip.file(item.nome, item.blob); });
+            videosLimposFinalizados.forEach(item => {
+                zip.file(item.nome, item.blob);
+            });
+
             const blobZip = await zip.generateAsync({ type: 'blob' });
             const prefixo = document.getElementById('editor-cfg-prefix').value.trim() || 'VideosLimpos';
             saveAs(blobZip, `${prefixo}_PacoteLimpo.zip`);
@@ -731,7 +820,9 @@
             calcularMatriz();
         }
 
-        // Multiplicador em Massa
+        // ============================================================
+        // MULTIPLICADOR EM MASSA COM EMBARALHAMENTO (SHUFFLE REAL)
+        // ============================================================
         const midias = { ganchos: [], corpos: [], ctas: [] };
         let criativosFinalizados = [];
         let cancelamentoSolicitado = false;
@@ -890,6 +981,7 @@
             });
         }
 
+        // INICIA MULTIPLICAÇÃO COM EMBARALHAMENTO REAL (FISHER-YATES SHUFFLE)
         async function iniciarMultiplicacao() {
             const { ganchos, corpos, ctas } = midias;
             const total = ganchos.length * corpos.length * ctas.length;
@@ -915,76 +1007,19 @@
 
             const ratio = document.getElementById('cfg-ratio').value;
             const prefixo = document.getElementById('cfg-prefix').value.trim() || 'Criativo';
-            let contador = 1;
 
+            // 1. GERA TODAS AS COMBINAÇÕES POSSÍVEIS
+            const listaCombinacoes = [];
             for (let g = 0; g < ganchos.length; g++) {
                 for (let c = 0; c < corpos.length; c++) {
                     for (let t = 0; t < ctas.length; t++) {
-                        if (cancelamentoSolicitado) break;
-                        const nomeArquivo = `${prefixo}_${String(contador).padStart(2, '0')}.${codecSelecionado.ext}`;
-                        progressDetail.innerText = `Gerando ${contador}/${total}: ${nomeArquivo}`;
-
-                        const blob = await fundirSemFlashPreto([ganchos[g], corpos[c], ctas[t]], ratio, 'cover', 5000000, () => {});
-                        criativosFinalizados.push({ name: nomeArquivo, blob });
-                        adicionarCardResultado(nomeArquivo, blob);
-                        resultsSection.classList.remove('hidden');
-
-                        const pct = Math.round((contador / total) * 100);
-                        progressBar.style.width = pct + '%';
-                        progressPct.innerText = pct + '%';
-                        contador++;
+                        listaCombinacoes.push({
+                            gancho: ganchos[g],
+                            corpo: corpos[c],
+                            cta: ctas[t]
+                        });
                     }
-                    if (cancelamentoSolicitado) break;
                 }
-                if (cancelamentoSolicitado) break;
             }
 
-            btnCancel.classList.add('hidden');
-            btnStart.disabled = false;
-            progressDetail.innerText = `Concluído! ${criativosFinalizados.length} vídeos prontos.`;
-        }
-
-        function adicionarCardResultado(nomeArquivo, blob) {
-            const grid = document.getElementById('videos-grid');
-            const url = URL.createObjectURL(blob);
-            const card = document.createElement('div');
-            card.className = 'bg-[#080B14] border border-slate-800 rounded-xl p-2.5 flex flex-col justify-between';
-            card.innerHTML = `
-                <video src="${url}" controls playsinline preload="metadata" class="w-full rounded-lg mb-2 aspect-[9/16] bg-black object-contain max-h-40"></video>
-                <a href="${url}" download="${nomeArquivo}" class="w-full text-center py-2 bg-[#FF2A5F]/20 text-[#FF2A5F] hover:bg-[#FF2A5F] hover:text-white font-bold text-xs rounded-lg transition">
-                    Baixar Vídeo
-                </a>
-            `;
-            grid.appendChild(card);
-        }
-
-        async function baixarZipCompleto() {
-            if (criativosFinalizados.length === 0) return;
-            const btn = document.getElementById('btn-zip');
-            btn.innerText = 'Compactando...';
-            btn.disabled = true;
-
-            const zip = new JSZip();
-            criativosFinalizados.forEach(item => { zip.file(item.name, item.blob); });
-            const conteudo = await zip.generateAsync({ type: 'blob' });
-            saveAs(conteudo, 'Criativos_MaisVideos.zip');
-            btn.innerText = 'Baixar Todos (.ZIP)';
-            btn.disabled = false;
-        }
-
-        // Auto-preenche prefixo caso venha do ranking
-        document.addEventListener('DOMContentLoaded', () => {
-            inicializarCodecs();
-            atualizarPreviaNomeEditor();
-            const params = new URLSearchParams(window.location.search);
-            const p = params.get('prefix');
-            if (p) {
-                document.getElementById('cfg-prefix').value = p;
-                document.getElementById('editor-cfg-prefix').value = p;
-                atualizarPreviaNomeEditor();
-                document.getElementById('cfg-prefix').scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        });
-    </script>
-</body>
-</html>
+            // 2. EMBARALHA ALEATORIAME
