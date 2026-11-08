@@ -350,18 +350,21 @@
                     body: JSON.stringify({ produto: produtoAtualNome })
                 });
 
-                if (resp.ok) {
-                    const data = await resp.json();
-                    if (data.gancho && data.corpo && data.cta) {
-                        document.getElementById('tela-gerado-gancho').innerText = data.gancho;
-                        document.getElementById('tela-gerado-corpo').innerText = data.corpo;
-                        document.getElementById('tela-gerado-cta').innerText = data.cta;
-                        return;
-                    }
+                const data = await resp.json();
+
+                if (!resp.ok) {
+                    throw new Error(data.detail || "Erro desconhecido no servidor");
                 }
-                alert("A IA demorou a responder. Tente novamente.");
+
+                if (data.gancho && data.corpo && data.cta) {
+                    document.getElementById('tela-gerado-gancho').innerText = data.gancho;
+                    document.getElementById('tela-gerado-corpo').innerText = data.corpo;
+                    document.getElementById('tela-gerado-cta').innerText = data.cta;
+                } else {
+                    alert("A IA retornou um formato inesperado.");
+                }
             } catch (e) {
-                alert("Erro ao conectar com a IA no servidor do Render. Verifique se a chave GROQ_API_KEY está ativa nas variáveis de ambiente do Render.");
+                alert("Falha ao gerar roteiro: " + e.message);
             } finally {
                 btn1.innerHTML = `<span>✨ GERAR ROTEIRO COM IA</span>`;
                 btn1.disabled = false;
