@@ -161,23 +161,17 @@
         <section id="secao-gerador" class="saas-card rounded-3xl p-6 sm:p-8 shadow-xl">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 
-                <!-- YOUTUBE SHORTS EMBED UNIVERSAL -->
-                <div class="lg:col-span-5 flex flex-col items-center">
-                    <div class="border-2 border-slate-800 rounded-3xl bg-[#080B14] p-3 shadow-2xl w-full max-w-xs">
-                        <div class="relative bg-black rounded-2xl overflow-hidden aspect-[9/16] flex items-center justify-center">
-                            <iframe 
-                                class="w-full h-full object-cover" 
-                                src="https://www.youtube-nocookie.com/embed/qC0aLz48H9k?autoplay=1&mute=1&playsinline=1&controls=1&rel=0" 
-                                title="Tutorial Produtos Campeões" 
-                                frameborder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen>
-                            </iframe>
-                        </div>
-                        <a href="https://youtube.com/shorts/T1UVfAd9LEo" target="_blank" class="text-[11px] text-slate-400 hover:text-cyan-400 mt-2 block text-center underline font-medium">
-                        </a>
-                    </div>
-                </div>
+ <!-- VÍDEO LOCAL DO GITHUB (TUTORIAL) -->
+<div class="lg:col-span-5 flex flex-col items-center">
+    <div class="border-2 border-slate-800 rounded-3xl bg-[#080B14] p-3 shadow-2xl w-full max-w-xs">
+        <div class="relative bg-black rounded-2xl overflow-hidden aspect-[9/16] flex items-center justify-center">
+            <video class="w-full h-full object-cover rounded-2xl" autoplay muted loop playsinline>
+                <source src="tutorial.mp4" type="video/mp4">
+                Seu navegador não suporta vídeos HTML5.
+            </video>
+        </div>
+    </div>
+</div>
 
                 <!-- GERADOR DE ROTEIRO DIRETO NA TELA -->
                 <div class="lg:col-span-7 flex flex-col justify-center space-y-4">
@@ -322,22 +316,22 @@
                 </div>
             </div>
 
-            <!-- RESULTADO COM DOWNLOAD ZIP -->
-            <div id="editor-results-container" class="mt-5 pt-4 border-t border-slate-800/80 hidden">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-emerald-950/20 border border-emerald-500/30">
-                    <div class="flex items-center gap-2">
-                        <span class="text-emerald-400 font-black text-lg">✓</span>
-                        <div>
-                            <h4 class="text-xs font-bold text-white">Vídeos Limpos na Nuvem com Sucesso!</h4>
-                            <p class="text-[11px] text-slate-400">Processado via FFmpeg sem travar o seu aparelho.</p>
-                        </div>
-                    </div>
-                    <a id="btn-download-editor-zip" href="#" class="px-5 py-2.5 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-extrabold text-xs rounded-xl shadow-md flex items-center justify-center gap-2 transition">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                        <span>Baixar Lote Completo (.ZIP)</span>
-                    </a>
-                </div>
+<!-- RESULTADO COM DOWNLOAD COMPLETO (.ZIP) -->
+<div id="editor-results-container" class="mt-5 pt-4 border-t border-slate-800/80 hidden">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-emerald-950/20 border border-emerald-500/30">
+        <div class="flex items-center gap-2">
+            <span class="text-emerald-400 font-black text-lg">✓</span>
+            <div>
+                <h4 class="text-xs font-bold text-white">Vídeos Limpos na Nuvem com Sucesso!</h4>
+                <p class="text-[11px] text-slate-400">Processado via FFmpeg sem travar o seu aparelho.</p>
             </div>
+        </div>
+        <a id="btn-download-editor-zip" href="#" class="px-5 py-2.5 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-extrabold text-xs rounded-xl shadow-md flex items-center justify-center gap-2 transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            <span>Baixar Lote Completo (.ZIP)</span>
+        </a>
+    </div>
+</div>
         </section>
 
         <!-- ============================================================ -->
