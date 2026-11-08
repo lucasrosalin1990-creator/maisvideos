@@ -38,9 +38,9 @@ TAREFAS: Dict[str, Dict[str, Any]] = {}
 
 def fallback_roteiro(produto: str) -> dict:
     return {
-        "gancho": f"Pare de jogar dinheiro fora com ar-condicionado! Esse {produto} mudou meu quarto...",
-        "corpo": f"Mostre o produto funcionando nos primeiros 10 segundos provando o resultado prático sem esforço nenhum.",
-        "cta": f"Clique no carrinho do TikTok Shop abaixo antes que o lote com frete grátis acabe hoje."
+        "gancho": f"Pare de jogar dinheiro fora! Esse {produto} mudou minha rotina completamente...",
+        "corpo": f"Mostre o produto funcionando nos primeiros 10 segundos provando o resultado prático sem esforço.",
+        "cta": f"Clique no carrinho do TikTok Shop abaixo antes que o lote com frete grátis acabe."
     }
 
 # ============================================================================
@@ -68,7 +68,6 @@ def task_remover_pausas(task_id: str, caminhos_videos: List[Path], prefixo: str,
         for idx, video_in in enumerate(caminhos_videos):
             video_out = out_dir / f"{prefixo}_{idx+1:02d}.mp4"
 
-            # 1. Detecta silêncios com FFmpeg
             cmd_detect = [
                 "ffmpeg", "-y", "-i", str(video_in),
                 "-af", f"silencedetect=noise={db_limiar}:d=0.3",
@@ -217,7 +216,7 @@ def task_multiplicar_videos(task_id: str, ganchos: List[Path], corpos: List[Path
         TAREFAS[task_id]["mensagem"] = f"Falha na multiplicação: {str(e)}"
 
 # ============================================================================
-# ROTAS DA API (TODAS AS ROTAS COMPLETAS)
+# ROTAS DA API
 # ============================================================================
 @app.get("/")
 def index():
@@ -241,27 +240,25 @@ async def rota_roteiro(payload: Dict[str, str]):
         "Content-Type": "application/json"
     }
 
-    prompt_sistema = """Você é um copywriter de elite especializado em TikTok Shop Brasil.
-Crie um roteiro em 3 partes curtas:
-1. Gancho (0 a 3s): Quebra de padrão impactante ou curiosidade irresistível.
-2. Corpo (3 a 25s): Demonstração visual rápida da solução quebrando a principal objeção.
-3. CTA (Final): Chamada com urgência para a sacola do TikTok Shop.
+    prompt_sistema = """Você é um copywriter de elite e criador de conteúdo expert em TikTok Shop Brasil.
+Sua missão é criar um roteiro de vídeo curto altamente persuasivo para vendas. 
+A cada requisição, inove totalmente no gancho, mude o ângulo de abordagem (ex: use curiosidade extrema, quebra de objeção, dor resolvida, custo-benefício ou alerta) e traga um texto fresco, criativo e diferente do padrão.
 
-Responda EXCLUSIVAMENTE em formato JSON:
+O retorno deve ser estritamente em formato JSON com estas chaves exatas:
 {"gancho": "...", "corpo": "...", "cta": "..."}"""
 
     body_groq = {
         "model": "llama-3.3-70b-versatile",
         "messages": [
             {"role": "system", "content": prompt_sistema},
-            {"role": "user", "content": f"Produto: '{produto}' (Crie uma variação inovadora e agressiva)"}
+            {"role": "user", "content": f"Crie um roteiro viral inédito e criativo para o produto: '{produto}'"}
         ],
         "response_format": {"type": "json_object"},
-        "temperature": 0.85
+        "temperature": 1.15
     }
 
     try:
-        resp = requests.post(url_groq, headers=headers_groq, json=body_groq, timeout=8)
+        resp = requests.post(url_groq, headers=headers_groq, json=body_groq, timeout=12)
         if resp.status_code == 200:
             dados = resp.json()
             conteudo = dados["choices"][0]["message"]["content"]
