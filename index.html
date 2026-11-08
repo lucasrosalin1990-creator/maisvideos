@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>+VIDEOS | Multiplique seus Vídeos e Otimize seu Tempo</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -93,17 +92,10 @@
                 <span class="text-slate-400 text-[10px] border-l border-slate-800 pl-2">Itens: <strong class="text-white font-mono">87</strong></span>
                 <span class="text-emerald-400 font-mono font-bold text-[10px] border-l border-slate-800 pl-2">+R$ 3.140,00</span>
             </div>
-            <!-- Loop -->
-            <div class="flex-shrink-0 flex items-center gap-3 bg-[#0D1220]/90 border border-slate-800/80 px-3 py-1.5 rounded-xl text-xs shadow-md">
-                <span class="text-[10px] bg-white text-black font-extrabold px-2 py-0.5 rounded-md">Hoje</span>
-                <span class="text-slate-400 text-[10px]">GMV: <strong class="text-white font-mono">R$ 14,8 mil</strong></span>
-                <span class="text-slate-400 text-[10px] border-l border-slate-800 pl-2">Itens: <strong class="text-white font-mono">48</strong></span>
-                <span class="text-emerald-400 font-mono font-bold text-[10px] border-l border-slate-800 pl-2">+R$ 1.620,00</span>
-            </div>
         </div>
     </div>
 
-    <!-- CABEÇALHO LIMPO -->
+    <!-- CABEÇALHO -->
     <header class="border-b border-slate-800/80 bg-[#070A12]/80 backdrop-blur-md sticky top-0 z-40 relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center gap-2.5">
@@ -112,7 +104,6 @@
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FF2A5F] to-cyan-400">+</span>VIDEOS
                 </span>
             </div>
-
             <div class="flex items-center gap-2 bg-[#0C101D]/80 border border-slate-800 px-3.5 py-1.5 rounded-xl text-xs text-slate-300">
                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                 <span class="font-bold text-white">Servidor em Nuvem Conectado</span>
@@ -123,7 +114,7 @@
     <!-- ÁREA PRINCIPAL -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full space-y-8 relative z-10">
         
-        <!-- HERO + NOVO TÍTULO COM DEGRADÊ COMPLETO -->
+        <!-- HERO -->
         <div class="space-y-5 text-center">
             <div>
                 <span class="text-xs uppercase font-black text-[#FF2A5F] tracking-widest block mb-1">Passo a Passo Oficial</span>
@@ -135,7 +126,7 @@
                 </p>
             </div>
 
-            <!-- OS 3 BOTÕES DE NAVEGAÇÃO CENTRALIZADOS -->
+            <!-- BOTÕES DE NAVEGAÇÃO -->
             <div class="flex items-center gap-3 flex-wrap justify-center pt-1">
                 <a href="#secao-gerador" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-xs text-white font-extrabold transition shadow-lg shadow-[#FF2A5F]/25 flex items-center gap-2">
                     <span>✨ Gerador de Roteiro</span>
@@ -149,13 +140,11 @@
             </div>
         </div>
 
-        <!-- ============================================================ -->
-        <!-- 1. FERRAMENTA 1: VÍDEO TUTORIAL (GITHUB MP4 LOCAL) + GERADOR -->
-        <!-- ============================================================ -->
+        <!-- 1. FERRAMENTA 1: VÍDEO TUTORIAL + GERADOR DE ROTEIRO IA -->
         <section id="secao-gerador" class="saas-card rounded-3xl p-6 sm:p-8 shadow-xl">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 
-                <!-- VÍDEO LOCAL DO GITHUB (TUTORIAL) -->
+                <!-- VÍDEO TUTORIAL LOCAL -->
                 <div class="lg:col-span-5 flex flex-col items-center">
                     <div class="border-2 border-slate-800 rounded-3xl bg-[#080B14] p-3 shadow-2xl w-full max-w-xs">
                         <div class="relative bg-black rounded-2xl overflow-hidden aspect-[9/16] flex items-center justify-center">
@@ -167,82 +156,72 @@
                     </div>
                 </div>
 
-                <!-- GERADOR DE ROTEIRO DIRETO NA TELA -->
+                <!-- GERADOR DE ROTEIRO -->
                 <div class="lg:col-span-7 flex flex-col justify-center space-y-4">
                     <div>
                         <span class="text-xs font-black uppercase text-cyan-400 tracking-wider block mb-1">Ferramenta 1</span>
-                        <h2 class="text-lg sm:text-2xl font-black text-white">Gerador de Roteiro Viral para o Produto</h2>
-                        <p class="text-xs text-slate-400 mt-1">Cole o link do TikTok ou digite o nome do produto para formular um roteiro exclusivo na hora.</p>
+                        <h2 class="text-lg sm:text-2xl font-black text-white">Gerador de Roteiro Viral (Groq IA)</h2>
+                        <p class="text-xs text-slate-400 mt-1">Digite o nome ou cole o link do produto para a IA criar um roteiro exclusivo e inédito na hora.</p>
                     </div>
 
                     <div class="space-y-3 pt-1">
                         <div>
                             <label class="block text-xs font-bold text-slate-300 mb-1.5">Link do Produto ou Nome:</label>
-                            <input type="text" id="input-gerador-produto" value="Ventilador de Teto Portátil" placeholder="Cole o link do TikTok ou digite o nome do produto" class="w-full bg-[#080B14] border border-slate-700 focus:border-[#FF2A5F] rounded-2xl px-4 py-3.5 text-xs text-white focus:outline-none transition font-medium">
+                            <input type="text" id="input-gerador-produto" value="Ventilador de Teto Portátil" placeholder="Ex: Mini Processador de Alimentos" class="w-full bg-[#080B14] border border-slate-700 focus:border-[#FF2A5F] rounded-2xl px-4 py-3.5 text-xs text-white focus:outline-none transition font-medium">
                         </div>
 
                         <button id="btn-gerar-roteiro" onclick="gerarRoteiro()" class="w-full py-4 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-extrabold text-sm rounded-2xl transition shadow-xl shadow-[#FF2A5F]/25 flex items-center justify-center gap-2 cursor-pointer">
-                            <span>✨ GERAR ROTEIRO VIRAL</span>
+                            <span>✨ GERAR ROTEIRO COM IA</span>
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
                         </button>
                     </div>
 
-                    <!-- CAIXAS DO ROTEIRO GERADO DIRETAMENTE NA TELA -->
+                    <!-- CAIXAS DO ROTEIRO GERADO -->
                     <div id="area-roteiro-gerado" class="space-y-3 pt-2">
                         <div class="flex items-center justify-between pb-1">
                             <span id="tela-titulo-produto" class="text-xs font-extrabold text-emerald-400 flex items-center gap-1.5">
-                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Roteiro: Ventilador de Teto Portátil
+                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Roteiro Gerado pela IA
                             </span>
-                            <span id="tela-angulo-nome" class="text-[10px] text-slate-400 font-mono">IA Conectada</span>
+                            <span id="tela-angulo-nome" class="text-[10px] text-slate-400 font-mono">Llama 3.3 (Groq)</span>
                         </div>
 
-                        <!-- 1. Gancho (Fundo Azul) -->
+                        <!-- 1. Gancho -->
                         <div class="bg-blue-950/40 border border-blue-500/50 rounded-2xl p-4">
                             <div class="flex items-center justify-between mb-1">
                                 <span class="font-extrabold text-blue-300 flex items-center gap-1.5 text-xs">
                                     <span class="w-2 h-2 rounded-full bg-blue-400"></span> 1. GANCHO (Primeiros 3 segundos):
                                 </span>
-                                <span class="text-[10px] text-blue-300/80 font-mono">Prender Atenção</span>
                             </div>
-                            <p id="tela-gerado-gancho" class="text-blue-100 font-semibold leading-relaxed text-xs">Pare de jogar dinheiro fora com ar-condicionado! Esse ventilador portátil de 50 reais mudou meu quarto...</p>
+                            <p id="tela-gerado-gancho" class="text-blue-100 font-semibold leading-relaxed text-xs">Clique em gerar para criar um gancho exclusivo com IA...</p>
                         </div>
 
-                        <!-- 2. Corpo (Fundo Verde) -->
+                        <!-- 2. Corpo -->
                         <div class="bg-emerald-950/40 border border-emerald-500/50 rounded-2xl p-4">
                             <div class="flex items-center justify-between mb-1">
                                 <span class="font-extrabold text-emerald-300 flex items-center gap-1.5 text-xs">
                                     <span class="w-2 h-2 rounded-full bg-emerald-400"></span> 2. CORPO (Demonstração e Benefício):
                                 </span>
-                                <span class="text-[10px] text-emerald-300/80 font-mono">Gerar Desejo</span>
                             </div>
-                            <p id="tela-gerado-corpo" class="text-emerald-100 font-normal leading-relaxed text-xs">Mostre como ele ventila forte sem fazer barulho, conecta direto no bocal da lâmpada ou tomada e refrigera o cômodo em 2 minutos.</p>
+                            <p id="tela-gerado-corpo" class="text-emerald-100 font-normal leading-relaxed text-xs">A demonstração prática aparecerá aqui...</p>
                         </div>
 
-                        <!-- 3. CTA (Fundo Vermelho) -->
+                        <!-- 3. CTA -->
                         <div class="bg-rose-950/40 border border-rose-500/50 rounded-2xl p-4">
                             <div class="flex items-center justify-between mb-1">
                                 <span class="font-extrabold text-rose-300 flex items-center gap-1.5 text-xs">
                                     <span class="w-2 h-2 rounded-full bg-rose-400"></span> 3. CTA (Chamada de Ação Final):
                                 </span>
-                                <span class="text-[10px] text-rose-300/80 font-mono">Comprar na Sacola</span>
                             </div>
-                            <p id="tela-gerado-cta" class="text-rose-100 font-semibold leading-relaxed text-xs">Clique no carrinho do TikTok Shop abaixo antes que o lote com frete grátis acabe hoje.</p>
+                            <p id="tela-gerado-cta" class="text-rose-100 font-semibold leading-relaxed text-xs">A chamada para compra na sacola aparecerá aqui...</p>
                         </div>
 
-                        <!-- BOTÕES DE CONTROLE -->
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1">
+                        <!-- BOTÕES -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
                             <button onclick="copiarRoteiroTela()" class="py-2.5 bg-slate-900 hover:bg-slate-800 text-white border border-slate-700/80 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5">
-                                <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184"/></svg>
                                 <span>Copiar Roteiro</span>
                             </button>
-
                             <button onclick="baixarRoteiroTxtTela()" class="py-2.5 bg-slate-900 hover:bg-slate-800 text-white border border-slate-700/80 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5">
-                                <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
                                 <span>Salvar .TXT</span>
-                            </button>
-
-                            <button onclick="gerarRoteiro()" class="py-2.5 bg-[#FF2A5F]/20 hover:bg-[#FF2A5F] text-[#FF2A5F] hover:text-white border border-[#FF2A5F]/40 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5">
-                                <span>🔄 Gerar outro roteiro</span>
                             </button>
                         </div>
                     </div>
@@ -250,9 +229,7 @@
             </div>
         </section>
 
-        <!-- ============================================================ -->
-        <!-- 2. FERRAMENTA 2: EDITOR E REMOVEDOR DE PAUSAS (NUVEM)        -->
-        <!-- ============================================================ -->
+        <!-- 2. FERRAMENTA 2: EDITOR E REMOVEDOR DE PAUSAS -->
         <section id="secao-removedor" class="saas-card rounded-3xl p-6 sm:p-8 shadow-xl">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-slate-800/80">
                 <div>
@@ -261,7 +238,6 @@
                         EDITOR E REMOVEDOR DE PAUSAS
                     </h2>
                 </div>
-
                 <div class="flex items-center gap-2">
                     <label class="text-xs text-slate-400 font-bold">Nome do Vídeo:</label>
                     <input type="text" id="editor-cfg-prefix" value="Ventilador_Teto" class="bg-[#080B14] border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#FF2A5F] w-36 font-semibold">
@@ -271,12 +247,9 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
                 <div class="lg:col-span-2">
                     <div onclick="document.getElementById('input-editor-raw').click()" class="border-2 border-dashed border-slate-800 hover:border-[#FF2A5F]/50 bg-[#080B14]/70 rounded-2xl p-6 text-center cursor-pointer transition flex flex-col items-center justify-center min-h-[130px]">
-                        <svg class="w-8 h-8 text-slate-500 mb-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
                         <p class="text-xs font-bold text-slate-200">Clique para selecionar vídeos gravados com pausas ou respiros</p>
-                        <p class="text-[11px] text-slate-500 mt-1 font-mono">MP4, MOV (iPhone) ou WebM</p>
                         <input type="file" id="input-editor-raw" multiple accept="video/*" class="hidden" onchange="atualizarListaEditor(this.files)">
                     </div>
-
                     <div id="editor-queue-container" class="mt-3 hidden">
                         <ul id="editor-queue-list" class="space-y-1.5 max-h-32 overflow-y-auto custom-scroll pr-1 font-medium text-xs text-slate-300"></ul>
                     </div>
@@ -297,12 +270,9 @@
                 </div>
             </div>
 
-            <!-- BARRA DE PROGRESSO EM NUVEM -->
             <div id="editor-progress-box" class="hidden mt-4 bg-[#080B14] border border-[#FF2A5F]/30 rounded-xl p-3 text-xs">
                 <div class="flex items-center justify-between mb-1.5 font-bold">
-                    <span id="editor-progress-title" class="text-white flex items-center gap-2">
-                        <span class="animate-spin">⚡</span> Processando no servidor em nuvem...
-                    </span>
+                    <span id="editor-progress-title" class="text-white">Processando no servidor...</span>
                     <span id="editor-progress-pct" class="text-[#FF2A5F] font-mono">0%</span>
                 </div>
                 <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden">
@@ -310,27 +280,15 @@
                 </div>
             </div>
 
-            <!-- RESULTADO COM DOWNLOAD ZIP -->
             <div id="editor-results-container" class="mt-5 pt-4 border-t border-slate-800/80 hidden">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-emerald-950/20 border border-emerald-500/30">
-                    <div class="flex items-center gap-2">
-                        <span class="text-emerald-400 font-black text-lg">✓</span>
-                        <div>
-                            <h4 class="text-xs font-bold text-white">Vídeos Limpos na Nuvem com Sucesso!</h4>
-                            <p class="text-[11px] text-slate-400">Processado via FFmpeg sem travar o seu aparelho.</p>
-                        </div>
-                    </div>
-                    <a id="btn-download-editor-zip" href="#" class="px-5 py-2.5 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-extrabold text-xs rounded-xl shadow-md flex items-center justify-center gap-2 transition">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                        <span>Baixar Lote Completo (.ZIP)</span>
-                    </a>
+                    <span class="text-emerald-400 font-bold text-xs">✓ Vídeos limpos com sucesso!</span>
+                    <a id="btn-download-editor-zip" href="#" class="px-5 py-2.5 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] text-white font-extrabold text-xs rounded-xl shadow-md">Baixar .ZIP Completo</a>
                 </div>
             </div>
         </section>
 
-        <!-- ============================================================ -->
-        <!-- 3. FERRAMENTA 3: MULTIPLICADOR EM MASSA (NUVEM 9:16)         -->
-        <!-- ============================================================ -->
+        <!-- 3. FERRAMENTA 3: MULTIPLICADOR EM MASSA -->
         <section id="secao-multiplicador" class="saas-card rounded-3xl p-6 sm:p-8 shadow-xl">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-slate-800/80">
                 <div>
@@ -339,7 +297,6 @@
                         MULTIPLICADOR DE VÍDEOS EM MASSA
                     </h2>
                 </div>
-
                 <div class="flex items-center gap-2">
                     <label class="text-xs text-slate-400 font-bold">Nome do Vídeo:</label>
                     <input type="text" id="cfg-prefix" value="Ventilador_Teto" class="bg-[#080B14] border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#FF2A5F] w-36 font-semibold">
@@ -347,239 +304,103 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
-                <!-- GANCHOS (AZUL) -->
-                <div class="bg-blue-950/40 border-2 border-blue-500/50 hover:border-blue-400 rounded-2xl p-5 transition flex flex-col justify-between shadow-lg shadow-blue-500/10">
-                    <div>
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="text-xs font-black text-blue-300 uppercase tracking-wider">1. Ganchos</span>
-                            <span id="badge-ganchos" class="text-[10px] bg-blue-900/60 text-blue-200 border border-blue-500/30 px-2 py-0.5 rounded-full font-mono">0 vídeos</span>
-                        </div>
-                        <p class="text-[11px] text-blue-200/70 mb-3">Primeiros 3 segundos gravados.</p>
+                <div class="bg-blue-950/40 border-2 border-blue-500/50 rounded-2xl p-5">
+                    <span class="text-xs font-black text-blue-300 uppercase">1. Ganchos</span>
+                    <div onclick="document.getElementById('input-ganchos').click()" class="border border-dashed border-blue-400 rounded-xl p-4 text-center cursor-pointer mt-2">
+                        <p class="text-xs font-extrabold text-blue-200">+ Adicionar Ganchos</p>
+                        <input type="file" id="input-ganchos" multiple accept="video/*" class="hidden" onchange="selecionarLote('ganchos', this.files)">
                     </div>
-                    <div>
-                        <div onclick="document.getElementById('input-ganchos').click()" class="border border-dashed border-blue-400/60 hover:bg-blue-900/30 rounded-xl p-4 text-center cursor-pointer transition mb-2">
-                            <p class="text-xs font-extrabold text-blue-200">+ Adicionar Ganchos</p>
-                            <input type="file" id="input-ganchos" multiple accept="video/*" class="hidden" onchange="selecionarLote('ganchos', this.files)">
-                        </div>
-                        <ul id="list-ganchos" class="space-y-1 max-h-28 overflow-y-auto custom-scroll pr-1 empty:hidden text-xs text-blue-100 font-medium"></ul>
-                    </div>
+                    <ul id="list-ganchos" class="space-y-1 mt-2 text-xs text-blue-100"></ul>
                 </div>
-
-                <!-- CORPOS (VERDE) -->
-                <div class="bg-emerald-950/40 border-2 border-emerald-500/50 hover:border-emerald-400 rounded-2xl p-5 transition flex flex-col justify-between shadow-lg shadow-emerald-500/10">
-                    <div>
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="text-xs font-black text-emerald-300 uppercase tracking-wider">2. Corpos</span>
-                            <span id="badge-corpos" class="text-[10px] bg-emerald-900/60 text-emerald-200 border border-emerald-500/30 px-2 py-0.5 rounded-full font-mono">0 vídeos</span>
-                        </div>
-                        <p class="text-[11px] text-emerald-200/70 mb-3">Demonstração do produto.</p>
+                <div class="bg-emerald-950/40 border-2 border-emerald-500/50 rounded-2xl p-5">
+                    <span class="text-xs font-black text-emerald-300 uppercase">2. Corpos</span>
+                    <div onclick="document.getElementById('input-corpos').click()" class="border border-dashed border-emerald-400 rounded-xl p-4 text-center cursor-pointer mt-2">
+                        <p class="text-xs font-extrabold text-emerald-200">+ Adicionar Corpos</p>
+                        <input type="file" id="input-corpos" multiple accept="video/*" class="hidden" onchange="selecionarLote('corpos', this.files)">
                     </div>
-                    <div>
-                        <div onclick="document.getElementById('input-corpos').click()" class="border border-dashed border-emerald-400/60 hover:bg-emerald-900/30 rounded-xl p-4 text-center cursor-pointer transition mb-2">
-                            <p class="text-xs font-extrabold text-emerald-200">+ Adicionar Corpos</p>
-                            <input type="file" id="input-corpos" multiple accept="video/*" class="hidden" onchange="selecionarLote('corpos', this.files)">
-                        </div>
-                        <ul id="list-corpos" class="space-y-1 max-h-28 overflow-y-auto custom-scroll pr-1 empty:hidden text-xs text-emerald-100 font-medium"></ul>
-                    </div>
+                    <ul id="list-corpos" class="space-y-1 mt-2 text-xs text-emerald-100"></ul>
                 </div>
-
-                <!-- CTAS (VERMELHO) -->
-                <div class="bg-rose-950/40 border-2 border-rose-500/50 hover:border-rose-400 rounded-2xl p-5 transition flex flex-col justify-between shadow-lg shadow-rose-500/10">
-                    <div>
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="text-xs font-black text-rose-300 uppercase tracking-wider">3. CTAs</span>
-                            <span id="badge-ctas" class="text-[10px] bg-rose-900/60 text-rose-200 border border-rose-500/30 px-2 py-0.5 rounded-full font-mono">0 vídeos</span>
-                        </div>
-                        <p class="text-[11px] text-rose-200/70 mb-3">Chamadas para a sacola.</p>
+                <div class="bg-rose-950/40 border-2 border-rose-500/50 rounded-2xl p-5">
+                    <span class="text-xs font-black text-rose-300 uppercase">3. CTAs</span>
+                    <div onclick="document.getElementById('input-ctas').click()" class="border border-dashed border-rose-400 rounded-xl p-4 text-center cursor-pointer mt-2">
+                        <p class="text-xs font-extrabold text-rose-200">+ Adicionar CTAs</p>
+                        <input type="file" id="input-ctas" multiple accept="video/*" class="hidden" onchange="selecionarLote('ctas', this.files)">
                     </div>
-                    <div>
-                        <div onclick="document.getElementById('input-ctas').click()" class="border border-dashed border-rose-400/60 hover:bg-rose-900/30 rounded-xl p-4 text-center cursor-pointer transition mb-2">
-                            <p class="text-xs font-extrabold text-rose-200">+ Adicionar CTAs</p>
-                            <input type="file" id="input-ctas" multiple accept="video/*" class="hidden" onchange="selecionarLote('ctas', this.files)">
-                        </div>
-                        <ul id="list-ctas" class="space-y-1 max-h-28 overflow-y-auto custom-scroll pr-1 empty:hidden text-xs text-rose-100 font-medium"></ul>
-                    </div>
+                    <ul id="list-ctas" class="space-y-1 mt-2 text-xs text-rose-100"></ul>
                 </div>
             </div>
 
-            <!-- DISPARO -->
             <div class="bg-[#080B14] border border-slate-800 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div class="flex items-center gap-4 text-xs">
-                    <div>
-                        <span class="text-slate-500 block font-medium">Variações Calculadas:</span>
-                        <span id="total-variacoes" class="text-2xl font-black text-[#FF2A5F]">0</span>
-                    </div>
-                    <div class="h-8 w-px bg-slate-800"></div>
-                    <span class="text-slate-400 font-medium">Renderização em Nuvem (Vertical 9:16)</span>
+                <div>
+                    <span class="text-slate-500 text-xs">Variações Calculadas:</span>
+                    <span id="total-variacoes" class="text-2xl font-black text-[#FF2A5F] block">0</span>
                 </div>
-
-                <button id="btn-start-multi" onclick="enviarParaMultiplicar()" disabled class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-slate-800 text-slate-500 font-extrabold text-xs transition cursor-not-allowed">
+                <button id="btn-start-multi" onclick="enviarParaMultiplicar()" disabled class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-slate-800 text-slate-500 font-extrabold text-xs cursor-not-allowed">
                     Multiplicar Vídeos na Nuvem
                 </button>
             </div>
 
-            <!-- BARRA DE PROGRESSO MULTIPLICADOR -->
             <div id="multi-progress-box" class="hidden mt-4 bg-[#080B14] border border-[#FF2A5F]/30 rounded-xl p-3 text-xs">
                 <div class="flex items-center justify-between mb-1.5 font-bold">
-                    <span id="multi-progress-title" class="text-white flex items-center gap-2">
-                        <span class="animate-spin">⚡</span> Renderizando variações no servidor em nuvem...
-                    </span>
+                    <span id="multi-progress-title" class="text-white">Renderizando variações...</span>
                     <span id="multi-progress-pct" class="text-[#FF2A5F] font-mono">0%</span>
                 </div>
                 <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden">
-                    <div id="multi-progress-bar" class="h-full bg-gradient-to-r from-[#FF2A5F] to-cyan-400 transition-all duration-300" style="width: 0%"></div>
+                    <div id="multi-progress-bar" class="h-full bg-gradient-to-r from-[#FF2A5F] to-cyan-400" style="width: 0%"></div>
                 </div>
             </div>
 
-            <!-- RESULTADO MULTIPLICADOR COM DOWNLOAD .ZIP -->
             <div id="multi-results-container" class="mt-5 pt-4 border-t border-slate-800/80 hidden">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-emerald-950/20 border border-emerald-500/30">
-                    <div class="flex items-center gap-2">
-                        <span class="text-emerald-400 font-black text-lg">✓</span>
-                        <div>
-                            <h4 class="text-xs font-bold text-white">Lote Multiplicado com Sucesso!</h4>
-                            <p class="text-[11px] text-slate-400">Todos os vídeos foram montados, embaralhados e compactados no servidor.</p>
-                        </div>
-                    </div>
-                    <a id="btn-download-multi-zip" href="#" class="px-5 py-2.5 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-extrabold text-xs rounded-xl shadow-md flex items-center justify-center gap-2 transition">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                        <span>Baixar Lote de Vídeos (.ZIP)</span>
-                    </a>
+                    <span class="text-emerald-400 font-bold text-xs">✓ Lote multiplicado com sucesso!</span>
+                    <a id="btn-download-multi-zip" href="#" class="px-5 py-2.5 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] text-white font-extrabold text-xs rounded-xl shadow-md">Baixar Lote (.ZIP)</a>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <footer class="border-t border-slate-900/80 bg-[#07090F]/90 py-5 text-center text-xs text-slate-500 relative z-10 font-medium">
-        +VIDEOS • Multiplique seus vídeos e otimize seu tempo © 2026
-    </footer>
-
-    <!-- COMUNICAÇÃO UNIVERSAL (PONTES COM RENDER E FALLBACKS IMEDIATOS) -->
+    <!-- SCRIPT DE COMUNICAÇÃO -->
     <script>
-        const API_URL = window.location.hostname.includes("onrender.com")
-            ? ""
-            : "https://maisvideos.onrender.com";
-
+        const API_URL = window.location.hostname.includes("onrender.com") ? "" : "https://maisvideos.onrender.com";
         let produtoAtualNome = "Ventilador de Teto Portátil";
-        let indiceAnguloRoteiro = 0;
 
-        const bancoAngulosDinamicos = [
-            {
-                tipo: "Curiosidade Extrema",
-                gancho: "Pare de jogar dinheiro fora com ar-condicionado! Esse ventilador portátil de 50 reais mudou meu quarto...",
-                corpo: "Mostre como ele ventila forte sem fazer barulho, conecta direto no bocal da lâmpada ou tomada e refrigera o cômodo em 2 minutos.",
-                cta: "Clique no carrinho do TikTok Shop abaixo antes que o lote com frete grátis acabe hoje."
-            },
-            {
-                tipo: "Inimigo Comum / Segredo",
-                gancho: "Eles não querem que você descubra esse segredo sobre {P}...",
-                corpo: "Compare com o método antigo demorado e mostre como esse produto resolve tudo em menos de 1 minuto na prática.",
-                cta: "Aproveite a promoção de 50% de desconto enquanto durar o lote aqui embaixo."
-            },
-            {
-                tipo: "Transformação Imediata",
-                gancho: "Como eu economizei tempo e resolvi esse problema em 15 segundos usando {P}:",
-                corpo: "Demonstre a função principal na prática e mostre a satisfação do antes e depois nítido na tela.",
-                cta: "Garanta o seu com desconto exclusivo de primeira compra no botão abaixo."
-            },
-            {
-                tipo: "Custo-Benefício Viral",
-                gancho: "O produto mais vendido do TikTok Shop finalmente chegou na minha casa: {P}!",
-                corpo: "Mostre a embalagem abrindo, teste a resistência do material e aprove o uso real na prática.",
-                cta: "Clique no carrinho do TikTok Shop e garanta o seu antes que esgote."
-            },
-            {
-                tipo: "Quebra de Objeção",
-                gancho: "Eu achava que era golpe até testar esse {P} por conta própria...",
-                corpo: "Aponte os 3 detalhes que provam a qualidade extrema e mostre que funciona mesmo para quem nunca usou.",
-                cta: "Não compre antes de ver o preço promocional na sacola aqui embaixo."
-            },
-            {
-                tipo: "Dor e Frustração Resolvida",
-                gancho: "Se você também odeia passar por isso todo dia, você precisa conhecer o {P}...",
-                corpo: "Enfatize a dor que todo mundo passa e mostre como em 1 clique esse produto elimina a dor de cabeça.",
-                cta: "Aproveite o frete grátis liberado para a sua região clicando no botão abaixo."
-            }
-        ];
-
-        function extrairNomeProduto(input) {
-            let nome = input.trim();
-            if (nome.includes("http")) {
-                try {
-                    const url = new URL(nome.startsWith("http") ? nome : "https://" + nome);
-                    const q = url.searchParams.get("q");
-                    if (q) nome = decodeURIComponent(q.replace(/\+/g, " "));
-                    else nome = "Produto Viral";
-                } catch(e) {
-                    nome = "Produto Viral";
-                }
-            }
-            return nome.slice(0, 35);
-        }
-
-        // 1. GERADOR DE ROTEIRO (BLINDADO CONTRA TRAVAMENTOS)
         async function gerarRoteiro() {
             const inputEl = document.getElementById('input-gerador-produto');
             const val = inputEl ? inputEl.value.trim() : '';
             if (!val) {
-                alert("Por favor, digite o nome ou cole o link do produto primeiro!");
+                alert("Digite o nome ou cole o link do produto!");
                 return;
             }
-
-            produtoAtualNome = extrairNomeProduto(val);
-            const limpo = produtoAtualNome.split(" ").slice(0, 2).join("_").replace(/[^a-zA-Z0-9_]/g, "") || "Meu_Video";
-            document.getElementById('cfg-prefix').value = limpo;
-            document.getElementById('editor-cfg-prefix').value = limpo;
+            produtoAtualNome = val;
 
             const btn = document.getElementById('btn-gerar-roteiro');
-            const txtOriginal = btn.innerHTML;
-            btn.innerHTML = `<span class="animate-spin inline-block mr-2">⚡</span> Criando Roteiro...`;
+            btn.innerHTML = `<span class="animate-spin inline-block mr-2">⚡</span> IA criando roteiro exclusivo...`;
             btn.disabled = true;
 
             try {
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 2500);
-
                 let resp = await fetch(`${API_URL}/api/roteiro`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ produto: produtoAtualNome }),
-                    signal: controller.signal
-                }).catch(() => null);
+                    body: JSON.stringify({ produto: produtoAtualNome })
+                });
 
-                clearTimeout(timeoutId);
-
-                if (resp && resp.ok) {
+                if (resp.ok) {
                     const data = await resp.json();
                     if (data.gancho && data.corpo && data.cta) {
                         document.getElementById('tela-gerado-gancho').innerText = data.gancho;
                         document.getElementById('tela-gerado-corpo').innerText = data.corpo;
                         document.getElementById('tela-gerado-cta').innerText = data.cta;
-                        document.getElementById('tela-titulo-produto').innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Roteiro IA: ${produtoAtualNome}`;
                         return;
                     }
                 }
-                alternarNovoRoteiroDinamico();
+                alert("A IA demorou a responder. Tente novamente.");
             } catch (e) {
-                alternarNovoRoteiroDinamico();
+                alert("Erro ao conectar com a IA no servidor do Render.");
             } finally {
-                btn.innerHTML = txtOriginal;
+                btn.innerHTML = `<span>✨ GERAR ROTEIRO COM IA</span>`;
                 btn.disabled = false;
             }
-        }
-
-        function alternarNovoRoteiroDinamico() {
-            indiceAnguloRoteiro = (indiceAnguloRoteiro + 1) % bancoAngulosDinamicos.length;
-            const ang = bancoAngulosDinamicos[indiceAnguloRoteiro];
-            const pNome = produtoAtualNome || "este produto";
-
-            document.getElementById('tela-gerado-gancho').innerText = ang.gancho.replace("{P}", pNome);
-            document.getElementById('tela-gerado-corpo').innerText = ang.corpo.replace("{P}", pNome);
-            document.getElementById('tela-gerado-cta').innerText = ang.cta.replace("{P}", pNome);
-
-            document.getElementById('tela-titulo-produto').innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Roteiro: ${pNome}`;
-            document.getElementById('tela-angulo-nome').innerText = `Ângulo: ${ang.tipo}`;
         }
 
         function copiarRoteiroTela() {
@@ -587,7 +408,7 @@
             const c = document.getElementById('tela-gerado-corpo').innerText;
             const cta = document.getElementById('tela-gerado-cta').innerText;
             navigator.clipboard.writeText(`ROTEIRO VIRAL - ${produtoAtualNome}\n\n1. GANCHO:\n${g}\n\n2. CORPO:\n${c}\n\n3. CTA:\n${cta}`);
-            alert("✅ Roteiro copiado com sucesso!");
+            alert("✅ Roteiro copiado!");
         }
 
         function baixarRoteiroTxtTela() {
@@ -601,38 +422,31 @@
             a.click();
         }
 
-        // 2. REMOVEDOR DE PAUSAS (ROTA NA NUVEM)
         let arquivosEditor = [];
-
         function atualizarListaEditor(files) {
             arquivosEditor = Array.from(files);
             const container = document.getElementById('editor-queue-container');
             const list = document.getElementById('editor-queue-list');
             const btn = document.getElementById('btn-processar-silencio');
             list.innerHTML = '';
-
             if (arquivosEditor.length === 0) {
                 container.classList.add('hidden');
                 btn.disabled = true;
-                btn.className = "w-full mt-4 py-3.5 rounded-xl bg-slate-800 text-slate-500 font-extrabold text-xs transition cursor-not-allowed";
+                btn.className = "w-full mt-4 py-3.5 rounded-xl bg-slate-800 text-slate-500 font-extrabold text-xs cursor-not-allowed";
                 return;
             }
-
             container.classList.remove('hidden');
             btn.disabled = false;
             btn.className = "w-full mt-4 py-3.5 rounded-xl bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] text-white font-extrabold text-xs transition cursor-pointer shadow-md";
-
             arquivosEditor.forEach((f, idx) => {
                 const li = document.createElement('li');
-                li.className = 'flex items-center justify-between bg-[#0D1220] border border-slate-800 px-3 py-1.5 rounded-lg text-xs';
-                li.innerHTML = `<span class="text-slate-200 truncate">${idx + 1}. ${f.name}</span><span class="text-[10px] text-slate-500">${(f.size / (1024*1024)).toFixed(1)}MB</span>`;
+                li.innerText = `${idx + 1}. ${f.name}`;
                 list.appendChild(li);
             });
         }
 
         async function enviarParaRemoverPausas() {
             if (arquivosEditor.length === 0) return;
-
             const btn = document.getElementById('btn-processar-silencio');
             const pBox = document.getElementById('editor-progress-box');
             const pBar = document.getElementById('editor-progress-bar');
@@ -643,9 +457,6 @@
             btn.disabled = true;
             pBox.classList.remove('hidden');
             rBox.classList.add('hidden');
-            pBar.style.width = '10%';
-            pPct.innerText = '10%';
-            pTitle.innerText = "Conectando ao servidor em nuvem...";
 
             const formData = new FormData();
             arquivosEditor.forEach(f => formData.append("arquivos", f));
@@ -654,50 +465,37 @@
 
             try {
                 const resp = await fetch(`${API_URL}/api/remover-pausas`, { method: "POST", body: formData });
-                if (!resp.ok) throw new Error("Servidor ocupado ou iniciando...");
                 const data = await resp.json();
-                const taskId = data.task_id;
-                localStorage.setItem("maisvideos_tarefa_editor", taskId);
-
-                monitorarTarefa(taskId, pBar, pPct, pTitle, (downloadUrl) => {
-                    const fullUrl = downloadUrl.startsWith("http") ? downloadUrl : `${API_URL}${downloadUrl}`;
-                    document.getElementById('btn-download-editor-zip').href = fullUrl;
+                monitorarTarefa(data.task_id, pBar, pPct, pTitle, (url) => {
+                    document.getElementById('btn-download-editor-zip').href = url.startsWith("http") ? url : `${API_URL}${url}`;
                     rBox.classList.remove('hidden');
                     btn.disabled = false;
                 });
             } catch (err) {
-                pTitle.innerText = "Servidor acordando na nuvem... Tente novamente em 20 segundos!";
-                pBar.style.width = '0%';
-                pPct.innerText = '0%';
+                pTitle.innerText = "Erro ao processar. Tente novamente.";
                 btn.disabled = false;
             }
         }
 
-        // 3. MULTIPLICADOR EM MASSA (ROTA NA NUVEM)
         const lotes = { ganchos: [], corpos: [], ctas: [] };
-
         function selecionarLote(tipo, files) {
             lotes[tipo] = Array.from(files);
-            document.getElementById(`badge-${tipo}`).innerText = `${lotes[tipo].length} vídeos`;
             const list = document.getElementById(`list-${tipo}`);
             list.innerHTML = '';
             lotes[tipo].forEach((f, i) => {
                 const li = document.createElement('li');
-                li.className = 'truncate';
                 li.innerText = `${i+1}. ${f.name}`;
                 list.appendChild(li);
             });
-
             const total = lotes.ganchos.length * lotes.corpos.length * lotes.ctas.length;
             document.getElementById('total-variacoes').innerText = total;
             const btn = document.getElementById('btn-start-multi');
-
             if (lotes.ganchos.length > 0 && lotes.corpos.length > 0 && lotes.ctas.length > 0) {
                 btn.disabled = false;
-                btn.className = "w-full sm:w-auto px-7 py-3.5 rounded-xl bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] text-white font-extrabold text-xs transition cursor-pointer shadow-md";
+                btn.className = "w-full sm:w-auto px-7 py-3.5 rounded-xl bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] text-white font-extrabold text-xs cursor-pointer shadow-md";
             } else {
                 btn.disabled = true;
-                btn.className = "w-full sm:w-auto px-7 py-3.5 rounded-xl bg-slate-800 text-slate-500 font-extrabold text-xs transition cursor-not-allowed";
+                btn.className = "w-full sm:w-auto px-7 py-3.5 rounded-xl bg-slate-800 text-slate-500 font-extrabold text-xs cursor-not-allowed";
             }
         }
 
@@ -712,9 +510,6 @@
             btn.disabled = true;
             pBox.classList.remove('hidden');
             rBox.classList.add('hidden');
-            pBar.style.width = '10%';
-            pPct.innerText = '10%';
-            pTitle.innerText = "Conectando ao servidor em nuvem...";
 
             const formData = new FormData();
             lotes.ganchos.forEach(f => formData.append("ganchos", f));
@@ -724,69 +519,36 @@
 
             try {
                 const resp = await fetch(`${API_URL}/api/multiplicar`, { method: "POST", body: formData });
-                if (!resp.ok) throw new Error("Servidor ocupado ou iniciando...");
                 const data = await resp.json();
-                const taskId = data.task_id;
-                localStorage.setItem("maisvideos_tarefa_multi", taskId);
-
-                monitorarTarefa(taskId, pBar, pPct, pTitle, (downloadUrl) => {
-                    const fullUrl = downloadUrl.startsWith("http") ? downloadUrl : `${API_URL}${downloadUrl}`;
-                    document.getElementById('btn-download-multi-zip').href = fullUrl;
+                monitorarTarefa(data.task_id, pBar, pPct, pTitle, (url) => {
+                    document.getElementById('btn-download-multi-zip').href = url.startsWith("http") ? url : `${API_URL}${url}`;
                     rBox.classList.remove('hidden');
                     btn.disabled = false;
                 });
             } catch (err) {
-                pTitle.innerText = "Servidor acordando na nuvem... Tente novamente em 20 segundos!";
-                pBar.style.width = '0%';
-                pPct.innerText = '0%';
+                pTitle.innerText = "Erro ao renderizar lote.";
                 btn.disabled = false;
             }
         }
 
-        // MONITORAMENTO UNIVERSAL (POLLING)
         function monitorarTarefa(taskId, pBar, pPct, pTitle, onConcluido) {
             const timer = setInterval(async () => {
                 try {
                     const resp = await fetch(`${API_URL}/api/tarefa/${taskId}`);
-                    if (!resp.ok) return;
                     const data = await resp.json();
-
                     pBar.style.width = `${data.progresso}%`;
                     pPct.innerText = `${data.progresso}%`;
                     pTitle.innerText = data.mensagem;
-
                     if (data.status === "concluido") {
                         clearInterval(timer);
-                        pBar.style.width = "100%";
-                        pPct.innerText = "100%";
                         onConcluido(data.download_url);
                     } else if (data.status === "erro") {
                         clearInterval(timer);
-                        alert("Erro no servidor: " + data.mensagem);
+                        alert("Erro: " + data.mensagem);
                     }
-                } catch (e) {
-                    console.error("Erro no polling:", e);
-                }
+                } catch (e) {}
             }, 1200);
         }
-
-        // RECUPERA TAREFA SE A PÁGINA FOR RECARREGADA
-        window.addEventListener('DOMContentLoaded', () => {
-            const editorTask = localStorage.getItem("maisvideos_tarefa_editor");
-            if (editorTask) {
-                const pBox = document.getElementById('editor-progress-box');
-                const pBar = document.getElementById('editor-progress-bar');
-                const pPct = document.getElementById('editor-progress-pct');
-                const pTitle = document.getElementById('editor-progress-title');
-                const rBox = document.getElementById('editor-results-container');
-                pBox.classList.remove('hidden');
-                monitorarTarefa(editorTask, pBar, pPct, pTitle, (url) => {
-                    const fullUrl = url.startsWith("http") ? url : `${API_URL}${url}`;
-                    document.getElementById('btn-download-editor-zip').href = fullUrl;
-                    rBox.classList.remove('hidden');
-                });
-            }
-        });
     </script>
 </body>
 </html>
