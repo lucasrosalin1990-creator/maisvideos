@@ -17,7 +17,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-app = FastAPI(title="+VIDEOS Cloud Micro SaaS", version="2.0.0")
+app = FastAPI(title="+VIDEOS Cloud Micro SaaS", version="2.1.0")
 
 app.add_middleware(
     CORSMiddleware,
@@ -31,10 +31,22 @@ BASE_DIR = Path(__file__).resolve().parent
 TEMP_DIR = BASE_DIR / "temp_processing"
 TEMP_DIR.mkdir(exist_ok=True)
 
+TAREFAS_DIR = TEMP_DIR / "tarefas_json"
+TAREFAS_DIR.mkdir(exist_ok=True)
+
 GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
 
-# FILA DE TAREFAS NA NUVEM
-TAREFAS: Dict[str, Dict[str, Any]] = {}
+def salvar_tarefa(task_id: str, dados: dict):
+    path = TAREFAS_DIR / f"{task_id}.json"
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(dados, f, ensure_ascii=False)
+
+def carregar_tarefa(task_id: str) -> dict:
+    path = TAREFAS_DIR / f"{task_id}.json"
+    if path.exists():
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return None
 
 def fallback_roteiro(produto: str) -> dict:
     return {
@@ -51,9 +63,14 @@ def task_remover_pausas(task_id: str, caminhos_videos: List[Path], prefixo: str,
     out_dir = task_dir / "limpos"
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    TAREFAS[task_id]["status"] = "processando"
-    TAREFAS[task_id]["progresso"] = 15
-    TAREFAS[task_id]["mensagem"] = "Analisando frequências de áudio com FFmpeg..."
+    tarefa_info = {
+        "id": task_id,
+        "status": "processando",
+        "progresso": 15,
+        "mensagem": "Analisando frequências de áudio com FFmpeg...",
+        "download_url": None
+    }
+    salvar_tarefa(task_id, tarefa_info)
 
     db_limiar = "-30dB"
     if sensibilidade == "suave":
@@ -115,8 +132,9 @@ def task_remover_pausas(task_id: str, caminhos_videos: List[Path], prefixo: str,
             videos_processados.append(video_out)
 
             prog = 15 + int(((idx + 1) / total) * 75)
-            TAREFAS[task_id]["progresso"] = prog
-            TAREFAS[task_id]["mensagem"] = f"Cortando pausas do vídeo {idx+1} de {total}..."
+            tarefa_info["progresso"] = prog
+            tarefa_info["mensagem"] = f"Cortando pausas do vídeo {idx+1} de {total}..."
+            salvar_tarefa(task_id, tarefa_info)
 
         zip_path = task_dir / f"{prefixo}_Videos_Limpos.zip"
         with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
@@ -125,14 +143,16 @@ def task_remover_pausas(task_id: str, caminhos_videos: List[Path], prefixo: str,
 
         shutil.rmtree(task_dir / "inputs", ignore_errors=True)
 
-        TAREFAS[task_id]["status"] = "concluido"
-        TAREFAS[task_id]["progresso"] = 100
-        TAREFAS[task_id]["mensagem"] = f"Sucesso! {total} vídeos limpos na nuvem."
-        TAREFAS[task_id]["download_url"] = f"/api/download/{task_id}"
+        tarefa_info["status"] = "concluido"
+        tarefa_info["progresso"] = 100
+        tarefa_info["mensagem"] = f"Sucesso! {total} vídeos limpos na nuvem."
+        tarefa_info["download_url"] = f"/api/download/{task_id}"
+        salvar_tarefa(task_id, tarefa_info)
 
     except Exception as e:
-        TAREFAS[task_id]["status"] = "erro"
-        TAREFAS[task_id]["mensagem"] = f"Falha no processamento: {str(e)}"
+        tarefa_info["status"] = "erro"
+        tarefa_info["mensagem"] = f"Falha no processamento: {str(e)}"
+        salvar_tarefa(task_id, tarefa_info)
 
 # ============================================================================
 # PROCESSAMENTO FFmpeg 2: MULTIPLICADOR 9:16 COM SHUFFLE
@@ -144,9 +164,14 @@ def task_multiplicar_videos(task_id: str, ganchos: List[Path], corpos: List[Path
     out_dir.mkdir(parents=True, exist_ok=True)
     norm_dir.mkdir(parents=True, exist_ok=True)
 
-    TAREFAS[task_id]["status"] = "processando"
-    TAREFAS[task_id]["progresso"] = 5
-    TAREFAS[task_id]["mensagem"] = "Padronizando proporção vertical 9:16 no servidor..."
+    tarefa_info = {
+        "id": task_id,
+        "status": "processando",
+        "progresso": 5,
+        "mensagem": "Padronizando proporção vertical 9:16 no servidor...",
+        "download_url": None
+    }
+    salvar_tarefa(task_id, tarefa_info)
 
     try:
         def padronizar_9_16(video_in: Path, tag: str) -> Path:
@@ -164,8 +189,9 @@ def task_multiplicar_videos(task_id: str, ganchos: List[Path], corpos: List[Path
         norm_c = [padronizar_9_16(c, f"c{i}") for i, c in enumerate(corpos)]
         norm_t = [padronizar_9_16(t, f"t{i}") for i, t in enumerate(ctas)]
 
-        TAREFAS[task_id]["progresso"] = 25
-        TAREFAS[task_id]["mensagem"] = "Embaralhando permutações de vídeos..."
+        tarefa_info["progresso"] = 25
+        tarefa_info["mensagem"] = "Embaralhando permutações de vídeos..."
+        salvar_tarefa(task_id, tarefa_info)
 
         combinacoes = []
         for g in norm_g:
@@ -195,8 +221,9 @@ def task_multiplicar_videos(task_id: str, ganchos: List[Path], corpos: List[Path
             finais.append(criativo_path)
 
             prog = 25 + int(((idx + 1) / total_vids) * 65)
-            TAREFAS[task_id]["progresso"] = prog
-            TAREFAS[task_id]["mensagem"] = f"Montando variação {idx+1} de {total_vids}..."
+            tarefa_info["progresso"] = prog
+            tarefa_info["mensagem"] = f"Montando variação {idx+1} de {total_vids}..."
+            salvar_tarefa(task_id, tarefa_info)
 
         zip_path = task_dir / f"{prefixo}_Lote_Multiplicado.zip"
         with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
@@ -206,14 +233,16 @@ def task_multiplicar_videos(task_id: str, ganchos: List[Path], corpos: List[Path
         shutil.rmtree(norm_dir, ignore_errors=True)
         shutil.rmtree(task_dir / "inputs", ignore_errors=True)
 
-        TAREFAS[task_id]["status"] = "concluido"
-        TAREFAS[task_id]["progresso"] = 100
-        TAREFAS[task_id]["mensagem"] = f"{total_vids} vídeos renderizados e empacotados com sucesso!"
-        TAREFAS[task_id]["download_url"] = f"/api/download/{task_id}"
+        tarefa_info["status"] = "concluido"
+        tarefa_info["progresso"] = 100
+        tarefa_info["mensagem"] = f"{total_vids} vídeos renderizados e empacotados com sucesso!"
+        tarefa_info["download_url"] = f"/api/download/{task_id}"
+        salvar_tarefa(task_id, tarefa_info)
 
     except Exception as e:
-        TAREFAS[task_id]["status"] = "erro"
-        TAREFAS[task_id]["mensagem"] = f"Falha na multiplicação: {str(e)}"
+        tarefa_info["status"] = "erro"
+        tarefa_info["mensagem"] = f"Falha na multiplicação: {str(e)}"
+        salvar_tarefa(task_id, tarefa_info)
 
 # ============================================================================
 # ROTAS DA API
@@ -285,13 +314,14 @@ async def rota_remover_pausas(
             shutil.copyfileobj(f.file, b)
         salvos.append(dest)
 
-    TAREFAS[task_id] = {
+    tarefa_inicial = {
         "id": task_id,
         "status": "pendente",
         "progresso": 0,
         "mensagem": "Na fila do servidor...",
         "download_url": None
     }
+    salvar_tarefa(task_id, tarefa_inicial)
 
     background_tasks.add_task(task_remover_pausas, task_id, salvos, prefixo, sensibilidade)
     return {"task_id": task_id}
@@ -323,22 +353,24 @@ async def rota_multiplicar(
     c_paths = salvar_lote(corpos, "c")
     t_paths = salvar_lote(ctas, "t")
 
-    TAREFAS[task_id] = {
+    tarefa_inicial = {
         "id": task_id,
         "status": "pendente",
         "progresso": 0,
         "mensagem": "Iniciando renderização em nuvem...",
         "download_url": None
     }
+    salvar_tarefa(task_id, tarefa_inicial)
 
     background_tasks.add_task(task_multiplicar_videos, task_id, g_paths, c_paths, t_paths, prefixo)
     return {"task_id": task_id}
 
 @app.get("/api/tarefa/{task_id}")
 async def checar_status_tarefa(task_id: str):
-    if task_id not in TAREFAS:
-        raise HTTPException(status_code=404, detail="Tarefa não encontrada")
-    return TAREFAS[task_id]
+    dados = carregar_tarefa(task_id)
+    if not dados:
+        raise HTTPException(status_code=404, detail="Tarefa não encontrada ou expirada")
+    return dados
 
 @app.get("/api/download/{task_id}")
 async def download_zip(task_id: str):
