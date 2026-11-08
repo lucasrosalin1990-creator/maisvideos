@@ -14,8 +14,6 @@ from fastapi import FastAPI, UploadFile, File, Form, BackgroundTasks, HTTPExcept
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
-import boto3
-from botocore.config import Config
 
 load_dotenv()
 
@@ -35,48 +33,18 @@ TEMP_DIR.mkdir(exist_ok=True)
 
 GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
 
-# CLIENTE CLOUDFLARE R2
-R2_ACCOUNT_ID = os.getenv("R2_ACCOUNT_ID")
-R2_ACCESS_KEY = os.getenv("R2_ACCESS_KEY_ID")
-R2_SECRET_KEY = os.getenv("R2_SECRET_ACCESS_KEY")
-R2_BUCKET_NAME = os.getenv("R2_BUCKET_NAME")
-R2_PUBLIC_DOMAIN = os.getenv("R2_PUBLIC_DOMAIN")
-
-s3_client = None
-if R2_ACCOUNT_ID and R2_ACCESS_KEY and R2_SECRET_KEY:
-    s3_client = boto3.client(
-        "s3",
-        endpoint_url=f"https://{R2_ACCOUNT_ID}.r2.cloudflarestorage.com",
-        aws_access_key_id=R2_ACCESS_KEY,
-        aws_secret_access_key=R2_SECRET_KEY,
-        config=Config(signature_version="s3v4"),
-        region_name="auto"
-    )
-
+# FILA DE TAREFAS NA NUVEM
 TAREFAS: Dict[str, Dict[str, Any]] = {}
-
-def upload_r2_ou_fallback(arquivo_zip: Path, task_id: str) -> str:
-    if s3_client and R2_BUCKET_NAME:
-        chave = f"zips/{task_id}/{arquivo_zip.name}"
-        s3_client.upload_file(str(arquivo_zip), R2_BUCKET_NAME, chave)
-        if R2_PUBLIC_DOMAIN:
-            return f"{R2_PUBLIC_DOMAIN.rstrip('/')}/{chave}"
-        return s3_client.generate_presigned_url(
-            "get_object",
-            Params={"Bucket": R2_BUCKET_NAME, "Key": chave},
-            ExpiresIn=86400
-        )
-    return f"/api/download/{task_id}"
 
 def fallback_roteiro(produto: str) -> dict:
     return {
-        "gancho": f"Pare de jogar dinheiro fora com soluções que não funcionam! Esse {produto} mudou minha rotina...",
-        "corpo": f"Mostre o produto funcionando na prática em menos de 10 segundos provando o resultado.",
-        "cta": f"Clique no carrinho do TikTok Shop abaixo antes que encerre o lote com frete grátis."
+        "gancho": f"Pare de jogar dinheiro fora com ar-condicionado! Esse {produto} mudou meu quarto...",
+        "corpo": f"Mostre o produto funcionando nos primeiros 10 segundos provando o resultado prático sem esforço nenhum.",
+        "cta": f"Clique no carrinho do TikTok Shop abaixo antes que o lote com frete grátis acabe hoje."
     }
 
 # ============================================================================
-# TAREFAS EM BACKGROUND COM FFmpeg
+# PROCESSAMENTO FFmpeg 1: REMOVEDOR REAL DE PAUSAS
 # ============================================================================
 def task_remover_pausas(task_id: str, caminhos_videos: List[Path], prefixo: str, sensibilidade: str):
     task_dir = TEMP_DIR / task_id
@@ -84,8 +52,8 @@ def task_remover_pausas(task_id: str, caminhos_videos: List[Path], prefixo: str,
     out_dir.mkdir(parents=True, exist_ok=True)
 
     TAREFAS[task_id]["status"] = "processando"
-    TAREFAS[task_id]["progresso"] = 10
-    TAREFAS[task_id]["mensagem"] = "Analisando ondas de áudio com FFmpeg..."
+    TAREFAS[task_id]["progresso"] = 15
+    TAREFAS[task_id]["mensagem"] = "Analisando frequências de áudio com FFmpeg..."
 
     db_limiar = "-30dB"
     if sensibilidade == "suave":
@@ -100,6 +68,7 @@ def task_remover_pausas(task_id: str, caminhos_videos: List[Path], prefixo: str,
         for idx, video_in in enumerate(caminhos_videos):
             video_out = out_dir / f"{prefixo}_{idx+1:02d}.mp4"
 
+            # 1. Detecta silêncios com FFmpeg
             cmd_detect = [
                 "ffmpeg", "-y", "-i", str(video_in),
                 "-af", f"silencedetect=noise={db_limiar}:d=0.3",
@@ -146,27 +115,29 @@ def task_remover_pausas(task_id: str, caminhos_videos: List[Path], prefixo: str,
             subprocess.run(cmd_cut, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             videos_processados.append(video_out)
 
-            prog = 10 + int(((idx + 1) / total) * 75)
+            prog = 15 + int(((idx + 1) / total) * 75)
             TAREFAS[task_id]["progresso"] = prog
-            TAREFAS[task_id]["mensagem"] = f"Removendo pausas do vídeo {idx+1} de {total}..."
+            TAREFAS[task_id]["mensagem"] = f"Cortando pausas do vídeo {idx+1} de {total}..."
 
         zip_path = task_dir / f"{prefixo}_Videos_Limpos.zip"
         with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
             for v in videos_processados:
                 z.write(v, arcname=v.name)
 
-        download_url = upload_r2_ou_fallback(zip_path, task_id)
         shutil.rmtree(task_dir / "inputs", ignore_errors=True)
 
         TAREFAS[task_id]["status"] = "concluido"
         TAREFAS[task_id]["progresso"] = 100
-        TAREFAS[task_id]["mensagem"] = f"Sucesso! {total} vídeos limpos e empacotados."
-        TAREFAS[task_id]["download_url"] = download_url
+        TAREFAS[task_id]["mensagem"] = f"Sucesso! {total} vídeos limpos na nuvem."
+        TAREFAS[task_id]["download_url"] = f"/api/download/{task_id}"
 
     except Exception as e:
         TAREFAS[task_id]["status"] = "erro"
         TAREFAS[task_id]["mensagem"] = f"Falha no processamento: {str(e)}"
 
+# ============================================================================
+# PROCESSAMENTO FFmpeg 2: MULTIPLICADOR 9:16 COM SHUFFLE
+# ============================================================================
 def task_multiplicar_videos(task_id: str, ganchos: List[Path], corpos: List[Path], ctas: List[Path], prefixo: str):
     task_dir = TEMP_DIR / task_id
     out_dir = task_dir / "criativos"
@@ -176,7 +147,7 @@ def task_multiplicar_videos(task_id: str, ganchos: List[Path], corpos: List[Path
 
     TAREFAS[task_id]["status"] = "processando"
     TAREFAS[task_id]["progresso"] = 5
-    TAREFAS[task_id]["mensagem"] = "Padronizando proporção vertical 9:16..."
+    TAREFAS[task_id]["mensagem"] = "Padronizando proporção vertical 9:16 no servidor..."
 
     try:
         def padronizar_9_16(video_in: Path, tag: str) -> Path:
@@ -233,22 +204,20 @@ def task_multiplicar_videos(task_id: str, ganchos: List[Path], corpos: List[Path
             for f in finais:
                 z.write(f, arcname=f.name)
 
-        download_url = upload_r2_ou_fallback(zip_path, task_id)
         shutil.rmtree(norm_dir, ignore_errors=True)
         shutil.rmtree(task_dir / "inputs", ignore_errors=True)
 
         TAREFAS[task_id]["status"] = "concluido"
         TAREFAS[task_id]["progresso"] = 100
         TAREFAS[task_id]["mensagem"] = f"{total_vids} vídeos renderizados e empacotados com sucesso!"
-        TAREFAS[task_id]["download_url"] = download_url
-        TAREFAS[task_id]["total"] = total_vids
+        TAREFAS[task_id]["download_url"] = f"/api/download/{task_id}"
 
     except Exception as e:
         TAREFAS[task_id]["status"] = "erro"
         TAREFAS[task_id]["mensagem"] = f"Falha na multiplicação: {str(e)}"
 
 # ============================================================================
-# ROTAS DA API
+# ROTAS DA API (TODAS AS ROTAS COMPLETAS)
 # ============================================================================
 @app.get("/")
 def index():
@@ -261,4 +230,128 @@ def index():
 async def rota_roteiro(payload: Dict[str, str]):
     produto = payload.get("produto", "").strip()
     if not produto:
-        ra
+        raise HTTPException(status_code=400, detail="Nome do produto obrigatório")
+
+    if not GROQ_API_KEY:
+        return fallback_roteiro(produto)
+
+    url_groq = "https://api.groq.com/openai/v1/chat/completions"
+    headers_groq = {
+        "Authorization": f"Bearer {GROQ_API_KEY}",
+        "Content-Type": "application/json"
+    }
+
+    prompt_sistema = """Você é um copywriter de elite especializado em TikTok Shop Brasil.
+Crie um roteiro em 3 partes curtas:
+1. Gancho (0 a 3s): Quebra de padrão impactante ou curiosidade irresistível.
+2. Corpo (3 a 25s): Demonstração visual rápida da solução quebrando a principal objeção.
+3. CTA (Final): Chamada com urgência para a sacola do TikTok Shop.
+
+Responda EXCLUSIVAMENTE em formato JSON:
+{"gancho": "...", "corpo": "...", "cta": "..."}"""
+
+    body_groq = {
+        "model": "llama-3.3-70b-versatile",
+        "messages": [
+            {"role": "system", "content": prompt_sistema},
+            {"role": "user", "content": f"Produto: '{produto}' (Crie uma variação inovadora e agressiva)"}
+        ],
+        "response_format": {"type": "json_object"},
+        "temperature": 0.85
+    }
+
+    try:
+        resp = requests.post(url_groq, headers=headers_groq, json=body_groq, timeout=8)
+        if resp.status_code == 200:
+            dados = resp.json()
+            conteudo = dados["choices"][0]["message"]["content"]
+            return json.loads(conteudo)
+        return fallback_roteiro(produto)
+    except Exception:
+        return fallback_roteiro(produto)
+
+@app.post("/api/remover-pausas")
+async def rota_remover_pausas(
+    background_tasks: BackgroundTasks,
+    arquivos: List[UploadFile] = File(...),
+    prefixo: str = Form("Meu_Video"),
+    sensibilidade: str = Form("equilibrado")
+):
+    task_id = str(uuid.uuid4())
+    in_dir = TEMP_DIR / task_id / "inputs"
+    in_dir.mkdir(parents=True, exist_ok=True)
+
+    salvos = []
+    for f in arquivos:
+        dest = in_dir / f.filename
+        with open(dest, "wb") as b:
+            shutil.copyfileobj(f.file, b)
+        salvos.append(dest)
+
+    TAREFAS[task_id] = {
+        "id": task_id,
+        "status": "pendente",
+        "progresso": 0,
+        "mensagem": "Na fila do servidor...",
+        "download_url": None
+    }
+
+    background_tasks.add_task(task_remover_pausas, task_id, salvos, prefixo, sensibilidade)
+    return {"task_id": task_id}
+
+@app.post("/api/multiplicar")
+async def rota_multiplicar(
+    background_tasks: BackgroundTasks,
+    ganchos: List[UploadFile] = File(...),
+    corpos: List[UploadFile] = File(...),
+    ctas: List[UploadFile] = File(...),
+    prefixo: str = Form("Meu_Video")
+):
+    task_id = str(uuid.uuid4())
+    in_dir = TEMP_DIR / task_id / "inputs"
+    in_dir.mkdir(parents=True, exist_ok=True)
+
+    def salvar_lote(arqs, sub):
+        dest_dir = in_dir / sub
+        dest_dir.mkdir(parents=True, exist_ok=True)
+        paths = []
+        for f in arqs:
+            p = dest_dir / f.filename
+            with open(p, "wb") as b:
+                shutil.copyfileobj(f.file, b)
+            paths.append(p)
+        return paths
+
+    g_paths = salvar_lote(ganchos, "g")
+    c_paths = salvar_lote(corpos, "c")
+    t_paths = salvar_lote(ctas, "t")
+
+    TAREFAS[task_id] = {
+        "id": task_id,
+        "status": "pendente",
+        "progresso": 0,
+        "mensagem": "Iniciando renderização em nuvem...",
+        "download_url": None
+    }
+
+    background_tasks.add_task(task_multiplicar_videos, task_id, g_paths, c_paths, t_paths, prefixo)
+    return {"task_id": task_id}
+
+@app.get("/api/tarefa/{task_id}")
+async def checar_status_tarefa(task_id: str):
+    if task_id not in TAREFAS:
+        raise HTTPException(status_code=404, detail="Tarefa não encontrada")
+    return TAREFAS[task_id]
+
+@app.get("/api/download/{task_id}")
+async def download_zip(task_id: str):
+    task_dir = TEMP_DIR / task_id
+    zips = list(task_dir.glob("*.zip"))
+    if not zips:
+        raise HTTPException(status_code=404, detail="Arquivo ZIP não encontrado ou expirou")
+    return FileResponse(zips[0], filename=zips[0].name, media_type="application/zip")
+
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.environ.get("PORT", 10000))
+    uvicorn.run("main:app", host="0.0.0.0", port=port)
