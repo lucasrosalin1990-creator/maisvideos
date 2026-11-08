@@ -133,7 +133,7 @@
                         </button>
 
                         <!-- BOTÃO SECUNDÁRIO AZUL CLARO: GERAR OUTRO ROTEIRO -->
-                        <button id="btn-gerar-outro" onclick="gerarRoteiro()" class="w-full py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-extrabold text-xs rounded-2xl transition shadow-lg shadow-cyan-500/20 flex items-center justify-center gap-2 cursor-pointer">
+                        <button id="btn-gerar-outro" onclick="gerarRoteiro()" class="w-full py-3.5 bg-cyan-400 hover:bg-cyan-300 text-black font-extrabold text-xs rounded-2xl transition shadow-lg shadow-cyan-400/20 flex items-center justify-center gap-2 cursor-pointer">
                             <span>🔄 GERAR OUTRO ROTEIRO DIFERENTE</span>
                         </button>
                     </div>
@@ -361,7 +361,7 @@
                 }
                 alert("A IA demorou a responder. Tente novamente.");
             } catch (e) {
-                alert("Erro ao conectar com a IA no servidor do Render. Verifique se a chave GROQ_API_KEY está ativa.");
+                alert("Erro ao conectar com a IA no servidor do Render. Verifique se a chave GROQ_API_KEY está ativa nas variáveis de ambiente do Render.");
             } finally {
                 btn1.innerHTML = `<span>✨ GERAR ROTEIRO COM IA</span>`;
                 btn1.disabled = false;
