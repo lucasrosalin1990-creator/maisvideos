@@ -17,8 +17,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-app = FastAPI(title="+VIDEOS Cloud Micro SaaS", version="2.5.0")
+app = FastAPI(title="+VIDEOS Cloud Micro SaaS", version="2.6.0")
 
+# CORS TOTALMENTE LIBERADO PARA SUPORTAR O GITHUB PAGES E QUALQUER FRONT-END
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
