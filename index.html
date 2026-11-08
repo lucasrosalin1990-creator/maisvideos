@@ -157,15 +157,15 @@
     <!-- ÁREA PRINCIPAL -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full space-y-8 relative z-10">
         
-        <!-- HERO + BOTÕES CENTRALIZADOS -->
+        <!-- HERO + NOVO TÍTULO COM DEGRADÊ COMPLETO -->
         <div class="space-y-5 text-center">
             <div>
                 <span class="text-xs uppercase font-black text-[#FF2A5F] tracking-widest block mb-1">Passo a Passo Oficial</span>
-                <h1 class="text-xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight">
-                    ONDE ENCONTRAR PRODUTOS CAMPEÕES DE VENDAS? <span class="text-[#FF2A5F]">VEJA O VÍDEO</span>
+                <h1 class="text-xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight max-w-4xl mx-auto">
+                    ACHE O PRODUTO CERTO, <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-sky-300 to-[#FF2A5F]">GERE O ROTEIRO, EDITE E MULTIPLIQUE</span> EM MINUTOS
                 </h1>
                 <p class="text-xs sm:text-sm text-slate-300 mt-2 font-medium max-w-xl mx-auto">
-                    1. Pegue o link no app • 2. Gere o roteiro • 3. Edite e Multiplique • <strong>Fature mais em menos tempo.</strong>
+                    1. Pegue o link no app • 2. Gere o roteiro com IA • 3. Edite e Multiplique • <strong>Fature mais em menos tempo.</strong>
                 </p>
             </div>
 
@@ -184,7 +184,7 @@
         </div>
 
         <!-- ============================================================ -->
-        <!-- 1. FERRAMENTA 1: VÍDEO TUTORIAL (AUTOPLAY) + GERADOR         -->
+        <!-- 1. FERRAMENTA 1: VÍDEO TUTORIAL (AUTOPLAY) + GERADOR COM IA  -->
         <!-- ============================================================ -->
         <section id="secao-gerador" class="saas-card rounded-3xl p-6 sm:p-8 shadow-xl">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -200,13 +200,13 @@
                     </div>
                 </div>
 
-                <!-- GERADOR DE ROTEIRO DIRETO NA TELA -->
+                <!-- GERADOR DE ROTEIRO COM IA (GROQ CONECTADA) -->
                 <div class="lg:col-span-7 flex flex-col justify-center space-y-4">
                     <div>
                         <span class="text-xs font-black uppercase text-cyan-400 tracking-wider block mb-1">Ferramenta 1</span>
                         <h2 class="text-lg sm:text-2xl font-black text-white">Gerador de Roteiro Viral para o Produto</h2>
                         <p class="text-xs text-slate-400 mt-1">
-                            Cole o link copiado no seu TikTok ou digite o nome do produto para formular um roteiro persuasivo na hora.
+                            Cole o link copiado no seu TikTok (ou digite o nome do produto) para a inteligência artificial formular um roteiro exclusivo na hora.
                         </p>
                     </div>
 
@@ -216,7 +216,6 @@
                             <input type="text" id="input-gerador-produto" value="Ventilador de Teto Portátil" placeholder="Cole o link do TikTok ou digite o nome do produto" class="w-full bg-[#080B14] border border-slate-700 focus:border-[#FF2A5F] rounded-2xl px-4 py-3.5 text-xs text-white focus:outline-none transition font-medium">
                         </div>
 
-                        <!-- BOTÃO RENOMEADO SEM 'NA TELA' -->
                         <button id="btn-gerar-roteiro" onclick="gerarRoteiroNaTela()" class="w-full py-4 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-extrabold text-sm rounded-2xl transition shadow-xl shadow-[#FF2A5F]/25 flex items-center justify-center gap-2 cursor-pointer">
                             <span>✨ GERAR ROTEIRO VIRAL</span>
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
@@ -228,9 +227,9 @@
                         
                         <div class="flex items-center justify-between pb-1">
                             <span id="tela-titulo-produto" class="text-xs font-extrabold text-emerald-400 flex items-center gap-1.5">
-                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Roteiro: Ventilador de Teto Portátil
+                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Roteiro IA: Ventilador de Teto Portátil
                             </span>
-                            <span id="tela-angulo-nome" class="text-[10px] text-slate-400 font-mono">Ângulo: Curiosidade Extrema</span>
+                            <span id="tela-angulo-nome" class="text-[10px] text-slate-400 font-mono">IA Groq Conectada</span>
                         </div>
 
                         <!-- 1. Gancho (Fundo Azul) -->
@@ -278,7 +277,7 @@
                                 <span>Salvar .TXT</span>
                             </button>
 
-                            <!-- BOTÃO COM NOME SOLICITADO: GERAR OUTRO ROTEIRO -->
+                            <!-- BOTÃO COM O NOME EXATO PEDIDO -->
                             <button onclick="alternarNovoRoteiroDinamico()" class="py-2.5 bg-[#FF2A5F]/20 hover:bg-[#FF2A5F] text-[#FF2A5F] hover:text-white border border-[#FF2A5F]/40 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5">
                                 <span>🔄 Gerar outro roteiro</span>
                             </button>
@@ -513,26 +512,26 @@
         +VIDEOS • Multiplique seus vídeos e otimize seu tempo © 2026
     </footer>
 
-    <!-- SCRIPT BLINDADO: REMOÇÃO REAL DE PAUSAS + ROTEIRO DINÂMICO NUNCA REPETIDO -->
+    <!-- SCRIPT BLINDADO COM IA CONECTADA + CORTE REAL DE SILÊNCIO -->
     <script>
         let audioContextGlobal = null;
         let codecSelecionado = { mime: 'video/webm', ext: 'webm' };
 
-        // 8 ÂNGULOS DE COPYWRITING EXCLUSIVOS E PROFISSIONAIS
+        // 8 ÂNGULOS DE COPYWRITING DINÂMICOS
         let produtoAtualNome = "Ventilador de Teto Portátil";
         let indiceAnguloRoteiro = 0;
 
         const bancoAngulosDinamicos = [
             {
                 tipo: "Curiosidade Extrema",
-                gancho: "Pare de jogar dinheiro fora! Ninguém te conta a verdade sobre {P}...",
-                corpo: "Mostre o produto funcionando em menos de 10 segundos provando o resultado prático sem esforço nenhum.",
-                cta: "Clique na sacolinha abaixo antes que acabe o estoque com frete grátis."
+                gancho: "Pare de jogar dinheiro fora com ar-condicionado! Esse ventilador portátil de 50 reais mudou meu quarto...",
+                corpo: "Mostre como ele ventila forte sem fazer barulho, conecta direto no bocal da lâmpada ou tomada e refrigera o cômodo em 2 minutos.",
+                cta: "Clique no carrinho do TikTok Shop abaixo antes que o lote com frete grátis acabe hoje."
             },
             {
                 tipo: "Inimigo Comum / Segredo",
                 gancho: "Eles não querem que você descubra esse segredo sobre {P}...",
-                corpo: "Compare com o método antigo demorado e mostre como esse produto resolve tudo em menos de 1 minuto.",
+                corpo: "Compare com o método antigo demorado e mostre como esse produto resolve tudo em menos de 1 minuto na prática.",
                 cta: "Aproveite a promoção de 50% de desconto enquanto durar o lote aqui embaixo."
             },
             {
@@ -548,7 +547,7 @@
                 cta: "Clique no carrinho do TikTok Shop e garanta o seu antes que esgote."
             },
             {
-                tipo: "Quebra de Objeção / Alerta",
+                tipo: "Quebra de Objeção",
                 gancho: "Eu achava que era golpe até testar esse {P} por conta própria...",
                 corpo: "Aponte os 3 detalhes que provam a qualidade extrema e mostre que funciona mesmo para quem nunca usou.",
                 cta: "Não compre antes de ver o preço promocional na sacola aqui embaixo."
@@ -601,14 +600,13 @@
 
             const btn = document.getElementById('btn-gerar-roteiro');
             const txtOriginal = btn.innerHTML;
-            btn.innerHTML = `<span class="animate-spin inline-block mr-2">⚡</span> Criando Roteiro...`;
+            btn.innerHTML = `<span class="animate-spin inline-block mr-2">⚡</span> Criando Roteiro com IA...`;
             btn.disabled = true;
 
             const elTitulo = document.getElementById('tela-titulo-produto');
-            elTitulo.innerHTML = `<span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span> Criando roteiro para: ${produtoAtualNome}...`;
+            elTitulo.innerHTML = `<span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span> IA criando roteiro para: ${produtoAtualNome}...`;
 
             try {
-                // Tenta chamar o Worker com timeout de 3.5 segundos para nunca travar o usuário
                 const controller = new AbortController();
                 const timeoutId = setTimeout(() => controller.abort(), 3500);
 
@@ -627,13 +625,12 @@
                     document.getElementById('tela-gerado-gancho').innerText = data.gancho;
                     document.getElementById('tela-gerado-corpo').innerText = data.corpo;
                     document.getElementById('tela-gerado-cta').innerText = data.cta;
-                    elTitulo.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Roteiro: ${produtoAtualNome}`;
-                    document.getElementById('tela-angulo-nome').innerText = "Roteiro Exclusivo IA";
+                    elTitulo.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Roteiro IA: ${produtoAtualNome}`;
+                    document.getElementById('tela-angulo-nome').innerText = "Roteiro Exclusivo IA Groq";
                 } else {
                     throw new Error("Formato inválido");
                 }
             } catch (e) {
-                // Alterna dinamicamente entre os 8 ângulos profissionais (nunca fica no mesmo texto!)
                 alternarNovoRoteiroDinamico();
             } finally {
                 btn.innerHTML = txtOriginal;
@@ -773,7 +770,6 @@
             });
         }
 
-        // VARREDURA ACÚSTICA REAL: IDENTIFICA PAUSAS E SILÊNCIOS SEM FALHAR EM .MOV
         async function detectarSegmentosVoz(arquivo, sensibilidade) {
             return new Promise(async (resolve) => {
                 const videoScan = document.createElement('video');
@@ -802,13 +798,12 @@
                     analyser.fftSize = 512;
 
                     const gain = actx.createGain();
-                    gain.gain.value = 0; // Silencia saída durante a varredura
+                    gain.gain.value = 0;
 
                     source.connect(analyser);
                     analyser.connect(gain);
                     gain.connect(actx.destination);
 
-                    // Limiar ajustado por sensibilidade
                     let limiar = 14; 
                     if (sensibilidade === 'suave') limiar = 9;
                     if (sensibilidade === 'agressivo') limiar = 22;
@@ -816,7 +811,7 @@
                     const pcmData = new Uint8Array(analyser.frequencyBinCount);
                     const amostras = [];
 
-                    videoScan.playbackRate = 4.0; // Varredura 4x mais rápida
+                    videoScan.playbackRate = 4.0;
                     videoScan.currentTime = 0;
 
                     const scanTimer = setInterval(() => {
@@ -843,7 +838,6 @@
                             return;
                         }
 
-                        // Agrupa amostras em trechos de voz
                         let segmentosBrutos = [];
                         let falando = false;
                         let inicio = 0;
@@ -869,7 +863,6 @@
                             return;
                         }
 
-                        // Mescla pausas muito curtas (< 0.28s) para manter a naturalidade
                         let mesclados = [segmentosBrutos[0]];
                         for (let i = 1; i < segmentosBrutos.length; i++) {
                             const prev = mesclados[mesclados.length - 1];
@@ -881,7 +874,6 @@
                             }
                         }
 
-                        // Aplica margem suave de 0.06s para não cortar sílabas
                         const finais = mesclados.map(s => ({
                             start: Math.max(0, s.start - 0.06),
                             end: Math.min(duracaoTotal, s.end + 0.06)
@@ -900,7 +892,6 @@
             });
         }
 
-        // RENDERIZAÇÃO REAL CORTANDO OS SILÊNCIOS
         async function renderizarJumpCut(arquivo, segmentos, duracaoTotal, onProgresso) {
             return new Promise(async (resolve, reject) => {
                 let video = null;
@@ -1019,7 +1010,7 @@
                 const seq = String(inicioIndice + i + 1).padStart(2, '0');
                 const novoNome = `${prefixo}_${seq}.${codecSelecionado.ext}`;
 
-                progressTitle.innerText = `Varrendo ondas e cortando pausas [${i + 1}/${total}]: ${novoNome}`;
+                progressTitle.innerText = `Cortando pausas [${i + 1}/${total}]: ${novoNome}`;
                 progressBar.style.width = '10%';
                 progressPct.innerText = '10%';
 
@@ -1298,7 +1289,6 @@
             const ratio = document.getElementById('cfg-ratio').value;
             const prefixo = document.getElementById('cfg-prefix').value.trim() || 'Meu_Video';
 
-            // Embaralhamento Inteligente (Fisher-Yates)
             const listaCombinacoes = [];
             for (let g = 0; g < ganchos.length; g++) {
                 for (let c = 0; c < corpos.length; c++) {
