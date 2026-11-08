@@ -109,7 +109,7 @@
         </div>
     </div>
 
-    <!-- CABEÇALHO LIMPO (SEM MODAL DE CONTA) -->
+    <!-- CABEÇALHO LIMPO -->
     <header class="border-b border-slate-800/80 bg-[#070A12]/80 backdrop-blur-md sticky top-0 z-40 relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center gap-2.5">
@@ -121,7 +121,7 @@
 
             <div class="flex items-center gap-2 bg-[#0C101D]/80 border border-slate-800 px-3.5 py-1.5 rounded-xl text-xs text-slate-300">
                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span class="font-bold text-white">Servidor em Nuvem Ativo</span>
+                <span class="font-bold text-white">Servidor em Nuvem Conectado</span>
             </div>
         </div>
     </header>
@@ -156,24 +156,27 @@
         </div>
 
         <!-- ============================================================ -->
-        <!-- 1. FERRAMENTA 1: VÍDEO TUTORIAL SHORTS + GERADOR COM IA      -->
+        <!-- 1. FERRAMENTA 1: VÍDEO TUTORIAL (YOUTUBE SHORTS) + GERADOR   -->
         <!-- ============================================================ -->
         <section id="secao-gerador" class="saas-card rounded-3xl p-6 sm:p-8 shadow-xl">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 
-                <!-- YOUTUBE SHORTS INTEGRADO -->
+                <!-- YOUTUBE SHORTS EMBED UNIVERSAL -->
                 <div class="lg:col-span-5 flex flex-col items-center">
                     <div class="border-2 border-slate-800 rounded-3xl bg-[#080B14] p-3 shadow-2xl w-full max-w-xs">
                         <div class="relative bg-black rounded-2xl overflow-hidden aspect-[9/16] flex items-center justify-center">
                             <iframe 
                                 class="w-full h-full object-cover" 
-                                src="https://www.youtube.com/embed/qC0aLz48H9k?autoplay=1&mute=1&loop=1&playlist=qC0aLz48H9k&playsinline=1&controls=1&rel=0" 
+                                src="https://www.youtube-nocookie.com/embed/qC0aLz48H9k?autoplay=1&mute=1&playsinline=1&controls=1&rel=0" 
                                 title="Tutorial Produtos Campeões" 
                                 frameborder="0" 
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                                 allowfullscreen>
                             </iframe>
                         </div>
+                        <a href="https://youtube.com/shorts/qC0aLz48H9k" target="_blank" class="text-[11px] text-slate-400 hover:text-cyan-400 mt-2 block text-center underline font-medium">
+                            Abrir vídeo no YouTube se não carregar ↗
+                        </a>
                     </div>
                 </div>
 
@@ -201,12 +204,12 @@
                     <div id="area-roteiro-gerado" class="space-y-3 pt-2">
                         <div class="flex items-center justify-between pb-1">
                             <span id="tela-titulo-produto" class="text-xs font-extrabold text-emerald-400 flex items-center gap-1.5">
-                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Roteiro IA: Ventilador de Teto Portátil
+                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Roteiro: Ventilador de Teto Portátil
                             </span>
-                            <span class="text-[10px] text-slate-400 font-mono">IA Conectada via Servidor</span>
+                            <span id="tela-angulo-nome" class="text-[10px] text-slate-400 font-mono">IA Conectada</span>
                         </div>
 
-                        <!-- 1. Gancho (Azul) -->
+                        <!-- 1. Gancho (Fundo Azul) -->
                         <div class="bg-blue-950/40 border border-blue-500/50 rounded-2xl p-4">
                             <div class="flex items-center justify-between mb-1">
                                 <span class="font-extrabold text-blue-300 flex items-center gap-1.5 text-xs">
@@ -217,7 +220,7 @@
                             <p id="tela-gerado-gancho" class="text-blue-100 font-semibold leading-relaxed text-xs">Pare de jogar dinheiro fora com ar-condicionado! Esse ventilador portátil de 50 reais mudou meu quarto...</p>
                         </div>
 
-                        <!-- 2. Corpo (Verde) -->
+                        <!-- 2. Corpo (Fundo Verde) -->
                         <div class="bg-emerald-950/40 border border-emerald-500/50 rounded-2xl p-4">
                             <div class="flex items-center justify-between mb-1">
                                 <span class="font-extrabold text-emerald-300 flex items-center gap-1.5 text-xs">
@@ -228,7 +231,7 @@
                             <p id="tela-gerado-corpo" class="text-emerald-100 font-normal leading-relaxed text-xs">Mostre como ele ventila forte sem fazer barulho, conecta direto no bocal da lâmpada ou tomada e refrigera o cômodo em 2 minutos.</p>
                         </div>
 
-                        <!-- 3. CTA (Vermelho) -->
+                        <!-- 3. CTA (Fundo Vermelho) -->
                         <div class="bg-rose-950/40 border border-rose-500/50 rounded-2xl p-4">
                             <div class="flex items-center justify-between mb-1">
                                 <span class="font-extrabold text-rose-300 flex items-center gap-1.5 text-xs">
@@ -239,15 +242,18 @@
                             <p id="tela-gerado-cta" class="text-rose-100 font-semibold leading-relaxed text-xs">Clique no carrinho do TikTok Shop abaixo antes que o lote com frete grátis acabe hoje.</p>
                         </div>
 
+                        <!-- BOTÕES DE CONTROLE -->
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1">
                             <button onclick="copiarRoteiroTela()" class="py-2.5 bg-slate-900 hover:bg-slate-800 text-white border border-slate-700/80 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5">
                                 <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184"/></svg>
                                 <span>Copiar Roteiro</span>
                             </button>
+
                             <button onclick="baixarRoteiroTxtTela()" class="py-2.5 bg-slate-900 hover:bg-slate-800 text-white border border-slate-700/80 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5">
                                 <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
                                 <span>Salvar .TXT</span>
                             </button>
+
                             <button onclick="gerarRoteiro()" class="py-2.5 bg-[#FF2A5F]/20 hover:bg-[#FF2A5F] text-[#FF2A5F] hover:text-white border border-[#FF2A5F]/40 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5">
                                 <span>🔄 Gerar outro roteiro</span>
                             </button>
@@ -308,7 +314,7 @@
             <div id="editor-progress-box" class="hidden mt-4 bg-[#080B14] border border-[#FF2A5F]/30 rounded-xl p-3 text-xs">
                 <div class="flex items-center justify-between mb-1.5 font-bold">
                     <span id="editor-progress-title" class="text-white flex items-center gap-2">
-                        <span class="animate-spin">⚡</span> Processando no servidor...
+                        <span class="animate-spin">⚡</span> Processando no servidor em nuvem...
                     </span>
                     <span id="editor-progress-pct" class="text-[#FF2A5F] font-mono">0%</span>
                 </div>
@@ -353,7 +359,6 @@
                 </div>
             </div>
 
-            <!-- AS 3 CAIXAS COLORIDAS: AZUL (GANCHOS), VERDE (CORPOS), VERMELHO (CTAS) -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
                 <!-- GANCHOS (AZUL) -->
                 <div class="bg-blue-950/40 border-2 border-blue-500/50 hover:border-blue-400 rounded-2xl p-5 transition flex flex-col justify-between shadow-lg shadow-blue-500/10">
@@ -430,7 +435,7 @@
             <div id="multi-progress-box" class="hidden mt-4 bg-[#080B14] border border-[#FF2A5F]/30 rounded-xl p-3 text-xs">
                 <div class="flex items-center justify-between mb-1.5 font-bold">
                     <span id="multi-progress-title" class="text-white flex items-center gap-2">
-                        <span class="animate-spin">⚡</span> Renderizando variações no servidor...
+                        <span class="animate-spin">⚡</span> Renderizando variações no servidor em nuvem...
                     </span>
                     <span id="multi-progress-pct" class="text-[#FF2A5F] font-mono">0%</span>
                 </div>
@@ -463,11 +468,71 @@
         +VIDEOS • Multiplique seus vídeos e otimize seu tempo © 2026
     </footer>
 
-    <!-- COMUNICAÇÃO COM O SERVIDOR (NUVEM) -->
+    <!-- COMUNICAÇÃO UNIVERSAL (PONTES COM RENDER E FALLBACKS IMEDIATOS) -->
     <script>
-        let produtoAtualNome = "Ventilador de Teto Portátil";
+        // PONTE INTELIGENTE: Se você abrir no GitHub Pages, ele direciona automaticamente para o servidor no Render!
+        const API_URL = window.location.hostname.includes("onrender.com")
+            ? ""
+            : "https://maisvideos.onrender.com";
 
-        // 1. GERADOR DE ROTEIRO
+        let produtoAtualNome = "Ventilador de Teto Portátil";
+        let indiceAnguloRoteiro = 0;
+
+        const bancoAngulosDinamicos = [
+            {
+                tipo: "Curiosidade Extrema",
+                gancho: "Pare de jogar dinheiro fora com ar-condicionado! Esse ventilador portátil de 50 reais mudou meu quarto...",
+                corpo: "Mostre como ele ventila forte sem fazer barulho, conecta direto no bocal da lâmpada ou tomada e refrigera o cômodo em 2 minutos.",
+                cta: "Clique no carrinho do TikTok Shop abaixo antes que o lote com frete grátis acabe hoje."
+            },
+            {
+                tipo: "Inimigo Comum / Segredo",
+                gancho: "Eles não querem que você descubra esse segredo sobre {P}...",
+                corpo: "Compare com o método antigo demorado e mostre como esse produto resolve tudo em menos de 1 minuto na prática.",
+                cta: "Aproveite a promoção de 50% de desconto enquanto durar o lote aqui embaixo."
+            },
+            {
+                tipo: "Transformação Imediata",
+                gancho: "Como eu economizei tempo e resolvi esse problema em 15 segundos usando {P}:",
+                corpo: "Demonstre a função principal na prática e mostre a satisfação do antes e depois nítido na tela.",
+                cta: "Garanta o seu com desconto exclusivo de primeira compra no botão abaixo."
+            },
+            {
+                tipo: "Custo-Benefício Viral",
+                gancho: "O produto mais vendido do TikTok Shop finalmente chegou na minha casa: {P}!",
+                corpo: "Mostre a embalagem abrindo, teste a resistência do material e aprove o uso real na prática.",
+                cta: "Clique no carrinho do TikTok Shop e garanta o seu antes que esgote."
+            },
+            {
+                tipo: "Quebra de Objeção",
+                gancho: "Eu achava que era golpe até testar esse {P} por conta própria...",
+                corpo: "Aponte os 3 detalhes que provam a qualidade extrema e mostre que funciona mesmo para quem nunca usou.",
+                cta: "Não compre antes de ver o preço promocional na sacola aqui embaixo."
+            },
+            {
+                tipo: "Dor e Frustração Resolvida",
+                gancho: "Se você também odeia passar por isso todo dia, você precisa conhecer o {P}...",
+                corpo: "Enfatize a dor que todo mundo passa e mostre como em 1 clique esse produto elimina a dor de cabeça.",
+                cta: "Aproveite o frete grátis liberado para a sua região clicando no botão abaixo."
+            }
+        ];
+
+        function extrairNomeProduto(input) {
+            let nome = input.trim();
+            if (nome.includes("http")) {
+                try {
+                    const url = new URL(nome.startsWith("http") ? nome : "https://" + nome);
+                    const q = url.searchParams.get("q");
+                    if (q) nome = decodeURIComponent(q.replace(/\+/g, " "));
+                    else nome = "Produto Viral";
+                } catch(e) {
+                    nome = "Produto Viral";
+                }
+            }
+            return nome.slice(0, 35);
+        }
+
+        // 1. GERADOR DE ROTEIRO (BLINDADO CONTRA TRAVAMENTOS)
         async function gerarRoteiro() {
             const inputEl = document.getElementById('input-gerador-produto');
             const val = inputEl ? inputEl.value.trim() : '';
@@ -476,44 +541,61 @@
                 return;
             }
 
-            produtoAtualNome = val.slice(0, 40);
+            produtoAtualNome = extrairNomeProduto(val);
             const limpo = produtoAtualNome.split(" ").slice(0, 2).join("_").replace(/[^a-zA-Z0-9_]/g, "") || "Meu_Video";
             document.getElementById('cfg-prefix').value = limpo;
             document.getElementById('editor-cfg-prefix').value = limpo;
 
             const btn = document.getElementById('btn-gerar-roteiro');
             const txtOriginal = btn.innerHTML;
-            btn.innerHTML = `<span class="animate-spin inline-block mr-2">⚡</span> IA Criando Roteiro...`;
+            btn.innerHTML = `<span class="animate-spin inline-block mr-2">⚡</span> Criando Roteiro com IA...`;
             btn.disabled = true;
 
             try {
-                let resp = await fetch("/api/roteiro", {
+                // Tenta chamar o servidor do Render ou Cloudflare com timeout
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 3500);
+
+                let resp = await fetch(`${API_URL}/api/roteiro`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ produto: produtoAtualNome })
+                    body: JSON.stringify({ produto: produtoAtualNome }),
+                    signal: controller.signal
                 }).catch(() => null);
 
-                if (!resp || !resp.ok) {
-                    resp = await fetch("https://gerador-roteiro.lucasrosalin1990.workers.dev/", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ produto: produtoAtualNome, variacao: Math.random() })
-                    });
-                }
+                clearTimeout(timeoutId);
 
-                const data = await resp.json();
-                if (data.gancho && data.corpo && data.cta) {
-                    document.getElementById('tela-gerado-gancho').innerText = data.gancho;
-                    document.getElementById('tela-gerado-corpo').innerText = data.corpo;
-                    document.getElementById('tela-gerado-cta').innerText = data.cta;
-                    document.getElementById('tela-titulo-produto').innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Roteiro IA: ${produtoAtualNome}`;
+                if (resp && resp.ok) {
+                    const data = await resp.json();
+                    if (data.gancho && data.corpo && data.cta) {
+                        document.getElementById('tela-gerado-gancho').innerText = data.gancho;
+                        document.getElementById('tela-gerado-corpo').innerText = data.corpo;
+                        document.getElementById('tela-gerado-cta').innerText = data.cta;
+                        document.getElementById('tela-titulo-produto').innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Roteiro IA: ${produtoAtualNome}`;
+                        return;
+                    }
                 }
+                // Se o servidor estiver acordando, usa o gerador dinâmico na hora (zero espera!)
+                alternarNovoRoteiroDinamico();
             } catch (e) {
-                console.warn("Usando motor interno:", e);
+                alternarNovoRoteiroDinamico();
             } finally {
                 btn.innerHTML = txtOriginal;
                 btn.disabled = false;
             }
+        }
+
+        function alternarNovoRoteiroDinamico() {
+            indiceAnguloRoteiro = (indiceAnguloRoteiro + 1) % bancoAngulosDinamicos.length;
+            const ang = bancoAngulosDinamicos[indiceAnguloRoteiro];
+            const pNome = produtoAtualNome || "este produto";
+
+            document.getElementById('tela-gerado-gancho').innerText = ang.gancho.replace("{P}", pNome);
+            document.getElementById('tela-gerado-corpo').innerText = ang.corpo.replace("{P}", pNome);
+            document.getElementById('tela-gerado-cta').innerText = ang.cta.replace("{P}", pNome);
+
+            document.getElementById('tela-titulo-produto').innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Roteiro: ${pNome}`;
+            document.getElementById('tela-angulo-nome').innerText = `Ângulo: ${ang.tipo}`;
         }
 
         function copiarRoteiroTela() {
@@ -535,7 +617,7 @@
             a.click();
         }
 
-        // 2. REMOVEDOR DE PAUSAS (Upload + Fila na Nuvem)
+        // 2. REMOVEDOR DE PAUSAS (ROTA NA NUVEM)
         let arquivosEditor = [];
 
         function atualizarListaEditor(files) {
@@ -577,6 +659,9 @@
             btn.disabled = true;
             pBox.classList.remove('hidden');
             rBox.classList.add('hidden');
+            pBar.style.width = '10%';
+            pPct.innerText = '10%';
+            pTitle.innerText = "Conectando ao servidor em nuvem...";
 
             const formData = new FormData();
             arquivosEditor.forEach(f => formData.append("arquivos", f));
@@ -584,23 +669,27 @@
             formData.append("sensibilidade", document.getElementById('editor-cfg-sensibilidade').value);
 
             try {
-                const resp = await fetch("/api/remover-pausas", { method: "POST", body: formData });
+                const resp = await fetch(`${API_URL}/api/remover-pausas`, { method: "POST", body: formData });
+                if (!resp.ok) throw new Error("Servidor ocupado ou iniciando...");
                 const data = await resp.json();
                 const taskId = data.task_id;
                 localStorage.setItem("maisvideos_tarefa_editor", taskId);
 
                 monitorarTarefa(taskId, pBar, pPct, pTitle, (downloadUrl) => {
-                    document.getElementById('btn-download-editor-zip').href = downloadUrl;
+                    const fullUrl = downloadUrl.startsWith("http") ? downloadUrl : `${API_URL}${downloadUrl}`;
+                    document.getElementById('btn-download-editor-zip').href = fullUrl;
                     rBox.classList.remove('hidden');
                     btn.disabled = false;
                 });
             } catch (err) {
-                alert("Erro ao enviar arquivos para o servidor: " + err);
+                pTitle.innerText = "Servidor acordando na nuvem... Tente novamente em 20 segundos!";
+                pBar.style.width = '0%';
+                pPct.innerText = '0%';
                 btn.disabled = false;
             }
         }
 
-        // 3. MULTIPLICADOR EM MASSA (Upload + Fila na Nuvem)
+        // 3. MULTIPLICADOR EM MASSA (ROTA NA NUVEM)
         const lotes = { ganchos: [], corpos: [], ctas: [] };
 
         function selecionarLote(tipo, files) {
@@ -639,6 +728,9 @@
             btn.disabled = true;
             pBox.classList.remove('hidden');
             rBox.classList.add('hidden');
+            pBar.style.width = '10%';
+            pPct.innerText = '10%';
+            pTitle.innerText = "Conectando ao servidor em nuvem...";
 
             const formData = new FormData();
             lotes.ganchos.forEach(f => formData.append("ganchos", f));
@@ -647,27 +739,31 @@
             formData.append("prefixo", document.getElementById('cfg-prefix').value.trim() || "Meu_Video");
 
             try {
-                const resp = await fetch("/api/multiplicar", { method: "POST", body: formData });
+                const resp = await fetch(`${API_URL}/api/multiplicar`, { method: "POST", body: formData });
+                if (!resp.ok) throw new Error("Servidor ocupado ou iniciando...");
                 const data = await resp.json();
                 const taskId = data.task_id;
                 localStorage.setItem("maisvideos_tarefa_multi", taskId);
 
                 monitorarTarefa(taskId, pBar, pPct, pTitle, (downloadUrl) => {
-                    document.getElementById('btn-download-multi-zip').href = downloadUrl;
+                    const fullUrl = downloadUrl.startsWith("http") ? downloadUrl : `${API_URL}${downloadUrl}`;
+                    document.getElementById('btn-download-multi-zip').href = fullUrl;
                     rBox.classList.remove('hidden');
                     btn.disabled = false;
                 });
             } catch (err) {
-                alert("Erro ao enviar arquivos para o multiplicador: " + err);
+                pTitle.innerText = "Servidor acordando na nuvem... Tente novamente em 20 segundos!";
+                pBar.style.width = '0%';
+                pPct.innerText = '0%';
                 btn.disabled = false;
             }
         }
 
-        // MONITORAMENTO (POLLING)
+        // MONITORAMENTO UNIVERSAL (POLLING)
         function monitorarTarefa(taskId, pBar, pPct, pTitle, onConcluido) {
             const timer = setInterval(async () => {
                 try {
-                    const resp = await fetch(`/api/tarefa/${taskId}`);
+                    const resp = await fetch(`${API_URL}/api/tarefa/${taskId}`);
                     if (!resp.ok) return;
                     const data = await resp.json();
 
@@ -690,7 +786,7 @@
             }, 1200);
         }
 
-        // Recupera tarefas em andamento se a página for recarregada
+        // RECUPERA TAREFA SE A PÁGINA FOR RECARREGADA
         window.addEventListener('DOMContentLoaded', () => {
             const editorTask = localStorage.getItem("maisvideos_tarefa_editor");
             if (editorTask) {
@@ -701,7 +797,8 @@
                 const rBox = document.getElementById('editor-results-container');
                 pBox.classList.remove('hidden');
                 monitorarTarefa(editorTask, pBar, pPct, pTitle, (url) => {
-                    document.getElementById('btn-download-editor-zip').href = url;
+                    const fullUrl = url.startsWith("http") ? url : `${API_URL}${url}`;
+                    document.getElementById('btn-download-editor-zip').href = fullUrl;
                     rBox.classList.remove('hidden');
                 });
             }
