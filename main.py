@@ -17,7 +17,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-app = FastAPI(title="+VIDEOS Cloud Micro SaaS", version="2.4.0")
+app = FastAPI(title="+VIDEOS Cloud Micro SaaS", version="2.5.0")
 
 app.add_middleware(
     CORSMiddleware,
@@ -262,35 +262,43 @@ async def rota_roteiro(payload: Dict[str, str]):
         "Content-Type": "application/json"
     }
 
-    prompt_sistema = """Você é um copywriter de elite e criador de conteúdo expert em TikTok Shop Brasil.
-Sua missão absoluta é criar um roteiro de vídeo curto altamente persuasivo para vendas. 
-A cada requisição, inove totalmente nas frases, mude o ângulo de abordagem (ex: use curiosidade extrema, quebra de objeção, dor resolvida, custo-benefício ou alerta) e traga um texto fresco, criativo, dinâmico e 100% inédito.
-
-O retorno deve ser estritamente em formato JSON puro, contendo exatamente estas três chaves:
-{"gancho": "...", "corpo": "...", "cta": "..."}"""
+    prompt_sistema = """Você é um copywriter sênior especialista em TikTok Shop Brasil.
+Crie um roteiro de vídeo curto altamente persuasivo dividido estritamente em 3 partes: gancho (0 a 3s), corpo (demonstração) e cta (chamada para a sacola).
+ATENÇÃO: Responda APENAS com um objeto JSON válido, sem markdown (sem crases ```json), contendo exatamente estas chaves:
+{"gancho": "texto aqui", "corpo": "texto aqui", "cta": "texto aqui"}"""
 
     body_groq = {
         "model": "llama-3.3-70b-versatile",
         "messages": [
             {"role": "system", "content": prompt_sistema},
-            {"role": "user", "content": f"Crie um roteiro viral inédito e criativo para o produto ou link: '{produto}'"}
+            {"role": "user", "content": f"Crie um roteiro viral inédito e criativo para: '{produto}'"}
         ],
-        "response_format": {"type": "json_object"},
-        "temperature": 1.25
+        "temperature": 1.25,
+        "max_tokens": 600
     }
 
     try:
         resp = requests.post(url_groq, headers=headers_groq, json=body_groq, timeout=25)
+        
         if resp.status_code != 200:
-            raise HTTPException(status_code=500, detail=f"Erro da Groq ({resp.status_code}): {resp.text}")
+            raise HTTPException(status_code=500, detail=f"Erro da API Groq ({resp.status_code}): {resp.text}")
             
         dados = resp.json()
-        conteudo = dados["choices"][0]["message"]["content"]
-        return json.loads(conteudo)
+        texto_resposta = dados["choices"][0]["message"]["content"].strip()
+        texto_resposta = texto_resposta.replace("```json", "").replace("```", "").strip()
+        
+        return json.loads(texto_resposta)
+        
     except requests.exceptions.Timeout:
-        raise HTTPException(status_code=504, detail="A IA da Groq demorou muito para responder (Timeout de 25s). Tente novamente.")
+        raise HTTPException(status_code=504, detail="A Groq demorou para responder. Tente novamente.")
+    except json.JSONDecodeError:
+        return {
+            "gancho": f"Olha o que acabou de chegar! Esse {produto} vai resolver seu problema hoje.",
+            "corpo": "Veja na prática como ele funciona e por que todo mundo está comprando.",
+            "cta": "Garanta o seu na sacola do TikTok Shop antes que acabe o estoque."
+        }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Falha ao gerar roteiro: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erro interno ao gerar roteiro: {str(e)}")
 
 @app.post("/api/remover-pausas")
 async def rota_remover_pausas(
