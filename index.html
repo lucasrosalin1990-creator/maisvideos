@@ -525,58 +525,56 @@
             return nome.slice(0, 35);
         }
 
-        // 1. GERADOR DE ROTEIRO (BLINDADO CONTRA TRAVAMENTOS)
-        async function gerarRoteiro() {
-            const inputEl = document.getElementById('input-gerador-produto');
-            const val = inputEl ? inputEl.value.trim() : '';
-            if (!val) {
-                alert("Por favor, digite o nome ou cole o link do produto primeiro!");
+// 1. GERADOR DE ROTEIRO (BLINDADO CONTRA TRAVAMENTOS)
+async function gerarRoteiro() {
+    const inputEl = document.getElementById('input-gerador-produto');
+    const val = inputEl ? inputEl.value.trim() : '';
+    if (!val) {
+        alert("Por favor, digite o nome ou cole o link do produto primeiro!");
+        return;
+    }
+
+    produtoAtualNome = extrairNomeProduto(val);
+    const limpo = produtoAtualNome.split(" ").slice(0, 2).join("_").replace(/[^a-zA-Z0-9_]/g, "") || "Meu_Video";
+    document.getElementById('cfg-prefix').value = limpo;
+    document.getElementById('editor-cfg-prefix').value = limpo;
+
+    const btn = document.getElementById('btn-gerar-roteiro');
+    const txtOriginal = btn.innerHTML;
+    btn.innerHTML = `<span class="animate-spin inline-block mr-2">⚡</span> Criando Roteiro...`;
+    btn.disabled = true;
+
+    try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 2500);
+
+        let resp = await fetch(`${API_URL}/api/roteiro`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ produto: produtoAtualNome }),
+            signal: controller.signal
+        }).catch(() => null);
+
+        clearTimeout(timeoutId);
+
+        if (resp && resp.ok) {
+            const data = await resp.json();
+            if (data.gancho && data.corpo && data.cta) {
+                document.getElementById('tela-gerado-gancho').innerText = data.gancho;
+                document.getElementById('tela-gerado-corpo').innerText = data.corpo;
+                document.getElementById('tela-gerado-cta').innerText = data.cta;
+                document.getElementById('tela-titulo-produto').innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Roteiro IA: ${produtoAtualNome}`;
                 return;
             }
-
-            produtoAtualNome = extrairNomeProduto(val);
-            const limpo = produtoAtualNome.split(" ").slice(0, 2).join("_").replace(/[^a-zA-Z0-9_]/g, "") || "Meu_Video";
-            document.getElementById('cfg-prefix').value = limpo;
-            document.getElementById('editor-cfg-prefix').value = limpo;
-
-            const btn = document.getElementById('btn-gerar-roteiro');
-            const txtOriginal = btn.innerHTML;
-            btn.innerHTML = `<span class="animate-spin inline-block mr-2">⚡</span> Criando Roteiro com IA...`;
-            btn.disabled = true;
-
-            try {
-                // Tenta chamar o servidor do Render ou Cloudflare com timeout
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 3500);
-
-                let resp = await fetch(`${API_URL}/api/roteiro`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ produto: produtoAtualNome }),
-                    signal: controller.signal
-                }).catch(() => null);
-
-                clearTimeout(timeoutId);
-
-                if (resp && resp.ok) {
-                    const data = await resp.json();
-                    if (data.gancho && data.corpo && data.cta) {
-                        document.getElementById('tela-gerado-gancho').innerText = data.gancho;
-                        document.getElementById('tela-gerado-corpo').innerText = data.corpo;
-                        document.getElementById('tela-gerado-cta').innerText = data.cta;
-                        document.getElementById('tela-titulo-produto').innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Roteiro IA: ${produtoAtualNome}`;
-                        return;
-                    }
-                }
-                // Se o servidor estiver acordando, usa o gerador dinâmico na hora (zero espera!)
-                alternarNovoRoteiroDinamico();
-            } catch (e) {
-                alternarNovoRoteiroDinamico();
-            } finally {
-                btn.innerHTML = txtOriginal;
-                btn.disabled = false;
-            }
         }
+        alternarNovoRoteiroDinamico();
+    } catch (e) {
+        alternarNovoRoteiroDinamico();
+    } finally {
+        btn.innerHTML = txtOriginal;
+        btn.disabled = false;
+    }
+}
 
         function alternarNovoRoteiroDinamico() {
             indiceAnguloRoteiro = (indiceAnguloRoteiro + 1) % bancoAngulosDinamicos.length;
