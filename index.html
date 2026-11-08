@@ -4,67 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>+VIDEOS | Multiplique seus Vídeos e Otimize seu Tempo</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Bibliotecas ZIP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-    
-    <!-- FONTE PLUS JAKARTA SANS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-
     <style>
         * { font-family: 'Plus Jakarta Sans', sans-serif; }
-        body { 
-            background-color: #06080F; 
-            color: #F1F5F9; 
-            letter-spacing: -0.015em; 
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        .bg-dots {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1.2px, transparent 1.2px);
-            background-size: 22px 22px; pointer-events: none; z-index: 0;
-        }
-        .ambient-glow-right {
-            position: fixed; top: -150px; right: 5%; width: 550px; height: 400px;
-            background: radial-gradient(circle, rgba(255, 42, 95, 0.12), transparent 70%);
-            filter: blur(75px); pointer-events: none; z-index: 0;
-        }
-        .ambient-glow-left {
-            position: fixed; top: -150px; left: 5%; width: 550px; height: 400px;
-            background: radial-gradient(circle, rgba(0, 210, 255, 0.09), transparent 70%);
-            filter: blur(75px); pointer-events: none; z-index: 0;
-        }
-
-        .saas-card {
-            background: rgba(13, 18, 32, 0.85);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 42, 95, 0.22);
-            box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.12), 0 8px 30px -10px rgba(0, 0, 0, 0.7);
-            transition: all 0.3s ease;
-        }
-        .top-ticker-glow {
-            border-bottom: 1px solid rgba(255, 42, 95, 0.3);
-            background: rgba(6, 8, 16, 0.92);
-            backdrop-filter: blur(18px);
-            box-shadow: 0 4px 25px -4px rgba(255, 42, 95, 0.22);
-        }
-
-        @keyframes ticker-scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-        .animate-ticker {
-            display: flex; width: max-content;
-            animation: ticker-scroll 32s linear infinite;
-        }
+        body { background-color: #06080F; color: #F1F5F9; letter-spacing: -0.015em; overflow-x: hidden; position: relative; }
+        .bg-dots { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1.2px, transparent 1.2px); background-size: 22px 22px; pointer-events: none; z-index: 0; }
+        .ambient-glow-right { position: fixed; top: -150px; right: 5%; width: 550px; height: 400px; background: radial-gradient(circle, rgba(255, 42, 95, 0.12), transparent 70%); filter: blur(75px); pointer-events: none; z-index: 0; }
+        .ambient-glow-left { position: fixed; top: -150px; left: 5%; width: 550px; height: 400px; background: radial-gradient(circle, rgba(0, 210, 255, 0.09), transparent 70%); filter: blur(75px); pointer-events: none; z-index: 0; }
+        .saas-card { background: rgba(13, 18, 32, 0.85); backdrop-filter: blur(16px); border: 1px solid rgba(255, 42, 95, 0.22); box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.12), 0 8px 30px -10px rgba(0, 0, 0, 0.7); transition: all 0.3s ease; }
+        .top-ticker-glow { border-bottom: 1px solid rgba(255, 42, 95, 0.3); background: rgba(6, 8, 16, 0.92); backdrop-filter: blur(18px); box-shadow: 0 4px 25px -4px rgba(255, 42, 95, 0.22); }
+        @keyframes ticker-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .animate-ticker { display: flex; width: max-content; animation: ticker-scroll 32s linear infinite; }
         .animate-ticker:hover { animation-play-state: paused; }
-
         .custom-scroll::-webkit-scrollbar { height: 6px; width: 6px; }
         .custom-scroll::-webkit-scrollbar-track { background: rgba(11, 16, 29, 0.6); border-radius: 99px; }
         .custom-scroll::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 99px; }
@@ -98,11 +54,18 @@
                 <span class="text-slate-400 text-[10px] border-l border-slate-800 pl-2">Itens: <strong class="text-white font-mono">87</strong></span>
                 <span class="text-emerald-400 font-mono font-bold text-[10px] border-l border-slate-800 pl-2">+R$ 3.140,00</span>
             </div>
+            <!-- Loop -->
+            <div class="flex-shrink-0 flex items-center gap-3 bg-[#0D1220]/90 border border-slate-800/80 px-3 py-1.5 rounded-xl text-xs shadow-md">
+                <span class="text-[10px] bg-white text-black font-extrabold px-2 py-0.5 rounded-md">Hoje</span>
+                <span class="text-slate-400 text-[10px]">GMV: <strong class="text-white font-mono">R$ 14,8 mil</strong></span>
+                <span class="text-slate-400 text-[10px] border-l border-slate-800 pl-2">Itens: <strong class="text-white font-mono">48</strong></span>
+                <span class="text-emerald-400 font-mono font-bold text-[10px] border-l border-slate-800 pl-2">+R$ 1.620,00</span>
+            </div>
             <div class="flex-shrink-0 flex items-center gap-3 bg-[#0D1220]/90 border border-slate-800/80 px-3 py-1.5 rounded-xl text-xs shadow-md">
                 <span class="text-[10px] bg-[#FF2A5F]/20 text-[#FF2A5F] border border-[#FF2A5F]/30 font-extrabold px-2 py-0.5 rounded-md">Últimos 7 dias</span>
-                <span class="text-slate-400 text-[10px]">GMV: <strong class="text-white font-mono">R$ 154,8 mil</strong></span>
-                <span class="text-slate-400 text-[10px] border-l border-slate-800 pl-2">Itens: <strong class="text-white font-mono">490</strong></span>
-                <span class="text-emerald-400 font-mono font-bold text-[10px] border-l border-slate-800 pl-2">+R$ 18.250,00</span>
+                <span class="text-slate-400 text-[10px]">GMV: <strong class="text-white font-mono">R$ 82,4 mil</strong></span>
+                <span class="text-slate-400 text-[10px] border-l border-slate-800 pl-2">Itens: <strong class="text-white font-mono">264</strong></span>
+                <span class="text-emerald-400 font-mono font-bold text-[10px] border-l border-slate-800 pl-2">+R$ 9.480,00</span>
             </div>
         </div>
     </div>
@@ -116,8 +79,6 @@
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FF2A5F] to-cyan-400">+</span>VIDEOS
                 </span>
             </div>
-
-            <!-- NOME E PLANO DO CLIENTE -->
             <button onclick="abrirModalNome()" class="flex items-center gap-2 bg-[#0C101D]/80 border border-slate-800 hover:border-[#FF2A5F]/40 px-3.5 py-1.5 rounded-xl text-xs text-slate-300 transition">
                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                 <span id="label-nome-cliente" class="font-bold text-white">lucas</span>
@@ -144,20 +105,17 @@
                         <option value="Plano Anual">Plano Anual</option>
                     </select>
                 </div>
-                <button onclick="salvarDadosCliente()" class="w-full py-3 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-extrabold text-sm rounded-xl transition shadow-lg shadow-[#FF2A5F]/25 mt-2">
-                    Salvar Dados
-                </button>
+                <button onclick="salvarDadosCliente()" class="w-full py-3 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-extrabold text-sm rounded-xl transition shadow-lg shadow-[#FF2A5F]/25 mt-2">Salvar Dados</button>
             </div>
         </div>
     </div>
 
-    <!-- CONTAINER OCULTO DE PROCESSAMENTO -->
     <div id="render-sandbox" style="position:fixed; top:-9999px; left:-9999px; width:320px; height:240px; overflow:hidden; opacity:0; pointer-events:none;"></div>
 
     <!-- ÁREA PRINCIPAL -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full space-y-8 relative z-10">
         
-        <!-- HERO + NOVO TÍTULO COM DEGRADÊ COMPLETO -->
+        <!-- HERO COM NOVO TÍTULO E DEGRADÊ COMPLETO -->
         <div class="space-y-5 text-center">
             <div>
                 <span class="text-xs uppercase font-black text-[#FF2A5F] tracking-widest block mb-1">Passo a Passo Oficial</span>
@@ -184,12 +142,11 @@
         </div>
 
         <!-- ============================================================ -->
-        <!-- 1. FERRAMENTA 1: VÍDEO TUTORIAL (AUTOPLAY) + GERADOR COM IA  -->
+        <!-- 1. FERRAMENTA 1: VÍDEO TUTORIAL + GERADOR COM IA DA GROQ     -->
         <!-- ============================================================ -->
         <section id="secao-gerador" class="saas-card rounded-3xl p-6 sm:p-8 shadow-xl">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 
-                <!-- VÍDEO TUTORIAL COM AUTOPLAY NATIVO -->
                 <div class="lg:col-span-5 flex flex-col items-center">
                     <div class="border-2 border-slate-800 rounded-3xl bg-[#080B14] p-3 shadow-2xl w-full max-w-xs">
                         <div class="relative bg-black rounded-2xl overflow-hidden aspect-[9/16] flex items-center justify-center">
@@ -200,14 +157,11 @@
                     </div>
                 </div>
 
-                <!-- GERADOR DE ROTEIRO COM IA (GROQ CONECTADA) -->
                 <div class="lg:col-span-7 flex flex-col justify-center space-y-4">
                     <div>
                         <span class="text-xs font-black uppercase text-cyan-400 tracking-wider block mb-1">Ferramenta 1</span>
                         <h2 class="text-lg sm:text-2xl font-black text-white">Gerador de Roteiro Viral para o Produto</h2>
-                        <p class="text-xs text-slate-400 mt-1">
-                            Cole o link copiado no seu TikTok (ou digite o nome do produto) para a inteligência artificial formular um roteiro exclusivo na hora.
-                        </p>
+                        <p class="text-xs text-slate-400 mt-1">Cole o link do TikTok ou digite o nome do produto para formular um roteiro exclusivo na hora.</p>
                     </div>
 
                     <div class="space-y-3 pt-1">
@@ -222,9 +176,7 @@
                         </button>
                     </div>
 
-                    <!-- CAIXAS DO ROTEIRO GERADO DIRETAMENTE NA TELA -->
                     <div id="area-roteiro-gerado" class="space-y-3 pt-2">
-                        
                         <div class="flex items-center justify-between pb-1">
                             <span id="tela-titulo-produto" class="text-xs font-extrabold text-emerald-400 flex items-center gap-1.5">
                                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Roteiro IA: Ventilador de Teto Portátil
@@ -232,7 +184,7 @@
                             <span id="tela-angulo-nome" class="text-[10px] text-slate-400 font-mono">IA Groq Conectada</span>
                         </div>
 
-                        <!-- 1. Gancho (Fundo Azul) -->
+                        <!-- 1. Gancho (Azul) -->
                         <div class="bg-blue-950/40 border border-blue-500/50 rounded-2xl p-4">
                             <div class="flex items-center justify-between mb-1">
                                 <span class="font-extrabold text-blue-300 flex items-center gap-1.5 text-xs">
@@ -243,7 +195,7 @@
                             <p id="tela-gerado-gancho" class="text-blue-100 font-semibold leading-relaxed text-xs">Pare de jogar dinheiro fora com ar-condicionado! Esse ventilador portátil de 50 reais mudou meu quarto...</p>
                         </div>
 
-                        <!-- 2. Corpo (Fundo Verde) -->
+                        <!-- 2. Corpo (Verde) -->
                         <div class="bg-emerald-950/40 border border-emerald-500/50 rounded-2xl p-4">
                             <div class="flex items-center justify-between mb-1">
                                 <span class="font-extrabold text-emerald-300 flex items-center gap-1.5 text-xs">
@@ -254,7 +206,7 @@
                             <p id="tela-gerado-corpo" class="text-emerald-100 font-normal leading-relaxed text-xs">Mostre como ele ventila forte sem fazer barulho, conecta direto no bocal da lâmpada ou tomada e refrigera o cômodo em 2 minutos.</p>
                         </div>
 
-                        <!-- 3. CTA (Fundo Vermelho) -->
+                        <!-- 3. CTA (Vermelho) -->
                         <div class="bg-rose-950/40 border border-rose-500/50 rounded-2xl p-4">
                             <div class="flex items-center justify-between mb-1">
                                 <span class="font-extrabold text-rose-300 flex items-center gap-1.5 text-xs">
@@ -265,24 +217,19 @@
                             <p id="tela-gerado-cta" class="text-rose-100 font-semibold leading-relaxed text-xs">Clique no carrinho do TikTok Shop abaixo antes que o lote com frete grátis acabe hoje.</p>
                         </div>
 
-                        <!-- BOTÕES DE CONTROLE RENOMEADOS -->
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1">
                             <button onclick="copiarRoteiroTela()" class="py-2.5 bg-slate-900 hover:bg-slate-800 text-white border border-slate-700/80 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5">
                                 <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184"/></svg>
                                 <span>Copiar Roteiro</span>
                             </button>
-
                             <button onclick="baixarRoteiroTxtTela()" class="py-2.5 bg-slate-900 hover:bg-slate-800 text-white border border-slate-700/80 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5">
                                 <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
                                 <span>Salvar .TXT</span>
                             </button>
-
-                            <!-- BOTÃO COM O NOME EXATO PEDIDO -->
                             <button onclick="alternarNovoRoteiroDinamico()" class="py-2.5 bg-[#FF2A5F]/20 hover:bg-[#FF2A5F] text-[#FF2A5F] hover:text-white border border-[#FF2A5F]/40 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5">
                                 <span>🔄 Gerar outro roteiro</span>
                             </button>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -335,7 +282,6 @@
                 </div>
             </div>
 
-            <!-- AVISO EM DESTAQUE -->
             <div class="mt-4 p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs flex items-center gap-2.5 shadow-md">
                 <span class="text-lg flex-shrink-0">⚠️</span>
                 <p class="leading-relaxed font-semibold">
@@ -353,7 +299,6 @@
                 </div>
             </div>
 
-            <!-- RESULTADOS DO REMOVEDOR -->
             <div id="editor-results-container" class="mt-5 pt-4 border-t border-slate-800/80 hidden">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
                     <div class="flex items-center gap-2">
@@ -391,8 +336,7 @@
 
             <!-- AS 3 CAIXAS COLORIDAS: AZUL (GANCHOS), VERDE (CORPOS), VERMELHO (CTAS) -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
-                
-                <!-- 1. GANCHOS -> FUNDO AZUL -->
+                <!-- GANCHOS (AZUL) -->
                 <div class="bg-blue-950/40 border-2 border-blue-500/50 hover:border-blue-400 rounded-2xl p-5 transition flex flex-col justify-between shadow-lg shadow-blue-500/10">
                     <div>
                         <div class="flex items-center justify-between mb-2">
@@ -410,7 +354,7 @@
                     </div>
                 </div>
 
-                <!-- 2. CORPOS -> FUNDO VERDE -->
+                <!-- CORPOS (VERDE) -->
                 <div class="bg-emerald-950/40 border-2 border-emerald-500/50 hover:border-emerald-400 rounded-2xl p-5 transition flex flex-col justify-between shadow-lg shadow-emerald-500/10">
                     <div>
                         <div class="flex items-center justify-between mb-2">
@@ -428,7 +372,7 @@
                     </div>
                 </div>
 
-                <!-- 3. CTAS -> FUNDO VERMELHO -->
+                <!-- CTAS (VERMELHO) -->
                 <div class="bg-rose-950/40 border-2 border-rose-500/50 hover:border-rose-400 rounded-2xl p-5 transition flex flex-col justify-between shadow-lg shadow-rose-500/10">
                     <div>
                         <div class="flex items-center justify-between mb-2">
@@ -445,10 +389,9 @@
                         <ul id="list-ctas" class="space-y-1 max-h-28 overflow-y-auto custom-scroll pr-1 empty:hidden text-xs text-rose-100 font-medium"></ul>
                     </div>
                 </div>
-
             </div>
 
-            <!-- BOTÃO DE DISPARO EMBARALHADO -->
+            <!-- DISPARO EMBARALHADO -->
             <div class="bg-[#080B14] border border-slate-800 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div class="flex items-center gap-4 text-xs">
                     <div>
@@ -477,7 +420,6 @@
                 </div>
             </div>
 
-            <!-- AVISO EM DESTAQUE -->
             <div class="mt-4 p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs flex items-center gap-2.5 shadow-md">
                 <span class="text-lg flex-shrink-0">⚠️</span>
                 <p class="leading-relaxed font-semibold">
@@ -512,12 +454,10 @@
         +VIDEOS • Multiplique seus vídeos e otimize seu tempo © 2026
     </footer>
 
-    <!-- SCRIPT BLINDADO COM IA CONECTADA + CORTE REAL DE SILÊNCIO -->
+    <!-- SCRIPT BLINDADO COMPLETO -->
     <script>
         let audioContextGlobal = null;
         let codecSelecionado = { mime: 'video/webm', ext: 'webm' };
-
-        // 8 ÂNGULOS DE COPYWRITING DINÂMICOS
         let produtoAtualNome = "Ventilador de Teto Portátil";
         let indiceAnguloRoteiro = 0;
 
@@ -724,9 +664,7 @@
         }
         function atualizarPreviaNome() {}
 
-        // ============================================================
-        // FERRAMENTA 2: CORTE REAL DE SILÊNCIOS POR VARREDURA DE ONDA
-        // ============================================================
+        // FERRAMENTA 2: REMOVEDOR DE PAUSAS
         let filaVideosEditor = [];
         let videosLimposFinalizados = [];
 
@@ -787,7 +725,6 @@
                 });
 
                 const duracaoTotal = videoScan.duration || 18;
-
                 let actx = null;
                 try {
                     actx = new (window.AudioContext || window.webkitAudioContext)();
@@ -884,7 +821,6 @@
 
                     videoScan.onended = concluirVarredura;
                     setTimeout(concluirVarredura, (duracaoTotal / 3.8) * 1000 + 1500);
-
                     await videoScan.play().catch(() => concluirVarredura());
                 } catch(err) {
                     resolve({ segmentos: [{ start: 0, end: duracaoTotal }], duracaoTotal });
@@ -1023,7 +959,6 @@
 
                     const arquivoLimpo = new File([resultado.blob], novoNome, { type: resultado.blob.type });
                     videosLimposFinalizados.push({ nome: novoNome, blob: resultado.blob, arquivo: arquivoLimpo });
-
                     adicionarCardEditorResultado(arquivoLimpo, resultado.blob, novoNome, resultado.tempoOriginal, resultado.tempoFinal);
                 } catch (erroVideo) {
                     console.error("Erro no processamento:", erroVideo);
@@ -1060,7 +995,6 @@
                         <span class="text-slate-400 font-mono">${(blob.size / (1024*1024)).toFixed(1)} MB</span>
                     </div>
                 </div>
-                
                 <div class="space-y-1.5 pt-2 border-t border-slate-800/80">
                     <a href="${url}" download="${nomeArquivo}" class="w-full py-1.5 bg-[#FF2A5F]/15 hover:bg-[#FF2A5F] text-[#FF2A5F] hover:text-white font-extrabold text-[11px] rounded-lg transition flex items-center justify-center gap-1.5 text-center">
                         <span>Baixar Este Vídeo</span>
@@ -1083,10 +1017,7 @@
             btn.disabled = true;
 
             const zip = new JSZip();
-            videosLimposFinalizados.forEach(item => {
-                zip.file(item.nome, item.blob);
-            });
-
+            videosLimposFinalizados.forEach(item => { zip.file(item.nome, item.blob); });
             const blobZip = await zip.generateAsync({ type: 'blob' });
             const prefixo = document.getElementById('editor-cfg-prefix').value.trim() || 'Meu_Video';
             saveAs(blobZip, `${prefixo}_VideosLimpos.zip`);
@@ -1102,9 +1033,7 @@
             calcularMatriz();
         }
 
-        // ============================================================
-        // FERRAMENTA 3: MULTIPLICADOR EM MASSA COM EMBARALHAMENTO
-        // ============================================================
+        // FERRAMENTA 3: MULTIPLICADOR EM MASSA
         const midias = { ganchos: [], corpos: [], ctas: [] };
         let criativosFinalizados = [];
         let cancelamentoSolicitado = false;
