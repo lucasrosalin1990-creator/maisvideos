@@ -17,7 +17,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-app = FastAPI(title="+VIDEOS Cloud Micro SaaS", version="2.1.0")
+app = FastAPI(title="+VIDEOS Cloud Micro SaaS", version="2.2.0")
 
 app.add_middleware(
     CORSMiddleware,
@@ -34,7 +34,7 @@ TEMP_DIR.mkdir(exist_ok=True)
 TAREFAS_DIR = TEMP_DIR / "tarefas_json"
 TAREFAS_DIR.mkdir(exist_ok=True)
 
-GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY", "").strip()
 
 def salvar_tarefa(task_id: str, dados: dict):
     path = TAREFAS_DIR / f"{task_id}.json"
@@ -47,13 +47,6 @@ def carregar_tarefa(task_id: str) -> dict:
         with open(path, "r", encoding="utf-8") as f:
             return json.load(f)
     return None
-
-def fallback_roteiro(produto: str) -> dict:
-    return {
-        "gancho": f"Pare de jogar dinheiro fora! Esse {produto} mudou minha rotina completamente...",
-        "corpo": f"Mostre o produto funcionando nos primeiros 10 segundos provando o resultado prático sem esforço.",
-        "cta": f"Clique no carrinho do TikTok Shop abaixo antes que o lote com frete grátis acabe."
-    }
 
 # ============================================================================
 # PROCESSAMENTO FFmpeg 1: REMOVEDOR REAL DE PAUSAS
@@ -261,7 +254,7 @@ async def rota_roteiro(payload: Dict[str, str]):
         raise HTTPException(status_code=400, detail="Nome do produto obrigatório")
 
     if not GROQ_API_KEY:
-        return fallback_roteiro(produto)
+        raise HTTPException(status_code=500, detail="GROQ_API_KEY não configurada nas variáveis de ambiente do Render.")
 
     url_groq = "https://api.groq.com/openai/v1/chat/completions"
     headers_groq = {
@@ -269,32 +262,34 @@ async def rota_roteiro(payload: Dict[str, str]):
         "Content-Type": "application/json"
     }
 
+    # Prompt profissional forçando criatividade total e formato estrito JSON
     prompt_sistema = """Você é um copywriter de elite e criador de conteúdo expert em TikTok Shop Brasil.
-Sua missão é criar um roteiro de vídeo curto altamente persuasivo para vendas. 
-A cada requisição, inove totalmente no gancho, mude o ângulo de abordagem (ex: use curiosidade extrema, quebra de objeção, dor resolvida, custo-benefício ou alerta) e traga um texto fresco, criativo e diferente do padrão.
+Sua missão absoluta é criar um roteiro de vídeo curto altamente persuasivo para vendas. 
+A cada requisição, inove totalmente nas frases, mude o ângulo de abordagem (ex: use curiosidade extrema, quebra de objeção, dor resolvida, custo-benefício ou alerta) e traga um texto fresco, criativo, dinâmico e 100% inédito.
 
-O retorno deve ser estritamente em formato JSON com estas chaves exatas:
+O retorno deve ser estritamente em formato JSON puro, contendo exatamente estas três chaves:
 {"gancho": "...", "corpo": "...", "cta": "..."}"""
 
     body_groq = {
         "model": "llama-3.3-70b-versatile",
         "messages": [
             {"role": "system", "content": prompt_sistema},
-            {"role": "user", "content": f"Crie um roteiro viral inédito e criativo para o produto: '{produto}'"}
+            {"role": "user", "content": f"Crie um roteiro viral inédito e criativo para o produto ou link: '{produto}'"}
         ],
         "response_format": {"type": "json_object"},
-        "temperature": 1.15
+        "temperature": 1.25  # Temperatura alta para garantir que NUNCA repita o texto e crie frases novas
     }
 
     try:
-        resp = requests.post(url_groq, headers=headers_groq, json=body_groq, timeout=12)
-        if resp.status_code == 200:
-            dados = resp.json()
-            conteudo = dados["choices"][0]["message"]["content"]
-            return json.loads(conteudo)
-        return fallback_roteiro(produto)
-    except Exception:
-        return fallback_roteiro(produto)
+        resp = requests.post(url_groq, headers=headers_groq, json=body_groq, timeout=15)
+        if resp.status_code != 200:
+            raise HTTPException(status_code=500, detail=f"Erro na API Groq: {resp.text}")
+            
+        dados = resp.json()
+        conteudo = dados["choices"][0]["message"]["content"]
+        return json.loads(conteudo)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Falha ao gerar roteiro com IA: {str(e)}")
 
 @app.post("/api/remover-pausas")
 async def rota_remover_pausas(
