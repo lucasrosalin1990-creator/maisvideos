@@ -18,7 +18,6 @@
             overflow-x: hidden;
             position: relative;
         }
-
         .bg-dots {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1.2px, transparent 1.2px);
@@ -34,7 +33,6 @@
             background: radial-gradient(circle, rgba(0, 210, 255, 0.09), transparent 70%);
             filter: blur(75px); pointer-events: none; z-index: 0;
         }
-
         .saas-card {
             background: rgba(13, 18, 32, 0.85);
             backdrop-filter: blur(16px);
@@ -48,7 +46,6 @@
             backdrop-filter: blur(18px);
             box-shadow: 0 4px 25px -4px rgba(255, 42, 95, 0.22);
         }
-
         @keyframes ticker-scroll {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
@@ -58,7 +55,6 @@
             animation: ticker-scroll 32s linear infinite;
         }
         .animate-ticker:hover { animation-play-state: paused; }
-
         .custom-scroll::-webkit-scrollbar { height: 6px; width: 6px; }
         .custom-scroll::-webkit-scrollbar-track { background: rgba(11, 16, 29, 0.6); border-radius: 99px; }
         .custom-scroll::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 99px; }
@@ -70,30 +66,6 @@
     <div class="bg-dots"></div>
     <div class="ambient-glow-right"></div>
     <div class="ambient-glow-left"></div>
-
-    <!-- BANNER TOPO -->
-    <div class="top-ticker-glow overflow-hidden py-2 relative z-50">
-        <div class="animate-ticker flex items-center gap-4">
-            <div class="flex-shrink-0 flex items-center gap-3 bg-[#0D1220]/90 border border-slate-800/80 px-3 py-1.5 rounded-xl text-xs shadow-md">
-                <span class="text-[10px] bg-white text-black font-extrabold px-2 py-0.5 rounded-md">Hoje</span>
-                <span class="text-slate-400 text-[10px]">GMV: <strong class="text-white font-mono">R$ 14,8 mil</strong></span>
-                <span class="text-slate-400 text-[10px] border-l border-slate-800 pl-2">Itens: <strong class="text-white font-mono">48</strong></span>
-                <span class="text-emerald-400 font-mono font-bold text-[10px] border-l border-slate-800 pl-2">+R$ 1.620,00</span>
-            </div>
-            <div class="flex-shrink-0 flex items-center gap-3 bg-[#0D1220]/90 border border-slate-800/80 px-3 py-1.5 rounded-xl text-xs shadow-md">
-                <span class="text-[10px] bg-[#FF2A5F]/20 text-[#FF2A5F] border border-[#FF2A5F]/30 font-extrabold px-2 py-0.5 rounded-md">Últimos 7 dias</span>
-                <span class="text-slate-400 text-[10px]">GMV: <strong class="text-white font-mono">R$ 82,4 mil</strong></span>
-                <span class="text-slate-400 text-[10px] border-l border-slate-800 pl-2">Itens: <strong class="text-white font-mono">264</strong></span>
-                <span class="text-emerald-400 font-mono font-bold text-[10px] border-l border-slate-800 pl-2">+R$ 9.480,00</span>
-            </div>
-            <div class="flex-shrink-0 flex items-center gap-3 bg-[#0D1220]/90 border border-slate-800/80 px-3 py-1.5 rounded-xl text-xs shadow-md">
-                <span class="text-[10px] bg-white text-black font-extrabold px-2 py-0.5 rounded-md">Hoje</span>
-                <span class="text-slate-400 text-[10px]">GMV: <strong class="text-white font-mono">R$ 26,1 mil</strong></span>
-                <span class="text-slate-400 text-[10px] border-l border-slate-800 pl-2">Itens: <strong class="text-white font-mono">87</strong></span>
-                <span class="text-emerald-400 font-mono font-bold text-[10px] border-l border-slate-800 pl-2">+R$ 3.140,00</span>
-            </div>
-        </div>
-    </div>
 
     <!-- CABEÇALHO -->
     <header class="border-b border-slate-800/80 bg-[#070A12]/80 backdrop-blur-md sticky top-0 z-40 relative">
@@ -121,22 +93,6 @@
                 <h1 class="text-xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight max-w-4xl mx-auto">
                     ACHE O PRODUTO CERTO, <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-sky-300 to-[#FF2A5F]">GERE O ROTEIRO, EDITE E MULTIPLIQUE</span> EM MINUTOS
                 </h1>
-                <p class="text-xs sm:text-sm text-slate-300 mt-2 font-medium max-w-xl mx-auto">
-                    1. Pegue o link no app • 2. Gere o roteiro com IA • 3. Edite e Multiplique • <strong>Fature mais em menos tempo.</strong>
-                </p>
-            </div>
-
-            <!-- BOTÕES DE NAVEGAÇÃO -->
-            <div class="flex items-center gap-3 flex-wrap justify-center pt-1">
-                <a href="#secao-gerador" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-xs text-white font-extrabold transition shadow-lg shadow-[#FF2A5F]/25 flex items-center gap-2">
-                    <span>✨ Gerador de Roteiro</span>
-                </a>
-                <a href="#secao-removedor" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-xs text-white font-extrabold transition shadow-lg shadow-[#FF2A5F]/25 flex items-center gap-2">
-                    <span>⚡ Editor e Removedor de Pausas</span>
-                </a>
-                <a href="#secao-multiplicador" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-xs text-white font-extrabold transition shadow-lg shadow-[#FF2A5F]/25 flex items-center gap-2">
-                    <span>🎬 Multiplicador de Vídeos</span>
-                </a>
             </div>
         </div>
 
@@ -170,9 +126,15 @@
                             <input type="text" id="input-gerador-produto" value="Ventilador de Teto Portátil" placeholder="Ex: Mini Processador de Alimentos" class="w-full bg-[#080B14] border border-slate-700 focus:border-[#FF2A5F] rounded-2xl px-4 py-3.5 text-xs text-white focus:outline-none transition font-medium">
                         </div>
 
+                        <!-- BOTÃO PRINCIPAL DE GERAR -->
                         <button id="btn-gerar-roteiro" onclick="gerarRoteiro()" class="w-full py-4 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-extrabold text-sm rounded-2xl transition shadow-xl shadow-[#FF2A5F]/25 flex items-center justify-center gap-2 cursor-pointer">
                             <span>✨ GERAR ROTEIRO COM IA</span>
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+                        </button>
+
+                        <!-- BOTÃO SECUNDÁRIO AZUL CLARO: GERAR OUTRO ROTEIRO -->
+                        <button id="btn-gerar-outro" onclick="gerarRoteiro()" class="w-full py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-extrabold text-xs rounded-2xl transition shadow-lg shadow-cyan-500/20 flex items-center justify-center gap-2 cursor-pointer">
+                            <span>🔄 GERAR OUTRO ROTEIRO DIFERENTE</span>
                         </button>
                     </div>
 
@@ -215,12 +177,12 @@
                             <p id="tela-gerado-cta" class="text-rose-100 font-semibold leading-relaxed text-xs">A chamada para compra na sacola aparecerá aqui...</p>
                         </div>
 
-                        <!-- BOTÕES -->
+                        <!-- BOTÕES DE CÓPIA -->
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
-                            <button onclick="copiarRoteiroTela()" class="py-2.5 bg-slate-900 hover:bg-slate-800 text-white border border-slate-700/80 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5">
+                            <button onclick="copiarRoteiroTela()" class="py-2.5 bg-slate-900 hover:bg-slate-800 text-white border border-slate-700/80 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5 cursor-pointer">
                                 <span>Copiar Roteiro</span>
                             </button>
-                            <button onclick="baixarRoteiroTxtTela()" class="py-2.5 bg-slate-900 hover:bg-slate-800 text-white border border-slate-700/80 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5">
+                            <button onclick="baixarRoteiroTxtTela()" class="py-2.5 bg-slate-900 hover:bg-slate-800 text-white border border-slate-700/80 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5 cursor-pointer">
                                 <span>Salvar .TXT</span>
                             </button>
                         </div>
@@ -360,7 +322,7 @@
 
     </main>
 
-    <!-- SCRIPT DE COMUNICAÇÃO -->
+    <!-- SCRIPT DA APLICAÇÃO -->
     <script>
         const API_URL = window.location.hostname.includes("onrender.com") ? "" : "https://maisvideos.onrender.com";
         let produtoAtualNome = "Ventilador de Teto Portátil";
@@ -374,9 +336,12 @@
             }
             produtoAtualNome = val;
 
-            const btn = document.getElementById('btn-gerar-roteiro');
-            btn.innerHTML = `<span class="animate-spin inline-block mr-2">⚡</span> IA criando roteiro exclusivo...`;
-            btn.disabled = true;
+            const btn1 = document.getElementById('btn-gerar-roteiro');
+            const btn2 = document.getElementById('btn-gerar-outro');
+            
+            btn1.innerHTML = `<span class="animate-spin inline-block mr-2">⚡</span> IA criando roteiro exclusivo...`;
+            btn1.disabled = true;
+            btn2.disabled = true;
 
             try {
                 let resp = await fetch(`${API_URL}/api/roteiro`, {
@@ -396,10 +361,11 @@
                 }
                 alert("A IA demorou a responder. Tente novamente.");
             } catch (e) {
-                alert("Erro ao conectar com a IA no servidor do Render.");
+                alert("Erro ao conectar com a IA no servidor do Render. Verifique se a chave GROQ_API_KEY está ativa.");
             } finally {
-                btn.innerHTML = `<span>✨ GERAR ROTEIRO COM IA</span>`;
-                btn.disabled = false;
+                btn1.innerHTML = `<span>✨ GERAR ROTEIRO COM IA</span>`;
+                btn1.disabled = false;
+                btn2.disabled = false;
             }
         }
 
@@ -408,7 +374,7 @@
             const c = document.getElementById('tela-gerado-corpo').innerText;
             const cta = document.getElementById('tela-gerado-cta').innerText;
             navigator.clipboard.writeText(`ROTEIRO VIRAL - ${produtoAtualNome}\n\n1. GANCHO:\n${g}\n\n2. CORPO:\n${c}\n\n3. CTA:\n${cta}`);
-            alert("✅ Roteiro copiado!");
+            alert("✅ Roteiro copiado com sucesso!");
         }
 
         function baixarRoteiroTxtTela() {
