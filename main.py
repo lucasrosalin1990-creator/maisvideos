@@ -17,7 +17,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-app = FastAPI(title="+VIDEOS Cloud Micro SaaS", version="2.7.0")
+app = FastAPI(title="+VIDEOS Cloud Micro SaaS", version="2.8.0")
 
 # CORS TOTALMENTE LIBERADO PARA SUPORTAR O GITHUB PAGES E QUALQUER FRONT-END
 app.add_middleware(
@@ -269,7 +269,7 @@ ATENÇÃO: Responda APENAS com um objeto JSON válido, sem markdown (sem crases 
 {"gancho": "texto aqui", "corpo": "texto aqui", "cta": "texto aqui"}"""
 
     body_groq = {
-        "model": "llama3-70b-8192",  # Modelo ativo e compatível com a Groq
+        "model": "llama-3.1-70b-versatile",  # <--- MODELO ATUALIZADO E 100% ATIVO NA GROQ
         "messages": [
             {"role": "system", "content": prompt_sistema},
             {"role": "user", "content": f"Crie um roteiro viral inédito e criativo para: '{produto}'"}
