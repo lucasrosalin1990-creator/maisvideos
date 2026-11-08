@@ -9,11 +9,11 @@ import subprocess
 from typing import List, Dict, Any
 from pathlib import Path
 
+import requests
 from fastapi import FastAPI, UploadFile, File, Form, BackgroundTasks, HTTPException
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
-from groq import Groq
 import boto3
 from botocore.config import Config
 
@@ -34,8 +34,8 @@ TEMP_DIR = BASE_DIR / "temp_processing"
 TEMP_DIR.mkdir(exist_ok=True)
 
 GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
-groq_client = Groq(api_key=GROQ_API_KEY) if GROQ_API_KEY else None
 
+# CLIENTE CLOUDFLARE R2
 R2_ACCOUNT_ID = os.getenv("R2_ACCOUNT_ID")
 R2_ACCESS_KEY = os.getenv("R2_ACCESS_KEY_ID")
 R2_SECRET_KEY = os.getenv("R2_SECRET_ACCESS_KEY")
@@ -68,6 +68,16 @@ def upload_r2_ou_fallback(arquivo_zip: Path, task_id: str) -> str:
         )
     return f"/api/download/{task_id}"
 
+def fallback_roteiro(produto: str) -> dict:
+    return {
+        "gancho": f"Pare de jogar dinheiro fora com soluções que não funcionam! Esse {produto} mudou minha rotina...",
+        "corpo": f"Mostre o produto funcionando na prática em menos de 10 segundos provando o resultado.",
+        "cta": f"Clique no carrinho do TikTok Shop abaixo antes que encerre o lote com frete grátis."
+    }
+
+# ============================================================================
+# TAREFAS EM BACKGROUND COM FFmpeg
+# ============================================================================
 def task_remover_pausas(task_id: str, caminhos_videos: List[Path], prefixo: str, sensibilidade: str):
     task_dir = TEMP_DIR / task_id
     out_dir = task_dir / "limpos"
@@ -237,7 +247,9 @@ def task_multiplicar_videos(task_id: str, ganchos: List[Path], corpos: List[Path
         TAREFAS[task_id]["status"] = "erro"
         TAREFAS[task_id]["mensagem"] = f"Falha na multiplicação: {str(e)}"
 
-# ROTA PRINCIPAL: Lê o index.html direto da raiz do projeto!
+# ============================================================================
+# ROTAS DA API
+# ============================================================================
 @app.get("/")
 def index():
     idx_path = BASE_DIR / "index.html"
@@ -249,124 +261,4 @@ def index():
 async def rota_roteiro(payload: Dict[str, str]):
     produto = payload.get("produto", "").strip()
     if not produto:
-        raise HTTPException(status_code=400, detail="Nome do produto obrigatório")
-
-    if not groq_client:
-        return {
-            "gancho": f"Pare de jogar dinheiro fora! Ninguém te conta a verdade sobre {produto}...",
-            "corpo": f"Mostre o produto funcionando na prática em menos de 10 segundos provando o resultado.",
-            "cta": f"Clique no carrinho do TikTok Shop abaixo antes que acabe a promoção com frete grátis."
-        }
-
-    prompt_sistema = """Você é um copywriter de elite especializado em TikTok Shop Brasil.
-Crie um roteiro em 3 partes curtas:
-1. Gancho (0 a 3s): Quebra de padrão impactante ou curiosidade irresistível.
-2. Corpo (3 a 25s): Demonstração visual rápida da solução quebrando a principal objeção.
-3. CTA (Final): Chamada com urgência para a sacola do TikTok Shop.
-
-Responda EXCLUSIVAMENTE em formato JSON:
-{"gancho": "...", "corpo": "...", "cta": "..."}"""
-
-    try:
-        completion = groq_client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
-            messages=[
-                {"role": "system", "content": prompt_sistema},
-                {"role": "user", "content": f"Produto: '{produto}' (Crie uma variação inovadora e agressiva)"}
-            ],
-            response_format={"type": "json_object"},
-            temperature=0.85
-        )
-        return json.loads(completion.choices[0].message.content)
-    except Exception:
-        return {
-            "gancho": f"Eu achava que era mentira até testar esse {produto}...",
-            "corpo": f"Ele economiza seu tempo e resolve tudo em menos de 1 minuto na prática.",
-            "cta": f"Garanta o seu com desconto na sacola abaixo enquanto durar o estoque."
-        }
-
-@app.post("/api/remover-pausas")
-async def rota_remover_pausas(
-    background_tasks: BackgroundTasks,
-    arquivos: List[UploadFile] = File(...),
-    prefixo: str = Form("Meu_Video"),
-    sensibilidade: str = Form("equilibrado")
-):
-    task_id = str(uuid.uuid4())
-    in_dir = TEMP_DIR / task_id / "inputs"
-    in_dir.mkdir(parents=True, exist_ok=True)
-
-    salvos = []
-    for f in arquivos:
-        dest = in_dir / f.filename
-        with open(dest, "wb") as b:
-            shutil.copyfileobj(f.file, b)
-        salvos.append(dest)
-
-    TAREFAS[task_id] = {
-        "id": task_id,
-        "status": "pendente",
-        "progresso": 0,
-        "mensagem": "Na fila do servidor...",
-        "download_url": None
-    }
-
-    background_tasks.add_task(task_remover_pausas, task_id, salvos, prefixo, sensibilidade)
-    return {"task_id": task_id}
-
-@app.post("/api/multiplicar")
-async def rota_multiplicar(
-    background_tasks: BackgroundTasks,
-    ganchos: List[UploadFile] = File(...),
-    corpos: List[UploadFile] = File(...),
-    ctas: List[UploadFile] = File(...),
-    prefixo: str = Form("Meu_Video")
-):
-    task_id = str(uuid.uuid4())
-    in_dir = TEMP_DIR / task_id / "inputs"
-    in_dir.mkdir(parents=True, exist_ok=True)
-
-    def salvar_lote(arqs, sub):
-        dest_dir = in_dir / sub
-        dest_dir.mkdir(parents=True, exist_ok=True)
-        paths = []
-        for f in arqs:
-            p = dest_dir / f.filename
-            with open(p, "wb") as b:
-                shutil.copyfileobj(f.file, b)
-            paths.append(p)
-        return paths
-
-    g_paths = salvar_lote(ganchos, "g")
-    c_paths = salvar_lote(corpos, "c")
-    t_paths = salvar_lote(ctas, "t")
-
-    TAREFAS[task_id] = {
-        "id": task_id,
-        "status": "pendente",
-        "progresso": 0,
-        "mensagem": "Iniciando renderização em nuvem...",
-        "download_url": None
-    }
-
-    background_tasks.add_task(task_multiplicar_videos, task_id, g_paths, c_paths, t_paths, prefixo)
-    return {"task_id": task_id}
-
-@app.get("/api/tarefa/{task_id}")
-async def checar_status_tarefa(task_id: str):
-    if task_id not in TAREFAS:
-        raise HTTPException(status_code=404, detail="Tarefa não encontrada")
-    return TAREFAS[task_id]
-
-@app.get("/api/download/{task_id}")
-async def download_zip(task_id: str):
-    task_dir = TEMP_DIR / task_id
-    zips = list(task_dir.glob("*.zip"))
-    if not zips:
-        raise HTTPException(status_code=404, detail="Arquivo ZIP não encontrado ou expirou")
-    return FileResponse(zips[0], filename=zips[0].name, media_type="application/zip")
-
-if __name__ == "__main__":
-    import uvicorn
-    port = int(os.environ.get("PORT", 8000))
-    uvicorn.run("main:app", host="0.0.0.0", port=port)
+        ra
