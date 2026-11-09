@@ -297,6 +297,13 @@ def index():
     if idx_path.exists():
         return FileResponse(idx_path)
     return {"status": "+VIDEOS Cloud Online"}
+    
+    @app.get("/tutorial.mp4")
+def get_tutorial():
+    vid_path = BASE_DIR / "tutorial.mp4"
+    if vid_path.exists():
+        return FileResponse(vid_path, media_type="video/mp4")
+    raise HTTPException(status_code=404, detail="tutorial.mp4 não encontrado")
 
 @app.post("/api/roteiro")
 async def rota_roteiro(payload: Dict[str, Any]):
