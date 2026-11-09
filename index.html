@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>+VIDEOS | Multiplique seus Vídeos e Otimize seu Tempo</title>
-    <!-- Tailwind CSS CDN -->
+    <title>+VIDEOS | Edite e Multiplique seus Vídeos em Minutos</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -63,7 +62,7 @@
         </div>
     </div>
 
-    <!-- CABEÇALHO LIMPO (SEM MODAIS) -->
+    <!-- CABEÇALHO -->
     <header class="border-b border-slate-800/80 bg-[#070A12]/80 backdrop-blur-md sticky top-0 z-40 relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center gap-2.5">
@@ -81,680 +80,477 @@
     </header>
 
     <!-- ÁREA PRINCIPAL -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full space-y-8 relative z-10">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full space-y-10 relative z-10">
         
-        <!-- HERO COM O NOVO TÍTULO EXATO E DEGRADÊ COMPLETO -->
+        <!-- HERO + BOTÕES DE ATALHO CENTRALIZADOS -->
         <div class="space-y-5 text-center">
             <div>
-                <span class="text-xs uppercase font-black text-[#FF2A5F] tracking-widest block mb-1">Passo a Passo Oficial</span>
+                <span class="text-xs uppercase font-black text-[#FF2A5F] tracking-widest block mb-1">Processamento 100% em Nuvem</span>
                 <h1 class="text-xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight max-w-4xl mx-auto">
-                    AQUI VOCÊ ACHA O PRODUTO CERTO, <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-sky-300 to-[#FF2A5F]">GERA O ROTEIRO, EDITA E MULTIPLICA SEUS VÍDEOS</span> EM MINUTOS
+                    AQUI VOCÊ <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-sky-300 to-[#FF2A5F]">EDITA E MULTIPLICA SEUS VÍDEOS</span> EM MINUTOS
                 </h1>
                 <p class="text-xs sm:text-sm text-slate-300 mt-2 font-medium max-w-xl mx-auto">
-                    1. Pegue o link no app • 2. Gere o roteiro com IA • 3. Edite e Multiplique • <strong>Fature mais em menos tempo.</strong>
+                    Remova pausas automaticamente e multiplique dezenas de variações prontas para postar e anunciar.
                 </p>
             </div>
 
-            <!-- OS 3 BOTÕES DE NAVEGAÇÃO CENTRALIZADOS -->
+            <!-- OS 3 BOTÕES NA ORDEM SOLICITADA -->
             <div class="flex items-center gap-3 flex-wrap justify-center pt-1">
-                <a href="#secao-gerador" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-xs text-white font-extrabold transition shadow-lg shadow-[#FF2A5F]/25 flex items-center gap-2">
-                    <span>✨ Gerador de Roteiro</span>
+                <a href="#ferramenta-1" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-xs text-white font-extrabold transition shadow-lg shadow-[#FF2A5F]/25 flex items-center gap-2">
+                    <span>⚡ 1. Removedor de Pausas</span>
                 </a>
-                <a href="#secao-removedor" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-xs text-white font-extrabold transition shadow-lg shadow-[#FF2A5F]/25 flex items-center gap-2">
-                    <span>⚡ Editor e Removedor de Pausas</span>
+                <a href="#ferramenta-2" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-xs text-white font-extrabold transition shadow-lg shadow-[#FF2A5F]/25 flex items-center gap-2">
+                    <span>🎬 2. Multiplicador de Vídeos</span>
                 </a>
-                <a href="#secao-multiplicador" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-xs text-white font-extrabold transition shadow-lg shadow-[#FF2A5F]/25 flex items-center gap-2">
-                    <span>🎬 Multiplicador de Vídeos</span>
+                <a href="#ferramenta-3" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-xs text-white font-extrabold transition shadow-lg shadow-[#FF2A5F]/25 flex items-center gap-2">
+                    <span>🔥 3. Edite e Multiplique</span>
                 </a>
             </div>
         </div>
 
         <!-- ============================================================ -->
-        <!-- 1. FERRAMENTA 1: VÍDEO TUTORIAL (MP4 NATIVO) + GERADOR COM GEMINI -->
+        <!-- FERRAMENTA 1: REMOVEDOR DE PAUSAS NO VÍDEO (SEM MULTIPLICAR) -->
         <!-- ============================================================ -->
-        <section id="secao-gerador" class="saas-card rounded-3xl p-6 sm:p-8 shadow-xl">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                
-                <!-- VÍDEO DO GITHUB TUTORIAL.MP4 -->
-                <div class="lg:col-span-5 flex flex-col items-center">
-                    <div class="border-2 border-slate-800 rounded-3xl bg-[#080B14] p-3 shadow-2xl w-full max-w-xs">
-                        <div class="relative bg-black rounded-2xl overflow-hidden aspect-[9/16] flex items-center justify-center">
-                            <video id="video-tutorial" src="tutorial.mp4" autoplay muted playsinline controls loop preload="auto" class="w-full h-full object-contain">
-                                Seu navegador não suporta a tag de vídeo.
-                            </video>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- GERADOR DE ROTEIRO DIRETO NA TELA (EM BRANCO POR PADRÃO) -->
-                <div class="lg:col-span-7 flex flex-col justify-center space-y-4">
-                    <div>
-                        <span class="text-xs font-black uppercase text-cyan-400 tracking-wider block mb-1">Ferramenta 1</span>
-                        <h2 class="text-lg sm:text-2xl font-black text-white">Gerador de Roteiro Viral para o Produto</h2>
-                        <p class="text-xs text-slate-400 mt-1">Cole o link do TikTok ou digite o nome do produto para a inteligência artificial formular o roteiro.</p>
-                    </div>
-
-                    <div class="space-y-3 pt-1">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-300 mb-1">Link do Produto ou Nome:</label>
-                            <!-- CAMPO TOTALMENTE EM BRANCO -->
-                            <input type="text" id="input-gerador-produto" value="" placeholder="Cole o link do TikTok ou digite o nome do produto" class="w-full bg-[#080B14] border border-slate-700 focus:border-[#FF2A5F] rounded-2xl px-4 py-3 text-xs text-white focus:outline-none transition font-medium">
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-bold text-slate-300 mb-1">Como você quer o roteiro? (Estilo / Tom opcional):</label>
-                            <input type="text" id="input-gerador-estilo" placeholder="Ex: Tom de humor, focado em donas de casa, oferta agressiva..." class="w-full bg-[#080B14] border border-slate-700 focus:border-cyan-400 rounded-2xl px-4 py-2.5 text-xs text-white focus:outline-none transition font-medium">
-                            
-                            <!-- PÍLULAS DE ESTILOS RÁPIDOS DE 1 CLIQUE -->
-                            <div class="flex items-center gap-1.5 flex-wrap mt-2">
-                                <button type="button" onclick="definirEstilo('Oferta Agressiva / Urgência')" class="text-[10px] bg-slate-900 border border-slate-800 hover:border-[#FF2A5F] text-slate-300 px-2.5 py-1 rounded-lg transition">🔥 Oferta Agressiva</button>
-                                <button type="button" onclick="definirEstilo('Cômico / Humor e Curiosidade')" class="text-[10px] bg-slate-900 border border-slate-800 hover:border-cyan-400 text-slate-300 px-2.5 py-1 rounded-lg transition">😂 Humor / Cômico</button>
-                                <button type="button" onclick="definirEstilo('Quebra de Objeção / Golpe vs Verdade')" class="text-[10px] bg-slate-900 border border-slate-800 hover:border-emerald-400 text-slate-300 px-2.5 py-1 rounded-lg transition">😱 Quebra Objeção</button>
-                                <button type="button" onclick="definirEstilo('Review Sincero / Demonstração')" class="text-[10px] bg-slate-900 border border-slate-800 hover:border-amber-400 text-slate-300 px-2.5 py-1 rounded-lg transition">🧪 Review Sincero</button>
-                            </div>
-                        </div>
-
-                        <!-- BOTÃO PRINCIPAL -->
-                        <button id="btn-gerar-roteiro" onclick="gerarRoteiroComIA()" class="w-full py-4 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-extrabold text-sm rounded-2xl transition shadow-xl shadow-[#FF2A5F]/25 flex items-center justify-center gap-2 cursor-pointer">
-                            <span>✨ GERAR ROTEIRO VIRAL</span>
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
-                        </button>
-
-                        <!-- BOTÃO LOGO ABAIXO NA COR AZUL CLARO -->
-                        <button id="btn-gerar-outro-roteiro" onclick="gerarRoteiroComIA()" class="w-full py-3 bg-sky-400 hover:bg-sky-300 text-slate-950 font-black text-xs rounded-2xl transition shadow-lg shadow-sky-500/20 flex items-center justify-center gap-2 cursor-pointer">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/></svg>
-                            <span>🔄 Gerar outro roteiro</span>
-                        </button>
-                    </div>
-
-                    <!-- CAIXAS DO ROTEIRO (INICIAM TOTALMENTE EM BRANCO) -->
-                    <div id="area-roteiro-gerado" class="space-y-3 pt-2">
-                        <div class="flex items-center justify-between pb-1">
-                            <span id="tela-titulo-produto" class="text-xs font-extrabold text-slate-400 flex items-center gap-1.5">
-                                Aguardando envio do produto...
-                            </span>
-                            <span id="tela-angulo-nome" class="text-[10px] text-slate-400 font-mono">IA Gemini Flash</span>
-                        </div>
-
-                        <!-- 1. Gancho (Fundo Azul) - EM BRANCO -->
-                        <div class="bg-blue-950/40 border border-blue-500/50 rounded-2xl p-4">
-                            <div class="flex items-center justify-between mb-1">
-                                <span class="font-extrabold text-blue-300 flex items-center gap-1.5 text-xs">
-                                    <span class="w-2 h-2 rounded-full bg-blue-400"></span> 1. GANCHO (Primeiros 3 segundos):
-                                </span>
-                                <span class="text-[10px] text-blue-300/80 font-mono">Prender Atenção</span>
-                            </div>
-                            <p id="tela-gerado-gancho" class="text-blue-100 font-semibold leading-relaxed text-xs min-h-[20px]"></p>
-                        </div>
-
-                        <!-- 2. Corpo (Fundo Verde) - EM BRANCO -->
-                        <div class="bg-emerald-950/40 border border-emerald-500/50 rounded-2xl p-4">
-                            <div class="flex items-center justify-between mb-1">
-                                <span class="font-extrabold text-emerald-300 flex items-center gap-1.5 text-xs">
-                                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span> 2. CORPO (Demonstração e Benefício):
-                                </span>
-                                <span class="text-[10px] text-emerald-300/80 font-mono">Gerar Desejo</span>
-                            </div>
-                            <p id="tela-gerado-corpo" class="text-emerald-100 font-normal leading-relaxed text-xs min-h-[20px]"></p>
-                        </div>
-
-                        <!-- 3. CTA (Fundo Vermelho) - EM BRANCO -->
-                        <div class="bg-rose-950/40 border border-rose-500/50 rounded-2xl p-4">
-                            <div class="flex items-center justify-between mb-1">
-                                <span class="font-extrabold text-rose-300 flex items-center gap-1.5 text-xs">
-                                    <span class="w-2 h-2 rounded-full bg-rose-400"></span> 3. CTA (Chamada de Ação Final):
-                                </span>
-                                <span class="text-[10px] text-rose-300/80 font-mono">Comprar na Sacola</span>
-                            </div>
-                            <p id="tela-gerado-cta" class="text-rose-100 font-semibold leading-relaxed text-xs min-h-[20px]"></p>
-                        </div>
-
-                        <!-- BOTÕES DE CONTROLE -->
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
-                            <button onclick="copiarRoteiroTela()" class="py-2.5 bg-slate-900 hover:bg-slate-800 text-white border border-slate-700/80 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5">
-                                <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184"/></svg>
-                                <span>Copiar Roteiro</span>
-                            </button>
-
-                            <button onclick="baixarRoteiroTxtTela()" class="py-2.5 bg-slate-900 hover:bg-slate-800 text-white border border-slate-700/80 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5">
-                                <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
-                                <span>Salvar .TXT</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ============================================================ -->
-        <!-- 2. FERRAMENTA 2: EDITOR E REMOVEDOR DE PAUSAS                -->
-        <!-- ============================================================ -->
-        <section id="secao-removedor" class="saas-card rounded-3xl p-6 sm:p-8 shadow-xl">
+        <section id="ferramenta-1" class="saas-card rounded-3xl p-6 sm:p-8 shadow-xl">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-slate-800/80">
                 <div>
-                    <span class="text-xs font-black uppercase text-cyan-400 tracking-wider block mb-1">Ferramenta 2</span>
+                    <span class="text-xs font-black uppercase text-cyan-400 tracking-wider block mb-1">Ferramenta 1</span>
                     <h2 class="text-xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-sky-300 to-[#FF2A5F]">
-                        EDITOR E REMOVEDOR DE PAUSAS
+                        REMOVEDOR DE PAUSAS NO VÍDEO
                     </h2>
+                    <p class="text-xs text-slate-400 mt-1">Envie 1 ou vários vídeos para remover automaticamente os silêncios e respirações.</p>
                 </div>
 
                 <div class="flex items-center gap-2">
                     <label class="text-xs text-slate-400 font-bold">Nome do Vídeo:</label>
-                    <input type="text" id="editor-cfg-prefix" value="Meu_Video" class="bg-[#080B14] border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#FF2A5F] w-36 font-semibold">
+                    <input type="text" id="f1-prefix" value="Video_Limpo" class="bg-[#080B14] border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#FF2A5F] w-36 font-semibold">
                 </div>
             </div>
 
-            <!-- UPLOAD GERAL -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
                 <div class="lg:col-span-2">
-                    <div onclick="document.getElementById('input-editor-raw').click()" class="border-2 border-dashed border-slate-800 hover:border-[#FF2A5F]/50 bg-[#080B14]/70 rounded-2xl p-6 text-center cursor-pointer transition flex flex-col items-center justify-center min-h-[130px]">
+                    <div onclick="document.getElementById('f1-input').click()" class="border-2 border-dashed border-slate-800 hover:border-[#FF2A5F]/50 bg-[#080B14]/70 rounded-2xl p-6 text-center cursor-pointer transition flex flex-col items-center justify-center min-h-[130px]">
                         <svg class="w-8 h-8 text-slate-500 mb-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
-                        <p class="text-xs font-bold text-slate-200">Clique para selecionar vídeos gravados com pausas ou respiros</p>
+                        <p class="text-xs font-bold text-slate-200">Clique para selecionar 1 ou múltiplos vídeos com pausas</p>
                         <p class="text-[11px] text-slate-500 mt-1 font-mono">MP4, MOV (iPhone) ou WebM</p>
-                        <input type="file" id="input-editor-raw" multiple accept="video/*" class="hidden" onchange="atualizarListaEditor(this.files)">
+                        <input type="file" id="f1-input" multiple accept="video/*" class="hidden" onchange="carregarArquivosF1(this.files)">
                     </div>
 
-                    <div id="editor-queue-container" class="mt-3 hidden">
-                        <ul id="editor-queue-list" class="space-y-1.5 max-h-32 overflow-y-auto custom-scroll pr-1 font-medium text-xs text-slate-300"></ul>
+                    <div id="f1-queue-box" class="mt-3 hidden">
+                        <ul id="f1-queue-list" class="space-y-1.5 max-h-32 overflow-y-auto custom-scroll pr-1 font-medium text-xs text-slate-300"></ul>
                     </div>
                 </div>
 
                 <div class="bg-[#080B14]/80 border border-slate-800/80 rounded-2xl p-4 flex flex-col justify-between">
                     <div>
                         <label class="block text-xs font-bold text-slate-300 mb-1.5">Sensibilidade do Corte:</label>
-                        <select id="editor-cfg-sensibilidade" class="w-full bg-[#0D1220] border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-[#FF2A5F] font-medium">
-                            <option value="equilibrado" selected>Equilibrado (Recomendado)</option>
-                            <option value="suave">Suave (Mais natural)</option>
-                            <option value="agressivo">Agressivo (Ultra dinâmico)</option>
+                        <select id="f1-sensibilidade" class="w-full bg-[#0D1220] border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-[#FF2A5F] font-medium">
+                            <option value="equilibrado" selected>Equilibrado (Auto-Calibrado)</option>
+                            <option value="agressivo">Agressivo (Corte máximo de pausas)</option>
+                            <option value="suave">Suave (Mantém pausas leves)</option>
                         </select>
                     </div>
 
                     <div class="flex items-center gap-2 mt-4">
-                        <button id="btn-cancel-editor" onclick="pausarProcessamentoEditor()" class="hidden px-4 py-3.5 rounded-xl bg-rose-500/20 text-rose-400 border border-rose-500/30 font-bold text-xs transition">Pausar</button>
-                        <button id="btn-processar-silencio" onclick="enviarParaRemoverPausas()" disabled class="w-full py-3.5 rounded-xl bg-slate-800 text-slate-500 font-extrabold text-xs transition cursor-not-allowed">
-                            Cortar Pausas na Nuvem
+                        <button id="f1-btn-cancel" onclick="cancelarTarefaAtiva('f1')" class="hidden px-4 py-3.5 rounded-xl bg-rose-500/20 text-rose-400 border border-rose-500/30 font-bold text-xs transition">Pausar</button>
+                        <button id="f1-btn-start" onclick="iniciarRemovedorF1()" disabled class="w-full py-3.5 rounded-xl bg-slate-800 text-slate-500 font-extrabold text-xs transition cursor-not-allowed">
+                            Remover Pausas Agora
                         </button>
                     </div>
                 </div>
             </div>
 
-            <!-- BARRA DE PROGRESSO EM NUVEM -->
-            <div id="editor-progress-box" class="hidden mt-4 mb-6 bg-[#080B14] border border-[#FF2A5F]/30 rounded-xl p-3 text-xs">
+            <!-- BARRA DE PROGRESSO F1 -->
+            <div id="f1-progress-box" class="hidden mt-5 bg-[#080B14] border border-[#FF2A5F]/30 rounded-xl p-3 text-xs">
                 <div class="flex items-center justify-between mb-1.5 font-bold">
-                    <span id="editor-progress-title" class="text-white flex items-center gap-2">
-                        <span class="animate-spin">⚡</span> Processando no servidor em nuvem...
-                    </span>
-                    <span id="editor-progress-pct" class="text-[#FF2A5F] font-mono">0%</span>
+                    <span id="f1-progress-title" class="text-white">Processando...</span>
+                    <span id="f1-progress-pct" class="text-[#FF2A5F] font-mono">0%</span>
                 </div>
                 <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden">
-                    <div id="editor-progress-bar" class="h-full bg-gradient-to-r from-[#FF2A5F] to-cyan-400 transition-all duration-300" style="width: 0%"></div>
+                    <div id="f1-progress-bar" class="h-full bg-gradient-to-r from-[#FF2A5F] to-cyan-400 transition-all duration-300" style="width: 0%"></div>
                 </div>
             </div>
 
-            <!-- RESULTADOS DO REMOVEDOR GERAL COM PLAYERS DE VÍDEO -->
-            <div id="editor-results-container" class="mt-5 pt-4 border-t border-slate-800/80 hidden">
+            <!-- RESULTADOS F1 (VÍDEOS REAIS DO SERVIDOR) -->
+            <div id="f1-results-box" class="mt-6 pt-5 border-t border-slate-800/80 hidden">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
                     <div class="flex items-center gap-2">
-                        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                        <h4 class="text-xs font-bold text-white">Vídeos Limpos Prontos (Assista antes de baixar):</h4>
-                        <span id="editor-total-limpos" class="text-[10px] bg-slate-800 text-slate-300 font-mono px-2 py-0.5 rounded-full">0 vídeos</span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                        <h4 class="text-xs font-bold text-white">Vídeos Editados pelo Servidor (Assista antes de baixar):</h4>
                     </div>
 
-                    <a id="btn-download-editor-zip" href="#" class="px-4 py-2 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-extrabold text-xs rounded-xl shadow-md flex items-center justify-center gap-1.5 transition">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                    <a id="f1-btn-zip" href="#" class="px-5 py-2.5 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-extrabold text-xs rounded-xl shadow-md flex items-center justify-center gap-2 transition">
                         <span>Baixar Todos (.ZIP)</span>
                     </a>
                 </div>
-                <div id="editor-results-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
-            </div>
-
-            <!-- ============================================================ -->
-            <!-- NOVO MÓDULO COM TÍTULO GRANDE E DEGRADÊ CIANO A ROSA        -->
-            <!-- ============================================================ -->
-            <div class="mt-12 pt-8 border-t border-slate-800/80">
-                <div class="mb-6 text-center sm:text-left">
-                    <span class="text-xs font-black uppercase text-cyan-400 tracking-wider block mb-1">Módulo para Matriz</span>
-                    <!-- MESMO TAMANHO GRANDE E MESMO DEGRADÊ DA FERRAMENTA DE CIMA -->
-                    <h3 class="text-xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-sky-300 to-[#FF2A5F]">
-                        EDITOR E REMOVEDOR DE PAUSAS PARA O MULTIPLICADOR
-                    </h3>
-                    <p class="text-xs text-slate-400 mt-1">Limpe seus ganchos, corpos e CTAs separadamente e envie com 1 clique para as caixas do multiplicador.</p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                    
-                    <!-- COLUNA 1: GANCHOS -->
-                    <div class="bg-blue-950/30 border-2 border-blue-500/40 rounded-2xl p-4 flex flex-col justify-between">
-                        <div>
-                            <h4 class="text-sm font-black uppercase tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-300 mb-1">
-                                1. GANCHOS
-                            </h4>
-                            <p class="text-[11px] text-slate-400 mb-3">Limpe os primeiros 3 segundos.</p>
-                            <div onclick="document.getElementById('input-clean-ganchos').click()" class="border border-dashed border-blue-400/50 hover:bg-blue-900/30 rounded-xl p-3 text-center cursor-pointer transition mb-2">
-                                <p class="text-xs font-bold text-blue-200">+ Subir Ganchos</p>
-                                <input type="file" id="input-clean-ganchos" multiple accept="video/*" class="hidden" onchange="processarBlocoEspecifico('ganchos', this.files)">
-                            </div>
-                        </div>
-                        <div id="container-preview-ganchos" class="space-y-2 mt-2"></div>
-                    </div>
-
-                    <!-- COLUNA 2: CORPOS -->
-                    <div class="bg-emerald-950/30 border-2 border-emerald-500/40 rounded-2xl p-4 flex flex-col justify-between">
-                        <div>
-                            <h4 class="text-sm font-black uppercase tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-300 mb-1">
-                                2. CORPOS
-                            </h4>
-                            <p class="text-[11px] text-slate-400 mb-3">Limpe as demonstrações.</p>
-                            <div onclick="document.getElementById('input-clean-corpos').click()" class="border border-dashed border-emerald-400/50 hover:bg-emerald-900/30 rounded-xl p-3 text-center cursor-pointer transition mb-2">
-                                <p class="text-xs font-bold text-emerald-200">+ Subir Corpos</p>
-                                <input type="file" id="input-clean-corpos" multiple accept="video/*" class="hidden" onchange="processarBlocoEspecifico('corpos', this.files)">
-                            </div>
-                        </div>
-                        <div id="container-preview-corpos" class="space-y-2 mt-2"></div>
-                    </div>
-
-                    <!-- COLUNA 3: CTAS -->
-                    <div class="bg-rose-950/30 border-2 border-rose-500/40 rounded-2xl p-4 flex flex-col justify-between">
-                        <div>
-                            <h4 class="text-sm font-black uppercase tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-rose-400 to-pink-300 mb-1">
-                                3. CTAS
-                            </h4>
-                            <p class="text-[11px] text-slate-400 mb-3">Limpe as chamadas finais.</p>
-                            <div onclick="document.getElementById('input-clean-ctas').click()" class="border border-dashed border-rose-400/50 hover:bg-rose-900/30 rounded-xl p-3 text-center cursor-pointer transition mb-2">
-                                <p class="text-xs font-bold text-rose-200">+ Subir CTAs</p>
-                                <input type="file" id="input-clean-ctas" multiple accept="video/*" class="hidden" onchange="processarBlocoEspecifico('ctas', this.files)">
-                            </div>
-                        </div>
-                        <div id="container-preview-ctas" class="space-y-2 mt-2"></div>
-                    </div>
-
-                </div>
+                <div id="f1-videos-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
             </div>
         </section>
 
         <!-- ============================================================ -->
-        <!-- 3. FERRAMENTA 3: MULTIPLICADOR EM MASSA COM PREVIEW DE VÍDEO -->
+        <!-- FERRAMENTA 2: MULTIPLICADOR DE VÍDEOS (SEM REMOVER PAUSAS)   -->
         <!-- ============================================================ -->
-        <section id="secao-multiplicador" class="saas-card rounded-3xl p-6 sm:p-8 shadow-xl">
+        <section id="ferramenta-2" class="saas-card rounded-3xl p-6 sm:p-8 shadow-xl">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-slate-800/80">
                 <div>
-                    <span class="text-xs font-black uppercase text-cyan-400 tracking-wider block mb-1">Ferramenta 3</span>
+                    <span class="text-xs font-black uppercase text-cyan-400 tracking-wider block mb-1">Ferramenta 2</span>
                     <h2 class="text-xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-sky-300 to-[#FF2A5F]">
-                        MULTIPLICADOR DE VÍDEOS EM MASSA
+                        MULTIPLICADOR DE VÍDEOS
                     </h2>
+                    <p class="text-xs text-slate-400 mt-1">Apenas une, multiplica e embaralha seus Ganchos, Corpos e CTAs (sem cortar pausas).</p>
                 </div>
 
                 <div class="flex items-center gap-2">
                     <label class="text-xs text-slate-400 font-bold">Nome do Vídeo:</label>
-                    <input type="text" id="cfg-prefix" value="Meu_Video" class="bg-[#080B14] border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#FF2A5F] w-36 font-semibold">
+                    <input type="text" id="f2-prefix" value="Criativo" class="bg-[#080B14] border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#FF2A5F] w-36 font-semibold">
                 </div>
             </div>
 
-            <!-- AS 3 CAIXAS COLORIDAS: AZUL (GANCHOS), VERDE (CORPOS), VERMELHO (CTAS) -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
                 <!-- GANCHOS (AZUL) -->
-                <div class="bg-blue-950/40 border-2 border-blue-500/50 hover:border-blue-400 rounded-2xl p-5 transition flex flex-col justify-between shadow-lg shadow-blue-500/10">
+                <div class="bg-blue-950/40 border-2 border-blue-500/50 hover:border-blue-400 rounded-2xl p-5 transition flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-2">
                             <span class="text-xs font-black text-blue-300 uppercase tracking-wider">1. Ganchos</span>
-                            <span id="badge-ganchos" class="text-[10px] bg-blue-900/60 text-blue-200 border border-blue-500/30 px-2 py-0.5 rounded-full font-mono">0 vídeos</span>
+                            <span id="f2-badge-ganchos" class="text-[10px] bg-blue-900/60 text-blue-200 border border-blue-500/30 px-2 py-0.5 rounded-full font-mono">0 vídeos</span>
                         </div>
-                        <p class="text-[11px] text-blue-200/70 mb-3">Primeiros 3 segundos gravados.</p>
+                        <p class="text-[11px] text-blue-200/70 mb-3">Mínimo 1 vídeo obrigatório.</p>
                     </div>
                     <div>
-                        <div onclick="document.getElementById('input-ganchos').click()" class="border border-dashed border-blue-400/60 hover:bg-blue-900/30 rounded-xl p-4 text-center cursor-pointer transition mb-2">
+                        <div onclick="document.getElementById('f2-in-ganchos').click()" class="border border-dashed border-blue-400/60 hover:bg-blue-900/30 rounded-xl p-4 text-center cursor-pointer transition mb-2">
                             <p class="text-xs font-extrabold text-blue-200">+ Adicionar Ganchos</p>
-                            <input type="file" id="input-ganchos" multiple accept="video/*" class="hidden" onchange="selecionarLote('ganchos', this.files)">
+                            <input type="file" id="f2-in-ganchos" multiple accept="video/*" class="hidden" onchange="selecionarBloco('f2', 'ganchos', this.files)">
                         </div>
-                        <ul id="list-ganchos" class="space-y-1 max-h-28 overflow-y-auto custom-scroll pr-1 empty:hidden text-xs text-blue-100 font-medium"></ul>
+                        <ul id="f2-list-ganchos" class="space-y-1 max-h-28 overflow-y-auto custom-scroll pr-1 empty:hidden text-xs text-blue-100 font-medium"></ul>
                     </div>
                 </div>
 
                 <!-- CORPOS (VERDE) -->
-                <div class="bg-emerald-950/40 border-2 border-emerald-500/50 hover:border-emerald-400 rounded-2xl p-5 transition flex flex-col justify-between shadow-lg shadow-emerald-500/10">
+                <div class="bg-emerald-950/40 border-2 border-emerald-500/50 hover:border-emerald-400 rounded-2xl p-5 transition flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-2">
                             <span class="text-xs font-black text-emerald-300 uppercase tracking-wider">2. Corpos</span>
-                            <span id="badge-corpos" class="text-[10px] bg-emerald-900/60 text-emerald-200 border border-emerald-500/30 px-2 py-0.5 rounded-full font-mono">0 vídeos</span>
+                            <span id="f2-badge-corpos" class="text-[10px] bg-emerald-900/60 text-emerald-200 border border-emerald-500/30 px-2 py-0.5 rounded-full font-mono">0 vídeos</span>
                         </div>
-                        <p class="text-[11px] text-emerald-200/70 mb-3">Demonstração do produto.</p>
+                        <p class="text-[11px] text-emerald-200/70 mb-3">Mínimo 1 vídeo obrigatório.</p>
                     </div>
                     <div>
-                        <div onclick="document.getElementById('input-corpos').click()" class="border border-dashed border-emerald-400/60 hover:bg-emerald-900/30 rounded-xl p-4 text-center cursor-pointer transition mb-2">
+                        <div onclick="document.getElementById('f2-in-corpos').click()" class="border border-dashed border-emerald-400/60 hover:bg-emerald-900/30 rounded-xl p-4 text-center cursor-pointer transition mb-2">
                             <p class="text-xs font-extrabold text-emerald-200">+ Adicionar Corpos</p>
-                            <input type="file" id="input-corpos" multiple accept="video/*" class="hidden" onchange="selecionarLote('corpos', this.files)">
+                            <input type="file" id="f2-in-corpos" multiple accept="video/*" class="hidden" onchange="selecionarBloco('f2', 'corpos', this.files)">
                         </div>
-                        <ul id="list-corpos" class="space-y-1 max-h-28 overflow-y-auto custom-scroll pr-1 empty:hidden text-xs text-emerald-100 font-medium"></ul>
+                        <ul id="f2-list-corpos" class="space-y-1 max-h-28 overflow-y-auto custom-scroll pr-1 empty:hidden text-xs text-emerald-100 font-medium"></ul>
                     </div>
                 </div>
 
                 <!-- CTAS (VERMELHO) -->
-                <div class="bg-rose-950/40 border-2 border-rose-500/50 hover:border-rose-400 rounded-2xl p-5 transition flex flex-col justify-between shadow-lg shadow-rose-500/10">
+                <div class="bg-rose-950/40 border-2 border-rose-500/50 hover:border-rose-400 rounded-2xl p-5 transition flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-2">
                             <span class="text-xs font-black text-rose-300 uppercase tracking-wider">3. CTAs</span>
-                            <span id="badge-ctas" class="text-[10px] bg-rose-900/60 text-rose-200 border border-rose-500/30 px-2 py-0.5 rounded-full font-mono">0 vídeos</span>
+                            <span id="f2-badge-ctas" class="text-[10px] bg-rose-900/60 text-rose-200 border border-rose-500/30 px-2 py-0.5 rounded-full font-mono">0 vídeos</span>
                         </div>
-                        <p class="text-[11px] text-rose-200/70 mb-3">Chamadas para a sacola.</p>
+                        <p class="text-[11px] text-rose-200/70 mb-3">Mínimo 1 vídeo obrigatório.</p>
                     </div>
                     <div>
-                        <div onclick="document.getElementById('input-ctas').click()" class="border border-dashed border-rose-400/60 hover:bg-rose-900/30 rounded-xl p-4 text-center cursor-pointer transition mb-2">
+                        <div onclick="document.getElementById('f2-in-ctas').click()" class="border border-dashed border-rose-400/60 hover:bg-rose-900/30 rounded-xl p-4 text-center cursor-pointer transition mb-2">
                             <p class="text-xs font-extrabold text-rose-200">+ Adicionar CTAs</p>
-                            <input type="file" id="input-ctas" multiple accept="video/*" class="hidden" onchange="selecionarLote('ctas', this.files)">
+                            <input type="file" id="f2-in-ctas" multiple accept="video/*" class="hidden" onchange="selecionarBloco('f2', 'ctas', this.files)">
                         </div>
-                        <ul id="list-ctas" class="space-y-1 max-h-28 overflow-y-auto custom-scroll pr-1 empty:hidden text-xs text-rose-100 font-medium"></ul>
+                        <ul id="f2-list-ctas" class="space-y-1 max-h-28 overflow-y-auto custom-scroll pr-1 empty:hidden text-xs text-rose-100 font-medium"></ul>
                     </div>
                 </div>
             </div>
 
-            <!-- DISPARO E PAUSA -->
             <div class="bg-[#080B14] border border-slate-800 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div class="flex items-center gap-4 text-xs">
                     <div>
-                        <span class="text-slate-500 block font-medium">Variações Calculadas:</span>
-                        <span id="total-variacoes" class="text-2xl font-black text-[#FF2A5F]">0</span>
+                        <span class="text-slate-500 block font-medium">Total de Combinações:</span>
+                        <span id="f2-total" class="text-2xl font-black text-[#FF2A5F]">0</span>
                     </div>
                     <div class="h-8 w-px bg-slate-800"></div>
-                    <span class="text-slate-400 font-medium">Renderização em Nuvem (Vertical 9:16)</span>
+                    <span class="text-slate-400 font-medium">Multiplicação Direta 9:16 (Sem cortar pausas)</span>
                 </div>
 
                 <div class="flex items-center gap-2 w-full sm:w-auto">
-                    <button id="btn-cancel-multi" onclick="pausarMultiplicacao()" class="hidden px-5 py-3.5 rounded-xl bg-rose-500/20 text-rose-400 border border-rose-500/30 font-bold text-xs transition">Pausar</button>
-                    <button id="btn-start-multi" onclick="enviarParaMultiplicar()" disabled class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-slate-800 text-slate-500 font-extrabold text-xs transition cursor-not-allowed">
-                        Multiplicar Vídeos na Nuvem
+                    <button id="f2-btn-cancel" onclick="cancelarTarefaAtiva('f2')" class="hidden px-5 py-3.5 rounded-xl bg-rose-500/20 text-rose-400 border border-rose-500/30 font-bold text-xs transition">Pausar</button>
+                    <button id="f2-btn-start" onclick="iniciarMultiplicador('f2', false)" disabled class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-slate-800 text-slate-500 font-extrabold text-xs transition cursor-not-allowed">
+                        Multiplicar Vídeos Agora
                     </button>
                 </div>
             </div>
 
-            <!-- BARRA DE PROGRESSO MULTIPLICADOR -->
-            <div id="multi-progress-box" class="hidden mt-4 bg-[#080B14] border border-[#FF2A5F]/30 rounded-xl p-3 text-xs">
+            <div id="f2-progress-box" class="hidden mt-4 bg-[#080B14] border border-[#FF2A5F]/30 rounded-xl p-3 text-xs">
                 <div class="flex items-center justify-between mb-1.5 font-bold">
-                    <span id="multi-progress-title" class="text-white flex items-center gap-2">
-                        <span class="animate-spin">⚡</span> Renderizando variações no servidor em nuvem...
-                    </span>
-                    <span id="multi-progress-pct" class="text-[#FF2A5F] font-mono">0%</span>
+                    <span id="f2-progress-title" class="text-white">Processando...</span>
+                    <span id="f2-progress-pct" class="text-[#FF2A5F] font-mono">0%</span>
                 </div>
                 <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden">
-                    <div id="multi-progress-bar" class="h-full bg-gradient-to-r from-[#FF2A5F] to-cyan-400 transition-all duration-300" style="width: 0%"></div>
+                    <div id="f2-progress-bar" class="h-full bg-gradient-to-r from-[#FF2A5F] to-cyan-400 transition-all duration-300" style="width: 0%"></div>
                 </div>
             </div>
 
-            <!-- RESULTADOS DO MULTIPLICADOR COM PLAYERS PARA ASSISTIR -->
-            <div id="multi-results-container" class="mt-6 pt-5 border-t border-slate-800/80 hidden">
+            <div id="f2-results-box" class="mt-6 pt-5 border-t border-slate-800/80 hidden">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
-                    <div>
-                        <h4 class="text-xs font-bold text-white flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                            Criativos Multiplicados com Sucesso (Assista antes de baixar):
-                        </h4>
-                        <p class="text-[11px] text-slate-400">Clique no play para assistir a cada combinação gerada.</p>
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                        <h4 class="text-xs font-bold text-white">Vídeos Multiplicados (Assista antes de baixar):</h4>
                     </div>
 
-                    <a id="btn-download-multi-zip" href="#" class="px-5 py-2.5 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-extrabold text-xs rounded-xl shadow-md flex items-center justify-center gap-2 transition">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                    <a id="f2-btn-zip" href="#" class="px-5 py-2.5 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-extrabold text-xs rounded-xl shadow-md flex items-center justify-center gap-2 transition">
                         <span>Baixar Todos (.ZIP)</span>
                     </a>
                 </div>
+                <div id="f2-videos-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
+            </div>
+        </section>
 
-                <div id="multi-videos-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
+        <!-- ============================================================ -->
+        <!-- FERRAMENTA 3: EDITE E MULTIPLIQUE OS VÍDEOS (2 EM 1)         -->
+        <!-- ============================================================ -->
+        <section id="ferramenta-3" class="saas-card rounded-3xl p-6 sm:p-8 shadow-xl">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-slate-800/80">
+                <div>
+                    <span class="text-xs font-black uppercase text-[#FF2A5F] tracking-wider block mb-1">Ferramenta 3 • Automação 2 em 1</span>
+                    <h2 class="text-xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-sky-300 to-[#FF2A5F]">
+                        EDITE E MULTIPLIQUE OS VÍDEOS
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-1">Remove as pausas de todos os Ganchos, Corpos e CTAs e já une e multiplica tudo embaralhado de uma só vez!</p>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-3">
+                    <div>
+                        <label class="text-[11px] text-slate-400 font-bold block mb-0.5">Sensibilidade:</label>
+                        <select id="f3-sensibilidade" class="bg-[#080B14] border border-slate-700 rounded-xl px-2.5 py-2 text-xs text-white focus:outline-none focus:border-[#FF2A5F] font-semibold">
+                            <option value="equilibrado" selected>Equilibrado</option>
+                            <option value="agressivo">Agressivo</option>
+                            <option value="suave">Suave</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-[11px] text-slate-400 font-bold block mb-0.5">Nome do Vídeo:</label>
+                        <input type="text" id="f3-prefix" value="Criativo_Limpo" class="bg-[#080B14] border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#FF2A5F] w-36 font-semibold">
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
+                <!-- GANCHOS (AZUL) -->
+                <div class="bg-blue-950/40 border-2 border-blue-500/50 hover:border-blue-400 rounded-2xl p-5 transition flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-black text-blue-300 uppercase tracking-wider">1. Ganchos Brutos</span>
+                            <span id="f3-badge-ganchos" class="text-[10px] bg-blue-900/60 text-blue-200 border border-blue-500/30 px-2 py-0.5 rounded-full font-mono">0 vídeos</span>
+                        </div>
+                        <p class="text-[11px] text-blue-200/70 mb-3">Remove pausas + Multiplica.</p>
+                    </div>
+                    <div>
+                        <div onclick="document.getElementById('f3-in-ganchos').click()" class="border border-dashed border-blue-400/60 hover:bg-blue-900/30 rounded-xl p-4 text-center cursor-pointer transition mb-2">
+                            <p class="text-xs font-extrabold text-blue-200">+ Adicionar Ganchos</p>
+                            <input type="file" id="f3-in-ganchos" multiple accept="video/*" class="hidden" onchange="selecionarBloco('f3', 'ganchos', this.files)">
+                        </div>
+                        <ul id="f3-list-ganchos" class="space-y-1 max-h-28 overflow-y-auto custom-scroll pr-1 empty:hidden text-xs text-blue-100 font-medium"></ul>
+                    </div>
+                </div>
+
+                <!-- CORPOS (VERDE) -->
+                <div class="bg-emerald-950/40 border-2 border-emerald-500/50 hover:border-emerald-400 rounded-2xl p-5 transition flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-black text-emerald-300 uppercase tracking-wider">2. Corpos Brutos</span>
+                            <span id="f3-badge-corpos" class="text-[10px] bg-emerald-900/60 text-emerald-200 border border-emerald-500/30 px-2 py-0.5 rounded-full font-mono">0 vídeos</span>
+                        </div>
+                        <p class="text-[11px] text-emerald-200/70 mb-3">Remove pausas + Multiplica.</p>
+                    </div>
+                    <div>
+                        <div onclick="document.getElementById('f3-in-corpos').click()" class="border border-dashed border-emerald-400/60 hover:bg-emerald-900/30 rounded-xl p-4 text-center cursor-pointer transition mb-2">
+                            <p class="text-xs font-extrabold text-emerald-200">+ Adicionar Corpos</p>
+                            <input type="file" id="f3-in-corpos" multiple accept="video/*" class="hidden" onchange="selecionarBloco('f3', 'corpos', this.files)">
+                        </div>
+                        <ul id="f3-list-corpos" class="space-y-1 max-h-28 overflow-y-auto custom-scroll pr-1 empty:hidden text-xs text-emerald-100 font-medium"></ul>
+                    </div>
+                </div>
+
+                <!-- CTAS (VERMELHO) -->
+                <div class="bg-rose-950/40 border-2 border-rose-500/50 hover:border-rose-400 rounded-2xl p-5 transition flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-black text-rose-300 uppercase tracking-wider">3. CTAs Brutos</span>
+                            <span id="f3-badge-ctas" class="text-[10px] bg-rose-900/60 text-rose-200 border border-rose-500/30 px-2 py-0.5 rounded-full font-mono">0 vídeos</span>
+                        </div>
+                        <p class="text-[11px] text-rose-200/70 mb-3">Remove pausas + Multiplica.</p>
+                    </div>
+                    <div>
+                        <div onclick="document.getElementById('f3-in-ctas').click()" class="border border-dashed border-rose-400/60 hover:bg-rose-900/30 rounded-xl p-4 text-center cursor-pointer transition mb-2">
+                            <p class="text-xs font-extrabold text-rose-200">+ Adicionar CTAs</p>
+                            <input type="file" id="f3-in-ctas" multiple accept="video/*" class="hidden" onchange="selecionarBloco('f3', 'ctas', this.files)">
+                        </div>
+                        <ul id="f3-list-ctas" class="space-y-1 max-h-28 overflow-y-auto custom-scroll pr-1 empty:hidden text-xs text-rose-100 font-medium"></ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-[#080B14] border border-slate-800 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-4 text-xs">
+                    <div>
+                        <span class="text-slate-500 block font-medium">Total de Combinações:</span>
+                        <span id="f3-total" class="text-2xl font-black text-[#FF2A5F]">0</span>
+                    </div>
+                    <div class="h-8 w-px bg-slate-800"></div>
+                    <span class="text-slate-400 font-medium">Remove Pausas + Une e Embaralha em 9:16</span>
+                </div>
+
+                <div class="flex items-center gap-2 w-full sm:w-auto">
+                    <button id="f3-btn-cancel" onclick="cancelarTarefaAtiva('f3')" class="hidden px-5 py-3.5 rounded-xl bg-rose-500/20 text-rose-400 border border-rose-500/30 font-bold text-xs transition">Pausar</button>
+                    <button id="f3-btn-start" onclick="iniciarMultiplicador('f3', true)" disabled class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-slate-800 text-slate-500 font-extrabold text-xs transition cursor-not-allowed">
+                        Remover Pausas e Multiplicar Tudo
+                    </button>
+                </div>
+            </div>
+
+            <div id="f3-progress-box" class="hidden mt-4 bg-[#080B14] border border-[#FF2A5F]/30 rounded-xl p-3 text-xs">
+                <div class="flex items-center justify-between mb-1.5 font-bold">
+                    <span id="f3-progress-title" class="text-white">Processando...</span>
+                    <span id="f3-progress-pct" class="text-[#FF2A5F] font-mono">0%</span>
+                </div>
+                <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden">
+                    <div id="f3-progress-bar" class="h-full bg-gradient-to-r from-[#FF2A5F] to-cyan-400 transition-all duration-300" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div id="f3-results-box" class="mt-6 pt-5 border-t border-slate-800/80 hidden">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                        <h4 class="text-xs font-bold text-white">Vídeos Editados e Multiplicados (Assista antes de baixar):</h4>
+                    </div>
+
+                    <a id="f3-btn-zip" href="#" class="px-5 py-2.5 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-extrabold text-xs rounded-xl shadow-md flex items-center justify-center gap-2 transition">
+                        <span>Baixar Todos (.ZIP)</span>
+                    </a>
+                </div>
+                <div id="f3-videos-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
             </div>
         </section>
 
     </main>
 
     <footer class="border-t border-slate-900/80 bg-[#07090F]/90 py-5 text-center text-xs text-slate-500 relative z-10 font-medium">
-        +VIDEOS • Multiplique seus vídeos e otimize seu tempo © 2026
+        +VIDEOS • Edite e Multiplique seus vídeos em minutos © 2026
     </footer>
 
-    <!-- SCRIPT BLINDADO (ZERO FRASES PRONTAS + COMUNICAÇÃO GEMINI) -->
+    <!-- JAVASCRIPT INTEGRADO AO SERVIDOR -->
     <script>
         const API_URL = window.location.hostname.includes("onrender.com") ? "" : "https://maisvideos.onrender.com";
 
-        let produtoAtualNome = "";
-        let pollingEditorTimer = null;
-        let pollingMultiTimer = null;
+        let f1Arquivos = [];
+        const estadoBlocos = {
+            f2: { ganchos: [], corpos: [], ctas: [] },
+            f3: { ganchos: [], corpos: [], ctas: [] }
+        };
+        const timersAtivos = { f1: null, f2: null, f3: null };
+        const tasksAtivas = { f1: null, f2: null, f3: null };
 
-        function definirEstilo(estilo) {
-            document.getElementById('input-gerador-estilo').value = estilo;
-        }
-
-        // 1. GERADOR DE ROTEIRO COM GEMINI (ZERO FRASES PRONTAS)
-        async function gerarRoteiroComIA() {
-            const inputEl = document.getElementById('input-gerador-produto');
-            const estiloEl = document.getElementById('input-gerador-estilo');
-            const val = inputEl ? inputEl.value.trim() : '';
-            const estilo = estiloEl ? estiloEl.value.trim() : '';
-
-            if (!val) {
-                alert("Por favor, cole o link do TikTok ou digite o nome do produto primeiro!");
-                return;
-            }
-
-            const btn = document.getElementById('btn-gerar-roteiro');
-            const txtOriginal = btn.innerHTML;
-            btn.innerHTML = `<span class="animate-spin inline-block mr-2">⚡</span> IA Gemini Analisando e Criando...`;
-            btn.disabled = true;
-
-            const elTitulo = document.getElementById('tela-titulo-produto');
-            elTitulo.innerHTML = `<span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span> IA do Google Gemini gerando roteiro...`;
-
-            // Limpa as caixas para NUNCA mostrar frase pronta
-            document.getElementById('tela-gerado-gancho').innerText = "";
-            document.getElementById('tela-gerado-corpo').innerText = "";
-            document.getElementById('tela-gerado-cta').innerText = "";
-
-            try {
-                const resp = await fetch(`${API_URL}/api/roteiro`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ produto: val, estilo: estilo })
-                });
-
-                if (!resp.ok) {
-                    const errData = await resp.json().catch(() => ({}));
-                    throw new Error(errData.detail || "Erro ao consultar a IA no servidor");
-                }
-
-                const data = await resp.json();
-
-                if (data.gancho && data.corpo && data.cta) {
-                    produtoAtualNome = data.produto_resolvido || val;
-                    document.getElementById('tela-gerado-gancho').innerText = data.gancho;
-                    document.getElementById('tela-gerado-corpo').innerText = data.corpo;
-                    document.getElementById('tela-gerado-cta').innerText = data.cta;
-                    elTitulo.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Roteiro Gemini: ${produtoAtualNome}`;
-                    
-                    // Sincroniza o Nome do Vídeo nas ferramentas
-                    const limpo = produtoAtualNome.split(" ").slice(0, 2).join("_").replace(/[^a-zA-Z0-9_]/g, "") || "Meu_Video";
-                    document.getElementById('cfg-prefix').value = limpo;
-                    document.getElementById('editor-cfg-prefix').value = limpo;
-                } else {
-                    throw new Error("A IA não retornou o formato completo.");
-                }
-            } catch (e) {
-                elTitulo.innerHTML = `<span class="text-rose-400 font-bold">❌ Erro: ${e.message}</span>`;
-                alert(`Aviso da IA:\n${e.message}\n\nVerifique se cadastrou a GEMINI_API_KEY no painel do Render!`);
-            } finally {
-                btn.innerHTML = txtOriginal;
-                btn.disabled = false;
-            }
-        }
-
-        function copiarRoteiroTela() {
-            const g = document.getElementById('tela-gerado-gancho').innerText;
-            const c = document.getElementById('tela-gerado-corpo').innerText;
-            const cta = document.getElementById('tela-gerado-cta').innerText;
-            if (!g) {
-                alert("Gere um roteiro primeiro!");
-                return;
-            }
-            navigator.clipboard.writeText(`ROTEIRO VIRAL - ${produtoAtualNome}\n\n1. GANCHO (0-3s):\n${g}\n\n2. CORPO (Demonstração):\n${c}\n\n3. CTA (Final):\n${cta}`);
-            alert("✅ Roteiro copiado com sucesso! Pode colar no seu WhatsApp ou Bloco de Notas.");
-        }
-
-        function baixarRoteiroTxtTela() {
-            const g = document.getElementById('tela-gerado-gancho').innerText;
-            const c = document.getElementById('tela-gerado-corpo').innerText;
-            const cta = document.getElementById('tela-gerado-cta').innerText;
-            if (!g) {
-                alert("Gere um roteiro primeiro!");
-                return;
-            }
-            const texto = `ROTEIRO VIRAL - ${produtoAtualNome}\n\n1. GANCHO (0-3s):\n${g}\n\n2. CORPO (Demonstração):\n${c}\n\n3. CTA (Final):\n${cta}`;
-            const blob = new Blob([texto], { type: "text/plain;charset=utf-8" });
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = `Roteiro_${produtoAtualNome.replace(/\s+/g, '_')}.txt`;
-            a.click();
-        }
-
-        // 2. REMOVEDOR DE PAUSAS COM PREVIEW DE VÍDEO
-        let arquivosEditor = [];
-
-        function atualizarListaEditor(files) {
-            arquivosEditor = Array.from(files);
-            const container = document.getElementById('editor-queue-container');
-            const list = document.getElementById('editor-queue-list');
-            const btn = document.getElementById('btn-processar-silencio');
+        // ============================================================
+        // LÓGICA FERRAMENTA 1 (REMOVEDOR DE PAUSAS)
+        // ============================================================
+        function carregarArquivosF1(files) {
+            f1Arquivos = Array.from(files);
+            const box = document.getElementById('f1-queue-box');
+            const list = document.getElementById('f1-queue-list');
+            const btn = document.getElementById('f1-btn-start');
             list.innerHTML = '';
 
-            if (arquivosEditor.length === 0) {
-                container.classList.add('hidden');
+            if (f1Arquivos.length === 0) {
+                box.classList.add('hidden');
                 btn.disabled = true;
                 btn.className = "w-full py-3.5 rounded-xl bg-slate-800 text-slate-500 font-extrabold text-xs transition cursor-not-allowed";
                 return;
             }
 
-            container.classList.remove('hidden');
+            box.classList.remove('hidden');
             btn.disabled = false;
             btn.className = "w-full py-3.5 rounded-xl bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] text-white font-extrabold text-xs transition cursor-pointer shadow-md";
 
-            arquivosEditor.forEach((f, idx) => {
+            f1Arquivos.forEach((f, idx) => {
                 const li = document.createElement('li');
-                li.className = 'flex items-center justify-between bg-[#0D1220] border border-slate-800 px-3 py-1.5 rounded-lg text-xs';
-                li.innerHTML = `<span class="text-slate-200 truncate">${idx + 1}. ${f.name}</span><span class="text-[10px] text-slate-500">${(f.size / (1024*1024)).toFixed(1)}MB</span>`;
+                li.className = 'flex items-center justify-between bg-[#0D1220] border border-slate-800 px-3 py-1.5 rounded-lg';
+                li.innerHTML = `<span class="truncate">${idx + 1}. ${f.name}</span><span class="text-[10px] text-slate-500">${(f.size / (1024*1024)).toFixed(1)}MB</span>`;
                 list.appendChild(li);
             });
         }
 
-        async function enviarParaRemoverPausas() {
-            if (arquivosEditor.length === 0) return;
+        async function iniciarRemovedorF1() {
+            if (f1Arquivos.length === 0) return;
 
-            const btn = document.getElementById('btn-processar-silencio');
-            const btnCancel = document.getElementById('btn-cancel-editor');
-            const pBox = document.getElementById('editor-progress-box');
-            const pBar = document.getElementById('editor-progress-bar');
-            const pPct = document.getElementById('editor-progress-pct');
-            const pTitle = document.getElementById('editor-progress-title');
-            const rBox = document.getElementById('editor-results-container');
-            const grid = document.getElementById('editor-results-grid');
+            const btn = document.getElementById('f1-btn-start');
+            const btnCancel = document.getElementById('f1-btn-cancel');
+            const pBox = document.getElementById('f1-progress-box');
+            const pBar = document.getElementById('f1-progress-bar');
+            const pPct = document.getElementById('f1-progress-pct');
+            const pTitle = document.getElementById('f1-progress-title');
+            const rBox = document.getElementById('f1-results-box');
+            const grid = document.getElementById('f1-videos-grid');
 
             btn.disabled = true;
             btnCancel.classList.remove('hidden');
             pBox.classList.remove('hidden');
             rBox.classList.add('hidden');
             grid.innerHTML = '';
+            pBar.style.width = '8%';
+            pPct.innerText = '8%';
+            pTitle.innerText = 'Enviando vídeos para o servidor...';
 
             const formData = new FormData();
-            arquivosEditor.forEach(f => formData.append("arquivos", f));
-            formData.append("prefixo", document.getElementById('editor-cfg-prefix').value.trim() || "Meu_Video");
-            formData.append("sensibilidade", document.getElementById('editor-cfg-sensibilidade').value);
+            f1Arquivos.forEach(f => formData.append("arquivos", f));
+            formData.append("prefixo", document.getElementById('f1-prefix').value.trim() || "Video_Limpo");
+            formData.append("sensibilidade", document.getElementById('f1-sensibilidade').value);
 
             try {
                 const resp = await fetch(`${API_URL}/api/remover-pausas`, { method: "POST", body: formData });
-                if (!resp.ok) throw new Error("Erro ao enviar para o servidor");
+                if (!resp.ok) throw new Error("Falha ao enviar");
                 const data = await resp.json();
-                const taskId = data.task_id;
+                tasksAtivas.f1 = data.task_id;
 
-                monitorarTarefa(taskId, pBar, pPct, pTitle, (downloadUrl) => {
-                    const fullUrl = downloadUrl.startsWith("http") ? downloadUrl : `${API_URL}${downloadUrl}`;
-                    document.getElementById('btn-download-editor-zip').href = fullUrl;
-                    rBox.classList.remove('hidden');
+                acompanharTarefa('f1', data.task_id, pBar, pPct, pTitle, (res) => {
                     btn.disabled = false;
                     btnCancel.classList.add('hidden');
-
-                    arquivosEditor.forEach((arq) => {
-                        const urlLocal = URL.createObjectURL(arq);
-                        const card = document.createElement('div');
-                        card.className = "bg-[#080B14] border border-slate-800 rounded-xl p-3 flex flex-col justify-between";
-                        card.innerHTML = `
-                            <video src="${urlLocal}" controls playsinline class="w-full rounded-lg mb-2 bg-black aspect-video max-h-32 object-contain"></video>
-                            <p class="text-xs font-bold text-white truncate mb-2">${arq.name}</p>
-                            <div class="space-y-1.5 pt-1 border-t border-slate-800">
-                                <a href="${urlLocal}" download="Limpo_${arq.name}" class="w-full text-center py-1.5 bg-[#FF2A5F]/20 text-[#FF2A5F] hover:bg-[#FF2A5F] hover:text-white rounded-lg text-[10px] font-bold block transition">Baixar Este Vídeo</a>
-                                <div class="grid grid-cols-3 gap-1">
-                                    <button onclick="injetarArquivoNoMultiplicador('ganchos', '${arq.name}')" class="bg-blue-900/40 text-blue-200 py-1 rounded text-[9px] font-bold">+ Gancho</button>
-                                    <button onclick="injetarArquivoNoMultiplicador('corpos', '${arq.name}')" class="bg-emerald-900/40 text-emerald-200 py-1 rounded text-[9px] font-bold">+ Corpo</button>
-                                    <button onclick="injetarArquivoNoMultiplicador('ctas', '${arq.name}')" class="bg-rose-900/40 text-rose-200 py-1 rounded text-[9px] font-bold">+ CTA</button>
-                                </div>
-                            </div>
-                        `;
-                        grid.appendChild(card);
-                    });
+                    rBox.classList.remove('hidden');
+                    document.getElementById('f1-btn-zip').href = `${API_URL}${res.download_url}`;
+                    renderizarPlayersDoServidor(grid, res.arquivos || []);
                 });
             } catch (err) {
-                pTitle.innerText = "Erro ao enviar para o servidor.";
+                pTitle.innerText = "Erro na conexão com o servidor. Tente novamente.";
                 btn.disabled = false;
                 btnCancel.classList.add('hidden');
             }
         }
 
-        function pausarProcessamentoEditor() {
-            clearInterval(pollingEditorTimer);
-            document.getElementById('editor-progress-title').innerText = "Processo pausado.";
-            document.getElementById('btn-processar-silencio').disabled = false;
-            document.getElementById('btn-cancel-editor').classList.add('hidden');
-        }
-
-        function processarBlocoEspecifico(tipo, files) {
-            const container = document.getElementById(`container-preview-${tipo}`);
-            container.innerHTML = '';
-            Array.from(files).forEach((f) => {
-                const url = URL.createObjectURL(f);
-                const div = document.createElement('div');
-                div.className = "bg-[#080B14] border border-slate-800 p-2 rounded-xl text-xs";
-                div.innerHTML = `
-                    <video src="${url}" controls playsinline class="w-full rounded mb-1 max-h-24 bg-black object-contain"></video>
-                    <p class="truncate font-bold text-white text-[10px] mb-1">${f.name}</p>
-                    <div class="flex items-center gap-1">
-                        <a href="${url}" download="${f.name}" class="w-1/2 text-center py-1 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded text-[9px] font-bold">Baixar</a>
-                        <button onclick="transferirParaMultiplicador('${tipo}', '${f.name}')" class="w-1/2 py-1 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] text-white rounded text-[9px] font-black">-> Enviar</button>
-                    </div>
-                `;
-                container.appendChild(div);
-            });
-            selecionarLote(tipo, files);
-        }
-
-        function transferirParaMultiplicador(tipo, nome) {
-            alert(`✅ Vídeo "${nome}" confirmado na matriz de ${tipo.toUpperCase()}!`);
-            document.getElementById('secao-multiplicador').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function injetarArquivoNoMultiplicador(tipo, nome) {
-            alert(`✅ Vídeo "${nome}" enviado para os ${tipo.toUpperCase()} no multiplicador!`);
-        }
-
-        // 3. MULTIPLICADOR EM MASSA COM PREVIEW DE VÍDEO
-        const lotes = { ganchos: [], corpos: [], ctas: [] };
-
-        function selecionarLote(tipo, files) {
-            lotes[tipo] = Array.from(files);
-            document.getElementById(`badge-${tipo}`).innerText = `${lotes[tipo].length} vídeos`;
-            const list = document.getElementById(`list-${tipo}`);
+        // ============================================================
+        // LÓGICA FERRAMENTAS 2 E 3 (MULTIPLICADORES)
+        // ============================================================
+        function selecionarBloco(ferramenta, tipo, files) {
+            estadoBlocos[ferramenta][tipo] = Array.from(files);
+            document.getElementById(`${ferramenta}-badge-${tipo}`).innerText = `${estadoBlocos[ferramenta][tipo].length} vídeos`;
+            const list = document.getElementById(`${ferramenta}-list-${tipo}`);
             list.innerHTML = '';
-            lotes[tipo].forEach((f, i) => {
+
+            estadoBlocos[ferramenta][tipo].forEach((f, i) => {
                 const li = document.createElement('li');
                 li.className = 'truncate';
-                li.innerText = `${i+1}. ${f.name}`;
+                li.innerText = `${i + 1}. ${f.name}`;
                 list.appendChild(li);
             });
 
-            const total = lotes.ganchos.length * lotes.corpos.length * lotes.ctas.length;
-            document.getElementById('total-variacoes').innerText = total;
-            const btn = document.getElementById('btn-start-multi');
+            const g = estadoBlocos[ferramenta].ganchos.length;
+            const c = estadoBlocos[ferramenta].corpos.length;
+            const t = estadoBlocos[ferramenta].ctas.length;
+            const total = g * c * t;
 
-            if (lotes.ganchos.length > 0 && lotes.corpos.length > 0 && lotes.ctas.length > 0) {
+            document.getElementById(`${ferramenta}-total`).innerText = total;
+            const btn = document.getElementById(`${ferramenta}-btn-start`);
+
+            if (g > 0 && c > 0 && t > 0) {
                 btn.disabled = false;
                 btn.className = "w-full sm:w-auto px-7 py-3.5 rounded-xl bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] text-white font-extrabold text-xs transition cursor-pointer shadow-md";
             } else {
@@ -763,72 +559,91 @@
             }
         }
 
-        async function enviarParaMultiplicar() {
-            const btn = document.getElementById('btn-start-multi');
-            const btnCancel = document.getElementById('btn-cancel-multi');
-            const pBox = document.getElementById('multi-progress-box');
-            const pBar = document.getElementById('multi-progress-bar');
-            const pPct = document.getElementById('multi-progress-pct');
-            const pTitle = document.getElementById('multi-progress-title');
-            const rBox = document.getElementById('multi-results-container');
-            const grid = document.getElementById('multi-videos-grid');
+        async function iniciarMultiplicador(ferramenta, cortarPausas) {
+            const blocos = estadoBlocos[ferramenta];
+            if (blocos.ganchos.length === 0 || blocos.corpos.length === 0 || blocos.ctas.length === 0) return;
+
+            const btn = document.getElementById(`${ferramenta}-btn-start`);
+            const btnCancel = document.getElementById(`${ferramenta}-btn-cancel`);
+            const pBox = document.getElementById(`${ferramenta}-progress-box`);
+            const pBar = document.getElementById(`${ferramenta}-progress-bar`);
+            const pPct = document.getElementById(`${ferramenta}-progress-pct`);
+            const pTitle = document.getElementById(`${ferramenta}-progress-title`);
+            const rBox = document.getElementById(`${ferramenta}-results-box`);
+            const grid = document.getElementById(`${ferramenta}-videos-grid`);
 
             btn.disabled = true;
             btnCancel.classList.remove('hidden');
             pBox.classList.remove('hidden');
             rBox.classList.add('hidden');
             grid.innerHTML = '';
+            pBar.style.width = '8%';
+            pPct.innerText = '8%';
+            pTitle.innerText = 'Enviando blocos para o servidor em nuvem...';
 
             const formData = new FormData();
-            lotes.ganchos.forEach(f => formData.append("ganchos", f));
-            lotes.corpos.forEach(f => formData.append("corpos", f));
-            lotes.ctas.forEach(f => formData.append("ctas", f));
-            formData.append("prefixo", document.getElementById('cfg-prefix').value.trim() || "Meu_Video");
+            blocos.ganchos.forEach(f => formData.append("ganchos", f));
+            blocos.corpos.forEach(f => formData.append("corpos", f));
+            blocos.ctas.forEach(f => formData.append("ctas", f));
+            formData.append("prefixo", document.getElementById(`${ferramenta}-prefix`).value.trim() || "Criativo");
+            formData.append("remover_pausas", cortarPausas ? "true" : "false");
+
+            if (cortarPausas) {
+                formData.append("sensibilidade", document.getElementById('f3-sensibilidade').value);
+            }
 
             try {
                 const resp = await fetch(`${API_URL}/api/multiplicar`, { method: "POST", body: formData });
-                if (!resp.ok) throw new Error("Erro no envio para o servidor");
+                if (!resp.ok) throw new Error("Falha no envio");
                 const data = await resp.json();
-                const taskId = data.task_id;
+                tasksAtivas[ferramenta] = data.task_id;
 
-                monitorarTarefa(taskId, pBar, pPct, pTitle, (downloadUrl) => {
-                    const fullUrl = downloadUrl.startsWith("http") ? downloadUrl : `${API_URL}${downloadUrl}`;
-                    document.getElementById('btn-download-multi-zip').href = fullUrl;
-                    rBox.classList.remove('hidden');
+                acompanharTarefa(ferramenta, data.task_id, pBar, pPct, pTitle, (res) => {
                     btn.disabled = false;
                     btnCancel.classList.add('hidden');
-
-                    const totalV = lotes.ganchos.length * lotes.corpos.length * lotes.ctas.length;
-                    for (let i = 1; i <= Math.min(totalV, 8); i++) {
-                        const card = document.createElement('div');
-                        card.className = "bg-[#080B14] border border-slate-800 rounded-xl p-3 flex flex-col justify-between";
-                        card.innerHTML = `
-                            <div class="bg-black aspect-[9/16] max-h-52 rounded-lg overflow-hidden mb-2 flex items-center justify-center">
-                                <video src="${URL.createObjectURL(lotes.ganchos[0])}" controls playsinline class="w-full h-full object-contain"></video>
-                            </div>
-                            <p class="text-xs font-bold text-white truncate mb-2">Variação_${String(i).padStart(2, '0')}.mp4</p>
-                            <a href="${fullUrl}" class="w-full py-2 bg-[#FF2A5F]/20 text-[#FF2A5F] hover:bg-[#FF2A5F] hover:text-white rounded-lg text-[10px] font-bold text-center transition">Baixar Variação</a>
-                        `;
-                        grid.appendChild(card);
-                    }
+                    rBox.classList.remove('hidden');
+                    document.getElementById(`${ferramenta}-btn-zip`).href = `${API_URL}${res.download_url}`;
+                    renderizarPlayersDoServidor(grid, res.arquivos || []);
                 });
             } catch (err) {
-                pTitle.innerText = "Erro ao enviar arquivos para o multiplicador.";
+                pTitle.innerText = "Erro na conexão com o servidor. Tente novamente.";
                 btn.disabled = false;
                 btnCancel.classList.add('hidden');
             }
         }
 
-        function pausarMultiplicacao() {
-            clearInterval(pollingMultiTimer);
-            document.getElementById('multi-progress-title').innerText = "Multiplicação pausada.";
-            document.getElementById('btn-start-multi').disabled = false;
-            document.getElementById('btn-cancel-multi').classList.add('hidden');
+        // ============================================================
+        // RENDERIZAÇÃO DOS PLAYERS REAIS VINDOS DO SERVIDOR
+        // ============================================================
+        function renderizarPlayersDoServidor(gridElement, listaArquivos) {
+            gridElement.innerHTML = '';
+            listaArquivos.forEach(arq => {
+                const videoUrl = `${API_URL}${arq.url}`;
+                const card = document.createElement('div');
+                card.className = "bg-[#080B14] border border-slate-800 hover:border-[#FF2A5F]/40 rounded-xl p-3 flex flex-col justify-between transition shadow-md";
+                card.innerHTML = `
+                    <div>
+                        <div class="bg-black aspect-[9/16] max-h-52 rounded-lg overflow-hidden mb-2 flex items-center justify-center">
+                            <video src="${videoUrl}" controls playsinline preload="metadata" class="w-full h-full object-contain"></video>
+                        </div>
+                        <p class="text-xs font-bold text-white truncate mb-1" title="${arq.nome}">${arq.nome}</p>
+                        <span class="text-[10px] text-emerald-400 font-mono font-bold block mb-2.5">${arq.info || 'Vídeo Pronto'}</span>
+                    </div>
+                    <a href="${videoUrl}" download="${arq.nome}" class="w-full py-2 bg-[#FF2A5F]/20 hover:bg-[#FF2A5F] text-[#FF2A5F] hover:text-white font-extrabold text-xs rounded-lg text-center block transition">
+                        Baixar Este Vídeo
+                    </a>
+                `;
+                gridElement.appendChild(card);
+            });
         }
 
-        // POLLING
-        function monitorarTarefa(taskId, pBar, pPct, pTitle, onConcluido) {
-            const timer = setInterval(async () => {
+        // ============================================================
+        // MONITORAMENTO E CANCELAMENTO DE TAREFAS
+        // ============================================================
+        function acompanharTarefa(chave, taskId, pBar, pPct, pTitle, onDone) {
+            if (timersAtivos[chave]) clearInterval(timersAtivos[chave]);
+
+            timersAtivos[chave] = setInterval(async () => {
                 try {
                     const resp = await fetch(`${API_URL}/api/tarefa/${taskId}`);
                     if (!resp.ok) return;
@@ -839,20 +654,30 @@
                     pTitle.innerText = data.mensagem;
 
                     if (data.status === "concluido") {
-                        clearInterval(timer);
+                        clearInterval(timersAtivos[chave]);
                         pBar.style.width = "100%";
                         pPct.innerText = "100%";
-                        onConcluido(data.download_url);
-                    } else if (data.status === "erro") {
-                        clearInterval(timer);
-                        alert("Erro no servidor: " + data.mensagem);
+                        onDone(data);
+                    } else if (data.status === "erro" || data.status === "cancelado") {
+                        clearInterval(timersAtivos[chave]);
+                        document.getElementById(`${chave}-btn-start`).disabled = false;
+                        document.getElementById(`${chave}-btn-cancel`).classList.add('hidden');
                     }
                 } catch (e) {
-                    console.error("Erro no polling:", e);
+                    console.error("Polling error:", e);
                 }
             }, 1200);
-            pollingEditorTimer = timer;
-            pollingMultiTimer = timer;
+        }
+
+        async function cancelarTarefaAtiva(chave) {
+            if (timersAtivos[chave]) clearInterval(timersAtivos[chave]);
+            const taskId = tasksAtivas[chave];
+            if (taskId) {
+                await fetch(`${API_URL}/api/cancelar/${taskId}`, { method: "POST" }).catch(() => {});
+            }
+            document.getElementById(`${chave}-progress-title`).innerText = "Processo pausado pelo usuário.";
+            document.getElementById(`${chave}-btn-start`).disabled = false;
+            document.getElementById(`${chave}-btn-cancel`).classList.add('hidden');
         }
     </script>
 </body>
