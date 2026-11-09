@@ -81,7 +81,7 @@ def chamar_gemini_api(produto_nome: str, estilo: str = "") -> dict:
         )
 
     url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={GEMINI_API_KEY}"
-    headers = {"Content-Type": "application/json", "x-goog-api-key": GEMINI_API_KEY
+    headers = {"Content-Type": "application/json", "x-goog-api-key": GEMINI_API_KEY}
 
     instrucao_tom = f"Estilo/Tom solicitado: '{estilo}'." if estilo else "Crie um roteiro de alta conversão, agressivo e persuasivo."
 
