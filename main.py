@@ -376,7 +376,7 @@ async def rota_multiplicar(
     c_paths = salvar_lote(corpos, "c")
     t_paths = salvar_lote(ctas, "t")
 
-     cortar = remover_pausas.lower() == "true"
+    cortar = remover_pausas.lower() == "true"
 
     TAREFAS[task_id] = {
         "id": task_id,
