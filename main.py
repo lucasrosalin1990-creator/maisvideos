@@ -31,12 +31,13 @@ BASE_DIR = Path(__file__).resolve().parent
 TEMP_DIR = BASE_DIR / "temp_processing"
 TEMP_DIR.mkdir(exist_ok=True)
 
-# LÊ A CHAVE DO GOOGLE GEMINI DAS VARIÁVEIS DO RENDER
+# LÊ A CHAVE DO GOOGLE GEMINI DAS VARIÁVEIS DE AMBIENTE DO RENDER
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 
+# GERENCIADOR DE TAREFAS NA NUVEM
 TAREFAS: Dict[str, Dict[str, Any]] = {}
 
-# RESOLVE LINKS ENCURTADOS (VT.TIKTOK.COM) E EXTRAI O NOME DO PRODUTO
+# RESOLVE LINKS ENCURTADOS (VT.TIKTOK.COM) E EXTRAI O NOME REAL DO PRODUTO
 def resolver_nome_produto(input_texto: str) -> str:
     texto = input_texto.strip()
     urls = re.findall(r'(https?://[^\s]+)', texto)
@@ -72,7 +73,7 @@ def resolver_nome_produto(input_texto: str) -> str:
 
     return texto
 
-# COMUNICAÇÃO REAL COM A API DO GOOGLE GEMINI (SEM FRASES PRONTAS)
+# COMUNICAÇÃO REAL COM A API DO GOOGLE GEMINI (MODELO GEMINI-3.8-FLASH)
 def chamar_gemini_api(produto_nome: str, estilo: str = "") -> dict:
     if not GEMINI_API_KEY:
         raise HTTPException(
@@ -80,8 +81,13 @@ def chamar_gemini_api(produto_nome: str, estilo: str = "") -> dict:
             detail="A variável GEMINI_API_KEY não foi configurada nas Environment Variables do Render."
         )
 
+    # MODELO ATUALIZADO EXATO DO GOOGLE GEMINI
     url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key={GEMINI_API_KEY}"
-    headers = {"Content-Type": "application/json", "x-goog-api-key": GEMINI_API_KEY}
+    
+    headers_gemini = {
+        "Content-Type": "application/json",
+        "x-goog-api-key": GEMINI_API_KEY
+    }
 
     instrucao_tom = f"Estilo/Tom solicitado: '{estilo}'." if estilo else "Crie um roteiro de alta conversão, agressivo e persuasivo."
 
@@ -105,7 +111,7 @@ Responda EXCLUSIVAMENTE em formato JSON puro, sem markdown, sem crases, sem text
         }
     }
 
-    resp = requests.post(url, headers=headers, json=payload, timeout=12)
+    resp = requests.post(url, headers=headers_gemini, json=payload, timeout=12)
     if resp.status_code != 200:
         raise HTTPException(status_code=resp.status_code, detail=f"Erro da API do Gemini: {resp.text}")
 
@@ -246,6 +252,7 @@ def task_multiplicar_videos(task_id: str, ganchos: List[Path], corpos: List[Path
                 for t in norm_t:
                     combinacoes.append((g, c, t))
 
+        # Embaralhamento Fisher-Yates
         random.shuffle(combinacoes)
         total_vids = len(combinacoes)
         finais = []
@@ -289,22 +296,26 @@ def task_multiplicar_videos(task_id: str, ganchos: List[Path], corpos: List[Path
         TAREFAS[task_id]["mensagem"] = f"Falha na multiplicação: {str(e)}"
 
 # ============================================================================
-# ROTAS DA API
+# ROTAS DA API (PÁGINA, VÍDEO TUTORIAL, IA E PROCESSAMENTO)
 # ============================================================================
+
+# ROTA 1: PÁGINA INICIAL
 @app.get("/")
 def index():
     idx_path = BASE_DIR / "index.html"
     if idx_path.exists():
         return FileResponse(idx_path)
     return {"status": "+VIDEOS Cloud Online"}
-    
-    @app.get("/tutorial.mp4")
-def get_tutorial():
+
+# ROTA 2: VÍDEO TUTORIAL.MP4 (NUNCA MAIS DÁ NOT FOUND)
+@app.get("/tutorial.mp4")
+def get_tutorial_video():
     vid_path = BASE_DIR / "tutorial.mp4"
     if vid_path.exists():
         return FileResponse(vid_path, media_type="video/mp4")
-    raise HTTPException(status_code=404, detail="tutorial.mp4 não encontrado")
+    raise HTTPException(status_code=404, detail="tutorial.mp4 não encontrado no servidor")
 
+# ROTA 3: GERADOR DE ROTEIRO COM IA GEMINI
 @app.post("/api/roteiro")
 async def rota_roteiro(payload: Dict[str, Any]):
     raw_input = payload.get("produto", "").strip()
@@ -321,6 +332,7 @@ async def rota_roteiro(payload: Dict[str, Any]):
         "cta": roteiro.get("cta", "")
     }
 
+# ROTA 4: REMOVEDOR DE PAUSAS
 @app.post("/api/remover-pausas")
 async def rota_remover_pausas(
     background_tasks: BackgroundTasks,
@@ -350,6 +362,7 @@ async def rota_remover_pausas(
     background_tasks.add_task(task_remover_pausas, task_id, salvos, prefixo, sensibilidade)
     return {"task_id": task_id}
 
+# ROTA 5: MULTIPLICADOR DE VÍDEOS
 @app.post("/api/multiplicar")
 async def rota_multiplicar(
     background_tasks: BackgroundTasks,
@@ -388,12 +401,14 @@ async def rota_multiplicar(
     background_tasks.add_task(task_multiplicar_videos, task_id, g_paths, c_paths, t_paths, prefixo)
     return {"task_id": task_id}
 
+# ROTA 6: MONITORAMENTO DE PROGRESSO
 @app.get("/api/tarefa/{task_id}")
 async def checar_status_tarefa(task_id: str):
     if task_id not in TAREFAS:
         raise HTTPException(status_code=404, detail="Tarefa não encontrada")
     return TAREFAS[task_id]
 
+# ROTA 7: DOWNLOAD DO PACOTE .ZIP
 @app.get("/api/download/{task_id}")
 async def download_zip(task_id: str):
     task_dir = TEMP_DIR / task_id
