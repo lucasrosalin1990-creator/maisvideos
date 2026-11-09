@@ -1,7 +1,6 @@
 import os
 import re
 import uuid
-import json
 import random
 import shutil
 import zipfile
@@ -9,15 +8,11 @@ import subprocess
 from typing import List, Dict, Any
 from pathlib import Path
 
-import requests
 from fastapi import FastAPI, UploadFile, File, Form, BackgroundTasks, HTTPException
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
-from dotenv import load_dotenv
 
-load_dotenv()
-
-app = FastAPI(title="+VIDEOS Cloud Micro SaaS", version="2.0.0")
+app = FastAPI(title="+VIDEOS Cloud Engine", version="3.0.0")
 
 app.add_middleware(
     CORSMiddleware,
@@ -31,220 +26,220 @@ BASE_DIR = Path(__file__).resolve().parent
 TEMP_DIR = BASE_DIR / "temp_processing"
 TEMP_DIR.mkdir(exist_ok=True)
 
-# LÊ A CHAVE DO GOOGLE GEMINI DAS VARIÁVEIS DE AMBIENTE DO RENDER
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
-
 # GERENCIADOR DE TAREFAS NA NUVEM
 TAREFAS: Dict[str, Dict[str, Any]] = {}
 
-# RESOLVE LINKS ENCURTADOS (VT.TIKTOK.COM) E EXTRAI O NOME REAL DO PRODUTO
-def resolver_nome_produto(input_texto: str) -> str:
-    texto = input_texto.strip()
-    urls = re.findall(r'(https?://[^\s]+)', texto)
-    if not urls:
-        return texto
 
-    url = urls[0]
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-        "Accept-Language": "pt-BR,pt;q=0.9",
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
-    }
+def obter_duracao(caminho: Path) -> float:
+    cmd = [
+        "ffprobe", "-v", "error", "-show_entries", "format=duration",
+        "-of", "default=noprint_wrappers=1:nokey=1", str(caminho)
+    ]
+    res = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True)
     try:
-        resp = requests.get(url, headers=headers, timeout=6, allow_redirects=True)
-        html = resp.text
-        
-        og_title = re.search(r'<meta property="og:title" content="([^"]+)"', html, re.IGNORECASE)
-        if og_title:
-            titulo = og_title.group(1).strip()
-            titulo = re.sub(r'\s*\|\s*TikTok.*', '', titulo, flags=re.IGNORECASE)
-            titulo = re.sub(r'\s*no TikTok.*', '', titulo, flags=re.IGNORECASE)
-            if len(titulo) > 3:
-                return titulo[:65]
+        return float(res.stdout.strip())
+    except Exception:
+        return 10.0
 
-        title_tag = re.search(r'<title>([^<]+)</title>', html, re.IGNORECASE)
-        if title_tag:
-            titulo = title_tag.group(1).strip()
-            titulo = re.sub(r'\s*\|\s*TikTok.*', '', titulo, flags=re.IGNORECASE)
-            if len(titulo) > 3:
-                return titulo[:65]
-    except Exception as e:
-        print(f"Erro ao resolver URL do TikTok: {e}")
 
-    return texto
+def detectar_limiar_inteligente(caminho: Path, sensibilidade: str) -> tuple:
+    """Mede o volume médio real do vídeo para calibrar o corte perfeitamente em iPhones e celulares."""
+    cmd_vol = ["ffmpeg", "-y", "-i", str(caminho), "-af", "volumedetect", "-f", "null", "-"]
+    res = subprocess.run(cmd_vol, stderr=subprocess.PIPE, stdout=subprocess.DEVNULL, text=True)
+    match = re.search(r"mean_volume:\s*(-?\d+\.?\d*)\s*dB", res.stderr)
+    mean_vol = float(match.group(1)) if match else -18.0
 
-# COMUNICAÇÃO REAL COM A API DO GOOGLE GEMINI (MODELO GEMINI-3.8-FLASH)
-def chamar_gemini_api(produto_nome: str, estilo: str = "") -> dict:
-    if not GEMINI_API_KEY:
-        raise HTTPException(
-            status_code=500,
-            detail="A variável GEMINI_API_KEY não foi configurada nas Environment Variables do Render."
-        )
+    if sensibilidade == "suave":
+        limiar_db = max(-34.0, min(-18.0, mean_vol - 8.0))
+        dur_min = 0.32
+    elif sensibilidade == "agressivo":
+        limiar_db = max(-24.0, min(-11.0, mean_vol - 2.5))
+        dur_min = 0.16
+    else:  # equilibrado
+        limiar_db = max(-28.0, min(-14.0, mean_vol - 5.0))
+        dur_min = 0.22
 
-    # MODELO ATUALIZADO EXATO DO GOOGLE GEMINI
- url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent"
-    
-    headers_gemini = {
-        "Content-Type": "application/json",
-        "x-goog-api-key": GEMINI_API_KEY
-    }
+    return f"{limiar_db:.1f}dB", dur_min
 
-    instrucao_tom = f"Estilo/Tom solicitado: '{estilo}'." if estilo else "Crie um roteiro de alta conversão, agressivo e persuasivo."
 
-    prompt = f"""Você é um copywriter profissional de elite para TikTok Shop Brasil.
-Crie um roteiro viral e irresistível em 3 partes para o produto: '{produto_nome}'.
-{instrucao_tom}
+def cortar_pausas_ffmpeg(video_in: Path, video_out: Path, sensibilidade: str, pad_9_16: bool = False) -> tuple:
+    """Remove os silêncios de um vídeo e retorna (duracao_antes, duracao_depois)."""
+    dur_antes = obter_duracao(video_in)
+    db_limiar, dur_min = detectar_limiar_inteligente(video_in, sensibilidade)
 
-Estrutura obrigatória:
-1. Gancho (0 a 3s): Quebra de padrão impactante, dor extrema ou curiosidade irresistível.
-2. Corpo (3 a 25s): Demonstração visual rápida da solução quebrando a principal objeção de compra.
-3. CTA (Final): Chamada urgente para clicar na sacola/carrinho do TikTok Shop.
+    cmd_detect = [
+        "ffmpeg", "-y", "-i", str(video_in),
+        "-af", f"silencedetect=noise={db_limiar}:d={dur_min}",
+        "-f", "null", "-"
+    ]
+    res_detect = subprocess.run(cmd_detect, stderr=subprocess.PIPE, stdout=subprocess.DEVNULL, text=True)
+    stderr = res_detect.stderr
 
-Responda EXCLUSIVAMENTE em formato JSON puro, sem markdown, sem crases, sem texto antes ou depois:
-{{"gancho": "...", "corpo": "...", "cta": "..."}}"""
+    starts = [float(x) for x in re.findall(r"silence_start:\s*(\d+\.?\d*)", stderr)]
+    ends = [float(x) for x in re.findall(r"silence_end:\s*(\d+\.?\d*)", stderr)]
 
-    payload = {
-        "contents": [{"parts": [{"text": prompt}]}],
-        "generationConfig": {
-            "temperature": 0.85,
-            "responseMimeType": "application/json"
-        }
-    }
+    # Se o silêncio foi até o final do vídeo sem fechar silence_end
+    if len(starts) > len(ends):
+        ends.append(dur_antes)
 
-    resp = requests.post(url, headers=headers_gemini, json=payload, timeout=12)
-    if resp.status_code != 200:
-        raise HTTPException(status_code=resp.status_code, detail=f"Erro da API do Gemini: {resp.text}")
+    segmentos = []
+    ultimo = 0.0
+    for s, e in zip(starts, ends):
+        if s > ultimo + 0.08:
+            ini = max(0.0, ultimo - 0.04)
+            fim = min(dur_antes, s + 0.04)
+            segmentos.append((ini, fim))
+        ultimo = e
 
-    dados = resp.json()
-    try:
-        texto_json = dados["candidates"][0]["content"]["parts"][0]["text"]
-        return json.loads(texto_json)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Falha ao interpretar JSON do Gemini: {str(e)}")
+    if ultimo < dur_antes - 0.08:
+        ini = max(0.0, ultimo - 0.04)
+        segmentos.append((ini, dur_antes))
+
+    escala_9_16 = ",scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2,setsar=1" if pad_9_16 else ""
+
+    if not segmentos or (len(segmentos) == 1 and (segmentos[0][1] - segmentos[0][0]) >= dur_antes - 0.15):
+        vf_filter = escala_9_16.lstrip(",") if pad_9_16 else "null"
+        cmd_cut = [
+            "ffmpeg", "-y", "-i", str(video_in),
+            "-vf", vf_filter,
+            "-r", "30", "-c:v", "libx264", "-preset", "ultrafast", "-crf", "23",
+            "-c:a", "aac", "-b:a", "128k", "-ar", "44100", str(video_out)
+        ]
+    else:
+        select_v = "+".join([f"between(t,{s:.3f},{e:.3f})" for s, e in segmentos])
+        vf_full = f"select='{select_v}',setpts=N/FRAME_RATE/TB{escala_9_16}"
+        af_full = f"aselect='{select_v}',asetpts=N/SR/TB"
+        cmd_cut = [
+            "ffmpeg", "-y", "-i", str(video_in),
+            "-vf", vf_full,
+            "-af", af_full,
+            "-r", "30", "-c:v", "libx264", "-preset", "ultrafast", "-crf", "23",
+            "-c:a", "aac", "-b:a", "128k", "-ar", "44100", str(video_out)
+        ]
+
+    subprocess.run(cmd_cut, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    dur_depois = obter_duracao(video_out)
+    return dur_antes, dur_depois
+
+
+def padronizar_apenas_9_16(video_in: Path, video_out: Path):
+    """Padroniza para 9:16 (1080x1920) sem cortar nenhuma pausa."""
+    cmd = [
+        "ffmpeg", "-y", "-i", str(video_in),
+        "-vf", "scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2,setsar=1",
+        "-r", "30", "-c:v", "libx264", "-preset", "ultrafast", "-crf", "23",
+        "-c:a", "aac", "-b:a", "128k", "-ar", "44100", str(video_out)
+    ]
+    subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
 
 # ============================================================================
-# PROCESSAMENTO FFmpeg 1: REMOVEDOR DE PAUSAS
+# TAREFA 1: REMOVEDOR DE PAUSAS NO VÍDEO
 # ============================================================================
 def task_remover_pausas(task_id: str, caminhos_videos: List[Path], prefixo: str, sensibilidade: str):
     task_dir = TEMP_DIR / task_id
-    out_dir = task_dir / "limpos"
+    out_dir = task_dir / "outputs"
     out_dir.mkdir(parents=True, exist_ok=True)
 
     TAREFAS[task_id]["status"] = "processando"
-    TAREFAS[task_id]["progresso"] = 15
-    TAREFAS[task_id]["mensagem"] = "Analisando frequências de áudio com FFmpeg..."
+    TAREFAS[task_id]["progresso"] = 10
+    TAREFAS[task_id]["mensagem"] = "Calibrando decibéis e removendo pausas..."
 
-    db_limiar = "-30dB"
-    if sensibilidade == "suave":
-        db_limiar = "-36dB"
-    elif sensibilidade == "agressivo":
-        db_limiar = "-24dB"
-
-    videos_processados = []
+    arquivos_prontos = []
+    lista_metadados = []
     total = len(caminhos_videos)
 
     try:
         for idx, video_in in enumerate(caminhos_videos):
-            video_out = out_dir / f"{prefixo}_{idx+1:02d}.mp4"
+            if TAREFAS[task_id].get("cancelado"):
+                return
 
-            cmd_detect = [
-                "ffmpeg", "-y", "-i", str(video_in),
-                "-af", f"silencedetect=noise={db_limiar}:d=0.3",
-                "-f", "null", "-"
-            ]
-            res_detect = subprocess.run(cmd_detect, stderr=subprocess.PIPE, stdout=subprocess.DEVNULL, text=True)
-            stderr = res_detect.stderr
+            nome_saida = f"{prefixo}_{idx+1:02d}.mp4"
+            video_out = out_dir / nome_saida
 
-            starts = [float(x) for x in re.findall(r"silence_start: (\d+\.?\d*)", stderr)]
-            ends = [float(x) for x in re.findall(r"silence_end: (\d+\.?\d*)", stderr)]
+            dur_antes, dur_depois = cortar_pausas_ffmpeg(video_in, video_out, sensibilidade, pad_9_16=False)
+            arquivos_prontos.append(video_out)
 
-            cmd_dur = [
-                "ffprobe", "-v", "error", "-show_entries", "format=duration",
-                "-of", "default=noprint_wrappers=1:nokey=1", str(video_in)
-            ]
-            res_dur = subprocess.run(cmd_dur, stdout=subprocess.PIPE, text=True)
-            duracao = float(res_dur.stdout.strip() or 18.0)
+            economia = max(0, int(round(((dur_antes - dur_depois) / max(0.1, dur_antes)) * 100)))
+            lista_metadados.append({
+                "nome": nome_saida,
+                "url": f"/api/arquivo/{task_id}/{nome_saida}",
+                "info": f"{dur_antes:.1f}s ➔ {dur_depois:.1f}s (-{economia}%)"
+            })
 
-            segmentos = []
-            ultimo = 0.0
-            for s, e in zip(starts, ends):
-                if s > ultimo:
-                    segmentos.append((ultimo, s))
-                ultimo = e
-            if ultimo < duracao:
-                segmentos.append((ultimo, duracao))
-
-            if not segmentos or (len(segmentos) == 1 and segmentos[0][0] == 0.0):
-                cmd_cut = [
-                    "ffmpeg", "-y", "-i", str(video_in),
-                    "-c:v", "libx264", "-preset", "ultrafast", "-crf", "22",
-                    "-c:a", "aac", "-b:a", "128k", str(video_out)
-                ]
-            else:
-                select_v = "+".join([f"between(t,{s:.2f},{e:.2f})" for s, e in segmentos])
-                cmd_cut = [
-                    "ffmpeg", "-y", "-i", str(video_in),
-                    "-vf", f"select='{select_v}',setpts=N/FRAME_RATE/TB",
-                    "-af", f"aselect='{select_v}',asetpts=N/SR/TB",
-                    "-c:v", "libx264", "-preset", "ultrafast", "-crf", "22",
-                    "-c:a", "aac", "-b:a", "128k", str(video_out)
-                ]
-
-            subprocess.run(cmd_cut, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-            videos_processados.append(video_out)
-
-            prog = 15 + int(((idx + 1) / total) * 75)
+            prog = 10 + int(((idx + 1) / total) * 80)
             TAREFAS[task_id]["progresso"] = prog
             TAREFAS[task_id]["mensagem"] = f"Cortando pausas do vídeo {idx+1} de {total}..."
 
-        zip_path = task_dir / f"{prefixo}_Videos_Limpos.zip"
+        zip_path = task_dir / f"{prefixo}_Videos_Sem_Pausa.zip"
         with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
-            for v in videos_processados:
+            for v in arquivos_prontos:
                 z.write(v, arcname=v.name)
 
         shutil.rmtree(task_dir / "inputs", ignore_errors=True)
 
         TAREFAS[task_id]["status"] = "concluido"
         TAREFAS[task_id]["progresso"] = 100
-        TAREFAS[task_id]["mensagem"] = f"Sucesso! {total} vídeos limpos na nuvem."
+        TAREFAS[task_id]["mensagem"] = f"Concluído! {total} vídeo(s) processado(s) sem pausas."
         TAREFAS[task_id]["download_url"] = f"/api/download/{task_id}"
+        TAREFAS[task_id]["arquivos"] = lista_metadados
 
     except Exception as e:
         TAREFAS[task_id]["status"] = "erro"
-        TAREFAS[task_id]["mensagem"] = f"Falha no processamento: {str(e)}"
+        TAREFAS[task_id]["mensagem"] = f"Erro no servidor: {str(e)}"
+
 
 # ============================================================================
-# PROCESSAMENTO FFmpeg 2: MULTIPLICADOR 9:16 COM EMBARALHAMENTO
+# TAREFA 2 E 3: MULTIPLICADOR (PURO OU COM REMOÇÃO DE PAUSAS)
 # ============================================================================
-def task_multiplicar_videos(task_id: str, ganchos: List[Path], corpos: List[Path], ctas: List[Path], prefixo: str):
+def task_multiplicar_videos(
+    task_id: str,
+    ganchos: List[Path],
+    corpos: List[Path],
+    ctas: List[Path],
+    prefixo: str,
+    remover_pausas: bool,
+    sensibilidade: str
+):
     task_dir = TEMP_DIR / task_id
-    out_dir = task_dir / "criativos"
+    out_dir = task_dir / "outputs"
     norm_dir = task_dir / "norm"
     out_dir.mkdir(parents=True, exist_ok=True)
     norm_dir.mkdir(parents=True, exist_ok=True)
 
     TAREFAS[task_id]["status"] = "processando"
-    TAREFAS[task_id]["progresso"] = 10
-    TAREFAS[task_id]["mensagem"] = "Padronizando blocos para formato vertical 9:16..."
+    TAREFAS[task_id]["progresso"] = 5
+    TAREFAS[task_id]["mensagem"] = (
+        "Removendo pausas de todos os blocos e padronizando 9:16..."
+        if remover_pausas else
+        "Padronizando Ganchos, Corpos e CTAs em formato 9:16..."
+    )
 
     try:
-        def padronizar_9_16(video_in: Path, tag: str) -> Path:
-            video_out = norm_dir / f"norm_{tag}_{video_in.name}.mp4"
-            cmd = [
-                "ffmpeg", "-y", "-i", str(video_in),
-                "-vf", "scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2,setsar=1",
-                "-r", "30", "-c:v", "libx264", "-preset", "ultrafast", "-crf", "23",
-                "-c:a", "aac", "-b:a", "128k", "-ar", "44100", str(video_out)
-            ]
-            subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-            return video_out
+        total_blocos = len(ganchos) + len(corpos) + len(ctas)
+        blocos_processados = 0
 
-        norm_g = [padronizar_9_16(g, f"g{i}") for i, g in enumerate(ganchos)]
-        norm_c = [padronizar_9_16(c, f"c{i}") for i, c in enumerate(corpos)]
-        norm_t = [padronizar_9_16(t, f"t{i}") for i, t in enumerate(ctas)]
+        def preparar_bloco(caminho_in: Path, tag: str) -> Path:
+            nonlocal blocos_processados
+            saida = norm_dir / f"prep_{tag}.mp4"
+            if remover_pausas:
+                cortar_pausas_ffmpeg(caminho_in, saida, sensibilidade, pad_9_16=True)
+            else:
+                padronizar_apenas_9_16(caminho_in, saida)
 
-        TAREFAS[task_id]["progresso"] = 30
-        TAREFAS[task_id]["mensagem"] = "Embaralhando permutações de vídeos..."
+            blocos_processados += 1
+            TAREFAS[task_id]["progresso"] = 5 + int((blocos_processados / max(1, total_blocos)) * 35)
+            return saida
+
+        norm_g = [preparar_bloco(g, f"g{i}") for i, g in enumerate(ganchos)]
+        norm_c = [preparar_bloco(c, f"c{i}") for i, c in enumerate(corpos)]
+        norm_t = [preparar_bloco(t, f"t{i}") for i, t in enumerate(ctas)]
+
+        if TAREFAS[task_id].get("cancelado"):
+            return
+
+        TAREFAS[task_id]["progresso"] = 42
+        TAREFAS[task_id]["mensagem"] = "Embaralhando combinações de vídeos..."
 
         combinacoes = []
         for g in norm_g:
@@ -252,12 +247,15 @@ def task_multiplicar_videos(task_id: str, ganchos: List[Path], corpos: List[Path
                 for t in norm_t:
                     combinacoes.append((g, c, t))
 
-        # Embaralhamento Fisher-Yates
         random.shuffle(combinacoes)
         total_vids = len(combinacoes)
         finais = []
+        lista_metadados = []
 
         for idx, (g, c, t) in enumerate(combinacoes):
+            if TAREFAS[task_id].get("cancelado"):
+                return
+
             nome_arq = f"{prefixo}_{idx+1:02d}.mp4"
             criativo_path = out_dir / nome_arq
 
@@ -274,9 +272,16 @@ def task_multiplicar_videos(task_id: str, ganchos: List[Path], corpos: List[Path
             concat_txt.unlink(missing_ok=True)
             finais.append(criativo_path)
 
-            prog = 30 + int(((idx + 1) / total_vids) * 60)
+            dur_final = obter_duracao(criativo_path)
+            lista_metadados.append({
+                "nome": nome_arq,
+                "url": f"/api/arquivo/{task_id}/{nome_arq}",
+                "info": f"Duração: {dur_final:.1f}s • 9:16"
+            })
+
+            prog = 42 + int(((idx + 1) / total_vids) * 50)
             TAREFAS[task_id]["progresso"] = prog
-            TAREFAS[task_id]["mensagem"] = f"Renderizando variação {idx+1} de {total_vids}..."
+            TAREFAS[task_id]["mensagem"] = f"Montando vídeo {idx+1} de {total_vids}..."
 
         zip_path = task_dir / f"{prefixo}_Lote_Multiplicado.zip"
         with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
@@ -288,18 +293,18 @@ def task_multiplicar_videos(task_id: str, ganchos: List[Path], corpos: List[Path
 
         TAREFAS[task_id]["status"] = "concluido"
         TAREFAS[task_id]["progresso"] = 100
-        TAREFAS[task_id]["mensagem"] = f"{total_vids} vídeos renderizados e empacotados com sucesso!"
+        TAREFAS[task_id]["mensagem"] = f"{total_vids} vídeos gerados e embaralhados com sucesso!"
         TAREFAS[task_id]["download_url"] = f"/api/download/{task_id}"
+        TAREFAS[task_id]["arquivos"] = lista_metadados
 
     except Exception as e:
         TAREFAS[task_id]["status"] = "erro"
-        TAREFAS[task_id]["mensagem"] = f"Falha na multiplicação: {str(e)}"
+        TAREFAS[task_id]["mensagem"] = f"Erro na multiplicação: {str(e)}"
+
 
 # ============================================================================
-# ROTAS DA API (PÁGINA, VÍDEO TUTORIAL, IA E PROCESSAMENTO)
+# ROTAS DA API
 # ============================================================================
-
-# ROTA 1: PÁGINA INICIAL
 @app.get("/")
 def index():
     idx_path = BASE_DIR / "index.html"
@@ -307,32 +312,7 @@ def index():
         return FileResponse(idx_path)
     return {"status": "+VIDEOS Cloud Online"}
 
-# ROTA 2: VÍDEO TUTORIAL.MP4 (NUNCA MAIS DÁ NOT FOUND)
-@app.get("/tutorial.mp4")
-def get_tutorial_video():
-    vid_path = BASE_DIR / "tutorial.mp4"
-    if vid_path.exists():
-        return FileResponse(vid_path, media_type="video/mp4")
-    raise HTTPException(status_code=404, detail="tutorial.mp4 não encontrado no servidor")
 
-# ROTA 3: GERADOR DE ROTEIRO COM IA GEMINI
-@app.post("/api/roteiro")
-async def rota_roteiro(payload: Dict[str, Any]):
-    raw_input = payload.get("produto", "").strip()
-    estilo = payload.get("estilo", "").strip()
-    if not raw_input:
-        raise HTTPException(status_code=400, detail="Nome ou link do produto é obrigatório")
-
-    produto_nome = resolver_nome_produto(raw_input)
-    roteiro = chamar_gemini_api(produto_nome, estilo)
-    return {
-        "produto_resolvido": produto_nome,
-        "gancho": roteiro.get("gancho", ""),
-        "corpo": roteiro.get("corpo", ""),
-        "cta": roteiro.get("cta", "")
-    }
-
-# ROTA 4: REMOVEDOR DE PAUSAS
 @app.post("/api/remover-pausas")
 async def rota_remover_pausas(
     background_tasks: BackgroundTasks,
@@ -345,8 +325,9 @@ async def rota_remover_pausas(
     in_dir.mkdir(parents=True, exist_ok=True)
 
     salvos = []
-    for f in arquivos:
-        dest = in_dir / f.filename
+    for idx, f in enumerate(arquivos):
+        ext = Path(f.filename).suffix or ".mp4"
+        dest = in_dir / f"raw_{idx}{ext}"
         with open(dest, "wb") as b:
             shutil.copyfileobj(f.file, b)
         salvos.append(dest)
@@ -354,22 +335,26 @@ async def rota_remover_pausas(
     TAREFAS[task_id] = {
         "id": task_id,
         "status": "pendente",
-        "progresso": 0,
-        "mensagem": "Na fila do servidor...",
-        "download_url": None
+        "progresso": 5,
+        "mensagem": "Iniciando corte no servidor...",
+        "download_url": None,
+        "arquivos": [],
+        "cancelado": False
     }
 
     background_tasks.add_task(task_remover_pausas, task_id, salvos, prefixo, sensibilidade)
     return {"task_id": task_id}
 
-# ROTA 5: MULTIPLICADOR DE VÍDEOS
+
 @app.post("/api/multiplicar")
 async def rota_multiplicar(
     background_tasks: BackgroundTasks,
     ganchos: List[UploadFile] = File(...),
     corpos: List[UploadFile] = File(...),
     ctas: List[UploadFile] = File(...),
-    prefixo: str = Form("Meu_Video")
+    prefixo: str = Form("Meu_Video"),
+    remover_pausas: str = Form("false"),
+    sensibilidade: str = Form("equilibrado")
 ):
     task_id = str(uuid.uuid4())
     in_dir = TEMP_DIR / task_id / "inputs"
@@ -379,8 +364,9 @@ async def rota_multiplicar(
         dest_dir = in_dir / sub
         dest_dir.mkdir(parents=True, exist_ok=True)
         paths = []
-        for f in arqs:
-            p = dest_dir / f.filename
+        for idx, f in enumerate(arqs):
+            ext = Path(f.filename).suffix or ".mp4"
+            p = dest_dir / f"{sub}_{idx}{ext}"
             with open(p, "wb") as b:
                 shutil.copyfileobj(f.file, b)
             paths.append(p)
@@ -390,32 +376,54 @@ async def rota_multiplicar(
     c_paths = salvar_lote(corpos, "c")
     t_paths = salvar_lote(ctas, "t")
 
+     cortar = remover_pausas.lower() == "true"
+
     TAREFAS[task_id] = {
         "id": task_id,
         "status": "pendente",
-        "progresso": 0,
-        "mensagem": "Iniciando renderização na nuvem...",
-        "download_url": None
+        "progresso": 5,
+        "mensagem": "Iniciando processamento em nuvem...",
+        "download_url": None,
+        "arquivos": [],
+        "cancelado": False
     }
 
-    background_tasks.add_task(task_multiplicar_videos, task_id, g_paths, c_paths, t_paths, prefixo)
+    background_tasks.add_task(task_multiplicar_videos, task_id, g_paths, c_paths, t_paths, prefixo, cortar, sensibilidade)
     return {"task_id": task_id}
 
-# ROTA 6: MONITORAMENTO DE PROGRESSO
+
+@app.post("/api/cancelar/{task_id}")
+async def cancelar_tarefa(task_id: str):
+    if task_id in TAREFAS:
+        TAREFAS[task_id]["cancelado"] = True
+        TAREFAS[task_id]["status"] = "cancelado"
+        TAREFAS[task_id]["mensagem"] = "Processo interrompido pelo usuário."
+    return {"ok": True}
+
+
 @app.get("/api/tarefa/{task_id}")
 async def checar_status_tarefa(task_id: str):
     if task_id not in TAREFAS:
         raise HTTPException(status_code=404, detail="Tarefa não encontrada")
     return TAREFAS[task_id]
 
-# ROTA 7: DOWNLOAD DO PACOTE .ZIP
+
+@app.get("/api/arquivo/{task_id}/{filename}")
+async def servir_video_individual(task_id: str, filename: str):
+    arq_path = TEMP_DIR / task_id / "outputs" / filename
+    if not arq_path.exists():
+        raise HTTPException(status_code=404, detail="Vídeo não encontrado")
+    return FileResponse(arq_path, filename=filename, media_type="video/mp4")
+
+
 @app.get("/api/download/{task_id}")
 async def download_zip(task_id: str):
     task_dir = TEMP_DIR / task_id
     zips = list(task_dir.glob("*.zip"))
     if not zips:
-        raise HTTPException(status_code=404, detail="Arquivo ZIP não encontrado ou expirou")
+        raise HTTPException(status_code=404, detail="Arquivo ZIP não encontrado")
     return FileResponse(zips[0], filename=zips[0].name, media_type="application/zip")
+
 
 if __name__ == "__main__":
     import uvicorn
