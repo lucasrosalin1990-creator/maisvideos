@@ -82,7 +82,7 @@ def chamar_gemini_api(produto_nome: str, estilo: str = "") -> dict:
         )
 
     # MODELO ATUALIZADO EXATO DO GOOGLE GEMINI
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key={GEMINI_API_KEY}"
+ url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent"
     
     headers_gemini = {
         "Content-Type": "application/json",
