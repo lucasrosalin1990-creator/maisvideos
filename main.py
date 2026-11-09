@@ -11,7 +11,7 @@ from pathlib import Path
 
 import requests
 from fastapi import FastAPI, UploadFile, File, Form, BackgroundTasks, HTTPException
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 
@@ -31,21 +31,93 @@ BASE_DIR = Path(__file__).resolve().parent
 TEMP_DIR = BASE_DIR / "temp_processing"
 TEMP_DIR.mkdir(exist_ok=True)
 
-# SUA NOVA CHAVE ATIVA DA GROQ
-GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
+# LÊ A CHAVE DO GOOGLE GEMINI DAS VARIÁVEIS DO RENDER
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 
-# GERENCIADOR DE TAREFAS NA NUVEM
 TAREFAS: Dict[str, Dict[str, Any]] = {}
 
-def fallback_roteiro(produto: str) -> dict:
-    return {
-        "gancho": f"Pare de jogar dinheiro fora! Ninguém te conta a verdade sobre o {produto}...",
-        "corpo": f"Mostre o produto resolvendo a principal dor em menos de 10 segundos na prática.",
-        "cta": f"Clique no carrinho do TikTok Shop abaixo antes que acabe a promoção com frete grátis."
+# RESOLVE LINKS ENCURTADOS (VT.TIKTOK.COM) E EXTRAI O NOME DO PRODUTO
+def resolver_nome_produto(input_texto: str) -> str:
+    texto = input_texto.strip()
+    urls = re.findall(r'(https?://[^\s]+)', texto)
+    if not urls:
+        return texto
+
+    url = urls[0]
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+        "Accept-Language": "pt-BR,pt;q=0.9",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+    }
+    try:
+        resp = requests.get(url, headers=headers, timeout=6, allow_redirects=True)
+        html = resp.text
+        
+        og_title = re.search(r'<meta property="og:title" content="([^"]+)"', html, re.IGNORECASE)
+        if og_title:
+            titulo = og_title.group(1).strip()
+            titulo = re.sub(r'\s*\|\s*TikTok.*', '', titulo, flags=re.IGNORECASE)
+            titulo = re.sub(r'\s*no TikTok.*', '', titulo, flags=re.IGNORECASE)
+            if len(titulo) > 3:
+                return titulo[:65]
+
+        title_tag = re.search(r'<title>([^<]+)</title>', html, re.IGNORECASE)
+        if title_tag:
+            titulo = title_tag.group(1).strip()
+            titulo = re.sub(r'\s*\|\s*TikTok.*', '', titulo, flags=re.IGNORECASE)
+            if len(titulo) > 3:
+                return titulo[:65]
+    except Exception as e:
+        print(f"Erro ao resolver URL do TikTok: {e}")
+
+    return texto
+
+# COMUNICAÇÃO REAL COM A API DO GOOGLE GEMINI (SEM FRASES PRONTAS)
+def chamar_gemini_api(produto_nome: str, estilo: str = "") -> dict:
+    if not GEMINI_API_KEY:
+        raise HTTPException(
+            status_code=500,
+            detail="A variável GEMINI_API_KEY não foi configurada nas Environment Variables do Render."
+        )
+
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
+    headers = {"Content-Type": "application/json"}
+
+    instrucao_tom = f"Estilo/Tom solicitado: '{estilo}'." if estilo else "Crie um roteiro de alta conversão, agressivo e persuasivo."
+
+    prompt = f"""Você é um copywriter profissional de elite para TikTok Shop Brasil.
+Crie um roteiro viral e irresistível em 3 partes para o produto: '{produto_nome}'.
+{instrucao_tom}
+
+Estrutura obrigatória:
+1. Gancho (0 a 3s): Quebra de padrão impactante, dor extrema ou curiosidade irresistível.
+2. Corpo (3 a 25s): Demonstração visual rápida da solução quebrando a principal objeção de compra.
+3. CTA (Final): Chamada urgente para clicar na sacola/carrinho do TikTok Shop.
+
+Responda EXCLUSIVAMENTE em formato JSON puro, sem markdown, sem crases, sem texto antes ou depois:
+{{"gancho": "...", "corpo": "...", "cta": "..."}}"""
+
+    payload = {
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": {
+            "temperature": 0.85,
+            "responseMimeType": "application/json"
+        }
     }
 
+    resp = requests.post(url, headers=headers, json=payload, timeout=12)
+    if resp.status_code != 200:
+        raise HTTPException(status_code=resp.status_code, detail=f"Erro da API do Gemini: {resp.text}")
+
+    dados = resp.json()
+    try:
+        texto_json = dados["candidates"][0]["content"]["parts"][0]["text"]
+        return json.loads(texto_json)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Falha ao interpretar JSON do Gemini: {str(e)}")
+
 # ============================================================================
-# PROCESSAMENTO 1: REMOVEDOR DE PAUSAS COM FFmpeg
+# PROCESSAMENTO FFmpeg 1: REMOVEDOR DE PAUSAS
 # ============================================================================
 def task_remover_pausas(task_id: str, caminhos_videos: List[Path], prefixo: str, sensibilidade: str):
     task_dir = TEMP_DIR / task_id
@@ -69,7 +141,6 @@ def task_remover_pausas(task_id: str, caminhos_videos: List[Path], prefixo: str,
         for idx, video_in in enumerate(caminhos_videos):
             video_out = out_dir / f"{prefixo}_{idx+1:02d}.mp4"
 
-            # 1. Detecta trechos de silêncio com silencedetect
             cmd_detect = [
                 "ffmpeg", "-y", "-i", str(video_in),
                 "-af", f"silencedetect=noise={db_limiar}:d=0.3",
@@ -81,7 +152,6 @@ def task_remover_pausas(task_id: str, caminhos_videos: List[Path], prefixo: str,
             starts = [float(x) for x in re.findall(r"silence_start: (\d+\.?\d*)", stderr)]
             ends = [float(x) for x in re.findall(r"silence_end: (\d+\.?\d*)", stderr)]
 
-            # 2. Duração total do vídeo
             cmd_dur = [
                 "ffprobe", "-v", "error", "-show_entries", "format=duration",
                 "-of", "default=noprint_wrappers=1:nokey=1", str(video_in)
@@ -89,7 +159,6 @@ def task_remover_pausas(task_id: str, caminhos_videos: List[Path], prefixo: str,
             res_dur = subprocess.run(cmd_dur, stdout=subprocess.PIPE, text=True)
             duracao = float(res_dur.stdout.strip() or 18.0)
 
-            # 3. Calcula trechos de fala contínua
             segmentos = []
             ultimo = 0.0
             for s, e in zip(starts, ends):
@@ -120,9 +189,8 @@ def task_remover_pausas(task_id: str, caminhos_videos: List[Path], prefixo: str,
 
             prog = 15 + int(((idx + 1) / total) * 75)
             TAREFAS[task_id]["progresso"] = prog
-            TAREFAS[task_id]["mensagem"] = f"Removendo pausas do vídeo {idx+1} de {total}..."
+            TAREFAS[task_id]["mensagem"] = f"Cortando pausas do vídeo {idx+1} de {total}..."
 
-        # Compacta em ZIP
         zip_path = task_dir / f"{prefixo}_Videos_Limpos.zip"
         with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
             for v in videos_processados:
@@ -132,7 +200,7 @@ def task_remover_pausas(task_id: str, caminhos_videos: List[Path], prefixo: str,
 
         TAREFAS[task_id]["status"] = "concluido"
         TAREFAS[task_id]["progresso"] = 100
-        TAREFAS[task_id]["mensagem"] = f"Sucesso! {total} vídeos limpos e empacotados."
+        TAREFAS[task_id]["mensagem"] = f"Sucesso! {total} vídeos limpos na nuvem."
         TAREFAS[task_id]["download_url"] = f"/api/download/{task_id}"
 
     except Exception as e:
@@ -140,7 +208,7 @@ def task_remover_pausas(task_id: str, caminhos_videos: List[Path], prefixo: str,
         TAREFAS[task_id]["mensagem"] = f"Falha no processamento: {str(e)}"
 
 # ============================================================================
-# PROCESSAMENTO 2: MULTIPLICADOR 9:16 COM EMBARALHAMENTO ULTRAVELOZ
+# PROCESSAMENTO FFmpeg 2: MULTIPLICADOR 9:16 COM EMBARALHAMENTO
 # ============================================================================
 def task_multiplicar_videos(task_id: str, ganchos: List[Path], corpos: List[Path], ctas: List[Path], prefixo: str):
     task_dir = TEMP_DIR / task_id
@@ -178,12 +246,10 @@ def task_multiplicar_videos(task_id: str, ganchos: List[Path], corpos: List[Path
                 for t in norm_t:
                     combinacoes.append((g, c, t))
 
-        # Embaralhamento Fisher-Yates
         random.shuffle(combinacoes)
         total_vids = len(combinacoes)
         finais = []
 
-        # Concatenação ultraveloz sem re-encodar (Stream Copy)
         for idx, (g, c, t) in enumerate(combinacoes):
             nome_arq = f"{prefixo}_{idx+1:02d}.mp4"
             criativo_path = out_dir / nome_arq
@@ -234,44 +300,19 @@ def index():
 
 @app.post("/api/roteiro")
 async def rota_roteiro(payload: Dict[str, Any]):
-    produto = payload.get("produto", "").strip()
-    if not produto:
-        raise HTTPException(status_code=400, detail="Nome do produto obrigatório")
+    raw_input = payload.get("produto", "").strip()
+    estilo = payload.get("estilo", "").strip()
+    if not raw_input:
+        raise HTTPException(status_code=400, detail="Nome ou link do produto é obrigatório")
 
-    url_groq = "https://api.groq.com/openai/v1/chat/completions"
-    headers_groq = {
-        "Authorization": f"Bearer {GROQ_API_KEY}",
-        "Content-Type": "application/json"
+    produto_nome = resolver_nome_produto(raw_input)
+    roteiro = chamar_gemini_api(produto_nome, estilo)
+    return {
+        "produto_resolvido": produto_nome,
+        "gancho": roteiro.get("gancho", ""),
+        "corpo": roteiro.get("corpo", ""),
+        "cta": roteiro.get("cta", "")
     }
-
-    prompt_sistema = """Você é um copywriter de elite especializado em TikTok Shop Brasil.
-Crie um roteiro em 3 partes curtas:
-1. Gancho (0 a 3s): Quebra de padrão impactante ou curiosidade extrema.
-2. Corpo (3 a 25s): Demonstração visual rápida da solução quebrando a principal objeção.
-3. CTA (Final): Chamada com urgência para a sacola do TikTok Shop.
-
-Responda EXCLUSIVAMENTE em formato JSON:
-{"gancho": "...", "corpo": "...", "cta": "..."}"""
-
-    body_groq = {
-        "model": "llama-3.3-70b-versatile",
-        "messages": [
-            {"role": "system", "content": prompt_sistema},
-            {"role": "user", "content": f"Produto: '{produto}' (Crie uma variação inovadora e agressiva de venda)"}
-        ],
-        "response_format": {"type": "json_object"},
-        "temperature": 0.85
-    }
-
-    try:
-        resp = requests.post(url_groq, headers=headers_groq, json=body_groq, timeout=8)
-        if resp.status_code == 200:
-            dados = resp.json()
-            conteudo = dados["choices"][0]["message"]["content"]
-            return json.loads(conteudo)
-        return fallback_roteiro(produto)
-    except Exception:
-        return fallback_roteiro(produto)
 
 @app.post("/api/remover-pausas")
 async def rota_remover_pausas(
