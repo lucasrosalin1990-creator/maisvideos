@@ -80,7 +80,7 @@ def chamar_gemini_api(produto_nome: str, estilo: str = "") -> dict:
             detail="A variável GEMINI_API_KEY não foi configurada nas Environment Variables do Render."
         )
 
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={GEMINI_API_KEY}"
     headers = {"Content-Type": "application/json"}
 
     instrucao_tom = f"Estilo/Tom solicitado: '{estilo}'." if estilo else "Crie um roteiro de alta conversão, agressivo e persuasivo."
