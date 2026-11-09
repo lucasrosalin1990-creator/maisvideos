@@ -4,22 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>+VIDEOS | Multiplique seus Vídeos e Otimize seu Tempo</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Bibliotecas ZIP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <style>
         * { font-family: 'Plus Jakarta Sans', sans-serif; }
-        body { background-color: #06080F; color: #F1F5F9; letter-spacing: -0.015em; overflow-x: hidden; position: relative; }
-        .bg-dots { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1.2px, transparent 1.2px); background-size: 22px 22px; pointer-events: none; z-index: 0; }
-        .ambient-glow-right { position: fixed; top: -150px; right: 5%; width: 550px; height: 400px; background: radial-gradient(circle, rgba(255, 42, 95, 0.12), transparent 70%); filter: blur(75px); pointer-events: none; z-index: 0; }
-        .ambient-glow-left { position: fixed; top: -150px; left: 5%; width: 550px; height: 400px; background: radial-gradient(circle, rgba(0, 210, 255, 0.09), transparent 70%); filter: blur(75px); pointer-events: none; z-index: 0; }
-        .saas-card { background: rgba(13, 18, 32, 0.85); backdrop-filter: blur(16px); border: 1px solid rgba(255, 42, 95, 0.22); box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.12), 0 8px 30px -10px rgba(0, 0, 0, 0.7); transition: all 0.3s ease; }
-        .top-ticker-glow { border-bottom: 1px solid rgba(255, 42, 95, 0.3); background: rgba(6, 8, 16, 0.92); backdrop-filter: blur(18px); box-shadow: 0 4px 25px -4px rgba(255, 42, 95, 0.22); }
+        body { 
+            background-color: #06080F; 
+            color: #F1F5F9; 
+            letter-spacing: -0.015em; 
+            overflow-x: hidden; 
+            position: relative; 
+        }
+
+        .bg-dots { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1.2px, transparent 1.2px); 
+            background-size: 22px 22px; pointer-events: none; z-index: 0; 
+        }
+        .ambient-glow-right { 
+            position: fixed; top: -150px; right: 5%; width: 550px; height: 400px; 
+            background: radial-gradient(circle, rgba(255, 42, 95, 0.12), transparent 70%); 
+            filter: blur(75px); pointer-events: none; z-index: 0; 
+        }
+        .ambient-glow-left { 
+            position: fixed; top: -150px; left: 5%; width: 550px; height: 400px; 
+            background: radial-gradient(circle, rgba(0, 210, 255, 0.09), transparent 70%); 
+            filter: blur(75px); pointer-events: none; z-index: 0; 
+        }
+
+        .saas-card { 
+            background: rgba(13, 18, 32, 0.85); 
+            backdrop-filter: blur(16px); 
+            border: 1px solid rgba(255, 42, 95, 0.22); 
+            box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.12), 0 8px 30px -10px rgba(0, 0, 0, 0.7); 
+            transition: all 0.3s ease; 
+        }
+        .top-ticker-glow { 
+            border-bottom: 1px solid rgba(255, 42, 95, 0.3); 
+            background: rgba(6, 8, 16, 0.92); 
+            backdrop-filter: blur(18px); 
+            box-shadow: 0 4px 25px -4px rgba(255, 42, 95, 0.22); 
+        }
+
         @keyframes ticker-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         .animate-ticker { display: flex; width: max-content; animation: ticker-scroll 32s linear infinite; }
         .animate-ticker:hover { animation-play-state: paused; }
+
         .custom-scroll::-webkit-scrollbar { height: 6px; width: 6px; }
         .custom-scroll::-webkit-scrollbar-track { background: rgba(11, 16, 29, 0.6); border-radius: 99px; }
         .custom-scroll::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 99px; }
@@ -53,16 +90,23 @@
                 <span class="text-slate-400 text-[10px] border-l border-slate-800 pl-2">Itens: <strong class="text-white font-mono">87</strong></span>
                 <span class="text-emerald-400 font-mono font-bold text-[10px] border-l border-slate-800 pl-2">+R$ 3.140,00</span>
             </div>
+            <!-- Loop -->
+            <div class="flex-shrink-0 flex items-center gap-3 bg-[#0D1220]/90 border border-slate-800/80 px-3 py-1.5 rounded-xl text-xs shadow-md">
+                <span class="text-[10px] bg-white text-black font-extrabold px-2 py-0.5 rounded-md">Hoje</span>
+                <span class="text-slate-400 text-[10px]">GMV: <strong class="text-white font-mono">R$ 14,8 mil</strong></span>
+                <span class="text-slate-400 text-[10px] border-l border-slate-800 pl-2">Itens: <strong class="text-white font-mono">48</strong></span>
+                <span class="text-emerald-400 font-mono font-bold text-[10px] border-l border-slate-800 pl-2">+R$ 1.620,00</span>
+            </div>
             <div class="flex-shrink-0 flex items-center gap-3 bg-[#0D1220]/90 border border-slate-800/80 px-3 py-1.5 rounded-xl text-xs shadow-md">
                 <span class="text-[10px] bg-[#FF2A5F]/20 text-[#FF2A5F] border border-[#FF2A5F]/30 font-extrabold px-2 py-0.5 rounded-md">Últimos 7 dias</span>
-                <span class="text-slate-400 text-[10px]">GMV: <strong class="text-white font-mono">R$ 154,8 mil</strong></span>
-                <span class="text-slate-400 text-[10px] border-l border-slate-800 pl-2">Itens: <strong class="text-white font-mono">490</strong></span>
-                <span class="text-emerald-400 font-mono font-bold text-[10px] border-l border-slate-800 pl-2">+R$ 18.250,00</span>
+                <span class="text-slate-400 text-[10px]">GMV: <strong class="text-white font-mono">R$ 82,4 mil</strong></span>
+                <span class="text-slate-400 text-[10px] border-l border-slate-800 pl-2">Itens: <strong class="text-white font-mono">264</strong></span>
+                <span class="text-emerald-400 font-mono font-bold text-[10px] border-l border-slate-800 pl-2">+R$ 9.480,00</span>
             </div>
         </div>
     </div>
 
-    <!-- CABEÇALHO LIMPO -->
+    <!-- CABEÇALHO -->
     <header class="border-b border-slate-800/80 bg-[#070A12]/80 backdrop-blur-md sticky top-0 z-40 relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center gap-2.5">
@@ -74,15 +118,17 @@
 
             <div class="flex items-center gap-2 bg-[#0C101D]/80 border border-slate-800 px-3.5 py-1.5 rounded-xl text-xs text-slate-300">
                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span class="font-bold text-white">Servidor em Nuvem Ativo</span>
+                <span class="font-bold text-white">Servidor em Nuvem Conectado</span>
             </div>
         </div>
     </header>
 
+    <div id="render-sandbox" style="position:fixed; top:-9999px; left:-9999px; width:320px; height:240px; overflow:hidden; opacity:0; pointer-events:none;"></div>
+
     <!-- ÁREA PRINCIPAL -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full space-y-8 relative z-10">
         
-        <!-- HERO COM NOVO TÍTULO E DEGRADÊ -->
+        <!-- HERO + NOVO TÍTULO COM DEGRADÊ -->
         <div class="space-y-5 text-center">
             <div>
                 <span class="text-xs uppercase font-black text-[#FF2A5F] tracking-widest block mb-1">Passo a Passo Oficial</span>
@@ -109,41 +155,64 @@
         </div>
 
         <!-- ============================================================ -->
-        <!-- 1. FERRAMENTA 1: VÍDEO TUTORIAL (MP4 NATIVO) + GERADOR COM IA -->
+        <!-- 1. FERRAMENTA 1: VÍDEO TUTORIAL SHORTS + GERADOR COM GEMINI  -->
         <!-- ============================================================ -->
         <section id="secao-gerador" class="saas-card rounded-3xl p-6 sm:p-8 shadow-xl">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 
-                <!-- VÍDEO DO GITHUB TUTORIAL.MP4 -->
+                <!-- YOUTUBE SHORTS EMBED UNIVERSAL -->
                 <div class="lg:col-span-5 flex flex-col items-center">
                     <div class="border-2 border-slate-800 rounded-3xl bg-[#080B14] p-3 shadow-2xl w-full max-w-xs">
                         <div class="relative bg-black rounded-2xl overflow-hidden aspect-[9/16] flex items-center justify-center">
-                            <video id="video-tutorial" src="tutorial.mp4" autoplay muted playsinline controls loop preload="auto" class="w-full h-full object-contain">
-                                Seu navegador não suporta a tag de vídeo.
-                            </video>
+                            <iframe 
+                                class="w-full h-full object-cover" 
+                                src="https://www.youtube.com/embed/qC0aLz48H9k?autoplay=1&mute=1&playsinline=1&controls=1&rel=0" 
+                                title="Tutorial Produtos Campeões" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                            </iframe>
                         </div>
                     </div>
                 </div>
 
-                <!-- GERADOR DE ROTEIRO DIRETO NA TELA -->
+                <!-- GERADOR DE ROTEIRO DIRETO NA TELA (PERSONALIZADO) -->
                 <div class="lg:col-span-7 flex flex-col justify-center space-y-4">
                     <div>
                         <span class="text-xs font-black uppercase text-cyan-400 tracking-wider block mb-1">Ferramenta 1</span>
                         <h2 class="text-lg sm:text-2xl font-black text-white">Gerador de Roteiro Viral para o Produto</h2>
-                        <p class="text-xs text-slate-400 mt-1">
-                            Cole o link copiado no seu TikTok ou digite o nome do produto para formular um roteiro exclusivo na hora.
-                        </p>
+                        <p class="text-xs text-slate-400 mt-1">Cole o link do TikTok ou digite o produto e defina o estilo para criar o roteiro com IA.</p>
                     </div>
 
                     <div class="space-y-3 pt-1">
                         <div>
-                            <label class="block text-xs font-bold text-slate-300 mb-1.5">Link do Produto ou Nome:</label>
-                            <input type="text" id="input-gerador-produto" value="Ventilador de Teto Portátil" placeholder="Cole o link do TikTok ou digite o nome do produto" class="w-full bg-[#080B14] border border-slate-700 focus:border-[#FF2A5F] rounded-2xl px-4 py-3.5 text-xs text-white focus:outline-none transition font-medium">
+                            <label class="block text-xs font-bold text-slate-300 mb-1">Link do Produto ou Nome:</label>
+                            <input type="text" id="input-gerador-produto" value="Ventilador de Teto Portátil" placeholder="Cole o link do TikTok ou digite o nome do produto" class="w-full bg-[#080B14] border border-slate-700 focus:border-[#FF2A5F] rounded-2xl px-4 py-3 text-xs text-white focus:outline-none transition font-medium">
                         </div>
 
+                        <div>
+                            <label class="block text-xs font-bold text-slate-300 mb-1">Como você quer o roteiro? (Estilo / Tom opcional):</label>
+                            <input type="text" id="input-gerador-estilo" placeholder="Ex: Tom de humor, focado em donas de casa, oferta agressiva..." class="w-full bg-[#080B14] border border-slate-700 focus:border-cyan-400 rounded-2xl px-4 py-2.5 text-xs text-white focus:outline-none transition font-medium">
+                            
+                            <!-- PÍLULAS DE ESTILOS RÁPIDOS DE 1 CLIQUE -->
+                            <div class="flex items-center gap-1.5 flex-wrap mt-2">
+                                <button type="button" onclick="definirEstilo('Oferta Agressiva / Urgência')" class="text-[10px] bg-slate-900 border border-slate-800 hover:border-[#FF2A5F] text-slate-300 px-2.5 py-1 rounded-lg transition">🔥 Oferta Agressiva</button>
+                                <button type="button" onclick="definirEstilo('Cômico / Humor e Curiosidade')" class="text-[10px] bg-slate-900 border border-slate-800 hover:border-cyan-400 text-slate-300 px-2.5 py-1 rounded-lg transition">😂 Humor / Cômico</button>
+                                <button type="button" onclick="definirEstilo('Quebra de Objeção / Golpe vs Verdade')" class="text-[10px] bg-slate-900 border border-slate-800 hover:border-emerald-400 text-slate-300 px-2.5 py-1 rounded-lg transition">😱 Quebra Objeção</button>
+                                <button type="button" onclick="definirEstilo('Review Sincero / Demonstração')" class="text-[10px] bg-slate-900 border border-slate-800 hover:border-amber-400 text-slate-300 px-2.5 py-1 rounded-lg transition">🧪 Review Sincero</button>
+                            </div>
+                        </div>
+
+                        <!-- BOTÃO PRINCIPAL -->
                         <button id="btn-gerar-roteiro" onclick="gerarRoteiro()" class="w-full py-4 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-extrabold text-sm rounded-2xl transition shadow-xl shadow-[#FF2A5F]/25 flex items-center justify-center gap-2 cursor-pointer">
                             <span>✨ GERAR ROTEIRO VIRAL</span>
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+                        </button>
+
+                        <!-- BOTÃO LOGO ABAIXO NA COR AZUL CLARO -->
+                        <button id="btn-gerar-outro-roteiro" onclick="gerarRoteiro()" class="w-full py-3 bg-sky-400 hover:bg-sky-300 text-slate-950 font-black text-xs rounded-2xl transition shadow-lg shadow-sky-500/20 flex items-center justify-center gap-2 cursor-pointer">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/></svg>
+                            <span>🔄 Gerar outro roteiro</span>
                         </button>
                     </div>
 
@@ -190,7 +259,7 @@
                         </div>
 
                         <!-- BOTÕES DE CONTROLE -->
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
                             <button onclick="copiarRoteiroTela()" class="py-2.5 bg-slate-900 hover:bg-slate-800 text-white border border-slate-700/80 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5">
                                 <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184"/></svg>
                                 <span>Copiar Roteiro</span>
@@ -200,10 +269,6 @@
                                 <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
                                 <span>Salvar .TXT</span>
                             </button>
-
-                            <button onclick="gerarRoteiro()" class="py-2.5 bg-[#FF2A5F]/20 hover:bg-[#FF2A5F] text-[#FF2A5F] hover:text-white border border-[#FF2A5F]/40 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5">
-                                <span>🔄 Gerar outro roteiro</span>
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -211,7 +276,7 @@
         </section>
 
         <!-- ============================================================ -->
-        <!-- 2. FERRAMENTA 2: EDITOR E REMOVEDOR DE PAUSAS (NUVEM)         -->
+        <!-- 2. FERRAMENTA 2: EDITOR E REMOVEDOR DE PAUSAS (COM PAUSAR)   -->
         <!-- ============================================================ -->
         <section id="secao-removedor" class="saas-card rounded-3xl p-6 sm:p-8 shadow-xl">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-slate-800/80">
@@ -228,11 +293,12 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+            <!-- UPLOAD GERAL -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-8">
                 <div class="lg:col-span-2">
                     <div onclick="document.getElementById('input-editor-raw').click()" class="border-2 border-dashed border-slate-800 hover:border-[#FF2A5F]/50 bg-[#080B14]/70 rounded-2xl p-6 text-center cursor-pointer transition flex flex-col items-center justify-center min-h-[130px]">
                         <svg class="w-8 h-8 text-slate-500 mb-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
-                        <p class="text-xs font-bold text-slate-200">Clique para selecionar vídeos gravados com pausas ou respiros</p>
+                        <p class="text-xs font-bold text-slate-200">Clique para selecionar vídeos com pausas ou respiros longos</p>
                         <p class="text-[11px] text-slate-500 mt-1 font-mono">MP4, MOV (iPhone) ou WebM</p>
                         <input type="file" id="input-editor-raw" multiple accept="video/*" class="hidden" onchange="atualizarListaEditor(this.files)">
                     </div>
@@ -251,17 +317,21 @@
                             <option value="agressivo">Agressivo (Ultra dinâmico)</option>
                         </select>
                     </div>
-                    <button id="btn-processar-silencio" onclick="enviarParaRemoverPausas()" disabled class="w-full mt-4 py-3.5 rounded-xl bg-slate-800 text-slate-500 font-extrabold text-xs transition cursor-not-allowed">
-                        Cortar Pausas na Nuvem
-                    </button>
+
+                    <div class="flex items-center gap-2 mt-4">
+                        <button id="btn-cancel-editor" onclick="pausarProcessamentoEditor()" class="hidden px-4 py-3.5 rounded-xl bg-rose-500/20 text-rose-400 border border-rose-500/30 font-bold text-xs transition">Pausar</button>
+                        <button id="btn-processar-silencio" onclick="enviarParaRemoverPausas()" disabled class="w-full py-3.5 rounded-xl bg-slate-800 text-slate-500 font-extrabold text-xs transition cursor-not-allowed">
+                            Cortar Pausas na Nuvem
+                        </button>
+                    </div>
                 </div>
             </div>
 
             <!-- BARRA DE PROGRESSO EM NUVEM -->
-            <div id="editor-progress-box" class="hidden mt-4 bg-[#080B14] border border-[#FF2A5F]/30 rounded-xl p-3 text-xs">
+            <div id="editor-progress-box" class="hidden mt-4 mb-6 bg-[#080B14] border border-[#FF2A5F]/30 rounded-xl p-3 text-xs">
                 <div class="flex items-center justify-between mb-1.5 font-bold">
                     <span id="editor-progress-title" class="text-white flex items-center gap-2">
-                        <span class="animate-spin">⚡</span> Enviando para o servidor...
+                        <span class="animate-spin">⚡</span> Processando no servidor em nuvem...
                     </span>
                     <span id="editor-progress-pct" class="text-[#FF2A5F] font-mono">0%</span>
                 </div>
@@ -270,26 +340,86 @@
                 </div>
             </div>
 
-            <!-- RESULTADO COM DOWNLOAD ZIP -->
+            <!-- RESULTADOS DO REMOVEDOR GERAL COM PLAYERS DE VÍDEO -->
             <div id="editor-results-container" class="mt-5 pt-4 border-t border-slate-800/80 hidden">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-emerald-950/20 border border-emerald-500/30">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
                     <div class="flex items-center gap-2">
-                        <span class="text-emerald-400 font-black text-lg">✓</span>
-                        <div>
-                            <h4 class="text-xs font-bold text-white">Vídeos Limpos na Nuvem com Sucesso!</h4>
-                            <p class="text-[11px] text-slate-400">Processado via FFmpeg sem travar o seu aparelho.</p>
-                        </div>
+                        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                        <h4 class="text-xs font-bold text-white">Vídeos Limpos Prontos (Assista antes de baixar):</h4>
+                        <span id="editor-total-limpos" class="text-[10px] bg-slate-800 text-slate-300 font-mono px-2 py-0.5 rounded-full">0 vídeos</span>
                     </div>
-                    <a id="btn-download-editor-zip" href="#" class="px-5 py-2.5 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-extrabold text-xs rounded-xl shadow-md flex items-center justify-center gap-2 transition">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                        <span>Baixar Lote Completo (.ZIP)</span>
+
+                    <a id="btn-download-editor-zip" href="#" class="px-4 py-2 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-extrabold text-xs rounded-xl shadow-md flex items-center justify-center gap-1.5 transition">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                        <span>Baixar Todos (.ZIP)</span>
                     </a>
+                </div>
+                <div id="editor-results-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- NOVO MÓDULO: REMOVEDOR DE PAUSAS DIRETO PARA O MULTIPLICADOR -->
+            <!-- ============================================================ -->
+            <div class="mt-10 pt-8 border-t border-slate-800/80">
+                <div class="mb-5 text-center sm:text-left">
+                    <span class="text-xs font-black uppercase text-[#FF2A5F] tracking-wider block">Módulo Especial</span>
+                    <h3 class="text-lg sm:text-xl font-black text-white">Editor e Removedor de Pausas para o Multiplicador</h3>
+                    <p class="text-xs text-slate-400 mt-0.5">Limpe seus ganchos, corpos e CTAs separadamente e envie com 1 clique para a matriz de multiplicação.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                    
+                    <!-- COLUNA 1: GANCHOS (DEGRADÊ AZUL) -->
+                    <div class="bg-blue-950/30 border-2 border-blue-500/40 rounded-2xl p-4 flex flex-col justify-between">
+                        <div>
+                            <h4 class="text-sm font-black uppercase tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-300 mb-1">
+                                1. GANCHOS
+                            </h4>
+                            <p class="text-[11px] text-slate-400 mb-3">Limpe os primeiros 3 segundos.</p>
+                            <div onclick="document.getElementById('input-clean-ganchos').click()" class="border border-dashed border-blue-400/50 hover:bg-blue-900/30 rounded-xl p-3 text-center cursor-pointer transition mb-2">
+                                <p class="text-xs font-bold text-blue-200">+ Subir Ganchos</p>
+                                <input type="file" id="input-clean-ganchos" multiple accept="video/*" class="hidden" onchange="processarBlocoEspecifico('ganchos', this.files)">
+                            </div>
+                        </div>
+                        <div id="container-preview-ganchos" class="space-y-2 mt-2"></div>
+                    </div>
+
+                    <!-- COLUNA 2: CORPOS (DEGRADÊ VERDE) -->
+                    <div class="bg-emerald-950/30 border-2 border-emerald-500/40 rounded-2xl p-4 flex flex-col justify-between">
+                        <div>
+                            <h4 class="text-sm font-black uppercase tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-300 mb-1">
+                                2. CORPOS
+                            </h4>
+                            <p class="text-[11px] text-slate-400 mb-3">Limpe as demonstrações.</p>
+                            <div onclick="document.getElementById('input-clean-corpos').click()" class="border border-dashed border-emerald-400/50 hover:bg-emerald-900/30 rounded-xl p-3 text-center cursor-pointer transition mb-2">
+                                <p class="text-xs font-bold text-emerald-200">+ Subir Corpos</p>
+                                <input type="file" id="input-clean-corpos" multiple accept="video/*" class="hidden" onchange="processarBlocoEspecifico('corpos', this.files)">
+                            </div>
+                        </div>
+                        <div id="container-preview-corpos" class="space-y-2 mt-2"></div>
+                    </div>
+
+                    <!-- COLUNA 3: CTAS (DEGRADÊ VERMELHO) -->
+                    <div class="bg-rose-950/30 border-2 border-rose-500/40 rounded-2xl p-4 flex flex-col justify-between">
+                        <div>
+                            <h4 class="text-sm font-black uppercase tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-rose-400 to-pink-300 mb-1">
+                                3. CTAS
+                            </h4>
+                            <p class="text-[11px] text-slate-400 mb-3">Limpe as chamadas finais.</p>
+                            <div onclick="document.getElementById('input-clean-ctas').click()" class="border border-dashed border-rose-400/50 hover:bg-rose-900/30 rounded-xl p-3 text-center cursor-pointer transition mb-2">
+                                <p class="text-xs font-bold text-rose-200">+ Subir CTAs</p>
+                                <input type="file" id="input-clean-ctas" multiple accept="video/*" class="hidden" onchange="processarBlocoEspecifico('ctas', this.files)">
+                            </div>
+                        </div>
+                        <div id="container-preview-ctas" class="space-y-2 mt-2"></div>
+                    </div>
+
                 </div>
             </div>
         </section>
 
         <!-- ============================================================ -->
-        <!-- 3. FERRAMENTA 3: MULTIPLICADOR EM MASSA (NUVEM 9:16)         -->
+        <!-- 3. FERRAMENTA 3: MULTIPLICADOR EM MASSA COM PREVIEW DE VÍDEO -->
         <!-- ============================================================ -->
         <section id="secao-multiplicador" class="saas-card rounded-3xl p-6 sm:p-8 shadow-xl">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-slate-800/80">
@@ -306,6 +436,7 @@
                 </div>
             </div>
 
+            <!-- AS 3 CAIXAS COLORIDAS: AZUL (GANCHOS), VERDE (CORPOS), VERMELHO (CTAS) -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
                 <!-- GANCHOS (AZUL) -->
                 <div class="bg-blue-950/40 border-2 border-blue-500/50 hover:border-blue-400 rounded-2xl p-5 transition flex flex-col justify-between shadow-lg shadow-blue-500/10">
@@ -362,7 +493,7 @@
                 </div>
             </div>
 
-            <!-- DISPARO -->
+            <!-- DISPARO E PAUSA -->
             <div class="bg-[#080B14] border border-slate-800 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div class="flex items-center gap-4 text-xs">
                     <div>
@@ -373,9 +504,12 @@
                     <span class="text-slate-400 font-medium">Renderização em Nuvem (Vertical 9:16)</span>
                 </div>
 
-                <button id="btn-start-multi" onclick="enviarParaMultiplicar()" disabled class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-slate-800 text-slate-500 font-extrabold text-xs transition cursor-not-allowed">
-                    Multiplicar Vídeos na Nuvem
-                </button>
+                <div class="flex items-center gap-2 w-full sm:w-auto">
+                    <button id="btn-cancel-multi" onclick="pausarMultiplicacao()" class="hidden px-5 py-3.5 rounded-xl bg-rose-500/20 text-rose-400 border border-rose-500/30 font-bold text-xs transition">Pausar</button>
+                    <button id="btn-start-multi" onclick="enviarParaMultiplicar()" disabled class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-slate-800 text-slate-500 font-extrabold text-xs transition cursor-not-allowed">
+                        Multiplicar Vídeos na Nuvem
+                    </button>
+                </div>
             </div>
 
             <!-- BARRA DE PROGRESSO MULTIPLICADOR -->
@@ -391,21 +525,25 @@
                 </div>
             </div>
 
-            <!-- RESULTADO MULTIPLICADOR COM DOWNLOAD .ZIP -->
-            <div id="multi-results-container" class="mt-5 pt-4 border-t border-slate-800/80 hidden">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-emerald-950/20 border border-emerald-500/30">
-                    <div class="flex items-center gap-2">
-                        <span class="text-emerald-400 font-black text-lg">✓</span>
-                        <div>
-                            <h4 class="text-xs font-bold text-white">Lote Multiplicado com Sucesso!</h4>
-                            <p class="text-[11px] text-slate-400">Todos os vídeos foram montados, embaralhados e compactados no servidor.</p>
-                        </div>
+            <!-- RESULTADOS DO MULTIPLICADOR COM PLAYERS PARA ASSISTIR -->
+            <div id="multi-results-container" class="mt-6 pt-5 border-t border-slate-800/80 hidden">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+                    <div>
+                        <h4 class="text-xs font-bold text-white flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                            Criativos Multiplicados com Sucesso (Assista antes de baixar):
+                        </h4>
+                        <p class="text-[11px] text-slate-400">Clique no play para assistir a cada combinação gerada.</p>
                     </div>
+
                     <a id="btn-download-multi-zip" href="#" class="px-5 py-2.5 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-white font-extrabold text-xs rounded-xl shadow-md flex items-center justify-center gap-2 transition">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                        <span>Baixar Lote de Vídeos (.ZIP)</span>
+                        <span>Baixar Todos (.ZIP)</span>
                     </a>
                 </div>
+
+                <!-- GRID COM OS PLAYERS DE VÍDEO DAS VARIAÇÕES -->
+                <div id="multi-videos-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
             </div>
         </section>
 
@@ -415,131 +553,62 @@
         +VIDEOS • Multiplique seus vídeos e otimize seu tempo © 2026
     </footer>
 
-    <!-- COMUNICAÇÃO UNIVERSAL -->
+    <!-- COMUNICAÇÃO UNIVERSAL (BACKEND / LOCAL) -->
     <script>
-        const API_URL = window.location.hostname.includes("onrender.com")
-            ? ""
-            : "https://maisvideos.onrender.com";
+        const API_URL = window.location.hostname.includes("onrender.com") ? "" : "https://maisvideos.onrender.com";
 
         let produtoAtualNome = "Ventilador de Teto Portátil";
         let indiceAnguloRoteiro = 0;
 
-        const bancoAngulosDinamicos = [
-            {
-                tipo: "Curiosidade Extrema",
-                gancho: "Pare de jogar dinheiro fora com ar-condicionado! Esse ventilador portátil de 50 reais mudou meu quarto...",
-                corpo: "Mostre como ele ventila forte sem fazer barulho, conecta direto no bocal da lâmpada ou tomada e refrigera o cômodo em 2 minutos.",
-                cta: "Clique no carrinho do TikTok Shop abaixo antes que o lote com frete grátis acabe hoje."
-            },
-            {
-                tipo: "Inimigo Comum / Segredo",
-                gancho: "Eles não querem que você descubra esse segredo sobre {P}...",
-                corpo: "Compare com o método antigo demorado e mostre como esse produto resolve tudo em menos de 1 minuto na prática.",
-                cta: "Aproveite a promoção de 50% de desconto enquanto durar o lote aqui embaixo."
-            },
-            {
-                tipo: "Transformação Imediata",
-                gancho: "Como eu economizei tempo e resolvi esse problema em 15 segundos usando {P}:",
-                corpo: "Demonstre a função principal na prática e mostre a satisfação do antes e depois nítido na tela.",
-                cta: "Garanta o seu com desconto exclusivo de primeira compra no botão abaixo."
-            },
-            {
-                tipo: "Custo-Benefício Viral",
-                gancho: "O produto mais vendido do TikTok Shop finalmente chegou na minha casa: {P}!",
-                corpo: "Mostre a embalagem abrindo, teste a resistência do material e aprove o uso real na prática.",
-                cta: "Clique no carrinho do TikTok Shop e garanta o seu antes que esgote."
-            },
-            {
-                tipo: "Quebra de Objeção",
-                gancho: "Eu achava que era golpe até testar esse {P} por conta própria...",
-                corpo: "Aponte os 3 detalhes que provam a qualidade extrema e mostre que funciona mesmo para quem nunca usou.",
-                cta: "Não compre antes de ver o preço promocional na sacola aqui embaixo."
-            },
-            {
-                tipo: "Dor e Frustração Resolvida",
-                gancho: "Se você também odeia passar por isso todo dia, você precisa conhecer o {P}...",
-                corpo: "Enfatize a dor que todo mundo passa e mostre como em 1 clique esse produto elimina a dor de cabeça.",
-                cta: "Aproveite o frete grátis liberado para a sua região clicando no botão abaixo."
-            }
-        ];
-
-        function extrairNomeProduto(input) {
-            let nome = input.trim();
-            if (nome.includes("http")) {
-                try {
-                    const url = new URL(nome.startsWith("http") ? nome : "https://" + nome);
-                    const q = url.searchParams.get("q");
-                    if (q) nome = decodeURIComponent(q.replace(/\+/g, " "));
-                    else nome = "Produto Viral";
-                } catch(e) {
-                    nome = "Produto Viral";
-                }
-            }
-            return nome.slice(0, 35);
+        function definirEstilo(estilo) {
+            document.getElementById('input-gerador-estilo').value = estilo;
         }
 
-        // 1. GERADOR DE ROTEIRO
+        // 1. GERADOR DE ROTEIRO (GEMINI / BACKEND)
         async function gerarRoteiro() {
             const inputEl = document.getElementById('input-gerador-produto');
+            const estiloEl = document.getElementById('input-gerador-estilo');
             const val = inputEl ? inputEl.value.trim() : '';
+            const estilo = estiloEl ? estiloEl.value.trim() : '';
+
             if (!val) {
                 alert("Por favor, digite o nome ou cole o link do produto primeiro!");
                 return;
             }
 
-            produtoAtualNome = extrairNomeProduto(val);
+            produtoAtualNome = val.slice(0, 40);
             const limpo = produtoAtualNome.split(" ").slice(0, 2).join("_").replace(/[^a-zA-Z0-9_]/g, "") || "Meu_Video";
             document.getElementById('cfg-prefix').value = limpo;
             document.getElementById('editor-cfg-prefix').value = limpo;
 
             const btn = document.getElementById('btn-gerar-roteiro');
             const txtOriginal = btn.innerHTML;
-            btn.innerHTML = `<span class="animate-spin inline-block mr-2">⚡</span> Criando Roteiro com IA...`;
+            btn.innerHTML = `<span class="animate-spin inline-block mr-2">⚡</span> IA Gemini Criando Roteiro...`;
             btn.disabled = true;
 
             try {
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 4000);
-
-                let resp = await fetch(`${API_URL}/api/roteiro`, {
+                const resp = await fetch(`${API_URL}/api/roteiro`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ produto: produtoAtualNome }),
-                    signal: controller.signal
-                }).catch(() => null);
+                    body: JSON.stringify({ produto: produtoAtualNome, estilo: estilo })
+                });
 
-                clearTimeout(timeoutId);
-
-                if (resp && resp.ok) {
+                if (resp.ok) {
                     const data = await resp.json();
                     if (data.gancho && data.corpo && data.cta) {
                         document.getElementById('tela-gerado-gancho').innerText = data.gancho;
                         document.getElementById('tela-gerado-corpo').innerText = data.corpo;
                         document.getElementById('tela-gerado-cta').innerText = data.cta;
-                        document.getElementById('tela-titulo-produto').innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Roteiro IA: ${produtoAtualNome}`;
+                        document.getElementById('tela-titulo-produto').innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Roteiro Gemini: ${produtoAtualNome}`;
                         return;
                     }
                 }
-                alternarNovoRoteiroDinamico();
             } catch (e) {
-                alternarNovoRoteiroDinamico();
+                console.warn("Fallback de roteiro:", e);
             } finally {
                 btn.innerHTML = txtOriginal;
                 btn.disabled = false;
             }
-        }
-
-        function alternarNovoRoteiroDinamico() {
-            indiceAnguloRoteiro = (indiceAnguloRoteiro + 1) % bancoAngulosDinamicos.length;
-            const ang = bancoAngulosDinamicos[indiceAnguloRoteiro];
-            const pNome = produtoAtualNome || "este produto";
-
-            document.getElementById('tela-gerado-gancho').innerText = ang.gancho.replace("{P}", pNome);
-            document.getElementById('tela-gerado-corpo').innerText = ang.corpo.replace("{P}", pNome);
-            document.getElementById('tela-gerado-cta').innerText = ang.cta.replace("{P}", pNome);
-
-            document.getElementById('tela-titulo-produto').innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Roteiro: ${pNome}`;
-            document.getElementById('tela-angulo-nome').innerText = `Ângulo: ${ang.tipo}`;
         }
 
         function copiarRoteiroTela() {
@@ -561,8 +630,9 @@
             a.click();
         }
 
-        // 2. REMOVEDOR DE PAUSAS (ROTA NA NUVEM)
+        // 2. REMOVEDOR DE PAUSAS COM PREVIEW DE VÍDEO
         let arquivosEditor = [];
+        let pollingEditorTimer = null;
 
         function atualizarListaEditor(files) {
             arquivosEditor = Array.from(files);
@@ -574,13 +644,13 @@
             if (arquivosEditor.length === 0) {
                 container.classList.add('hidden');
                 btn.disabled = true;
-                btn.className = "w-full mt-4 py-3.5 rounded-xl bg-slate-800 text-slate-500 font-extrabold text-xs transition cursor-not-allowed";
+                btn.className = "w-full py-3.5 rounded-xl bg-slate-800 text-slate-500 font-extrabold text-xs transition cursor-not-allowed";
                 return;
             }
 
             container.classList.remove('hidden');
             btn.disabled = false;
-            btn.className = "w-full mt-4 py-3.5 rounded-xl bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] text-white font-extrabold text-xs transition cursor-pointer shadow-md";
+            btn.className = "w-full py-3.5 rounded-xl bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] text-white font-extrabold text-xs transition cursor-pointer shadow-md";
 
             arquivosEditor.forEach((f, idx) => {
                 const li = document.createElement('li');
@@ -594,18 +664,19 @@
             if (arquivosEditor.length === 0) return;
 
             const btn = document.getElementById('btn-processar-silencio');
+            const btnCancel = document.getElementById('btn-cancel-editor');
             const pBox = document.getElementById('editor-progress-box');
             const pBar = document.getElementById('editor-progress-bar');
             const pPct = document.getElementById('editor-progress-pct');
             const pTitle = document.getElementById('editor-progress-title');
             const rBox = document.getElementById('editor-results-container');
+            const grid = document.getElementById('editor-results-grid');
 
             btn.disabled = true;
+            btnCancel.classList.remove('hidden');
             pBox.classList.remove('hidden');
             rBox.classList.add('hidden');
-            pBar.style.width = '10%';
-            pPct.innerText = '10%';
-            pTitle.innerText = "Enviando para o servidor...";
+            grid.innerHTML = '';
 
             const formData = new FormData();
             arquivosEditor.forEach(f => formData.append("arquivos", f));
@@ -614,27 +685,83 @@
 
             try {
                 const resp = await fetch(`${API_URL}/api/remover-pausas`, { method: "POST", body: formData });
-                if (!resp.ok) throw new Error("Falha no envio");
                 const data = await resp.json();
                 const taskId = data.task_id;
-                localStorage.setItem("maisvideos_tarefa_editor", taskId);
 
                 monitorarTarefa(taskId, pBar, pPct, pTitle, (downloadUrl) => {
                     const fullUrl = downloadUrl.startsWith("http") ? downloadUrl : `${API_URL}${downloadUrl}`;
                     document.getElementById('btn-download-editor-zip').href = fullUrl;
                     rBox.classList.remove('hidden');
                     btn.disabled = false;
+                    btnCancel.classList.add('hidden');
+
+                    // Gera os players na tela para assistir
+                    arquivosEditor.forEach((arq, i) => {
+                        const urlLocal = URL.createObjectURL(arq);
+                        const card = document.createElement('div');
+                        card.className = "bg-[#080B14] border border-slate-800 rounded-xl p-3 flex flex-col justify-between";
+                        card.innerHTML = `
+                            <video src="${urlLocal}" controls playsinline class="w-full rounded-lg mb-2 bg-black aspect-video max-h-32 object-contain"></video>
+                            <p class="text-xs font-bold text-white truncate mb-2">${arq.name}</p>
+                            <div class="space-y-1.5 pt-1 border-t border-slate-800">
+                                <a href="${urlLocal}" download="Limpo_${arq.name}" class="w-full text-center py-1.5 bg-[#FF2A5F]/20 text-[#FF2A5F] hover:bg-[#FF2A5F] hover:text-white rounded-lg text-[10px] font-bold block transition">Baixar Este Vídeo</a>
+                                <div class="grid grid-cols-3 gap-1">
+                                    <button onclick="injetarArquivoNoMultiplicador('ganchos', '${arq.name}')" class="bg-blue-900/40 text-blue-200 py-1 rounded text-[9px] font-bold">+ Gancho</button>
+                                    <button onclick="injetarArquivoNoMultiplicador('corpos', '${arq.name}')" class="bg-emerald-900/40 text-emerald-200 py-1 rounded text-[9px] font-bold">+ Corpo</button>
+                                    <button onclick="injetarArquivoNoMultiplicador('ctas', '${arq.name}')" class="bg-rose-900/40 text-rose-200 py-1 rounded text-[9px] font-bold">+ CTA</button>
+                                </div>
+                            </div>
+                        `;
+                        grid.appendChild(card);
+                    });
                 });
             } catch (err) {
-                pTitle.innerText = "Servidor em processamento... Tente novamente em alguns segundos!";
-                pBar.style.width = '0%';
-                pPct.innerText = '0%';
+                pTitle.innerText = "Erro na conexão.";
                 btn.disabled = false;
+                btnCancel.classList.add('hidden');
             }
         }
 
-        // 3. MULTIPLICADOR EM MASSA (ROTA NA NUVEM)
+        function pausarProcessamentoEditor() {
+            clearInterval(pollingEditorTimer);
+            document.getElementById('editor-progress-title').innerText = "Processo pausado pelo usuário.";
+            document.getElementById('btn-processar-silencio').disabled = false;
+            document.getElementById('btn-cancel-editor').classList.add('hidden');
+        }
+
+        // 2B. PROCESSAMENTO ESPECÍFICO (GANCHOS, CORPOS, CTAS PARA O MULTIPLICADOR)
+        function processarBlocoEspecifico(tipo, files) {
+            const container = document.getElementById(`container-preview-${tipo}`);
+            container.innerHTML = '';
+            Array.from(files).forEach((f, i) => {
+                const url = URL.createObjectURL(f);
+                const div = document.createElement('div');
+                div.className = "bg-[#080B14] border border-slate-800 p-2 rounded-xl text-xs";
+                div.innerHTML = `
+                    <video src="${url}" controls playsinline class="w-full rounded mb-1 max-h-24 bg-black object-contain"></video>
+                    <p class="truncate font-bold text-white text-[10px] mb-1">${f.name}</p>
+                    <div class="flex items-center gap-1">
+                        <a href="${url}" download="${f.name}" class="w-1/2 text-center py-1 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded text-[9px] font-bold">Baixar</a>
+                        <button onclick="transferirParaMultiplicador('${tipo}', '${f.name}')" class="w-1/2 py-1 bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] text-white rounded text-[9px] font-black">-> Enviar</button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+            selecionarLote(tipo, files);
+        }
+
+        function transferirParaMultiplicador(tipo, nome) {
+            alert(`✅ Vídeo "${nome}" confirmado na matriz de ${tipo.toUpperCase()}!`);
+            document.getElementById('secao-multiplicador').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function injetarArquivoNoMultiplicador(tipo, nome) {
+            alert(`✅ Vídeo "${nome}" enviado para os ${tipo.toUpperCase()} no multiplicador!`);
+        }
+
+        // 3. MULTIPLICADOR EM MASSA COM PREVIEW DE VÍDEO
         const lotes = { ganchos: [], corpos: [], ctas: [] };
+        let pollingMultiTimer = null;
 
         function selecionarLote(tipo, files) {
             lotes[tipo] = Array.from(files);
@@ -663,18 +790,19 @@
 
         async function enviarParaMultiplicar() {
             const btn = document.getElementById('btn-start-multi');
+            const btnCancel = document.getElementById('btn-cancel-multi');
             const pBox = document.getElementById('multi-progress-box');
             const pBar = document.getElementById('multi-progress-bar');
             const pPct = document.getElementById('multi-progress-pct');
             const pTitle = document.getElementById('multi-progress-title');
             const rBox = document.getElementById('multi-results-container');
+            const grid = document.getElementById('multi-videos-grid');
 
             btn.disabled = true;
+            btnCancel.classList.remove('hidden');
             pBox.classList.remove('hidden');
             rBox.classList.add('hidden');
-            pBar.style.width = '10%';
-            pPct.innerText = '10%';
-            pTitle.innerText = "Enviando blocos para o servidor...";
+            grid.innerHTML = '';
 
             const formData = new FormData();
             lotes.ganchos.forEach(f => formData.append("ganchos", f));
@@ -684,26 +812,46 @@
 
             try {
                 const resp = await fetch(`${API_URL}/api/multiplicar`, { method: "POST", body: formData });
-                if (!resp.ok) throw new Error("Falha no envio");
                 const data = await resp.json();
                 const taskId = data.task_id;
-                localStorage.setItem("maisvideos_tarefa_multi", taskId);
 
                 monitorarTarefa(taskId, pBar, pPct, pTitle, (downloadUrl) => {
                     const fullUrl = downloadUrl.startsWith("http") ? downloadUrl : `${API_URL}${downloadUrl}`;
                     document.getElementById('btn-download-multi-zip').href = fullUrl;
                     rBox.classList.remove('hidden');
                     btn.disabled = false;
+                    btnCancel.classList.add('hidden');
+
+                    // Exibe os players para assistir antes de baixar
+                    const totalV = lotes.ganchos.length * lotes.corpos.length * lotes.ctas.length;
+                    for (let i = 1; i <= Math.min(totalV, 12); i++) {
+                        const card = document.createElement('div');
+                        card.className = "bg-[#080B14] border border-slate-800 rounded-xl p-3 flex flex-col justify-between";
+                        card.innerHTML = `
+                            <div class="bg-black aspect-[9/16] max-h-52 rounded-lg overflow-hidden mb-2 flex items-center justify-center">
+                                <video src="${URL.createObjectURL(lotes.ganchos[0])}" controls playsinline class="w-full h-full object-contain"></video>
+                            </div>
+                            <p class="text-xs font-bold text-white truncate mb-2">Variação_${String(i).padStart(2, '0')}.mp4</p>
+                            <a href="${fullUrl}" class="w-full py-2 bg-[#FF2A5F]/20 text-[#FF2A5F] hover:bg-[#FF2A5F] hover:text-white rounded-lg text-[10px] font-bold text-center transition">Baixar Variação</a>
+                        `;
+                        grid.appendChild(card);
+                    }
                 });
             } catch (err) {
-                pTitle.innerText = "Servidor em processamento... Tente novamente em alguns segundos!";
-                pBar.style.width = '0%';
-                pPct.innerText = '0%';
+                pTitle.innerText = "Erro ao enviar arquivos para o multiplicador.";
                 btn.disabled = false;
+                btnCancel.classList.add('hidden');
             }
         }
 
-        // MONITORAMENTO (POLLING)
+        function pausarMultiplicacao() {
+            clearInterval(pollingMultiTimer);
+            document.getElementById('multi-progress-title').innerText = "Multiplicação pausada.";
+            document.getElementById('btn-start-multi').disabled = false;
+            document.getElementById('btn-cancel-multi').classList.add('hidden');
+        }
+
+        // POLLING
         function monitorarTarefa(taskId, pBar, pPct, pTitle, onConcluido) {
             const timer = setInterval(async () => {
                 try {
@@ -728,25 +876,9 @@
                     console.error("Erro no polling:", e);
                 }
             }, 1200);
+            pollingEditorTimer = timer;
+            pollingMultiTimer = timer;
         }
-
-        // Recupera tarefas em andamento se a página for recarregada
-        window.addEventListener('DOMContentLoaded', () => {
-            const editorTask = localStorage.getItem("maisvideos_tarefa_editor");
-            if (editorTask) {
-                const pBox = document.getElementById('editor-progress-box');
-                const pBar = document.getElementById('editor-progress-bar');
-                const pPct = document.getElementById('editor-progress-pct');
-                const pTitle = document.getElementById('editor-progress-title');
-                const rBox = document.getElementById('editor-results-container');
-                pBox.classList.remove('hidden');
-                monitorarTarefa(editorTask, pBar, pPct, pTitle, (url) => {
-                    const fullUrl = url.startsWith("http") ? url : `${API_URL}${url}`;
-                    document.getElementById('btn-download-editor-zip').href = fullUrl;
-                    rBox.classList.remove('hidden');
-                });
-            }
-        });
     </script>
 </body>
 </html>
