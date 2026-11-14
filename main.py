@@ -133,109 +133,52 @@ def obter_usuario_atual(
         )
 
 def verificar_assinatura(user_id: str):
-
     try:
-
         resposta = (
-
             supabase_admin.table("assinaturas")
-
-            .select("id, plano, status, vence_em")
-
+            .select("id, plano, status, vence_em, criado_em")
             .eq("user_id", user_id)
-
             .eq("status", "ativa")
-
-            .order("vence_em", desc=True)
-
-            .limit(1)
-
             .execute()
-
         )
 
-        if not resposta.data:
-
+        registros = resposta.data or []
+        if not registros:
             raise HTTPException(
-
                 status_code=403,
-
                 detail="Você não possui uma assinatura ativa."
-
             )
 
-        assinatura = resposta.data[0]
+        agora = datetime.now(timezone.utc)
+        validas = []
+        for assinatura in registros:
+            vencimento = assinatura.get("vence_em")
+            if not vencimento:
+                continue
+            data_vencimento = datetime.fromisoformat(
+                vencimento.replace("Z", "+00:00")
+            )
+            if data_vencimento.tzinfo is None:
+                data_vencimento = data_vencimento.replace(tzinfo=timezone.utc)
+            if data_vencimento > agora:
+                validas.append((data_vencimento, assinatura))
 
-        vencimento = assinatura.get("vence_em")
-        if not vencimento:
+        if not validas:
             raise HTTPException(
                 status_code=403,
-                detail="A validade da sua assinatura não está confirmada."
+                detail="Sua assinatura expirou ou não possui validade confirmada."
             )
 
-        data_vencimento = datetime.fromisoformat(
-            vencimento.replace("Z", "+00:00")
-        )
-        if data_vencimento.tzinfo is None:
-            data_vencimento = data_vencimento.replace(tzinfo=timezone.utc)
-
-        if data_vencimento <= datetime.now(timezone.utc):
-            raise HTTPException(
-                status_code=403,
-                detail="Sua assinatura expirou."
-            )
-
-        return assinatura
+        return max(validas, key=lambda item: item[0])[1]
 
     except HTTPException:
-
         raise
-
     except Exception:
-
         raise HTTPException(
-
             status_code=503,
-
             detail="Não foi possível verificar sua assinatura."
-
         )
 
-from fastapi.staticfiles import StaticFiles
-
-app = FastAPI(title="+VIDEOS Cloud Engine", version="3.0.0")
-
-# Arquivos do motor de processamento local (FFmpeg.wasm)
-app.mount("/ffmpeg", StaticFiles(directory=str(Path(__file__).resolve().parent / "ffmpeg")), name="ffmpeg")
-
-app.add_middleware(
-
-    CORSMiddleware,
-
-    allow_origins=["*"],
-
-    allow_credentials=True,
-
-    allow_methods=["*"],
-
-    allow_headers=["*"],
-
-)
-
-BASE_DIR = Path(__file__).resolve().parent
-
-TEMP_DIR = BASE_DIR / "temp_processing"
-TEMP_DIR.mkdir(exist_ok=True)
-
-# Limites configuráveis para evitar uploads excessivos.
-MAX_UPLOAD_MB = max(1, int(os.getenv("MAX_UPLOAD_MB", "500")))
-MAX_TOTAL_UPLOAD_MB = max(MAX_UPLOAD_MB, int(os.getenv("MAX_TOTAL_UPLOAD_MB", "2000")))
-MAX_UPLOAD_BYTES = MAX_UPLOAD_MB * 1024 * 1024
-MAX_TOTAL_UPLOAD_BYTES = MAX_TOTAL_UPLOAD_MB * 1024 * 1024
-EXTENSOES_VIDEO_PERMITIDAS = {".mp4", ".mov", ".m4v", ".webm", ".avi", ".mkv"}
-TAMANHO_BLOCO_UPLOAD = 1024 * 1024
-
-@app.post("/api/auth/login")
 def login_usuario(dados: LoginRequest):
     email = dados.email.strip().lower()
 
@@ -1240,14 +1183,20 @@ def _mv_data_iso(valor, padrao=None):
 
 
 def _mv_somar_periodo(data_base, plano):
+    from datetime import timedelta
     import calendar
-    meses = 1 if plano == "mensal" else 12
-    indice = data_base.month - 1 + meses
-    ano = data_base.year + indice // 12
-    mes = indice % 12 + 1
-    dia = min(data_base.day, calendar.monthrange(ano, mes)[1])
-    return data_base.replace(year=ano, month=mes, day=dia)
 
+    if plano == "anual":
+        return data_base + timedelta(days=365)
+
+    if plano == "mensal":
+        indice = data_base.month
+        ano = data_base.year + indice // 12
+        mes = indice % 12 + 1
+        dia = min(data_base.day, calendar.monthrange(ano, mes)[1])
+        return data_base.replace(year=ano, month=mes, day=dia)
+
+    raise ValueError("Plano inválido para cálculo de validade.")
 
 def _mv_id_assinatura_cakto(pedido):
     assinatura = pedido.get("subscription")
@@ -1344,6 +1293,22 @@ def _mv_vincular_compras_e_ativar_assinaturas(email, user_id):
                 supabase_admin.table("assinaturas")
                 .select("id,user_id,compra_id,plano,status,inicio_em,vence_em")
                 .eq("cakto_subscription_id", str(assinatura_cakto_id))
+                .limit(1)
+                .execute()
+            )
+            if resultado.data:
+                assinatura_existente = resultado.data[0]
+
+        # Ofertas de pagamento único (como o anual) não possuem subscription_id.
+        # Reutiliza a assinatura da mesma oferta, inclusive em uma recompra,
+        # em vez de criar várias linhas ativas para o mesmo usuário e plano.
+        if not assinatura_existente:
+            resultado = (
+                supabase_admin.table("assinaturas")
+                .select("id,user_id,compra_id,plano,status,inicio_em,vence_em")
+                .eq("user_id", user_id)
+                .eq("produto_slug", produto_slug)
+                .order("criado_em", desc=True)
                 .limit(1)
                 .execute()
             )
