@@ -233,7 +233,7 @@
             <span class="plan-tag">Flexibilidade</span>
             <h3>Mensal</h3>
             <p class="plan-desc">Para quem prefere acompanhar mês a mês.</p>
-            <div class="plan-price"><strong id="mensal-price">Preço em breve</strong></div>
+            <div class="plan-price"><strong id="mensal-price">R$ 29,90</strong></div>
             <p class="price-hint" id="mensal-period">Cobrança recorrente mensal.</p>
             <div class="plan-divider"></div>
             <ul class="plan-includes">
@@ -249,20 +249,20 @@
             <span class="plan-tag">Melhor para uso contínuo</span>
             <h3>Anual</h3>
             <p class="plan-desc">Para quem quer manter a produção ativa durante o ano.</p>
-            <div class="plan-price"><strong id="anual-price">Preço em breve</strong></div>
-            <p class="price-hint" id="anual-period">Cobrança recorrente anual.</p>
+            <div class="plan-price"><strong id="anual-price">R$ 154,80</strong></div>
+            <p class="price-hint" id="anual-period">À vista ou 12x de R$ 15,99 sem juros no cartão · pagamento único · 365 dias de acesso.</p>
             <div class="plan-divider"></div>
             <ul class="plan-includes">
               <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg>Tudo o que está incluído no mensal</li>
               <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg>12 meses de acesso ao estúdio</li>
-              <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg>Uma cobrança anual, conforme a oferta escolhida</li>
+              <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg>Pagamento único com 365 dias de acesso</li>
               <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg>Mais previsibilidade para planejar sua produção</li>
             </ul>
-            <a class="btn btn-primary checkout-button" data-plan="anual" href="#planos">Assinar anual <span aria-hidden="true">→</span></a>
-            <p class="plan-foot">Renovação anual. Condições de cancelamento conforme o checkout.</p>
+            <a class="btn btn-primary checkout-button" data-plan="anual" href="#planos">Comprar anual <span aria-hidden="true">→</span></a>
+            <p class="plan-foot">Pagamento único. Acesso por 365 dias após a aprovação do pagamento.</p>
           </article>
         </div>
-        <p class="pricing-note">Valores, condições comerciais e links de pagamento serão exibidos nesta seção assim que os planos e as ofertas da Cakto forem definidos. Não há plano vitalício.</p>
+        <p class="pricing-note">Plano mensal: R$ 29,90 com cobrança recorrente. Plano anual: R$ 154,80 à vista ou 12x de R$ 15,99 sem juros no cartão, em pagamento único com 365 dias de acesso. Não há plano vitalício.</p>
       </div>
     </section>
 
@@ -274,9 +274,9 @@
           <details class="faq-item"><summary>Preciso saber editar vídeos?</summary><div class="faq-answer">Não. A proposta é escolher a ferramenta, adicionar os arquivos e acompanhar o processamento, sem precisar executar manualmente cada corte ou combinação.</div></details>
           <details class="faq-item"><summary>Como funciona o processamento dos vídeos?</summary><div class="faq-answer">O projeto utiliza processamento no navegador do dispositivo. O desempenho pode variar conforme o tamanho dos arquivos, o navegador e a capacidade do computador.</div></details>
           <details class="faq-item"><summary>Funciona melhor no celular ou no computador?</summary><div class="faq-answer">A página pode ser acessada pelo navegador, mas para processar vídeos maiores recomendamos usar um computador atualizado e manter a aba aberta durante o processamento.</div></details>
-          <details class="faq-item"><summary>Qual é a diferença entre os planos?</summary><div class="faq-answer">Os dois planos dão acesso às ferramentas do Mais Vídeos. A diferença principal é a frequência da cobrança: mensal ou anual. Os valores e as condições serão informados no checkout antes da confirmação da compra.</div></details>
+          <details class="faq-item"><summary>Qual é a diferença entre os planos?</summary><div class="faq-answer">Os dois planos dão acesso às ferramentas do Mais Vídeos. O plano mensal tem cobrança recorrente. O anual é uma compra única que libera 365 dias de acesso, à vista ou parcelado conforme as condições exibidas no checkout.</div></details>
           <details class="faq-item"><summary>Como recebo meu acesso depois de pagar?</summary><div class="faq-answer">Após a confirmação da compra, você poderá criar sua conta com o mesmo e-mail utilizado no pagamento. O acesso será liberado conforme a ativação da assinatura.</div></details>
-          <details class="faq-item"><summary>Posso cancelar a assinatura?</summary><div class="faq-answer">As condições de cancelamento e renovação serão apresentadas na oferta e no checkout antes da contratação.</div></details>
+          <details class="faq-item"><summary>Posso cancelar a assinatura?</summary><div class="faq-answer">O plano mensal é recorrente e pode ser cancelado conforme as condições da Cakto. O plano anual é uma compra única com 365 dias de acesso, sem renovação automática.</div></details>
         </div>
       </div>
     </section>
@@ -300,8 +300,8 @@
     // Não publique a página com os checkouts vazios.
     const MAIS_VIDEOS_CONFIG = {
       appUrl: "/",
-      mensal: { preco: "", periodo: "Cobrança recorrente mensal.", checkout: "" },
-      anual: { preco: "", periodo: "Cobrança recorrente anual.", checkout: "" }
+      mensal: { preco: "R$ 29,90", periodo: "Cobrança recorrente mensal.", checkout: "https://pay.cakto.com.br/um4wtdy_1319529" },
+      anual: { preco: "R$ 154,80", periodo: "À vista ou 12x de R$ 15,99 sem juros no cartão · pagamento único · 365 dias de acesso.", checkout: "https://pay.cakto.com.br/taw4qis_1310897" }
     };
 
     (function configurarPagina(){
