@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090d19">
+  <meta name="description" content="Crie mais vídeos com menos trabalho. Remova pausas, multiplique combinações e organize seu fluxo de criação em um só estúdio.">
+  <title>Mais Vídeos | Crie mais. Edite menos.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#090d19;--bg2:#0d1424;--surface:rgba(20,29,49,.76);--surface2:rgba(24,35,59,.72);
+      --line:rgba(148,163,184,.17);--line2:rgba(148,163,184,.28);--text:#f8fafc;--muted:#a7b2c6;
+      --soft:#71809a;--blue:#60a5fa;--sky:#7dd3fc;--violet:#a78bfa;--pink:#f472b6;
+      --gradient:linear-gradient(105deg,#3b82f6 0%,#6366f1 52%,#8b5cf6 100%);
+      --radius:26px;--shadow:0 24px 70px rgba(0,0,0,.34)
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;scroll-padding-top:92px}
+    body{margin:0;background:radial-gradient(ellipse at 12% 0%,rgba(37,99,235,.17),transparent 32%),radial-gradient(ellipse at 92% 12%,rgba(139,92,246,.14),transparent 30%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.55;overflow-x:hidden}
+    body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;background-image:linear-gradient(rgba(148,163,184,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(148,163,184,.025) 1px,transparent 1px);background-size:48px 48px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.6),transparent 72%)}
+    a{color:inherit;text-decoration:none}button{font:inherit} .container{width:min(1160px,calc(100% - 40px));margin-inline:auto}
+    .topbar{position:sticky;top:0;z-index:30;background:rgba(9,13,25,.78);border-bottom:1px solid rgba(148,163,184,.12);backdrop-filter:blur(18px)}
+    .nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+    .brand{display:inline-flex;align-items:center;gap:11px;font-weight:900;letter-spacing:-.045em;font-size:19px;white-space:nowrap}
+    .brand-mark{width:38px;height:38px;border-radius:13px;background:var(--gradient);display:grid;place-items:center;box-shadow:0 8px 24px rgba(99,102,241,.34);color:#fff}
+    .brand-mark svg{width:22px;height:22px}.brand em{font-style:normal;color:#a5b4fc}
+    .nav-links{display:flex;align-items:center;gap:30px;color:#b7c2d4;font-size:13px;font-weight:600}
+    .nav-links a:hover{color:#fff}.nav-actions{display:flex;align-items:center;gap:12px}
+    .login-link{font-size:13px;font-weight:700;color:#cbd5e1;padding:10px 12px}.login-link:hover{color:#fff}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:1px solid transparent;border-radius:14px;padding:14px 20px;font-size:14px;font-weight:800;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease,background .2s ease;cursor:pointer}
+    .btn-primary{background:var(--gradient);color:#fff;box-shadow:0 12px 30px rgba(79,70,229,.27),inset 0 1px 0 rgba(255,255,255,.18)}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 17px 36px rgba(79,70,229,.38);filter:brightness(1.08)}
+    .btn-ghost{background:rgba(30,41,59,.42);border-color:rgba(148,163,184,.24);color:#e2e8f0}.btn-ghost:hover{background:rgba(51,65,85,.55);border-color:rgba(165,180,252,.48);transform:translateY(-2px)}
+    .btn-small{padding:10px 15px;border-radius:12px;font-size:12px}
+    .hero{padding:86px 0 62px;position:relative}
+    .hero-grid{display:grid;grid-template-columns:1.04fr .96fr;gap:54px;align-items:center}
+    .eyebrow{display:inline-flex;align-items:center;gap:9px;padding:7px 12px;border:1px solid rgba(125,211,252,.2);border-radius:99px;background:rgba(59,130,246,.08);color:#a5d8ff;font-size:11px;letter-spacing:.11em;text-transform:uppercase;font-weight:800}
+    .eyebrow-dot{width:7px;height:7px;border-radius:50%;background:#7dd3fc;box-shadow:0 0 12px #60a5fa}
+    h1{font-size:clamp(42px,5.3vw,68px);line-height:1.04;letter-spacing:-.065em;margin:23px 0 20px;font-weight:900;max-width:680px}
+    .gradient-text{background:linear-gradient(95deg,#93c5fd 0%,#a5b4fc 48%,#c4b5fd 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .hero-copy{max-width:590px;color:#aab6ca;font-size:17px;line-height:1.75;margin:0}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:31px}.hero-note{display:flex;align-items:center;gap:9px;color:#8291a9;font-size:11px;margin-top:19px}
+    .hero-note svg{color:#86efac;flex:none}
+    .hero-visual{position:relative;min-height:490px;display:grid;place-items:center}
+    .orb{position:absolute;width:340px;height:340px;border-radius:50%;filter:blur(64px);opacity:.22;background:linear-gradient(130deg,#3b82f6,#8b5cf6);animation:orb 8s ease-in-out infinite alternate}
+    @keyframes orb{to{transform:translate(24px,-14px) scale(1.1);opacity:.3}}
+    .studio-window{position:relative;width:min(100%,500px);padding:18px;border-radius:27px;background:linear-gradient(145deg,rgba(30,41,59,.88),rgba(15,23,42,.9));border:1px solid rgba(148,163,184,.28);box-shadow:0 35px 90px rgba(0,0,0,.48),0 0 55px rgba(99,102,241,.13),inset 0 1px 0 rgba(255,255,255,.08);backdrop-filter:blur(20px);transform:perspective(1200px) rotateY(-5deg) rotateX(2deg)}
+    .window-top{display:flex;align-items:center;justify-content:space-between;padding:2px 3px 15px;border-bottom:1px solid var(--line);margin-bottom:16px}
+    .window-dots{display:flex;gap:6px}.window-dots i{width:7px;height:7px;border-radius:50%;background:#64748b}.window-label{color:#9aa8bf;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+    .window-status{font-size:9px;color:#86efac;border:1px solid rgba(134,239,172,.2);background:rgba(34,197,94,.08);padding:5px 8px;border-radius:99px}
+    .mock-heading{font-size:17px;font-weight:800;letter-spacing:-.035em;margin:5px 0 4px}.mock-sub{font-size:10px;color:#8e9cb3;margin:0 0 16px}
+    .mock-tools{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+    .mock-tool{padding:13px 10px;border-radius:16px;border:1px solid rgba(148,163,184,.19);background:rgba(15,23,42,.63);min-height:118px}
+    .mock-icon{width:31px;height:31px;border-radius:10px;display:grid;place-items:center;margin-bottom:12px;background:rgba(96,165,250,.15);color:#93c5fd}.mock-tool:nth-child(2) .mock-icon{background:rgba(167,139,250,.16);color:#c4b5fd}.mock-tool:nth-child(3) .mock-icon{background:rgba(244,114,182,.13);color:#f9a8d4}
+    .mock-tool b{display:block;font-size:10px;margin-bottom:4px}.mock-tool span{display:block;color:#8291a9;font-size:9px;line-height:1.45}
+    .mock-flow{margin-top:14px;padding:13px;border:1px solid rgba(148,163,184,.17);border-radius:17px;background:rgba(8,13,25,.6)}
+    .mock-flow-head{display:flex;align-items:center;justify-content:space-between;font-size:10px;font-weight:800;margin-bottom:10px}.mock-flow-head small{color:#8291a9;font-weight:600}
+    .flow-chips{display:grid;grid-template-columns:1fr 18px 1fr 18px 1fr;align-items:center;gap:5px}
+    .flow-chip{padding:9px 5px;text-align:center;border-radius:10px;background:rgba(59,130,246,.12);border:1px solid rgba(96,165,250,.24);font-size:9px;color:#bfdbfe;font-weight:700}
+    .flow-chip:nth-of-type(2){background:rgba(139,92,246,.13);border-color:rgba(167,139,250,.24);color:#ddd6fe}.flow-chip:nth-of-type(3){background:rgba(244,114,182,.1);border-color:rgba(244,114,182,.2);color:#fbcfe8}
+    .flow-plus{text-align:center;color:#7888a4;font-weight:800}.mock-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:13px}.mock-bottom span{font-size:9px;color:#8291a9}.mock-bottom strong{font-size:10px;color:#a5b4fc}
+    .float-card{position:absolute;display:flex;align-items:center;gap:10px;padding:12px 14px;background:rgba(15,23,42,.92);border:1px solid rgba(148,163,184,.24);border-radius:15px;box-shadow:0 16px 34px rgba(0,0,0,.28);backdrop-filter:blur(15px);animation:float 5s ease-in-out infinite}
+    .float-card.one{left:-6px;top:78px}.float-card.two{right:-2px;bottom:65px;animation-delay:-2s}
+    @keyframes float{50%{transform:translateY(-8px)}}
+    .float-icon{width:29px;height:29px;border-radius:9px;display:grid;place-items:center;background:rgba(34,197,94,.13);color:#86efac}.float-card b{font-size:10px;display:block}.float-card small{display:block;font-size:9px;color:#8b9ab1}
+    .trust-strip{padding:20px 0 36px}.trust-inner{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line);border-radius:19px;background:rgba(15,23,42,.43);overflow:hidden}
+    .trust-item{display:flex;align-items:center;justify-content:center;gap:11px;padding:18px 14px;color:#bdc8d9;font-size:12px;font-weight:700}.trust-item+.trust-item{border-left:1px solid var(--line)}.trust-item svg{color:#93c5fd;flex:none}
+    section.content-section{padding:82px 0}.section-head{text-align:center;max-width:700px;margin:0 auto 42px}.kicker{color:#93c5fd;font-size:11px;letter-spacing:.15em;text-transform:uppercase;font-weight:900}.section-head h2{font-size:clamp(30px,4vw,43px);line-height:1.12;letter-spacing:-.05em;margin:12px 0 13px;font-weight:900}.section-head p{margin:0;color:#99a8bf;font-size:14px;line-height:1.75}
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}.step-card,.tool-card,.audience-card{background:linear-gradient(145deg,rgba(25,37,61,.72),rgba(13,20,36,.78));border:1px solid var(--line);border-radius:22px;padding:25px;box-shadow:inset 0 1px 0 rgba(255,255,255,.035);transition:transform .25s,border-color .25s,box-shadow .25s}
+    .step-card:hover,.tool-card:hover,.audience-card:hover{transform:translateY(-5px);border-color:rgba(165,180,252,.4);box-shadow:0 20px 42px rgba(0,0,0,.2),0 0 24px rgba(99,102,241,.08)}
+    .step-number{width:39px;height:39px;display:grid;place-items:center;border-radius:13px;background:rgba(59,130,246,.14);border:1px solid rgba(96,165,250,.22);color:#a5d8ff;font-size:13px;font-weight:900}.step-card h3,.tool-card h3,.audience-card h3{font-size:17px;letter-spacing:-.025em;margin:19px 0 8px}.step-card p,.tool-card p,.audience-card p{margin:0;color:#93a2b9;font-size:13px;line-height:1.75}
+    .tools-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}.tool-card{padding:25px;min-height:220px}.tool-card:nth-child(1){background:radial-gradient(circle at 100% 0%,rgba(59,130,246,.14),transparent 55%),linear-gradient(145deg,rgba(25,37,61,.72),rgba(13,20,36,.8))}.tool-card:nth-child(2){background:radial-gradient(circle at 100% 0%,rgba(139,92,246,.16),transparent 55%),linear-gradient(145deg,rgba(25,37,61,.72),rgba(13,20,36,.8))}.tool-card:nth-child(3){background:radial-gradient(circle at 100% 0%,rgba(244,114,182,.13),transparent 55%),linear-gradient(145deg,rgba(25,37,61,.72),rgba(13,20,36,.8))}
+    .tool-icon{width:48px;height:48px;border-radius:15px;background:rgba(59,130,246,.16);color:#93c5fd;display:grid;place-items:center;border:1px solid rgba(96,165,250,.2)}.tool-card:nth-child(2) .tool-icon{background:rgba(139,92,246,.16);color:#c4b5fd;border-color:rgba(167,139,250,.2)}.tool-card:nth-child(3) .tool-icon{background:rgba(244,114,182,.13);color:#f9a8d4;border-color:rgba(244,114,182,.18)}
+    .tool-label{display:inline-block;margin-top:17px;font-size:10px;color:#94a3b8;text-transform:uppercase;letter-spacing:.12em;font-weight:800}
+    .privacy-panel{display:grid;grid-template-columns:.85fr 1.15fr;gap:35px;align-items:center;padding:36px;border:1px solid rgba(125,211,252,.2);border-radius:26px;background:radial-gradient(ellipse at 0% 50%,rgba(59,130,246,.17),transparent 50%),linear-gradient(135deg,rgba(21,35,61,.83),rgba(14,21,39,.88));box-shadow:var(--shadow)}
+    .privacy-visual{min-height:190px;display:grid;place-items:center;position:relative}.privacy-orbit{width:150px;height:150px;border-radius:50%;border:1px solid rgba(147,197,253,.28);display:grid;place-items:center;box-shadow:0 0 55px rgba(59,130,246,.13),inset 0 0 40px rgba(99,102,241,.1);color:#bfdbfe}.privacy-orbit:before,.privacy-orbit:after{content:"";position:absolute;width:190px;height:190px;border:1px solid rgba(167,139,250,.15);border-radius:50%;transform:rotateX(68deg)}.privacy-orbit:after{width:220px;height:220px;transform:rotateY(68deg)}
+    .privacy-copy h2{font-size:clamp(27px,3vw,38px);line-height:1.15;letter-spacing:-.05em;margin:12px 0}.privacy-copy p{color:#a2b0c5;font-size:14px;line-height:1.8;margin:0}.privacy-points{display:flex;flex-wrap:wrap;gap:9px;margin-top:19px}.privacy-points span{font-size:10px;font-weight:700;color:#cbd5e1;border:1px solid rgba(148,163,184,.2);background:rgba(15,23,42,.43);padding:7px 10px;border-radius:99px}
+    .audience-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.audience-card{padding:22px}.audience-card h3{margin:12px 0 7px;font-size:15px}.audience-card p{font-size:12px}
+    .pricing-wrap{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;max-width:860px;margin:0 auto;align-items:stretch}
+    .plan-card{position:relative;padding:30px;border:1px solid rgba(148,163,184,.22);border-radius:25px;background:linear-gradient(145deg,rgba(23,34,56,.88),rgba(12,19,35,.92));box-shadow:0 20px 50px rgba(0,0,0,.22);overflow:hidden}
+    .plan-card.featured{border-color:rgba(129,140,248,.55);box-shadow:0 22px 58px rgba(0,0,0,.25),0 0 34px rgba(99,102,241,.12)}
+    .plan-card.featured:before{content:"";position:absolute;inset:0 0 auto;height:3px;background:var(--gradient)}
+    .plan-tag{display:inline-flex;align-items:center;padding:6px 10px;border-radius:99px;background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.2);color:#bfdbfe;font-size:10px;text-transform:uppercase;letter-spacing:.1em;font-weight:900}
+    .plan-card h3{font-size:23px;letter-spacing:-.04em;margin:16px 0 5px}.plan-desc{margin:0;color:#93a2b9;font-size:12px}.plan-price{display:flex;align-items:baseline;gap:7px;margin:24px 0 4px}.plan-price strong{font-size:42px;letter-spacing:-.06em;line-height:1}.plan-price span{color:#a4b1c5;font-size:12px}.price-hint{min-height:22px;color:#8e9db4;font-size:11px;margin:7px 0 22px}
+    .plan-divider{height:1px;background:var(--line);margin:20px 0}.plan-includes{list-style:none;padding:0;margin:0 0 25px;display:grid;gap:12px}.plan-includes li{display:flex;gap:10px;align-items:flex-start;color:#c4cfdf;font-size:12px}.plan-includes svg{color:#86efac;flex:none;margin-top:1px}.plan-card .btn{width:100%}.plan-foot{margin:13px 0 0;text-align:center;color:#8291a8;font-size:10px;line-height:1.6}
+    .pricing-note{text-align:center;max-width:690px;margin:24px auto 0;color:#8190a8;font-size:11px;line-height:1.65}
+    .faq-list{max-width:790px;margin:0 auto;display:grid;gap:10px}.faq-item{border:1px solid var(--line);border-radius:16px;background:rgba(17,26,45,.68);overflow:hidden}.faq-item summary{list-style:none;cursor:pointer;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:18px;font-size:13px;font-weight:800;color:#e5edf8}.faq-item summary::-webkit-details-marker{display:none}.faq-item summary:after{content:"+";color:#a5b4fc;font-size:20px;font-weight:500;transition:transform .2s}.faq-item[open] summary:after{content:"−"}.faq-answer{padding:0 20px 18px;color:#98a8bf;font-size:12px;line-height:1.8;max-width:720px}
+    .closing{padding:30px 0 90px}.closing-panel{text-align:center;padding:48px 25px;border:1px solid rgba(129,140,248,.25);border-radius:27px;background:radial-gradient(ellipse at 50% 0%,rgba(99,102,241,.2),transparent 65%),linear-gradient(135deg,rgba(21,33,58,.82),rgba(12,19,35,.86));box-shadow:var(--shadow)}.closing-panel h2{font-size:clamp(28px,4vw,42px);letter-spacing:-.055em;line-height:1.12;margin:12px 0}.closing-panel p{color:#9caac0;font-size:13px;margin:0 auto 23px;max-width:530px}
+    footer{border-top:1px solid var(--line);padding:25px 0 35px;color:#77869f;font-size:11px}.footer-inner{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}.footer-brand{display:flex;align-items:center;gap:9px;color:#cbd5e1;font-weight:800}.footer-brand .brand-mark{width:27px;height:27px;border-radius:9px}.footer-brand .brand-mark svg{width:16px;height:16px}
+    .toast{position:fixed;z-index:99;bottom:24px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;padding:13px 17px;border:1px solid rgba(165,180,252,.3);border-radius:14px;background:rgba(15,23,42,.96);box-shadow:0 15px 40px rgba(0,0,0,.35);color:#e2e8f0;font-size:12px;transition:all .25s;max-width:min(90vw,480px);text-align:center}.toast.show{opacity:1;transform:translate(-50%,0)}
+    @media(max-width:960px){.hero-grid{grid-template-columns:1fr;gap:26px}.hero-copy{max-width:700px}.hero-visual{min-height:450px}.studio-window{transform:none}.float-card.one{left:5%}.float-card.two{right:4%}.privacy-panel{grid-template-columns:1fr;gap:12px}.privacy-visual{min-height:160px}}
+    @media(max-width:700px){.container{width:min(100% - 30px,1160px)}.nav{height:67px}.nav-links{display:none}.login-link{display:none}.hero{padding:62px 0 34px}.hero-grid{gap:22px}h1{font-size:clamp(39px,11vw,56px)}.hero-copy{font-size:15px}.hero-actions{display:grid;grid-template-columns:1fr}.hero-actions .btn{width:100%}.hero-visual{min-height:380px}.studio-window{padding:13px;border-radius:22px}.mock-tool{padding:10px 8px;min-height:108px}.float-card{padding:9px 11px}.float-card.one{top:10px;left:0}.float-card.two{bottom:15px;right:0}.trust-inner{grid-template-columns:1fr}.trust-item{justify-content:flex-start;padding:14px 18px}.trust-item+.trust-item{border-left:0;border-top:1px solid var(--line)}section.content-section{padding:62px 0}.section-head{margin-bottom:28px}.steps,.tools-grid,.audience-grid,.pricing-wrap{grid-template-columns:1fr}.step-card,.tool-card{padding:21px}.privacy-panel{padding:25px 20px}.privacy-visual{min-height:145px}.plan-card{padding:25px}.closing{padding-bottom:64px}.closing-panel{padding:37px 20px}.footer-inner{justify-content:center;text-align:center}.footer-inner>span{width:100%}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+  
+    /* EFEITOS EXTRA MAIS VIDEOS */
+    .btn{position:relative;isolation:isolate;overflow:hidden;box-shadow:0 10px 26px rgba(59,130,246,.16),inset 0 1px 0 rgba(255,255,255,.16);transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease,filter .22s ease,background .22s ease}
+    .btn::before{content:"";position:absolute;top:-140%;left:-55%;width:38%;height:380%;transform:rotate(24deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent);opacity:0;transition:left .65s ease,opacity .2s ease;pointer-events:none;z-index:-1}
+    .btn:hover::before{left:125%;opacity:1}
+    .btn-primary:hover{transform:translateY(-4px) scale(1.015);box-shadow:0 18px 38px rgba(79,70,229,.42),0 0 24px rgba(96,165,250,.2),inset 0 1px 0 rgba(255,255,255,.25);filter:brightness(1.12)}
+    .btn-ghost:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(59,130,246,.18),0 0 0 1px rgba(165,180,252,.14);background:linear-gradient(110deg,rgba(59,130,246,.17),rgba(139,92,246,.17));border-color:rgba(165,180,252,.7)}
+    .btn:active{transform:translateY(0) scale(.975)}
+    .btn:focus-visible,.login-link:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid #a5b4fc;outline-offset:4px}
+    .btn span[aria-hidden="true"]{display:inline-block;transition:transform .2s ease}.btn:hover span[aria-hidden="true"]{transform:translateX(4px)}
+    .step-card,.tool-card,.audience-card,.plan-card,.faq-item,.closing-panel,.privacy-panel{position:relative;isolation:isolate;transition:transform .28s ease,border-color .28s ease,box-shadow .28s ease,background .28s ease;box-shadow:0 12px 30px rgba(0,0,0,.16),inset 0 1px 0 rgba(255,255,255,.035)}
+    .step-card:hover,.tool-card:hover,.audience-card:hover,.plan-card:hover,.faq-item:hover,.closing-panel:hover,.privacy-panel:hover{transform:translateY(-5px);border-color:rgba(165,180,252,.48);box-shadow:0 22px 46px rgba(0,0,0,.28),0 0 28px rgba(99,102,241,.15),inset 0 1px 0 rgba(255,255,255,.08)}
+    .step-card::after,.tool-card::after,.audience-card::after,.plan-card::after,.closing-panel::after,.privacy-panel::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;background:radial-gradient(ellipse at 12% 0%,rgba(96,165,250,.13),transparent 48%),radial-gradient(ellipse at 100% 100%,rgba(167,139,250,.11),transparent 48%);transition:opacity .28s ease;z-index:-1}
+    .step-card:hover::after,.tool-card:hover::after,.audience-card:hover::after,.plan-card:hover::after,.closing-panel:hover::after,.privacy-panel:hover::after{opacity:1}
+    .plan-card.featured{box-shadow:0 18px 46px rgba(79,70,229,.18),0 0 0 1px rgba(165,180,252,.16),inset 0 1px 0 rgba(255,255,255,.08)}
+    .plan-card.featured:hover{box-shadow:0 25px 55px rgba(79,70,229,.3),0 0 35px rgba(139,92,246,.2)}
+    .faq-item{transition:border-color .22s ease,box-shadow .22s ease,background .22s ease}.faq-item[open]{border-color:rgba(165,180,252,.45);background:linear-gradient(135deg,rgba(30,41,59,.82),rgba(49,46,129,.2));box-shadow:0 12px 30px rgba(79,70,229,.12)}.faq-item summary{transition:color .2s ease}.faq-item summary:hover{color:#c7d2fe}
+    input[type="text"],input[type="email"],input[type="tel"],textarea,select{width:100%;background:rgba(15,23,42,.74);border:1px solid rgba(148,163,184,.28);border-radius:14px;color:#f8fafc;padding:13px 15px;outline:none;transition:border-color .2s ease,box-shadow .2s ease,background .2s ease}
+    input[type="text"]:focus,input[type="email"]:focus,input[type="tel"]:focus,textarea:focus,select:focus{border-color:rgba(165,180,252,.9);background:rgba(20,29,49,.94);box-shadow:0 0 0 4px rgba(99,102,241,.14),0 0 22px rgba(96,165,250,.12)}
+    input::placeholder,textarea::placeholder{color:#71809a}
+    @media(hover:none){.step-card:hover,.tool-card:hover,.audience-card:hover,.plan-card:hover,.faq-item:hover,.closing-panel:hover,.privacy-panel:hover{transform:none}.btn-primary:hover,.btn-ghost:hover{transform:none}}
+    @media(prefers-reduced-motion:reduce){.btn,.step-card,.tool-card,.audience-card,.plan-card,.faq-item,.closing-panel,.privacy-panel,.btn::before,.step-card::after,.tool-card::after,.audience-card::after,.plan-card::after,.closing-panel::after,.privacy-panel::after{transition:none!important;animation:none!important}}
+
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container nav">
+      <a class="brand" href="#top" aria-label="Mais Vídeos - início">
+        <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m13 2-9 12h7l-1 8 10-13h-7z"/></svg></span>
+        <span>mais <em>vídeos</em></span>
+      </a>
+      <nav class="nav-links" aria-label="Navegação principal">
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#ferramentas">Ferramentas</a>
+        <a href="#planos">Planos</a>
+        <a href="#duvidas">Dúvidas</a>
+      </nav>
+      <div class="nav-actions">
+        <a class="login-link" id="login-top" href="/">Já tenho conta</a>
+        <a class="btn btn-primary btn-small" href="#planos">Ver planos <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow"><i class="eyebrow-dot"></i> Seu estúdio de criação de vídeos</span>
+          <h1>Mais vídeos.<br><span class="gradient-text">Menos edição repetitiva.</span></h1>
+          <p class="hero-copy">Remova pausas, combine ganchos, corpos e CTAs e transforme suas gravações em novas versões — tudo em um só lugar.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#planos">Quero começar a criar <span aria-hidden="true">→</span></a>
+            <a class="btn btn-ghost" href="#como-funciona">Entender como funciona</a>
+          </div>
+          <div class="hero-note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.5 9.2 17 19 7"/></svg> Processamento de vídeo pensado para acontecer no seu próprio navegador.</div>
+        </div>
+        <div class="hero-visual" aria-label="Ilustração das ferramentas do Mais Vídeos">
+          <div class="orb"></div>
+          <div class="studio-window">
+            <div class="window-top"><div class="window-dots"><i></i><i></i><i></i></div><span class="window-label">Mais Vídeos · Estúdio</span><span class="window-status">● Ambiente de criação</span></div>
+            <div class="mock-heading">O que você quer criar hoje?</div>
+            <p class="mock-sub">Escolha o fluxo ideal para suas gravações.</p>
+            <div class="mock-tools">
+              <div class="mock-tool"><div class="mock-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8h4l2-3h4l2 3h4v11H4z"/><circle cx="12" cy="13" r="3"/></svg></div><b>Remover pausas</b><span>Limpe silêncios e deixe o ritmo mais direto.</span></div>
+              <div class="mock-tool"><div class="mock-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="13" height="16" rx="2"/><path d="m16 9 5-3v12l-5-3"/></svg></div><b>Multiplicar vídeos</b><span>Combine ganchos, corpos e chamadas para ação.</span></div>
+              <div class="mock-tool"><div class="mock-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 4 7v5c0 5 3.4 8 8 9 4.6-1 8-4 8-9V7z"/><path d="m9 12 2 2 4-4"/></svg></div><b>Fluxo completo</b><span>Una as etapas em uma única experiência.</span></div>
+            </div>
+            <div class="mock-flow">
+              <div class="mock-flow-head"><span>Monte novas combinações</span><small>Seu material, suas ideias</small></div>
+              <div class="flow-chips"><div class="flow-chip">Ganchos</div><div class="flow-plus">+</div><div class="flow-chip">Corpos</div><div class="flow-plus">+</div><div class="flow-chip">CTAs</div></div>
+              <div class="mock-bottom"><span>Organize · Processe · Baixe</span><strong>Arquivo ZIP ↓</strong></div>
+            </div>
+          </div>
+          <div class="float-card one"><span class="float-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg></span><div><b>Fluxo simplificado</b><small>Menos tarefas manuais</small></div></div>
+          <div class="float-card two"><span class="float-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14"/></svg></span><div><b>Baixe em lote</b><small>Seus arquivos organizados</small></div></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container trust-strip">
+      <div class="trust-inner">
+        <div class="trust-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h5"/></svg> Três ferramentas em um só estúdio</div>
+        <div class="trust-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3 4 7v5c0 5 3.4 8 8 9 4.6-1 8-4 8-9V7z"/><path d="m9 12 2 2 4-4"/></svg> Seus vídeos permanecem sob seu controle</div>
+        <div class="trust-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v12H4zM8 20h8M12 16v4"/><path d="m9 10 2 2 4-4"/></svg> Interface simples, direto ao ponto</div>
+      </div>
+    </div>
+
+    <section class="content-section" id="como-funciona">
+      <div class="container">
+        <div class="section-head"><span class="kicker">Como funciona</span><h2>Da gravação ao vídeo pronto,<br><span class="gradient-text">em um fluxo simples.</span></h2><p>Você escolhe a ferramenta, adiciona seus arquivos e deixa o estúdio cuidar das tarefas repetitivas.</p></div>
+        <div class="steps">
+          <article class="step-card"><span class="step-number">01</span><h3>Adicione suas gravações</h3><p>Envie um vídeo ou organize seus arquivos em ganchos, corpos e CTAs, conforme o tipo de criação.</p></article>
+          <article class="step-card"><span class="step-number">02</span><h3>Escolha o que fazer</h3><p>Remova pausas, gere combinações ou use o fluxo completo para reunir as duas etapas.</p></article>
+          <article class="step-card"><span class="step-number">03</span><h3>Baixe e continue criando</h3><p>Acompanhe o processamento e baixe os resultados, inclusive em lote quando disponível.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section" id="ferramentas" style="padding-top:26px">
+      <div class="container">
+        <div class="section-head"><span class="kicker">O que você encontra</span><h2>As ferramentas certas<br><span class="gradient-text">para ganhar ritmo.</span></h2><p>Sem complicar seu processo com dezenas de funções que você não precisa.</p></div>
+        <div class="tools-grid">
+          <article class="tool-card"><div class="tool-icon"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5h16v14H4z"/><path d="M8 9h3M8 13h8M8 16h5"/><path d="m16 8 2 2-2 2"/></svg></div><span class="tool-label">Ferramenta 01</span><h3>Removedor de pausas</h3><p>Reduza silêncios e pausas desnecessárias para deixar seus vídeos mais objetivos, sem precisar cortar trecho por trecho.</p></article>
+          <article class="tool-card"><div class="tool-icon"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="13" height="16" rx="2"/><path d="m16 9 5-3v12l-5-3M7 9h5M7 13h5"/></svg></div><span class="tool-label">Ferramenta 02</span><h3>Multiplicador de vídeos</h3><p>Combine diferentes ganchos, corpos e CTAs para criar variações a partir das gravações que você já fez.</p></article>
+          <article class="tool-card"><div class="tool-icon"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3 4 7v5c0 5 3.4 8 8 9 4.6-1 8-4 8-9V7z"/><path d="m8.5 12 2.2 2.2 4.8-4.8"/></svg></div><span class="tool-label">Ferramenta 03</span><h3>Fluxo completo</h3><p>Combine a remoção de pausas com a multiplicação de vídeos em uma experiência guiada.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section" style="padding-top:34px">
+      <div class="container">
+        <div class="privacy-panel">
+          <div class="privacy-visual"><div class="privacy-orbit"><svg width="62" height="62" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m10 9 5 3-5 3z"/><path d="M7 2h10M7 22h10"/></svg></div></div>
+          <div class="privacy-copy"><span class="kicker">Seu conteúdo, seu controle</span><h2>Crie sem depender de uma fila de edição na nuvem.</h2><p>O Mais Vídeos foi pensado para executar o processamento diretamente no navegador, usando os recursos do seu dispositivo. Assim, seus arquivos de origem não precisam ser enviados a um serviço externo apenas para serem processados.</p><div class="privacy-points"><span>Processamento no navegador</span><span>Sem fila de renderização em nuvem</span><span>Mais controle sobre seus arquivos</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section" style="padding-top:45px;padding-bottom:55px">
+      <div class="container">
+        <div class="section-head"><span class="kicker">Feito para quem cria</span><h2>Mais espaço para criar.<br><span class="gradient-text">Menos tempo em tarefas repetidas.</span></h2><p>Uma rotina mais prática para quem publica vídeos com frequência.</p></div>
+        <div class="audience-grid">
+          <article class="audience-card"><h3>Afiliados e creators</h3><p>Produza mais variações de conteúdo a partir das gravações que já fazem parte da sua rotina.</p></article>
+          <article class="audience-card"><h3>Lojas e marcas</h3><p>Organize materiais de produtos e acelere a preparação de diferentes versões de vídeos.</p></article>
+          <article class="audience-card"><h3>Social media e equipes</h3><p>Padronize etapas repetitivas e mantenha um fluxo de produção mais organizado.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section" id="planos">
+      <div class="container">
+        <div class="section-head"><span class="kicker">Planos</span><h2>Escolha o ritmo<br><span class="gradient-text">que combina com você.</span></h2><p>Tenha acesso ao estúdio com uma assinatura mensal ou anual.</p></div>
+        <div class="pricing-wrap">
+          <article class="plan-card">
+            <span class="plan-tag">Flexibilidade</span>
+            <h3>Mensal</h3>
+            <p class="plan-desc">Para quem prefere acompanhar mês a mês.</p>
+            <div class="plan-price"><strong id="mensal-price">Preço em breve</strong></div>
+            <p class="price-hint" id="mensal-period">Cobrança recorrente mensal.</p>
+            <div class="plan-divider"></div>
+            <ul class="plan-includes">
+              <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg>Acesso às três ferramentas do Mais Vídeos</li>
+              <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg>Removedor de pausas e multiplicador</li>
+              <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg>Processamento no navegador</li>
+              <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg>Downloads dos arquivos gerados</li>
+            </ul>
+            <a class="btn btn-ghost checkout-button" data-plan="mensal" href="#planos">Assinar mensal <span aria-hidden="true">→</span></a>
+            <p class="plan-foot">Renovação mensal. Condições de cancelamento conforme o checkout.</p>
+          </article>
+          <article class="plan-card featured">
+            <span class="plan-tag">Melhor para uso contínuo</span>
+            <h3>Anual</h3>
+            <p class="plan-desc">Para quem quer manter a produção ativa durante o ano.</p>
+            <div class="plan-price"><strong id="anual-price">Preço em breve</strong></div>
+            <p class="price-hint" id="anual-period">Cobrança recorrente anual.</p>
+            <div class="plan-divider"></div>
+            <ul class="plan-includes">
+              <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg>Tudo o que está incluído no mensal</li>
+              <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg>12 meses de acesso ao estúdio</li>
+              <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg>Uma cobrança anual, conforme a oferta escolhida</li>
+              <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg>Mais previsibilidade para planejar sua produção</li>
+            </ul>
+            <a class="btn btn-primary checkout-button" data-plan="anual" href="#planos">Assinar anual <span aria-hidden="true">→</span></a>
+            <p class="plan-foot">Renovação anual. Condições de cancelamento conforme o checkout.</p>
+          </article>
+        </div>
+        <p class="pricing-note">Valores, condições comerciais e links de pagamento serão exibidos nesta seção assim que os planos e as ofertas da Cakto forem definidos. Não há plano vitalício.</p>
+      </div>
+    </section>
+
+    <section class="content-section" id="duvidas" style="padding-top:28px">
+      <div class="container">
+        <div class="section-head"><span class="kicker">Dúvidas frequentes</span><h2>O que você precisa<br><span class="gradient-text">saber antes de começar.</span></h2></div>
+        <div class="faq-list">
+          <details class="faq-item"><summary>O que é o Mais Vídeos?</summary><div class="faq-answer">É um estúdio online com ferramentas para remover pausas, combinar ganchos, corpos e CTAs e criar novas versões de vídeos a partir das suas gravações.</div></details>
+          <details class="faq-item"><summary>Preciso saber editar vídeos?</summary><div class="faq-answer">Não. A proposta é escolher a ferramenta, adicionar os arquivos e acompanhar o processamento, sem precisar executar manualmente cada corte ou combinação.</div></details>
+          <details class="faq-item"><summary>Como funciona o processamento dos vídeos?</summary><div class="faq-answer">O projeto utiliza processamento no navegador do dispositivo. O desempenho pode variar conforme o tamanho dos arquivos, o navegador e a capacidade do computador.</div></details>
+          <details class="faq-item"><summary>Funciona melhor no celular ou no computador?</summary><div class="faq-answer">A página pode ser acessada pelo navegador, mas para processar vídeos maiores recomendamos usar um computador atualizado e manter a aba aberta durante o processamento.</div></details>
+          <details class="faq-item"><summary>Qual é a diferença entre os planos?</summary><div class="faq-answer">Os dois planos dão acesso às ferramentas do Mais Vídeos. A diferença principal é a frequência da cobrança: mensal ou anual. Os valores e as condições serão informados no checkout antes da confirmação da compra.</div></details>
+          <details class="faq-item"><summary>Como recebo meu acesso depois de pagar?</summary><div class="faq-answer">Após a confirmação da compra, você poderá criar sua conta com o mesmo e-mail utilizado no pagamento. O acesso será liberado conforme a ativação da assinatura.</div></details>
+          <details class="faq-item"><summary>Posso cancelar a assinatura?</summary><div class="faq-answer">As condições de cancelamento e renovação serão apresentadas na oferta e no checkout antes da contratação.</div></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing">
+      <div class="container"><div class="closing-panel"><span class="kicker">Seu próximo vídeo começa aqui</span><h2>Transforme suas gravações<br><span class="gradient-text">em um fluxo mais inteligente.</span></h2><p>Escolha o plano, organize seus arquivos e deixe o Mais Vídeos cuidar das etapas repetitivas da produção.</p><a class="btn btn-primary" href="#planos">Ver planos disponíveis <span aria-hidden="true">→</span></a></div></div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div class="footer-brand"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m13 2-9 12h7l-1 8 10-13h-7z"/></svg></span> Mais Vídeos</div>
+      <span>Ferramentas para simplificar sua produção de vídeos.</span>
+      <a href="/">Entrar no estúdio ↗</a>
+    </div>
+  </footer>
+  <div class="toast" id="checkout-toast" role="status" aria-live="polite"></div>
+
+  <script>
+    // CONFIGURAÇÃO: preencher após criar os preços e ofertas na Cakto.
+    // Não publique a página com os checkouts vazios.
+    const MAIS_VIDEOS_CONFIG = {
+      appUrl: "/",
+      mensal: { preco: "", periodo: "Cobrança recorrente mensal.", checkout: "" },
+      anual: { preco: "", periodo: "Cobrança recorrente anual.", checkout: "" }
+    };
+
+    (function configurarPagina(){
+      const cfg = MAIS_VIDEOS_CONFIG;
+      const login = document.getElementById("login-top");
+      if (login) login.href = cfg.appUrl || "/";
+      ["mensal", "anual"].forEach((plano) => {
+        const item = cfg[plano] || {};
+        const price = document.getElementById(plano + "-price");
+        const period = document.getElementById(plano + "-period");
+        if (price && item.preco) price.textContent = item.preco;
+        if (period && item.periodo) period.textContent = item.periodo;
+      });
+      let toastTimer;
+      document.querySelectorAll(".checkout-button").forEach((button) => {
+        button.addEventListener("click", (event) => {
+          const plan = button.dataset.plan;
+          const url = cfg[plan] && cfg[plan].checkout;
+          if (url && /^https:\/\//i.test(url)) {
+            button.href = url;
+            button.target = "_blank";
+            button.rel = "noopener noreferrer";
+            return;
+          }
+          event.preventDefault();
+          const toast = document.getElementById("checkout-toast");
+          toast.textContent = "O checkout deste plano será conectado após a configuração das ofertas na Cakto.";
+          toast.classList.add("show");
+          clearTimeout(toastTimer);
+          toastTimer = setTimeout(() => toast.classList.remove("show"), 3600);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

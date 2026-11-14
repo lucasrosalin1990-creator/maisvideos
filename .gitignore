@@ -1,0 +1,27 @@
+# Ambientes virtuais Python
+/.venv/
+/.venv312/
+
+# Bytecode e cache Python
+__pycache__/
+*.py[cod]
+
+# Uploads, intermediários e resultados locais
+/temp_processing/
+
+# Variáveis de ambiente e configurações com segredos
+/.env
+/.env.*
+!/.env.example
+!/.env.*.example
+/.credentials
+/.credentials.*
+/secrets/
+/.secrets/
+.backups/
+backup-integracao-*/
+*.bak
+index_visual_atualizado.html
+main_corrigido.py
+main_revisado.py
+.vscode/

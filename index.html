@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>+VIDEOS | Edite e Multiplique seus Vídeos em Minutos</title>
+    <title>Mais Vídeos | Estúdio de criação</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,107 +11,351 @@
 
     <style>
         * { font-family: 'Plus Jakarta Sans', sans-serif; }
-        body { background-color: #06080F; color: #F1F5F9; letter-spacing: -0.015em; overflow-x: hidden; position: relative; }
-        .bg-dots { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1.2px, transparent 1.2px); background-size: 22px 22px; pointer-events: none; z-index: 0; }
-        .ambient-glow-right { position: fixed; top: -150px; right: 5%; width: 550px; height: 400px; background: radial-gradient(circle, rgba(255, 42, 95, 0.12), transparent 70%); filter: blur(75px); pointer-events: none; z-index: 0; }
-        .ambient-glow-left { position: fixed; top: -150px; left: 5%; width: 550px; height: 400px; background: radial-gradient(circle, rgba(0, 210, 255, 0.09), transparent 70%); filter: blur(75px); pointer-events: none; z-index: 0; }
-        .saas-card { background: rgba(13, 18, 32, 0.85); backdrop-filter: blur(16px); border: 1px solid rgba(255, 42, 95, 0.22); box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.12), 0 8px 30px -10px rgba(0, 0, 0, 0.7); transition: all 0.3s ease; }
-        .top-ticker-glow { border-bottom: 1px solid rgba(255, 42, 95, 0.3); background: rgba(6, 8, 16, 0.92); backdrop-filter: blur(18px); box-shadow: 0 4px 25px -4px rgba(255, 42, 95, 0.22); }
-        @keyframes ticker-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .animate-ticker { display: flex; width: max-content; animation: ticker-scroll 32s linear infinite; }
-        .animate-ticker:hover { animation-play-state: paused; }
+        :root { color-scheme: dark; --ink: #f5f7ff; --muted: #9aa8c2; --line: rgba(168, 190, 226, .13); --panel: rgba(17, 26, 45, .82); }
+        body { background: radial-gradient(ellipse at 18% 0%, rgba(35, 122, 245, .17), transparent 38%), radial-gradient(ellipse at 90% 15%, rgba(240, 56, 121, .13), transparent 34%), linear-gradient(145deg, #0b1220, #080d18 60%, #0c1020); background-attachment: fixed; color: var(--ink); letter-spacing: -.015em; overflow-x: hidden; position: relative; }
+        .bg-dots, .ambient-glow-right, .ambient-glow-left { display: none; }
+        .saas-card { background: linear-gradient(145deg, rgba(21, 32, 54, .92), rgba(13, 21, 38, .92)); backdrop-filter: blur(14px); border: 1px solid var(--line); box-shadow: 0 20px 60px -34px rgba(0, 0, 0, .8), inset 0 1px rgba(255,255,255,.045); transition: border-color .22s ease, transform .22s ease, box-shadow .22s ease; }
+        .tool-view { scroll-margin-top: 92px; animation: arrive .32s ease both; }
+        .app-tile { position: relative; isolation: isolate; overflow: hidden; min-height: 220px; background: linear-gradient(145deg, rgba(23, 35, 59, .94), rgba(13, 21, 38, .96)); border: 1px solid var(--line); box-shadow: 0 20px 55px -35px #000; transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease; }
+        .app-tile::after { content: ''; position: absolute; width: 190px; height: 190px; border-radius: 50%; right: -72px; top: -88px; background: var(--tile-glow); filter: blur(8px); opacity: .46; z-index: -1; }
+        .app-tile:hover { transform: translateY(-4px); border-color: var(--tile-accent); box-shadow: 0 26px 65px -36px var(--tile-glow); }
+        .app-icon { background: linear-gradient(145deg, var(--tile-accent), var(--tile-accent-dark)); box-shadow: 0 10px 24px -8px var(--tile-glow); }
+        .tool-back { border: 1px solid var(--line); background: rgba(8, 13, 24, .45); transition: background .2s ease, border-color .2s ease; }
+        .tool-back:hover { background: rgba(35, 122, 245, .13); border-color: rgba(92, 161, 255, .4); }
+        .upload-zone { border-color: rgba(138, 161, 199, .25) !important; background: rgba(9, 15, 27, .45) !important; transition: border-color .2s ease, background .2s ease, transform .2s ease; }
+        .upload-zone:hover { border-color: rgba(99, 164, 255, .68) !important; background: rgba(38, 89, 158, .12) !important; transform: translateY(-1px); }
+        .file-row { border: 1px solid rgba(150, 174, 211, .13); background: rgba(7, 12, 22, .58); }
+        .file-action { width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border-radius: 9px; color: #b7c5dc; background: rgba(145, 165, 197, .09); transition: color .16s ease, background .16s ease; }
+        .file-action:hover { color: white; background: rgba(72, 131, 218, .35); }
+        .file-action.remove:hover { color: #fecdd3; background: rgba(244, 63, 94, .24); }
+        .preview-row { border: 1px solid rgba(150, 174, 211, .12); background: rgba(10, 16, 29, .64); }
+        .step-card { border: 1px solid var(--line); background: rgba(9, 15, 27, .62); transition: border-color .2s ease, background .2s ease; }
+        .step-card.is-active { border-color: rgba(59, 130, 246, .6); background: rgba(37, 99, 235, .12); }
+        .step-card.is-done { border-color: rgba(52, 211, 153, .38); }
+        .toast { animation: arrive .22s ease both; }
+        button, a, input, select { -webkit-tap-highlight-color: transparent; }
+        button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid #60a5fa; outline-offset: 3px; }
+        @keyframes arrive { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
         .custom-scroll::-webkit-scrollbar { height: 6px; width: 6px; }
         .custom-scroll::-webkit-scrollbar-track { background: rgba(11, 16, 29, 0.6); border-radius: 99px; }
         .custom-scroll::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 99px; }
         .custom-scroll::-webkit-scrollbar-thumb:hover { background: #FF2A5F; }
+    
+        /* IDENTIDADE VISUAL UNIFICADA DAS FERRAMENTAS */
+        .tool-view {
+            --tool-accent: #60a5fa;
+            --tool-accent-soft: rgba(96,165,250,.18);
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+            background:
+                radial-gradient(ellipse at 4% 0%, var(--tool-accent-soft), transparent 36%),
+                linear-gradient(145deg, rgba(20,31,53,.96), rgba(10,17,31,.97));
+            border-color: rgba(148,177,222,.18);
+            box-shadow: 0 28px 80px -42px rgba(0,0,0,.9),
+                        inset 0 1px rgba(255,255,255,.06);
+        }
+        .tool-view::before {
+            content: "";
+            position: absolute;
+            width: 340px;
+            height: 340px;
+            right: -150px;
+            top: -190px;
+            border-radius: 50%;
+            background: var(--tool-accent-soft);
+            filter: blur(38px);
+            pointer-events: none;
+            z-index: -1;
+        }
+        .tool-view::after {
+            content: "";
+            position: absolute;
+            inset: 0 0 auto;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--tool-accent), rgba(167,139,250,.65), transparent);
+            opacity: .8;
+            pointer-events: none;
+        }
+        .tool-view > * { position: relative; }
+        #ferramenta-1 { --tool-accent: #fb7185; --tool-accent-soft: rgba(244,63,94,.17); }
+        #ferramenta-2 { --tool-accent: #60a5fa; --tool-accent-soft: rgba(59,130,246,.19); }
+        #ferramenta-3 { --tool-accent: #a78bfa; --tool-accent-soft: rgba(139,92,246,.19); }
+
+        .tool-view .tool-back {
+            border-color: rgba(148,163,184,.2);
+            background: rgba(8,14,27,.58);
+            box-shadow: inset 0 1px rgba(255,255,255,.04);
+        }
+        .tool-view .tool-back:hover {
+            color: white;
+            border-color: var(--tool-accent);
+            background: var(--tool-accent-soft);
+            transform: translateY(-1px);
+        }
+        .tool-view .upload-zone {
+            position: relative;
+            overflow: hidden;
+            border-radius: 17px;
+            box-shadow: inset 0 1px rgba(255,255,255,.035);
+        }
+        .tool-view .upload-zone::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(115deg, transparent 20%, rgba(255,255,255,.055) 48%, transparent 76%);
+            transform: translateX(-120%);
+            transition: transform .55s ease;
+            pointer-events: none;
+        }
+        .tool-view .upload-zone:hover::after { transform: translateX(120%); }
+
+        .tool-view .step-card,
+        .tool-view .preview-row,
+        .tool-view .file-row {
+            backdrop-filter: blur(10px);
+            box-shadow: inset 0 1px rgba(255,255,255,.035);
+        }
+        .tool-view input[type="text"],
+        .tool-view select {
+            background-color: rgba(7,13,25,.78);
+            border-color: rgba(148,163,184,.22);
+            transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+        }
+        .tool-view input[type="text"]:focus,
+        .tool-view select:focus {
+            border-color: var(--tool-accent);
+            box-shadow: 0 0 0 3px var(--tool-accent-soft);
+            background-color: rgba(8,15,29,.96);
+        }
+        .tool-view button:not(:disabled) {
+            transition: transform .2s ease, filter .2s ease, box-shadow .2s ease, border-color .2s ease;
+        }
+        .tool-view button:not(:disabled):hover {
+            transform: translateY(-1px);
+            filter: brightness(1.1);
+        }
+        .tool-view button[id$="-btn-start"]:not(:disabled) {
+            background: linear-gradient(110deg, var(--tool-accent), #6366f1);
+            color: #fff;
+            box-shadow: 0 12px 28px -13px var(--tool-accent);
+        }
+        .tool-view [id$="-progress-box"] {
+            background: rgba(7,13,25,.72);
+            border-color: color-mix(in srgb, var(--tool-accent) 45%, transparent);
+            box-shadow: inset 0 1px rgba(255,255,255,.04);
+        }
+        .tool-view [id$="-progress-bar"] {
+            background: linear-gradient(90deg, var(--tool-accent), #60a5fa, #a78bfa);
+            box-shadow: 0 0 16px var(--tool-accent-soft);
+        }
+        .tool-view [id$="-btn-zip"] {
+            box-shadow: 0 12px 28px -14px rgba(244,63,94,.7);
+        }
+        .tool-view [id$="-btn-zip"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 34px -14px rgba(244,63,94,.8);
+        }
+        .tool-view [id$="-results-box"] {
+            border-top-color: rgba(148,163,184,.2);
+        }
+        .tool-view .bg-blue-950\\/40,
+        .tool-view [class~="bg-blue-950/40"] {
+            background: linear-gradient(145deg, rgba(20,55,103,.52), rgba(10,25,49,.76));
+            box-shadow: 0 16px 38px -28px rgba(59,130,246,.65), inset 0 1px rgba(255,255,255,.045);
+        }
+        .tool-view [class~="bg-emerald-950/40"] {
+            background: linear-gradient(145deg, rgba(13,75,61,.48), rgba(8, thirty, 28,.75));
+            background: linear-gradient(145deg, rgba(13,75,61,.48), rgba(8,30,28,.75));
+            box-shadow: 0 16px 38px -28px rgba(16,185,129,.55), inset 0 1px rgba(255,255,255,.045);
+        }
+        .tool-view [class~="bg-rose-950/40"] {
+            background: linear-gradient(145deg, rgba(91,28,48,.5), rgba(39,12,27,.76));
+            box-shadow: 0 16px 38px -28px rgba(244,63,94,.55), inset 0 1px rgba(255,255,255,.045);
+        }
+        .tool-view .grid > div[class*="border-2"] {
+            border-radius: 22px;
+            transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+        }
+        .tool-view .grid > div[class*="border-2"]:hover {
+            transform: translateY(-3px);
+        }
+        @media (max-width: 640px) {
+            .tool-view { border-radius: 22px; padding: 1rem; }
+            .tool-view .grid > div[class*="border-2"] { padding: 1rem; }
+        }
+
     </style>
+<style id=visual-ferramentas-primeira-pagina>
+.tool-view.saas-card{background:linear-gradient(135deg,rgba(15,23,42,.94),rgba(30,41,59,.82))!important;border:1px solid rgba(148,163,184,.2)!important;border-radius:28px!important;box-shadow:0 24px 70px rgba(2,6,23,.34),inset 0 1px 0 rgba(255,255,255,.04)!important;backdrop-filter:blur(18px)}
+.tool-view h2{background-image:linear-gradient(90deg,#93c5fd 0%,#a5b4fc 52%,#c4b5fd 100%)!important;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.tool-view [class*=bg-blue-950\\/40]{background:linear-gradient(145deg,rgba(59,130,246,.14),rgba(15,23,42,.72))!important;border:1px solid rgba(96,165,250,.38)!important;box-shadow:0 12px 30px rgba(2,6,23,.18)}
+.tool-view [class*=bg-emerald-950\\/40]{background:linear-gradient(145deg,rgba(139,92,246,.14),rgba(15,23,42,.72))!important;border:1px solid rgba(167,139,250,.38)!important;box-shadow:0 12px 30px rgba(2,6,23,.18)}
+.tool-view [class*=bg-rose-950\\/40]{background:linear-gradient(145deg,rgba(244,63,94,.13),rgba(15,23,42,.72))!important;border:1px solid rgba(251,113,133,.38)!important;box-shadow:0 12px 30px rgba(2,6,23,.18)}
+.tool-view [class*=bg-\\[\\#080B14\\]]{background:linear-gradient(145deg,rgba(30,41,59,.72),rgba(15,23,42,.82))!important;border-color:rgba(148,163,184,.2)!important;box-shadow:0 12px 30px rgba(2,6,23,.16)}
+.tool-view .upload-zone{background:linear-gradient(135deg,rgba(30,41,59,.58),rgba(15,23,42,.52))!important;border:1px dashed rgba(129,140,248,.55)!important;border-radius:18px!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.035);transition:all .2s ease}
+.tool-view .upload-zone:hover{border-color:#a5b4fc!important;background:linear-gradient(135deg,rgba(59,130,246,.14),rgba(139,92,246,.12))!important;transform:translateY(-1px)}
+.tool-view input[type=text],.tool-view select{background:rgba(15,23,42,.88)!important;border:1px solid rgba(148,163,184,.24)!important;border-radius:13px!important;min-height:42px}
+.tool-view input[type=text]:focus,.tool-view select:focus{border-color:rgba(165,180,252,.8)!important;box-shadow:0 0 0 3px rgba(129,140,248,.12)}
+.tool-view .tool-back{background:rgba(30,41,59,.66)!important;border:1px solid rgba(148,163,184,.2)!important;transition:all .2s}
+.tool-view .tool-back:hover{background:rgba(51,65,85,.82)!important;color:#fff!important}
+.tool-view button[onclick^=limparFerramenta]{background:rgba(30,41,59,.65)!important;border:1px solid rgba(148,163,184,.22)!important;color:#cbd5e1!important}
+.tool-view button[onclick^=limparFerramenta]:hover{border-color:rgba(165,180,252,.65)!important;color:#fff!important}
+.tool-view #f1-btn-start:not(:disabled),.tool-view #f2-btn-start:not(:disabled),.tool-view #f3-btn-start:not(:disabled){background:linear-gradient(100deg,#3b82f6,#6366f1,#8b5cf6)!important;color:#fff!important;box-shadow:0 10px 26px rgba(99,102,241,.28)!important;cursor:pointer}
+.tool-view #f1-btn-start:disabled,.tool-view #f2-btn-start:disabled,.tool-view #f3-btn-start:disabled{background:rgba(71,85,105,.38)!important;color:#94a3b8!important;box-shadow:none!important}
+.tool-view [id$=progress-box]{background:rgba(15,23,42,.75)!important;border-color:rgba(129,140,248,.32)!important;border-radius:18px!important}
+.tool-view .border-b{border-color:rgba(148,163,184,.18)!important}
+</style>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-[#FF2A5F] selection:text-white">
 
-    <div class="bg-dots"></div>
-    <div class="ambient-glow-right"></div>
-    <div class="ambient-glow-left"></div>
-
-    <!-- BANNER TOPO -->
-    <div class="top-ticker-glow overflow-hidden py-2 relative z-50">
-        <div class="animate-ticker flex items-center gap-4">
-            <div class="flex-shrink-0 flex items-center gap-3 bg-[#0D1220]/90 border border-slate-800/80 px-3 py-1.5 rounded-xl text-xs shadow-md">
-                <span class="text-[10px] bg-white text-black font-extrabold px-2 py-0.5 rounded-md">Hoje</span>
-                <span class="text-slate-400 text-[10px]">GMV: <strong class="text-white font-mono">R$ 14,8 mil</strong></span>
-                <span class="text-slate-400 text-[10px] border-l border-slate-800 pl-2">Itens: <strong class="text-white font-mono">48</strong></span>
-                <span class="text-emerald-400 font-mono font-bold text-[10px] border-l border-slate-800 pl-2">+R$ 1.620,00</span>
-            </div>
-            <div class="flex-shrink-0 flex items-center gap-3 bg-[#0D1220]/90 border border-slate-800/80 px-3 py-1.5 rounded-xl text-xs shadow-md">
-                <span class="text-[10px] bg-[#FF2A5F]/20 text-[#FF2A5F] border border-[#FF2A5F]/30 font-extrabold px-2 py-0.5 rounded-md">Últimos 7 dias</span>
-                <span class="text-slate-400 text-[10px]">GMV: <strong class="text-white font-mono">R$ 82,4 mil</strong></span>
-                <span class="text-slate-400 text-[10px] border-l border-slate-800 pl-2">Itens: <strong class="text-white font-mono">264</strong></span>
-                <span class="text-emerald-400 font-mono font-bold text-[10px] border-l border-slate-800 pl-2">+R$ 9.480,00</span>
-            </div>
-            <div class="flex-shrink-0 flex items-center gap-3 bg-[#0D1220]/90 border border-slate-800/80 px-3 py-1.5 rounded-xl text-xs shadow-md">
-                <span class="text-[10px] bg-white text-black font-extrabold px-2 py-0.5 rounded-md">Hoje</span>
-                <span class="text-slate-400 text-[10px]">GMV: <strong class="text-white font-mono">R$ 26,1 mil</strong></span>
-                <span class="text-slate-400 text-[10px] border-l border-slate-800 pl-2">Itens: <strong class="text-white font-mono">87</strong></span>
-                <span class="text-emerald-400 font-mono font-bold text-[10px] border-l border-slate-800 pl-2">+R$ 3.140,00</span>
-            </div>
-            <div class="flex-shrink-0 flex items-center gap-3 bg-[#0D1220]/90 border border-slate-800/80 px-3 py-1.5 rounded-xl text-xs shadow-md">
-                <span class="text-[10px] bg-[#FF2A5F]/20 text-[#FF2A5F] border border-[#FF2A5F]/30 font-extrabold px-2 py-0.5 rounded-md">Últimos 7 dias</span>
-                <span class="text-slate-400 text-[10px]">GMV: <strong class="text-white font-mono">R$ 154,8 mil</strong></span>
-                <span class="text-slate-400 text-[10px] border-l border-slate-800 pl-2">Itens: <strong class="text-white font-mono">490</strong></span>
-                <span class="text-emerald-400 font-mono font-bold text-[10px] border-l border-slate-800 pl-2">+R$ 18.250,00</span>
-            </div>
-        </div>
-    </div>
-
     <!-- CABEÇALHO -->
     <header class="border-b border-slate-800/80 bg-[#070A12]/80 backdrop-blur-md sticky top-0 z-40 relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-xl bg-[#0F1424] border border-[#FF2A5F]/40 flex items-center justify-center text-xs font-black text-[#FF2A5F] shadow-md">+V</div>
-                <span class="text-base font-black tracking-tight text-white leading-tight">
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FF2A5F] to-cyan-400">+</span>VIDEOS
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
+            <button type="button" onclick="mostrarInicio()" class="flex items-center gap-3 text-left" aria-label="Voltar ao início">
+                <span class="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-400 to-indigo-600 flex items-center justify-center text-sm font-black text-white shadow-lg shadow-blue-900/40">+V</span>
+                <span>
+                    <span class="block text-[15px] font-black tracking-tight text-white"><span class="text-blue-400">+</span>VÍDEOS</span>
+                    <span class="block text-[10px] text-slate-400 font-semibold tracking-wide">ESTÚDIO DE CRIAÇÃO</span>
                 </span>
-            </div>
-
-            <div class="flex items-center gap-2 bg-[#0C101D]/80 border border-slate-800 px-3.5 py-1.5 rounded-xl text-xs text-slate-300">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span class="font-bold text-white">Servidor em Nuvem Ativo</span>
+            </button>
+            <div class="flex items-center gap-3">
+                <span class="hidden sm:block text-[11px] text-slate-400 font-semibold">Seu espaço de criação</span>
+                <button type="button" onclick="mostrarInicio()" class="w-10 h-10 rounded-xl border border-slate-700/70 bg-slate-900/70 text-slate-300 hover:text-white hover:border-blue-400/50 transition" aria-label="Início">
+                    <svg class="w-5 h-5 mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg>
+                </button>
             </div>
         </div>
     </header>
 
+    <div id="app-feedback" class="fixed top-[84px] right-4 z-[60] w-[min(92vw,360px)] space-y-2" aria-live="polite" aria-atomic="true"></div>
+
     <!-- ÁREA PRINCIPAL -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full space-y-10 relative z-10">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 flex-grow w-full space-y-8 relative z-10">
         
-        <!-- HERO + BOTÕES DE ATALHO CENTRALIZADOS -->
-        <div class="space-y-5 text-center">
-            <div>
-                <span class="text-xs uppercase font-black text-[#FF2A5F] tracking-widest block mb-1">Processamento 100% em Nuvem</span>
-                <h1 class="text-xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight max-w-4xl mx-auto">
-                    AQUI VOCÊ <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-sky-300 to-[#FF2A5F]">EDITA E MULTIPLICA SEUS VÍDEOS</span> EM MINUTOS
-                </h1>
-                <p class="text-xs sm:text-sm text-slate-300 mt-2 font-medium max-w-xl mx-auto">
-                    Remova pausas automaticamente e multiplique dezenas de variações prontas para postar e anunciar.
-                </p>
+<!-- TELA DE AUTENTICAÇÃO -->
+<section id="auth-view" class="hidden min-h-[75vh] flex items-center justify-center py-10">
+    <div class="saas-card w-full max-w-md rounded-[28px] p-6 sm:p-9">
+
+        <div class="text-center mb-8">
+            <span class="inline-flex w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-400 to-indigo-600 items-center justify-center text-xl font-black text-white shadow-lg shadow-blue-900/40 mb-5">+V</span>
+
+            <h1 class="text-2xl sm:text-3xl font-black text-white tracking-tight">
+                Bem-vindo ao <span class="text-blue-400">Mais Vídeos</span>
+            </h1>
+
+            <p class="text-sm text-slate-400 mt-2">
+                Entre na sua conta para acessar seu estúdio de criação.
+            </p>
+        </div>
+
+        <!-- LOGIN -->
+        <div id="auth-login-panel">
+            <h2 class="text-lg font-extrabold text-white mb-5">Entrar na plataforma</h2>
+
+            <div class="space-y-4">
+                <div>
+                    <label for="auth-login-email" class="block text-xs font-bold text-slate-300 mb-2">E-mail da compra</label>
+                    <input id="auth-login-email" type="email" autocomplete="email" placeholder="seuemail@exemplo.com"
+                        class="w-full bg-[#080B14] border border-slate-700 rounded-xl px-4 py-3.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-blue-400">
+                </div>
+
+                <div>
+                    <label for="auth-login-password" class="block text-xs font-bold text-slate-300 mb-2">Senha</label>
+                    <input id="auth-login-password" type="password" autocomplete="current-password" placeholder="Sua senha"
+                        class="w-full bg-[#080B14] border border-slate-700 rounded-xl px-4 py-3.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-blue-400">
+                </div>
+
+                <button id="auth-login-btn" type="button"
+                    class="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 hover:brightness-110 text-white font-extrabold text-sm shadow-lg transition">
+                    Entrar na minha conta
+                </button>
             </div>
 
-            <!-- OS 3 BOTÕES NA ORDEM SOLICITADA -->
-            <div class="flex items-center gap-3 flex-wrap justify-center pt-1">
-                <a href="#ferramenta-1" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-xs text-white font-extrabold transition shadow-lg shadow-[#FF2A5F]/25 flex items-center gap-2">
-                    <span>⚡ 1. Removedor de Pausas</span>
-                </a>
-                <a href="#ferramenta-2" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-xs text-white font-extrabold transition shadow-lg shadow-[#FF2A5F]/25 flex items-center gap-2">
-                    <span>🎬 2. Multiplicador de Vídeos</span>
-                </a>
-                <a href="#ferramenta-3" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] hover:brightness-110 text-xs text-white font-extrabold transition shadow-lg shadow-[#FF2A5F]/25 flex items-center gap-2">
-                    <span>🔥 3. Edite e Multiplique</span>
-                </a>
-            </div>
+            <p class="text-center text-sm text-slate-400 mt-6">
+                Ainda não tem acesso?
+                <button id="auth-show-signup" type="button" class="text-blue-400 font-bold hover:text-blue-300">
+                    Criar minha conta
+                </button>
+            </p>
         </div>
+
+        <!-- CADASTRO -->
+        <div id="auth-signup-panel" class="hidden">
+            <h2 class="text-lg font-extrabold text-white mb-2">Criar minha conta</h2>
+
+            <p class="text-xs text-slate-400 mb-5">
+                Utilize o mesmo e-mail informado na compra do Mais Vídeos.
+            </p>
+
+            <div class="space-y-4">
+                <div>
+                    <label for="auth-signup-email" class="block text-xs font-bold text-slate-300 mb-2">E-mail da compra</label>
+                    <input id="auth-signup-email" type="email" autocomplete="email" placeholder="seuemail@exemplo.com"
+                        class="w-full bg-[#080B14] border border-slate-700 rounded-xl px-4 py-3.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-blue-400">
+                </div>
+
+                <div>
+                    <label for="auth-signup-password" class="block text-xs font-bold text-slate-300 mb-2">Criar senha</label>
+                    <input id="auth-signup-password" type="password" autocomplete="new-password" minlength="8" placeholder="Mínimo de 8 caracteres"
+                        class="w-full bg-[#080B14] border border-slate-700 rounded-xl px-4 py-3.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-blue-400">
+                </div>
+
+                <button id="auth-signup-btn" type="button"
+                    class="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 hover:brightness-110 text-white font-extrabold text-sm shadow-lg transition">
+                    Criar minha conta
+                </button>
+            </div>
+
+            <p class="text-center text-sm text-slate-400 mt-6">
+                Já tem uma conta?
+                <button id="auth-show-login" type="button" class="text-blue-400 font-bold hover:text-blue-300">
+                    Fazer login
+                </button>
+            </p>
+        </div>
+
+        <div id="auth-message" class="hidden mt-5 rounded-xl border border-blue-400/20 bg-blue-500/10 p-3 text-xs text-blue-200" role="status" aria-live="polite"></div>
+
+        <p class="text-center text-[10px] text-slate-500 mt-7">
+            Acesso protegido • Mais Vídeos
+        </p>
+    </div>
+</section>
+<!-- FIM DA TELA DE AUTENTICAÇÃO -->
+
+        <section id="inicio-view" class="space-y-8">
+            <div class="max-w-3xl">
+                <span class="text-[11px] uppercase font-extrabold text-blue-300 tracking-[.18em] block mb-3">Bem-vindo ao seu estúdio</span>
+                <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight leading-[1.08]">Ideias em vídeo.<br><span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-300 via-sky-300 to-violet-300">Do seu jeito.</span></h1>
+                <p class="text-sm sm:text-base text-slate-400 mt-4 max-w-xl leading-relaxed">Escolha uma ferramenta para começar a criar, editar e multiplicar seus vídeos.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
+                <button type="button" onclick="abrirFerramenta('ferramenta-1')" class="app-tile rounded-[26px] p-6 sm:p-7 text-left group" style="--tile-accent:#fb7185;--tile-accent-dark:#e11d48;--tile-glow:rgba(244,63,94,.35)">
+                    <span class="app-icon w-14 h-14 rounded-[19px] flex items-center justify-center text-white mb-7"><svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M13 2 4.5 13h6l-.8 9L19.5 11h-6z"/></svg></span>
+                    <span class="block text-lg font-extrabold text-white">Remover pausas</span><span class="block text-sm text-slate-400 mt-2 leading-relaxed">Deixe seus vídeos mais dinâmicos com cortes automáticos de silêncio.</span><span class="inline-flex items-center gap-2 mt-6 text-xs font-bold text-rose-300">Abrir ferramenta <span aria-hidden="true">→</span></span>
+                </button>
+                <button type="button" onclick="abrirFerramenta('ferramenta-2')" class="app-tile rounded-[26px] p-6 sm:p-7 text-left group" style="--tile-accent:#60a5fa;--tile-accent-dark:#4f46e5;--tile-glow:rgba(59,130,246,.36)">
+                    <span class="app-icon w-14 h-14 rounded-[19px] flex items-center justify-center text-white mb-7"><svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="13" height="16" rx="3"/><path stroke-linecap="round" stroke-linejoin="round" d="m16 9 5-3v12l-5-3M8 9l4 3-4 3z"/></svg></span>
+                    <span class="block text-lg font-extrabold text-white">Multiplicar vídeos</span><span class="block text-sm text-slate-400 mt-2 leading-relaxed">Combine ganchos, corpos e CTAs para criar variações prontas.</span><span class="inline-flex items-center gap-2 mt-6 text-xs font-bold text-blue-300">Abrir ferramenta <span aria-hidden="true">→</span></span>
+                </button>
+                <button type="button" onclick="abrirFerramenta('ferramenta-3')" class="app-tile rounded-[26px] p-6 sm:p-7 text-left group" style="--tile-accent:#a78bfa;--tile-accent-dark:#7c3aed;--tile-glow:rgba(139,92,246,.34)">
+                    <span class="app-icon w-14 h-14 rounded-[19px] flex items-center justify-center text-white mb-7"><svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3 4 7v5c0 5 3.4 8 8 9 4.6-1 8-4 8-9V7z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 12 2 2 4-4"/></svg></span>
+                    <span class="block text-lg font-extrabold text-white">Fluxo completo</span><span class="block text-sm text-slate-400 mt-2 leading-relaxed">Remova pausas e multiplique tudo em uma experiência guiada.</span><span class="inline-flex items-center gap-2 mt-6 text-xs font-bold text-violet-300">Começar fluxo <span aria-hidden="true">→</span></span>
+                </button>
+            </div>
+            <section class="saas-card rounded-[26px] p-5 sm:p-7">
+                <div class="flex items-center justify-between gap-4 mb-4"><div><span class="block text-[11px] uppercase tracking-[.16em] font-extrabold text-slate-500">Nesta sessão</span><h2 class="text-lg font-extrabold text-white mt-1">Criações recentes</h2></div><span class="text-[11px] text-slate-500">Disponíveis enquanto esta página estiver aberta</span></div>
+                <div id="recent-creations" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"><p class="col-span-full rounded-2xl border border-dashed border-slate-700/70 px-4 py-6 text-center text-sm text-slate-500">Seus vídeos concluídos nesta sessão aparecerão aqui.</p></div>
+            </section>
+        </section>
 
         <!-- ============================================================ -->
         <!-- FERRAMENTA 1: REMOVEDOR DE PAUSAS NO VÍDEO (SEM MULTIPLICAR) -->
         <!-- ============================================================ -->
-        <section id="ferramenta-1" class="saas-card rounded-3xl p-6 sm:p-8 shadow-xl">
+        <section id="ferramenta-1" class="tool-view hidden saas-card rounded-3xl p-5 sm:p-8 shadow-xl">
+            <button type="button" onclick="mostrarInicio()" class="tool-back rounded-xl px-3 py-2 text-xs font-bold text-slate-300 inline-flex items-center gap-2 mb-6"><span aria-hidden="true">←</span> Início</button>
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-slate-800/80">
                 <div>
                     <span class="text-xs font-black uppercase text-cyan-400 tracking-wider block mb-1">Ferramenta 1</span>
@@ -129,12 +373,12 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
                 <div class="lg:col-span-2">
-                    <div onclick="document.getElementById('f1-input').click()" class="border-2 border-dashed border-slate-800 hover:border-[#FF2A5F]/50 bg-[#080B14]/70 rounded-2xl p-6 text-center cursor-pointer transition flex flex-col items-center justify-center min-h-[130px]">
+                    <label for="f1-input" class="upload-zone border-2 border-dashed border-slate-800 hover:border-[#FF2A5F]/50 bg-[#080B14]/70 rounded-2xl p-6 text-center cursor-pointer transition flex flex-col items-center justify-center min-h-[130px]">
                         <svg class="w-8 h-8 text-slate-500 mb-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
                         <p class="text-xs font-bold text-slate-200">Clique para selecionar 1 ou múltiplos vídeos com pausas</p>
                         <p class="text-[11px] text-slate-500 mt-1 font-mono">MP4, MOV (iPhone) ou WebM</p>
                         <input type="file" id="f1-input" multiple accept="video/*" class="hidden" onchange="carregarArquivosF1(this.files)">
-                    </div>
+                    </label>
 
                     <div id="f1-queue-box" class="mt-3 hidden">
                         <ul id="f1-queue-list" class="space-y-1.5 max-h-32 overflow-y-auto custom-scroll pr-1 font-medium text-xs text-slate-300"></ul>
@@ -152,7 +396,8 @@
                     </div>
 
                     <div class="flex items-center gap-2 mt-4">
-                        <button id="f1-btn-cancel" onclick="cancelarTarefaAtiva('f1')" class="hidden px-4 py-3.5 rounded-xl bg-rose-500/20 text-rose-400 border border-rose-500/30 font-bold text-xs transition">Pausar</button>
+                        <button type="button" onclick="limparFerramenta('f1')" class="px-4 py-3.5 rounded-xl border border-slate-700 bg-slate-900 text-slate-300 hover:text-white font-bold text-xs transition">Limpar vídeos</button>
+                        <button id="f1-btn-cancel" onclick="cancelarTarefaAtiva('f1')" class="hidden px-4 py-3.5 rounded-xl bg-rose-500/20 text-rose-300 border border-rose-500/30 font-bold text-xs transition">Cancelar</button>
                         <button id="f1-btn-start" onclick="iniciarRemovedorF1()" disabled class="w-full py-3.5 rounded-xl bg-slate-800 text-slate-500 font-extrabold text-xs transition cursor-not-allowed">
                             Remover Pausas Agora
                         </button>
@@ -190,7 +435,8 @@
         <!-- ============================================================ -->
         <!-- FERRAMENTA 2: MULTIPLICADOR DE VÍDEOS (SEM REMOVER PAUSAS)   -->
         <!-- ============================================================ -->
-        <section id="ferramenta-2" class="saas-card rounded-3xl p-6 sm:p-8 shadow-xl">
+        <section id="ferramenta-2" class="tool-view hidden saas-card rounded-3xl p-5 sm:p-8 shadow-xl">
+            <button type="button" onclick="mostrarInicio()" class="tool-back rounded-xl px-3 py-2 text-xs font-bold text-slate-300 inline-flex items-center gap-2 mb-6"><span aria-hidden="true">←</span> Início</button>
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-slate-800/80">
                 <div>
                     <span class="text-xs font-black uppercase text-cyan-400 tracking-wider block mb-1">Ferramenta 2</span>
@@ -217,10 +463,10 @@
                         <p class="text-[11px] text-blue-200/70 mb-3">Mínimo 1 vídeo obrigatório.</p>
                     </div>
                     <div>
-                        <div onclick="document.getElementById('f2-in-ganchos').click()" class="border border-dashed border-blue-400/60 hover:bg-blue-900/30 rounded-xl p-4 text-center cursor-pointer transition mb-2">
+                        <label for="f2-in-ganchos" class="upload-zone border border-dashed border-blue-400/60 hover:bg-blue-900/30 rounded-xl p-4 text-center cursor-pointer transition mb-2 block">
                             <p class="text-xs font-extrabold text-blue-200">+ Adicionar Ganchos</p>
                             <input type="file" id="f2-in-ganchos" multiple accept="video/*" class="hidden" onchange="selecionarBloco('f2', 'ganchos', this.files)">
-                        </div>
+                        </label>
                         <ul id="f2-list-ganchos" class="space-y-1 max-h-28 overflow-y-auto custom-scroll pr-1 empty:hidden text-xs text-blue-100 font-medium"></ul>
                     </div>
                 </div>
@@ -235,10 +481,10 @@
                         <p class="text-[11px] text-emerald-200/70 mb-3">Mínimo 1 vídeo obrigatório.</p>
                     </div>
                     <div>
-                        <div onclick="document.getElementById('f2-in-corpos').click()" class="border border-dashed border-emerald-400/60 hover:bg-emerald-900/30 rounded-xl p-4 text-center cursor-pointer transition mb-2">
+                        <label for="f2-in-corpos" class="upload-zone border border-dashed border-emerald-400/60 hover:bg-emerald-900/30 rounded-xl p-4 text-center cursor-pointer transition mb-2 block">
                             <p class="text-xs font-extrabold text-emerald-200">+ Adicionar Corpos</p>
                             <input type="file" id="f2-in-corpos" multiple accept="video/*" class="hidden" onchange="selecionarBloco('f2', 'corpos', this.files)">
-                        </div>
+                        </label>
                         <ul id="f2-list-corpos" class="space-y-1 max-h-28 overflow-y-auto custom-scroll pr-1 empty:hidden text-xs text-emerald-100 font-medium"></ul>
                     </div>
                 </div>
@@ -253,10 +499,10 @@
                         <p class="text-[11px] text-rose-200/70 mb-3">Mínimo 1 vídeo obrigatório.</p>
                     </div>
                     <div>
-                        <div onclick="document.getElementById('f2-in-ctas').click()" class="border border-dashed border-rose-400/60 hover:bg-rose-900/30 rounded-xl p-4 text-center cursor-pointer transition mb-2">
+                        <label for="f2-in-ctas" class="upload-zone border border-dashed border-rose-400/60 hover:bg-rose-900/30 rounded-xl p-4 text-center cursor-pointer transition mb-2 block">
                             <p class="text-xs font-extrabold text-rose-200">+ Adicionar CTAs</p>
                             <input type="file" id="f2-in-ctas" multiple accept="video/*" class="hidden" onchange="selecionarBloco('f2', 'ctas', this.files)">
-                        </div>
+                        </label>
                         <ul id="f2-list-ctas" class="space-y-1 max-h-28 overflow-y-auto custom-scroll pr-1 empty:hidden text-xs text-rose-100 font-medium"></ul>
                     </div>
                 </div>
@@ -273,11 +519,17 @@
                 </div>
 
                 <div class="flex items-center gap-2 w-full sm:w-auto">
-                    <button id="f2-btn-cancel" onclick="cancelarTarefaAtiva('f2')" class="hidden px-5 py-3.5 rounded-xl bg-rose-500/20 text-rose-400 border border-rose-500/30 font-bold text-xs transition">Pausar</button>
+                    <button type="button" onclick="limparFerramenta('f2')" class="px-4 py-3.5 rounded-xl border border-slate-700 bg-slate-900 text-slate-300 hover:text-white font-bold text-xs transition">Limpar vídeos</button>
+                    <button id="f2-btn-cancel" onclick="cancelarTarefaAtiva('f2')" class="hidden px-5 py-3.5 rounded-xl bg-rose-500/20 text-rose-300 border border-rose-500/30 font-bold text-xs transition">Cancelar</button>
                     <button id="f2-btn-start" onclick="iniciarMultiplicador('f2', false)" disabled class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-slate-800 text-slate-500 font-extrabold text-xs transition cursor-not-allowed">
                         Multiplicar Vídeos Agora
                     </button>
                 </div>
+            </div>
+
+            <div class="mt-5 rounded-2xl border border-slate-800/80 bg-[#080B14]/55 p-4">
+                <div class="flex items-center justify-between gap-3 mb-3"><h3 class="text-sm font-extrabold text-white">Prévia das combinações</h3><span class="text-[11px] text-slate-500">A ordem final pode ser embaralhada pelo processamento</span></div>
+                <div id="f2-preview" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2"><p class="text-xs text-slate-500">Adicione ao menos um vídeo em cada etapa para ver a prévia.</p></div>
             </div>
 
             <div id="f2-progress-box" class="hidden mt-4 bg-[#080B14] border border-[#FF2A5F]/30 rounded-xl p-3 text-xs">
@@ -308,7 +560,8 @@
         <!-- ============================================================ -->
         <!-- FERRAMENTA 3: EDITE E MULTIPLIQUE OS VÍDEOS (2 EM 1)         -->
         <!-- ============================================================ -->
-        <section id="ferramenta-3" class="saas-card rounded-3xl p-6 sm:p-8 shadow-xl">
+        <section id="ferramenta-3" class="tool-view hidden saas-card rounded-3xl p-5 sm:p-8 shadow-xl">
+            <button type="button" onclick="mostrarInicio()" class="tool-back rounded-xl px-3 py-2 text-xs font-bold text-slate-300 inline-flex items-center gap-2 mb-6"><span aria-hidden="true">←</span> Início</button>
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-slate-800/80">
                 <div>
                     <span class="text-xs font-black uppercase text-[#FF2A5F] tracking-wider block mb-1">Ferramenta 3 • Automação 2 em 1</span>
@@ -345,10 +598,10 @@
                         <p class="text-[11px] text-blue-200/70 mb-3">Remove pausas + Multiplica.</p>
                     </div>
                     <div>
-                        <div onclick="document.getElementById('f3-in-ganchos').click()" class="border border-dashed border-blue-400/60 hover:bg-blue-900/30 rounded-xl p-4 text-center cursor-pointer transition mb-2">
+                        <label for="f3-in-ganchos" class="upload-zone border border-dashed border-blue-400/60 hover:bg-blue-900/30 rounded-xl p-4 text-center cursor-pointer transition mb-2 block">
                             <p class="text-xs font-extrabold text-blue-200">+ Adicionar Ganchos</p>
                             <input type="file" id="f3-in-ganchos" multiple accept="video/*" class="hidden" onchange="selecionarBloco('f3', 'ganchos', this.files)">
-                        </div>
+                        </label>
                         <ul id="f3-list-ganchos" class="space-y-1 max-h-28 overflow-y-auto custom-scroll pr-1 empty:hidden text-xs text-blue-100 font-medium"></ul>
                     </div>
                 </div>
@@ -363,10 +616,10 @@
                         <p class="text-[11px] text-emerald-200/70 mb-3">Remove pausas + Multiplica.</p>
                     </div>
                     <div>
-                        <div onclick="document.getElementById('f3-in-corpos').click()" class="border border-dashed border-emerald-400/60 hover:bg-emerald-900/30 rounded-xl p-4 text-center cursor-pointer transition mb-2">
+                        <label for="f3-in-corpos" class="upload-zone border border-dashed border-emerald-400/60 hover:bg-emerald-900/30 rounded-xl p-4 text-center cursor-pointer transition mb-2 block">
                             <p class="text-xs font-extrabold text-emerald-200">+ Adicionar Corpos</p>
                             <input type="file" id="f3-in-corpos" multiple accept="video/*" class="hidden" onchange="selecionarBloco('f3', 'corpos', this.files)">
-                        </div>
+                        </label>
                         <ul id="f3-list-corpos" class="space-y-1 max-h-28 overflow-y-auto custom-scroll pr-1 empty:hidden text-xs text-emerald-100 font-medium"></ul>
                     </div>
                 </div>
@@ -381,10 +634,10 @@
                         <p class="text-[11px] text-rose-200/70 mb-3">Remove pausas + Multiplica.</p>
                     </div>
                     <div>
-                        <div onclick="document.getElementById('f3-in-ctas').click()" class="border border-dashed border-rose-400/60 hover:bg-rose-900/30 rounded-xl p-4 text-center cursor-pointer transition mb-2">
+                        <label for="f3-in-ctas" class="upload-zone border border-dashed border-rose-400/60 hover:bg-rose-900/30 rounded-xl p-4 text-center cursor-pointer transition mb-2 block">
                             <p class="text-xs font-extrabold text-rose-200">+ Adicionar CTAs</p>
                             <input type="file" id="f3-in-ctas" multiple accept="video/*" class="hidden" onchange="selecionarBloco('f3', 'ctas', this.files)">
-                        </div>
+                        </label>
                         <ul id="f3-list-ctas" class="space-y-1 max-h-28 overflow-y-auto custom-scroll pr-1 empty:hidden text-xs text-rose-100 font-medium"></ul>
                     </div>
                 </div>
@@ -401,11 +654,22 @@
                 </div>
 
                 <div class="flex items-center gap-2 w-full sm:w-auto">
-                    <button id="f3-btn-cancel" onclick="cancelarTarefaAtiva('f3')" class="hidden px-5 py-3.5 rounded-xl bg-rose-500/20 text-rose-400 border border-rose-500/30 font-bold text-xs transition">Pausar</button>
+                    <button type="button" onclick="limparFerramenta('f3')" class="px-4 py-3.5 rounded-xl border border-slate-700 bg-slate-900 text-slate-300 hover:text-white font-bold text-xs transition">Limpar vídeos</button>
+                    <button id="f3-btn-cancel" onclick="cancelarTarefaAtiva('f3')" class="hidden px-5 py-3.5 rounded-xl bg-rose-500/20 text-rose-300 border border-rose-500/30 font-bold text-xs transition">Cancelar</button>
                     <button id="f3-btn-start" onclick="iniciarMultiplicador('f3', true)" disabled class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-slate-800 text-slate-500 font-extrabold text-xs transition cursor-not-allowed">
                         Remover Pausas e Multiplicar Tudo
                     </button>
                 </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5" aria-label="Etapas do fluxo completo">
+                <div id="f3-step-upload" class="step-card is-active rounded-2xl p-4"><span class="text-[10px] uppercase tracking-widest text-blue-300 font-extrabold">Etapa 1</span><p class="text-sm font-bold text-white mt-1">Adicione os blocos</p><p class="text-[11px] text-slate-500 mt-1">Gancho, corpo e CTA</p></div>
+                <div id="f3-step-clean" class="step-card rounded-2xl p-4"><span class="text-[10px] uppercase tracking-widest text-violet-300 font-extrabold">Etapa 2</span><p class="text-sm font-bold text-white mt-1">Remova as pausas</p><p class="text-[11px] text-slate-500 mt-1">Corte automático em cada vídeo</p></div>
+                <div id="f3-step-multiply" class="step-card rounded-2xl p-4"><span class="text-[10px] uppercase tracking-widest text-emerald-300 font-extrabold">Etapa 3</span><p class="text-sm font-bold text-white mt-1">Receba suas variações</p><p class="text-[11px] text-slate-500 mt-1">Combinações prontas para baixar</p></div>
+            </div>
+            <div class="mt-5 rounded-2xl border border-slate-800/80 bg-[#080B14]/55 p-4">
+                <div class="flex items-center justify-between gap-3 mb-3"><h3 class="text-sm font-extrabold text-white">Prévia das combinações</h3><span class="text-[11px] text-slate-500">A ordem final pode ser embaralhada pelo processamento</span></div>
+                <div id="f3-preview" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2"><p class="text-xs text-slate-500">Adicione ao menos um vídeo em cada etapa para ver a prévia.</p></div>
             </div>
 
             <div id="f3-progress-box" class="hidden mt-4 bg-[#080B14] border border-[#FF2A5F]/30 rounded-xl p-3 text-xs">
@@ -439,10 +703,112 @@
         +VIDEOS • Edite e Multiplique seus vídeos em minutos © 2026
     </footer>
 
+    <!-- MOTORES DE PROCESSAMENTO LOCAL -->
+    <script src="./ffmpeg/ffmpeg.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <!-- JAVASCRIPT INTEGRADO AO SERVIDOR -->
     <script>
-        const API_URL = window.location.hostname.includes("onrender.com") ? "" : "https://maisvideos.onrender.com";
+        const API_HOSTNAME = window.location.hostname.toLowerCase();
+        const IS_LOCAL_HOST = API_HOSTNAME === "localhost" || API_HOSTNAME === "127.0.0.1";
+        const API_URL = IS_LOCAL_HOST || API_HOSTNAME.includes("onrender.com") ? "" : "https://maisvideos.onrender.com";
+let authToken = localStorage.getItem("maisvideos_access_token") || "";
 
+// URLs de arquivos temporários autenticados
+const urlsTemporarias = new Set();
+
+// Requisições protegidas pelo token do Supabase
+async function apiFetch(caminho, opcoes = {}) {
+    if (!authToken) {
+        mostrarAutenticacao("Sua sessão não está ativa. Entre novamente.", "error");
+        throw new Error("Sessão não autenticada.");
+    }
+
+    const headers = new Headers(opcoes.headers || {});
+    headers.set("Authorization", `Bearer ${authToken}`);
+
+    let resposta;
+    try {
+        resposta = await fetch(`${API_URL}${caminho}`, {
+            ...opcoes,
+            headers
+        });
+    } catch (erro) {
+        if (erro.name === "AbortError") throw erro;
+        throw new Error("Não foi possível conectar ao servidor. Verifique sua internet e tente novamente.");
+    }
+
+    if (resposta.status === 401) {
+        authToken = "";
+        localStorage.removeItem("maisvideos_access_token");
+        localStorage.removeItem("maisvideos_usuario");
+
+        mostrarAutenticacao(
+            "Sua sessão expirou. Entre novamente.",
+            "error"
+        );
+
+        throw new Error("Sua sessão expirou. Entre novamente.");
+    }
+
+    return resposta;
+}
+
+// Libera arquivos temporários criados no navegador
+function liberarUrlTemporaria(url) {
+    if (url && urlsTemporarias.has(url)) {
+        URL.revokeObjectURL(url);
+        urlsTemporarias.delete(url);
+    }
+}
+
+// Baixa arquivos protegidos usando autenticação
+
+async function baixarArquivoProtegido(caminho, nomeArquivo) {
+    const resposta = await apiFetch(caminho);
+
+    if (!resposta.ok) {
+        throw new Error(
+            await mensagemErroDaResposta(
+                resposta,
+                "Não foi possível baixar o arquivo."
+            )
+        );
+    }
+
+    const blob = await resposta.blob();
+    const url = URL.createObjectURL(blob);
+    urlsTemporarias.add(url);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = nomeArquivo;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    // Libera a memória após 60 segundos
+    setTimeout(() => liberarUrlTemporaria(url), 60000);
+}
+
+// Configura botão para baixar ZIP com autenticação
+function configurarBotaoZip(id, caminho) {
+    const botao = document.getElementById(id);
+    if (!botao) return;
+    botao.href = '#';
+    botao.onclick = async (evento) => {
+        evento.preventDefault();
+        if (!caminho) {
+            notificar('Arquivo ZIP não encontrado.', 'error');
+            return;
+        }
+        try {
+            if (caminho instanceof Blob) baixarBlobLocal(caminho, `${id.replace('-btn-zip', '')}-videos.zip`);
+            else await baixarArquivoProtegido(caminho, `${id.replace('-btn-zip', '')}-videos.zip`);
+        } catch (erro) {
+            notificar(erro.message || 'Erro ao baixar o ZIP.', 'error');
+        }
+    };
+}
         let f1Arquivos = [];
         const estadoBlocos = {
             f2: { ganchos: [], corpos: [], ctas: [] },
@@ -450,16 +816,506 @@
         };
         const timersAtivos = { f1: null, f2: null, f3: null };
         const tasksAtivas = { f1: null, f2: null, f3: null };
+        const enviosAtivos = { f1: null, f2: null, f3: null };
+        const criacoesRecentes = [];
+
+        // PROCESSAMENTO LOCAL: FFmpeg.wasm + ZIP no navegador
+        let ffmpegLocal = null;
+        let ffmpegLocalCarregado = false;
+        let ffmpegLocalLogs = [];
+        const processamentoLocalAtivo = { f1: false, f2: false, f3: false };
+        const cancelamentoLocalSolicitado = { f1: false, f2: false, f3: false };
+
+        function atualizarProgressoLocal(chave, valor, mensagem) {
+            const barra = document.getElementById(`${chave}-progress-bar`);
+            const pct = document.getElementById(`${chave}-progress-pct`);
+            const titulo = document.getElementById(`${chave}-progress-title`);
+            if (barra) barra.style.width = `${valor}%`;
+            if (pct) pct.textContent = `${valor}%`;
+            if (titulo) titulo.textContent = mensagem;
+            if (chave === 'f3') {
+                if (valor < 60) atualizarEtapasFluxo('clean');
+                else if (valor < 100) atualizarEtapasFluxo('multiply');
+            }
+        }
+
+        async function validarAssinaturaParaProcessar() {
+            const resposta = await apiFetch('/api/auth/verificar-assinatura');
+            if (!resposta.ok) {
+                throw new Error(await mensagemErroDaResposta(resposta, 'Sua assinatura não está ativa. Regularize o acesso para continuar.'));
+            }
+        }
+
+        async function obterFFmpegLocal() {
+            if (!window.FFmpegWASM || !window.FFmpegWASM.FFmpeg) {
+                throw new Error('O motor FFmpeg não carregou. Atualize a página e tente novamente.');
+            }
+            if (!window.JSZip) throw new Error('O compactador ZIP não carregou. Atualize a página e tente novamente.');
+            if (!ffmpegLocal) {
+                ffmpegLocal = new window.FFmpegWASM.FFmpeg();
+                ffmpegLocal.on('log', ({ message }) => ffmpegLocalLogs.push(message || ''));
+            }
+            if (!ffmpegLocalCarregado) {
+                const pasta = new URL('./ffmpeg/', window.location.href);
+                await ffmpegLocal.load({
+                    coreURL: new URL('ffmpeg-core.js', pasta).href,
+                    wasmURL: new URL('ffmpeg-core.wasm', pasta).href
+                });
+                ffmpegLocalCarregado = true;
+            }
+            return ffmpegLocal;
+        }
+
+        function encerrarFFmpegLocal() {
+            if (ffmpegLocal) {
+                try { ffmpegLocal.terminate(); } catch (_) {}
+            }
+            ffmpegLocal = null;
+            ffmpegLocalCarregado = false;
+            ffmpegLocalLogs = [];
+        }
+
+        function nomeSeguroLocal(nome, fallback = 'video') {
+            const base = String(nome || fallback).replace(/\.[^.]+$/, '')
+                .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+                .replace(/[^a-zA-Z0-9_-]+/g, '_').replace(/^_+|_+$/g, '');
+            return (base || fallback).slice(0, 70);
+        }
+
+        async function apagarArquivoLocal(ff, nome) {
+            try { await ff.deleteFile(nome); } catch (_) {}
+        }
+
+        function obterDuracaoLocal(texto) {
+            const m = texto.match(/Duration:\s*(\d{2}):(\d{2}):(\d{2}(?:\.\d+)?)/i);
+            return m ? Number(m[1]) * 3600 + Number(m[2]) * 60 + Number(m[3]) : 0;
+        }
+
+        function limitarLocal(valor, minimo, maximo) {
+            return Math.max(minimo, Math.min(maximo, valor));
+        }
+
+        function obterSilenciosLocal(texto, duracao) {
+            const eventos = [...texto.matchAll(/silence_start:\s*([0-9.]+)|silence_end:\s*([0-9.]+)/g)];
+            const silencios = [];
+            let inicio = null;
+            for (const evento of eventos) {
+                if (evento[1] !== undefined) inicio = Number(evento[1]);
+                else if (inicio !== null) {
+                    const fim = Number(evento[2]);
+                    if (fim > inicio) silencios.push({ inicio, fim });
+                    inicio = null;
+                }
+            }
+            if (inicio !== null && duracao > inicio) silencios.push({ inicio, fim: duracao });
+            return silencios;
+        }
+
+        function criarSegmentosLocais(silencios, duracao, margem = 0.04) {
+            const segmentos = [];
+            let cursor = 0;
+            for (const silencio of silencios) {
+                const fimFala = Math.max(cursor, silencio.inicio + margem);
+                if (fimFala - cursor >= 0.08) segmentos.push([cursor, fimFala]);
+                cursor = Math.max(cursor, silencio.fim - margem);
+            }
+            if (duracao - cursor >= 0.08) segmentos.push([cursor, duracao]);
+            return segmentos.filter(([a, b]) => b > a);
+        }
+
+        function configurarSensibilidadeLocal(sensibilidade, media) {
+            const modo = String(sensibilidade || 'equilibrado').toLowerCase();
+            if (modo.includes('suave') || modo.includes('leve')) {
+                return { ruido: limitarLocal(media - 8, -34, -18), duracao: 0.32 };
+            }
+            if (modo.includes('agressivo') || modo.includes('forte')) {
+                return { ruido: limitarLocal(media - 2.5, -24, -11), duracao: 0.16 };
+            }
+            return { ruido: limitarLocal(media - 5, -28, -14), duracao: 0.22 };
+        }
+
+        async function removerPausasArquivoLocal(ff, arquivo, sensibilidade) {
+            const entrada = `entrada_${Date.now()}_${Math.floor(Math.random() * 100000)}.mp4`;
+            const saida = `limpo_${Date.now()}_${Math.floor(Math.random() * 100000)}.mp4`;
+            try {
+                await ff.writeFile(entrada, new Uint8Array(await arquivo.arrayBuffer()));
+                ffmpegLocalLogs = [];
+                await ff.exec(['-i', entrada]);
+                const metadados = ffmpegLocalLogs.join('\n');
+                if (!/Video:/i.test(metadados)) throw new Error(`O arquivo ${arquivo.name || ''} não parece ser um vídeo válido.`);
+                if (!/Audio:/i.test(metadados)) throw new Error(`O vídeo ${arquivo.name || ''} não possui faixa de áudio. O removedor de pausas precisa de áudio para identificar os silêncios.`);
+                const duracao = obterDuracaoLocal(metadados);
+                if (!duracao) throw new Error(`Não foi possível identificar a duração de ${arquivo.name || 'um vídeo'}.`);
+
+                ffmpegLocalLogs = [];
+                await ff.exec(['-i', entrada, '-af', 'volumedetect', '-f', 'null', '-']);
+                const logVolume = ffmpegLocalLogs.join('\n');
+                const volumeMatch = logVolume.match(/mean_volume:\s*(-?[0-9.]+)\s*dB/i);
+                const media = volumeMatch ? Number(volumeMatch[1]) : -18;
+                const config = configurarSensibilidadeLocal(sensibilidade, media);
+
+                ffmpegLocalLogs = [];
+                await ff.exec(['-i', entrada, '-af', `silencedetect=noise=${config.ruido}dB:d=${config.duracao}`, '-f', 'null', '-']);
+                const silencios = obterSilenciosLocal(ffmpegLocalLogs.join('\n'), duracao);
+                if (!silencios.length) return { blob: new Blob([await arquivo.arrayBuffer()], { type: 'video/mp4' }), info: 'Nenhuma pausa identificada' };
+
+                const segmentos = criarSegmentosLocais(silencios, duracao, 0.04);
+                if (!segmentos.length) return { blob: new Blob([await arquivo.arrayBuffer()], { type: 'video/mp4' }), info: 'Vídeo preservado' };
+                if (segmentos.length > 300) throw new Error('Este vídeo possui pausas demais para processar com segurança.');
+
+                const filtros = [];
+                const entradas = [];
+                segmentos.forEach(([inicio, fim], i) => {
+                    const a = inicio.toFixed(3);
+                    const b = fim.toFixed(3);
+                    filtros.push(`[0:v:0]trim=start=${a}:end=${b},setpts=PTS-STARTPTS,scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2,setsar=1,fps=30[v${i}]`);
+                    filtros.push(`[0:a:0]atrim=start=${a}:end=${b},asetpts=PTS-STARTPTS[a${i}]`);
+                    entradas.push(`[v${i}][a${i}]`);
+                });
+                filtros.push(`${entradas.join('')}concat=n=${segmentos.length}:v=1:a=1[outv][outa]`);
+                const codigo = await ff.exec([
+                    '-i', entrada, '-filter_complex', filtros.join(';'),
+                    '-map', '[outv]', '-map', '[outa]',
+                    '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '23', '-pix_fmt', 'yuv420p', '-r', '30',
+                    '-c:a', 'aac', '-b:a', '128k', '-ar', '44100', '-ac', '2', '-movflags', '+faststart', saida
+                ]);
+                if (codigo !== 0) throw new Error(`Falha ao remover pausas de ${arquivo.name || 'um vídeo'}.`);
+                const dados = await ff.readFile(saida);
+                return { blob: new Blob([dados], { type: 'video/mp4' }), info: `${silencios.length} pausa(s) removida(s)` };
+            } finally {
+                await apagarArquivoLocal(ff, entrada);
+                await apagarArquivoLocal(ff, saida);
+            }
+        }
+
+        async function normalizarVideoParaFS(ff, arquivo, destino) {
+            const entrada = `normalizar_${Date.now()}_${Math.floor(Math.random() * 100000)}.mp4`;
+            try {
+                await ff.writeFile(entrada, new Uint8Array(await arquivo.arrayBuffer()));
+                const codigo = await ff.exec([
+                    '-i', entrada, '-map', '0:v:0', '-map', '0:a?',
+                    '-vf', 'scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2,setsar=1,fps=30',
+                    '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '23', '-pix_fmt', 'yuv420p',
+                    '-c:a', 'aac', '-b:a', '128k', '-ar', '44100', '-ac', '2', '-r', '30',
+                    '-avoid_negative_ts', 'make_zero', destino
+                ]);
+                if (codigo !== 0) throw new Error(`Não foi possível preparar o vídeo ${arquivo.name || ''}.`);
+            } finally {
+                await apagarArquivoLocal(ff, entrada);
+            }
+        }
+
+        function baixarBlobLocal(blob, nome) {
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = nome;
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            setTimeout(() => URL.revokeObjectURL(url), 60000);
+        }
+
+        function renderizarPlayersLocais(gridElement, listaArquivos) {
+            liberarMidiasDoGrid(gridElement);
+            listaArquivos.forEach(arquivo => {
+                const card = document.createElement('div');
+                card.className = 'bg-[#080B14] border border-slate-800 hover:border-blue-400/40 rounded-2xl p-3 flex flex-col justify-between transition shadow-md';
+                const preview = document.createElement('div');
+                preview.className = 'bg-black aspect-[9/16] max-h-52 rounded-xl overflow-hidden mb-3 flex items-center justify-center';
+                const video = document.createElement('video');
+                video.controls = true;
+                video.playsInline = true;
+                video.preload = 'metadata';
+                video.className = 'w-full h-full object-contain';
+                const url = URL.createObjectURL(arquivo.blob);
+                urlsTemporarias.add(url);
+                video.src = url;
+                preview.appendChild(video);
+                const titulo = document.createElement('p');
+                titulo.className = 'text-xs font-bold text-white truncate mb-1';
+                titulo.textContent = arquivo.nome;
+                const info = document.createElement('span');
+                info.className = 'text-[10px] text-emerald-300 font-mono font-bold block mb-2.5';
+                info.textContent = arquivo.info || 'Vídeo pronto no dispositivo';
+                const conteudo = document.createElement('div');
+                conteudo.append(preview, titulo, info);
+                const download = document.createElement('a');
+                download.href = url;
+                download.download = arquivo.nome;
+                download.className = 'w-full py-2.5 bg-blue-500/15 hover:bg-blue-500 text-blue-200 hover:text-white font-extrabold text-xs rounded-xl text-center block transition';
+                download.textContent = 'Baixar este vídeo';
+                card.append(conteudo, download);
+                gridElement.appendChild(card);
+            });
+        }
+
+        function verificarCancelamentoLocal(chave) {
+            if (cancelamentoLocalSolicitado[chave]) throw new Error('PROCESSAMENTO_CANCELADO');
+        }
+
+
+
+       function mostrarInicio() {
+    if (!authToken) {
+        mostrarAutenticacao();
+        return;
+    }
+
+    document.getElementById('auth-view').classList.add('hidden');
+    document.getElementById('inicio-view').classList.remove('hidden');
+    document.querySelectorAll('.tool-view').forEach(view => view.classList.add('hidden'));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+        function abrirFerramenta(id) {
+            if (!authToken) {
+                mostrarAutenticacao("Entre na sua conta para acessar as ferramentas.", "error");
+                return;
+            }
+            document.getElementById('inicio-view').classList.add('hidden');
+            document.querySelectorAll('.tool-view').forEach(view => view.classList.toggle('hidden', view.id !== id));
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function notificar(mensagem, tipo = 'info') {
+            const area = document.getElementById('app-feedback');
+            const toast = document.createElement('div');
+            const cor = tipo === 'error' ? 'border-rose-400/40 bg-rose-950/95 text-rose-100' :
+                tipo === 'success' ? 'border-emerald-400/40 bg-emerald-950/95 text-emerald-100' :
+                    'border-blue-400/40 bg-slate-900/95 text-slate-100';
+            toast.className = `toast rounded-2xl border ${cor} shadow-2xl px-4 py-3 text-sm font-semibold`;
+            toast.textContent = mensagem;
+            area.appendChild(toast);
+            window.setTimeout(() => toast.remove(), 4800);
+        }
+
+        function criarBotaoAcao(rotulo, simbolo, classe, acao) {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = `file-action ${classe || ''}`;
+            button.setAttribute('aria-label', rotulo);
+            button.title = rotulo;
+            button.textContent = simbolo;
+            button.addEventListener('click', acao);
+            return button;
+        }
+
+        function renderizarListaArquivos(list, arquivos, acoes, mostrarTamanho = false) {
+            list.replaceChildren();
+            arquivos.forEach((arquivo, indice) => {
+                const item = document.createElement('li');
+                item.className = 'file-row flex items-center gap-2 px-2.5 py-2 rounded-xl text-xs';
+                const nome = document.createElement('span');
+                nome.className = 'min-w-0 flex-1 truncate text-slate-200';
+                nome.textContent = `${indice + 1}. ${arquivo.name}`;
+                item.appendChild(nome);
+                if (mostrarTamanho) {
+                    const tamanho = document.createElement('span');
+                    tamanho.className = 'shrink-0 text-[10px] text-slate-500';
+                    tamanho.textContent = `${(arquivo.size / (1024 * 1024)).toFixed(1)} MB`;
+                    item.appendChild(tamanho);
+                }
+                item.append(
+                    criarBotaoAcao('Substituir arquivo', '↻', '', () => {
+                        const input = document.createElement('input');
+                        input.type = 'file';
+                        input.accept = 'video/*';
+                        input.addEventListener('change', () => {
+                            if (input.files.length) acoes.substituir(indice, input.files[0]);
+                        }, { once: true });
+                        input.click();
+                    }),
+                    criarBotaoAcao('Mover para cima', '↑', '', () => acoes.mover(indice, -1)),
+                    criarBotaoAcao('Mover para baixo', '↓', '', () => acoes.mover(indice, 1)),
+                    criarBotaoAcao('Remover arquivo', '×', 'remove', () => acoes.remover(indice))
+                );
+                list.appendChild(item);
+            });
+        }
+
+        function renderizarPrevia(ferramenta) {
+            const blocos = estadoBlocos[ferramenta];
+            const destino = document.getElementById(`${ferramenta}-preview`);
+            const [ganchos, corpos, ctas] = [blocos.ganchos, blocos.corpos, blocos.ctas];
+            if (!ganchos.length || !corpos.length || !ctas.length) {
+                destino.innerHTML = '<p class="text-xs text-slate-500">Adicione ao menos um vídeo em cada etapa para ver a prévia.</p>';
+                return;
+            }
+            const total = ganchos.length * corpos.length * ctas.length;
+            const fragmento = document.createDocumentFragment();
+            let indice = 0;
+            const limite = Math.min(total, 9);
+            for (let g = 0; g < ganchos.length && indice < limite; g++) {
+                for (let c = 0; c < corpos.length && indice < limite; c++) {
+                    for (let t = 0; t < ctas.length && indice < limite; t++) {
+                        const linha = document.createElement('div');
+                        linha.className = 'preview-row rounded-xl px-3 py-2.5 text-[11px] leading-relaxed';
+                        const numero = document.createElement('span');
+                        numero.className = 'text-blue-300 font-extrabold mr-1.5';
+                        numero.textContent = `${indice + 1}.`;
+                        const nomes = document.createElement('span');
+                        nomes.className = 'text-slate-300';
+                        nomes.textContent = `${ganchos[g].name} + ${corpos[c].name} + ${ctas[t].name}`;
+                        linha.append(numero, nomes);
+                        fragmento.appendChild(linha);
+                        indice += 1;
+                    }
+                }
+            }
+            destino.replaceChildren(fragmento);
+            if (total > limite) {
+                const restante = document.createElement('p');
+                restante.className = 'col-span-full text-[11px] text-slate-500 pt-1';
+                restante.textContent = `+ ${total - limite} combinações adicionais. Prévia das primeiras ${limite} de ${total}.`;
+                destino.appendChild(restante);
+            }
+        }
+
+        function atualizarEtapasFluxo(etapa) {
+            const etapas = ['upload', 'clean', 'multiply'];
+            const ativa = etapa === 'done' ? etapas.length : etapas.indexOf(etapa);
+            etapas.forEach((nome, indice) => {
+                const card = document.getElementById(`f3-step-${nome}`);
+                if (!card) return;
+                card.classList.toggle('is-active', indice === ativa);
+                card.classList.toggle('is-done', indice < ativa);
+            });
+        }
+
+        function liberarMidiasDoGrid(grid) {
+            if (!grid) return;
+            grid.querySelectorAll("video").forEach(video => {
+                const url = video.currentSrc || video.src;
+                if (url && url.startsWith("blob:")) liberarUrlTemporaria(url);
+                video.pause();
+                video.removeAttribute("src");
+                video.load();
+            });
+            grid.replaceChildren();
+        }
+
+        function limparFerramenta(ferramenta) {
+            if (enviosAtivos[ferramenta] || tasksAtivas[ferramenta] || timersAtivos[ferramenta] || processamentoLocalAtivo[ferramenta]) {
+                notificar("Cancele ou aguarde o processamento antes de limpar os vídeos.", "info");
+                return;
+            }
+
+            if (ferramenta === "f1") {
+                f1Arquivos = [];
+                document.getElementById("f1-input").value = "";
+                document.getElementById("f1-queue-list").replaceChildren();
+                document.getElementById("f1-queue-box").classList.add("hidden");
+                const btn = document.getElementById("f1-btn-start");
+                btn.disabled = true;
+                btn.className = "w-full py-3.5 rounded-xl bg-slate-800 text-slate-500 font-extrabold text-xs transition cursor-not-allowed";
+            } else {
+                for (const tipo of ["ganchos", "corpos", "ctas"]) {
+                    estadoBlocos[ferramenta][tipo] = [];
+                    document.getElementById(`${ferramenta}-in-${tipo}`).value = "";
+                    document.getElementById(`${ferramenta}-list-${tipo}`).replaceChildren();
+                    document.getElementById(`${ferramenta}-badge-${tipo}`).textContent = "0 vídeos";
+                }
+                document.getElementById(`${ferramenta}-total`).textContent = "0";
+                renderizarPrevia(ferramenta);
+                const btn = document.getElementById(`${ferramenta}-btn-start`);
+                btn.disabled = true;
+                btn.className = "w-full sm:w-auto px-7 py-3.5 rounded-xl bg-slate-800 text-slate-500 font-extrabold text-xs transition cursor-not-allowed";
+            }
+
+            const prefixo = document.getElementById(`${ferramenta}-prefix`);
+            if (prefixo) prefixo.value = ferramenta === "f1" ? "Video_Limpo" : ferramenta === "f3" ? "Criativo_Limpo" : "Criativo";
+
+            const progresso = document.getElementById(`${ferramenta}-progress-box`);
+            if (progresso) progresso.classList.add("hidden");
+            const resultados = document.getElementById(`${ferramenta}-results-box`);
+            if (resultados) resultados.classList.add("hidden");
+            liberarMidiasDoGrid(document.getElementById(`${ferramenta}-videos-grid`));
+
+            const barra = document.getElementById(`${ferramenta}-progress-bar`);
+            const percentual = document.getElementById(`${ferramenta}-progress-pct`);
+            const titulo = document.getElementById(`${ferramenta}-progress-title`);
+            if (barra) barra.style.width = "0%";
+            if (percentual) percentual.textContent = "0%";
+            if (titulo) titulo.textContent = "Pronto para iniciar.";
+            if (ferramenta === "f3") atualizarEtapasFluxo("upload");
+
+            notificar("Arquivos removidos. Você já pode começar uma nova edição.", "success");
+        }
+
+        function registrarCriacao(ferramenta, resultado) {
+    const total = (resultado.arquivos || []).length;
+    criacoesRecentes.unshift({
+        titulo: ferramenta === 'f1' ? 'Remover pausas' : ferramenta === 'f2' ? 'Multiplicar vídeos' : 'Fluxo completo',
+        total,
+        download: resultado.download_url || null,
+        zipBlob: resultado.zipBlob || null
+    });
+    criacoesRecentes.splice(6);
+    const container = document.getElementById('recent-creations');
+    container.replaceChildren();
+    criacoesRecentes.forEach(criacao => {
+        const card = document.createElement('div');
+        card.className = 'preview-row rounded-2xl p-4 flex items-center justify-between gap-3';
+        const texto = document.createElement('div');
+        const titulo = document.createElement('p');
+        titulo.className = 'text-sm font-bold text-white';
+        titulo.textContent = criacao.titulo;
+        const detalhe = document.createElement('p');
+        detalhe.className = 'text-[11px] text-slate-400 mt-1';
+        detalhe.textContent = `${criacao.total} vídeo(s) concluído(s) nesta sessão`;
+        texto.append(titulo, detalhe);
+        const link = document.createElement('button');
+        link.type = 'button';
+        link.className = 'shrink-0 rounded-xl bg-blue-500/15 border border-blue-400/20 px-3 py-2 text-[11px] font-bold text-blue-200 hover:bg-blue-500/25 transition';
+        link.textContent = 'Baixar ZIP';
+        link.setAttribute('aria-label', `Baixar arquivos de ${criacao.titulo}`);
+        link.addEventListener('click', async () => {
+            link.disabled = true;
+            link.textContent = 'Preparando...';
+            try {
+                if (criacao.zipBlob) baixarBlobLocal(criacao.zipBlob, `${criacao.titulo.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.zip`);
+                else await baixarArquivoProtegido(criacao.download, `${criacao.titulo.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.zip`);
+            } catch (erro) {
+                notificar(erro.message || 'Não foi possível baixar o ZIP.', 'error');
+            } finally {
+                link.disabled = false;
+                link.textContent = 'Baixar ZIP';
+            }
+        });
+        card.append(texto, link);
+        container.appendChild(card);
+    });
+    notificar(`${total} vídeo(s) prontos para baixar.`, 'success');
+}
+        async function mensagemErroDaResposta(resp, padrao) {
+            try {
+                const dados = await resp.json();
+                return dados.detail || dados.mensagem || padrao;
+            } catch {
+                return padrao;
+            }
+        }
 
         // ============================================================
         // LÓGICA FERRAMENTA 1 (REMOVEDOR DE PAUSAS)
         // ============================================================
         function carregarArquivosF1(files) {
-            f1Arquivos = Array.from(files);
+            f1Arquivos.push(...Array.from(files));
+            document.getElementById('f1-input').value = '';
             const box = document.getElementById('f1-queue-box');
             const list = document.getElementById('f1-queue-list');
             const btn = document.getElementById('f1-btn-start');
-            list.innerHTML = '';
+            renderizarListaArquivos(list, f1Arquivos, {
+                substituir: (indice, arquivo) => { f1Arquivos[indice] = arquivo; carregarArquivosF1([]); },
+                remover: indice => { f1Arquivos.splice(indice, 1); carregarArquivosF1([]); },
+                mover: (indice, delta) => {
+                    const destino = indice + delta;
+                    if (destino < 0 || destino >= f1Arquivos.length) return;
+                    [f1Arquivos[indice], f1Arquivos[destino]] = [f1Arquivos[destino], f1Arquivos[indice]];
+                    carregarArquivosF1([]);
+                }
+            }, true);
 
             if (f1Arquivos.length === 0) {
                 box.classList.add('hidden');
@@ -471,75 +1327,85 @@
             box.classList.remove('hidden');
             btn.disabled = false;
             btn.className = "w-full py-3.5 rounded-xl bg-gradient-to-r from-[#FF2A5F] to-[#FF5E7E] text-white font-extrabold text-xs transition cursor-pointer shadow-md";
-
-            f1Arquivos.forEach((f, idx) => {
-                const li = document.createElement('li');
-                li.className = 'flex items-center justify-between bg-[#0D1220] border border-slate-800 px-3 py-1.5 rounded-lg';
-                li.innerHTML = `<span class="truncate">${idx + 1}. ${f.name}</span><span class="text-[10px] text-slate-500">${(f.size / (1024*1024)).toFixed(1)}MB</span>`;
-                list.appendChild(li);
-            });
         }
 
         async function iniciarRemovedorF1() {
-            if (f1Arquivos.length === 0) return;
-
-            const btn = document.getElementById('f1-btn-start');
-            const btnCancel = document.getElementById('f1-btn-cancel');
-            const pBox = document.getElementById('f1-progress-box');
-            const pBar = document.getElementById('f1-progress-bar');
-            const pPct = document.getElementById('f1-progress-pct');
-            const pTitle = document.getElementById('f1-progress-title');
-            const rBox = document.getElementById('f1-results-box');
-            const grid = document.getElementById('f1-videos-grid');
-
-            btn.disabled = true;
-            btnCancel.classList.remove('hidden');
-            pBox.classList.remove('hidden');
-            rBox.classList.add('hidden');
-            grid.innerHTML = '';
-            pBar.style.width = '8%';
-            pPct.innerText = '8%';
-            pTitle.innerText = 'Enviando vídeos para o servidor...';
-
-            const formData = new FormData();
-            f1Arquivos.forEach(f => formData.append("arquivos", f));
-            formData.append("prefixo", document.getElementById('f1-prefix').value.trim() || "Video_Limpo");
-            formData.append("sensibilidade", document.getElementById('f1-sensibilidade').value);
-
-            try {
-                const resp = await fetch(`${API_URL}/api/remover-pausas`, { method: "POST", body: formData });
-                if (!resp.ok) throw new Error("Falha ao enviar");
-                const data = await resp.json();
-                tasksAtivas.f1 = data.task_id;
-
-                acompanharTarefa('f1', data.task_id, pBar, pPct, pTitle, (res) => {
-                    btn.disabled = false;
-                    btnCancel.classList.add('hidden');
-                    rBox.classList.remove('hidden');
-                    document.getElementById('f1-btn-zip').href = `${API_URL}${res.download_url}`;
-                    renderizarPlayersDoServidor(grid, res.arquivos || []);
-                });
-            } catch (err) {
-                pTitle.innerText = "Erro na conexão com o servidor. Tente novamente.";
-                btn.disabled = false;
-                btnCancel.classList.add('hidden');
-            }
+    if (!f1Arquivos.length || processamentoLocalAtivo.f1) return;
+    const chave = 'f1';
+    const btn = document.getElementById('f1-btn-start');
+    const btnCancel = document.getElementById('f1-btn-cancel');
+    const pBox = document.getElementById('f1-progress-box');
+    const rBox = document.getElementById('f1-results-box');
+    const grid = document.getElementById('f1-videos-grid');
+    btn.disabled = true;
+    btnCancel.classList.remove('hidden');
+    pBox.classList.remove('hidden');
+    rBox.classList.add('hidden');
+    grid.replaceChildren();
+    processamentoLocalAtivo[chave] = true;
+    cancelamentoLocalSolicitado[chave] = false;
+    tasksAtivas[chave] = 'local';
+    const resultados = [];
+    try {
+        await validarAssinaturaParaProcessar();
+        const ff = await obterFFmpegLocal();
+        const zip = new window.JSZip();
+        const prefixo = nomeSeguroLocal(document.getElementById('f1-prefix').value.trim() || 'Video_Limpo');
+        const sensibilidade = document.getElementById('f1-sensibilidade').value;
+        for (let i = 0; i < f1Arquivos.length; i++) {
+            verificarCancelamentoLocal(chave);
+            const arquivo = f1Arquivos[i];
+            atualizarProgressoLocal(chave, Math.round(5 + (i / f1Arquivos.length) * 78), `Processando vídeo ${i + 1} de ${f1Arquivos.length} no seu dispositivo...`);
+            const resultado = await removerPausasArquivoLocal(ff, arquivo, sensibilidade);
+            verificarCancelamentoLocal(chave);
+            const nome = `${prefixo}_${String(i + 1).padStart(2, '0')}.mp4`;
+            zip.file(nome, resultado.blob);
+            resultados.push({ nome, blob: resultado.blob, info: resultado.info });
         }
-
+        atualizarProgressoLocal(chave, 88, 'Compactando vídeos em um arquivo ZIP...');
+        const zipBlob = await zip.generateAsync({ type: 'blob', compression: 'STORE' }, info => {
+            atualizarProgressoLocal(chave, Math.round(88 + info.percent * 0.11), `Compactando resultados... ${Math.round(info.percent)}%`);
+        });
+        verificarCancelamentoLocal(chave);
+        renderizarPlayersLocais(grid, resultados);
+        rBox.classList.remove('hidden');
+        configurarBotaoZip('f1-btn-zip', zipBlob);
+        atualizarProgressoLocal(chave, 100, 'PROCESSAMENTO CONCLUÍDO! Os vídeos foram processados no seu dispositivo.');
+        registrarCriacao(chave, { arquivos: resultados, zipBlob });
+    } catch (erro) {
+        if (cancelamentoLocalSolicitado[chave] || erro.message === 'PROCESSAMENTO_CANCELADO') {
+            atualizarProgressoLocal(chave, 0, 'Processamento cancelado.');
+        } else {
+            atualizarProgressoLocal(chave, 0, erro.message || 'Não foi possível processar os vídeos.');
+            notificar(erro.message || 'Não foi possível processar os vídeos.', 'error');
+        }
+    } finally {
+        encerrarFFmpegLocal();
+        processamentoLocalAtivo[chave] = false;
+        cancelamentoLocalSolicitado[chave] = false;
+        tasksAtivas[chave] = null;
+        btn.disabled = false;
+        btnCancel.classList.add('hidden');
+    }
+}
         // ============================================================
         // LÓGICA FERRAMENTAS 2 E 3 (MULTIPLICADORES)
         // ============================================================
         function selecionarBloco(ferramenta, tipo, files) {
-            estadoBlocos[ferramenta][tipo] = Array.from(files);
+            estadoBlocos[ferramenta][tipo].push(...Array.from(files));
+            document.getElementById(`${ferramenta}-in-${tipo}`).value = '';
             document.getElementById(`${ferramenta}-badge-${tipo}`).innerText = `${estadoBlocos[ferramenta][tipo].length} vídeos`;
             const list = document.getElementById(`${ferramenta}-list-${tipo}`);
-            list.innerHTML = '';
-
-            estadoBlocos[ferramenta][tipo].forEach((f, i) => {
-                const li = document.createElement('li');
-                li.className = 'truncate';
-                li.innerText = `${i + 1}. ${f.name}`;
-                list.appendChild(li);
+            const arquivos = estadoBlocos[ferramenta][tipo];
+            renderizarListaArquivos(list, arquivos, {
+                substituir: (indice, arquivo) => { arquivos[indice] = arquivo; selecionarBloco(ferramenta, tipo, []); },
+                remover: indice => { arquivos.splice(indice, 1); selecionarBloco(ferramenta, tipo, []); },
+                mover: (indice, delta) => {
+                    const destino = indice + delta;
+                    if (destino < 0 || destino >= arquivos.length) return;
+                    [arquivos[indice], arquivos[destino]] = [arquivos[destino], arquivos[indice]];
+                    selecionarBloco(ferramenta, tipo, []);
+                }
             });
 
             const g = estadoBlocos[ferramenta].ganchos.length;
@@ -548,6 +1414,7 @@
             const total = g * c * t;
 
             document.getElementById(`${ferramenta}-total`).innerText = total;
+            renderizarPrevia(ferramenta);
             const btn = document.getElementById(`${ferramenta}-btn-start`);
 
             if (g > 0 && c > 0 && t > 0) {
@@ -560,125 +1427,532 @@
         }
 
         async function iniciarMultiplicador(ferramenta, cortarPausas) {
-            const blocos = estadoBlocos[ferramenta];
-            if (blocos.ganchos.length === 0 || blocos.corpos.length === 0 || blocos.ctas.length === 0) return;
-
-            const btn = document.getElementById(`${ferramenta}-btn-start`);
-            const btnCancel = document.getElementById(`${ferramenta}-btn-cancel`);
-            const pBox = document.getElementById(`${ferramenta}-progress-box`);
-            const pBar = document.getElementById(`${ferramenta}-progress-bar`);
-            const pPct = document.getElementById(`${ferramenta}-progress-pct`);
-            const pTitle = document.getElementById(`${ferramenta}-progress-title`);
-            const rBox = document.getElementById(`${ferramenta}-results-box`);
-            const grid = document.getElementById(`${ferramenta}-videos-grid`);
-
-            btn.disabled = true;
-            btnCancel.classList.remove('hidden');
-            pBox.classList.remove('hidden');
-            rBox.classList.add('hidden');
-            grid.innerHTML = '';
-            pBar.style.width = '8%';
-            pPct.innerText = '8%';
-            pTitle.innerText = 'Enviando blocos para o servidor em nuvem...';
-
-            const formData = new FormData();
-            blocos.ganchos.forEach(f => formData.append("ganchos", f));
-            blocos.corpos.forEach(f => formData.append("corpos", f));
-            blocos.ctas.forEach(f => formData.append("ctas", f));
-            formData.append("prefixo", document.getElementById(`${ferramenta}-prefix`).value.trim() || "Criativo");
-            formData.append("remover_pausas", cortarPausas ? "true" : "false");
-
-            if (cortarPausas) {
-                formData.append("sensibilidade", document.getElementById('f3-sensibilidade').value);
-            }
-
-            try {
-                const resp = await fetch(`${API_URL}/api/multiplicar`, { method: "POST", body: formData });
-                if (!resp.ok) throw new Error("Falha no envio");
-                const data = await resp.json();
-                tasksAtivas[ferramenta] = data.task_id;
-
-                acompanharTarefa(ferramenta, data.task_id, pBar, pPct, pTitle, (res) => {
-                    btn.disabled = false;
-                    btnCancel.classList.add('hidden');
-                    rBox.classList.remove('hidden');
-                    document.getElementById(`${ferramenta}-btn-zip`).href = `${API_URL}${res.download_url}`;
-                    renderizarPlayersDoServidor(grid, res.arquivos || []);
-                });
-            } catch (err) {
-                pTitle.innerText = "Erro na conexão com o servidor. Tente novamente.";
-                btn.disabled = false;
-                btnCancel.classList.add('hidden');
+    const blocos = estadoBlocos[ferramenta];
+    if (!blocos.ganchos.length || !blocos.corpos.length || !blocos.ctas.length || processamentoLocalAtivo[ferramenta]) return;
+    const btn = document.getElementById(`${ferramenta}-btn-start`);
+    const btnCancel = document.getElementById(`${ferramenta}-btn-cancel`);
+    const pBox = document.getElementById(`${ferramenta}-progress-box`);
+    const rBox = document.getElementById(`${ferramenta}-results-box`);
+    const grid = document.getElementById(`${ferramenta}-videos-grid`);
+    const grupos = [
+        { chave: 'ganchos', arquivos: blocos.ganchos },
+        { chave: 'corpos', arquivos: blocos.corpos },
+        { chave: 'ctas', arquivos: blocos.ctas }
+    ];
+    const totalCombinacoes = blocos.ganchos.length * blocos.corpos.length * blocos.ctas.length;
+    btn.disabled = true;
+    btnCancel.classList.remove('hidden');
+    pBox.classList.remove('hidden');
+    rBox.classList.add('hidden');
+    grid.replaceChildren();
+    processamentoLocalAtivo[ferramenta] = true;
+    cancelamentoLocalSolicitado[ferramenta] = false;
+    tasksAtivas[ferramenta] = 'local';
+    let ff = null;
+    const normalizados = { ganchos: [], corpos: [], ctas: [] };
+    const resultados = [];
+    try {
+        await validarAssinaturaParaProcessar();
+        ff = await obterFFmpegLocal();
+        const prefixo = nomeSeguroLocal(document.getElementById(`${ferramenta}-prefix`).value.trim() || (ferramenta === 'f3' ? 'Criativo_Limpo' : 'Criativo'));
+        const sensibilidade = cortarPausas ? document.getElementById('f3-sensibilidade').value : null;
+        const totalArquivos = grupos.reduce((soma, grupo) => soma + grupo.arquivos.length, 0);
+        let processados = 0;
+        for (const grupo of grupos) {
+            for (let i = 0; i < grupo.arquivos.length; i++) {
+                verificarCancelamentoLocal(ferramenta);
+                const original = grupo.arquivos[i];
+                let arquivoParaNormalizar = original;
+                if (cortarPausas) {
+                    atualizarProgressoLocal(ferramenta, Math.round(5 + (processados / totalArquivos) * 38), `Removendo pausas: ${original.name}...`);
+                    const limpo = await removerPausasArquivoLocal(ff, original, sensibilidade);
+                    arquivoParaNormalizar = new File([limpo.blob], original.name, { type: 'video/mp4' });
+                }
+                verificarCancelamentoLocal(ferramenta);
+                const destino = `norm_${grupo.chave}_${i}.mp4`;
+                const baseProgresso = cortarPausas ? 45 : 8;
+                const faixaProgresso = cortarPausas ? 18 : 55;
+                atualizarProgressoLocal(ferramenta, Math.round(baseProgresso + (processados / totalArquivos) * faixaProgresso), `Preparando vídeo ${processados + 1} de ${totalArquivos}...`);
+                await normalizarVideoParaFS(ff, arquivoParaNormalizar, destino);
+                normalizados[grupo.chave].push(destino);
+                processados++;
             }
         }
-
+        verificarCancelamentoLocal(ferramenta);
+        if (ferramenta === 'f3') atualizarEtapasFluxo('multiply');
+        const zip = new window.JSZip();
+        let indice = 0;
+        for (let g = 0; g < normalizados.ganchos.length; g++) {
+            for (let c = 0; c < normalizados.corpos.length; c++) {
+                for (let t = 0; t < normalizados.ctas.length; t++) {
+                    verificarCancelamentoLocal(ferramenta);
+                    indice++;
+                    const lista = `lista_${indice}.txt`;
+                    const saida = `resultado_${indice}.mp4`;
+                    const conteudo = [normalizados.ganchos[g], normalizados.corpos[c], normalizados.ctas[t]]
+                        .map(nome => `file '${nome}'`).join('\n') + '\n';
+                    await ff.writeFile(lista, new TextEncoder().encode(conteudo));
+                    const codigo = await ff.exec(['-f', 'concat', '-safe', '0', '-i', lista, '-c', 'copy', '-movflags', '+faststart', saida]);
+                    await apagarArquivoLocal(ff, lista);
+                    if (codigo !== 0) throw new Error(`Falha ao montar a combinação ${indice}.`);
+                    const dados = await ff.readFile(saida);
+                    await apagarArquivoLocal(ff, saida);
+                    const nome = `${prefixo}_${String(indice).padStart(3, '0')}.mp4`;
+                    const blob = new Blob([dados], { type: 'video/mp4' });
+                    zip.file(nome, blob);
+                    resultados.push({ nome, blob, info: `Combinação ${indice} de ${totalCombinacoes}` });
+                    const inicioZip = cortarPausas ? 65 : 63;
+                    atualizarProgressoLocal(ferramenta, Math.round(inicioZip + (indice / totalCombinacoes) * 27), `Montando vídeo ${indice} de ${totalCombinacoes}...`);
+                }
+            }
+        }
+        for (const lista of Object.values(normalizados)) {
+            for (const nome of lista) await apagarArquivoLocal(ff, nome);
+        }
+        atualizarProgressoLocal(ferramenta, 93, 'Compactando vídeos em um arquivo ZIP...');
+        const zipBlob = await zip.generateAsync({ type: 'blob', compression: 'STORE' }, info => {
+            atualizarProgressoLocal(ferramenta, Math.round(93 + info.percent * 0.06), `Compactando resultados... ${Math.round(info.percent)}%`);
+        });
+        verificarCancelamentoLocal(ferramenta);
+        renderizarPlayersLocais(grid, resultados);
+        rBox.classList.remove('hidden');
+        configurarBotaoZip(`${ferramenta}-btn-zip`, zipBlob);
+        atualizarProgressoLocal(ferramenta, 100, 'PROCESSAMENTO CONCLUÍDO! Os vídeos foram gerados no seu dispositivo.');
+        if (ferramenta === 'f3') atualizarEtapasFluxo('done');
+        registrarCriacao(ferramenta, { arquivos: resultados, zipBlob });
+    } catch (erro) {
+        if (ff) {
+            for (const lista of Object.values(normalizados)) {
+                for (const nome of lista) await apagarArquivoLocal(ff, nome);
+            }
+        }
+        if (cancelamentoLocalSolicitado[ferramenta] || erro.message === 'PROCESSAMENTO_CANCELADO') {
+            atualizarProgressoLocal(ferramenta, 0, 'Processamento cancelado.');
+        } else {
+            atualizarProgressoLocal(ferramenta, 0, erro.message || 'Não foi possível processar os vídeos.');
+            notificar(erro.message || 'Não foi possível processar os vídeos.', 'error');
+        }
+        if (ferramenta === 'f3') atualizarEtapasFluxo('upload');
+    } finally {
+        encerrarFFmpegLocal();
+        processamentoLocalAtivo[ferramenta] = false;
+        cancelamentoLocalSolicitado[ferramenta] = false;
+        tasksAtivas[ferramenta] = null;
+        btn.disabled = false;
+        btnCancel.classList.add('hidden');
+    }
+}
         // ============================================================
         // RENDERIZAÇÃO DOS PLAYERS REAIS VINDOS DO SERVIDOR
         // ============================================================
-        function renderizarPlayersDoServidor(gridElement, listaArquivos) {
-            gridElement.innerHTML = '';
-            listaArquivos.forEach(arq => {
-                const videoUrl = `${API_URL}${arq.url}`;
-                const card = document.createElement('div');
-                card.className = "bg-[#080B14] border border-slate-800 hover:border-[#FF2A5F]/40 rounded-xl p-3 flex flex-col justify-between transition shadow-md";
-                card.innerHTML = `
-                    <div>
-                        <div class="bg-black aspect-[9/16] max-h-52 rounded-lg overflow-hidden mb-2 flex items-center justify-center">
-                            <video src="${videoUrl}" controls playsinline preload="metadata" class="w-full h-full object-contain"></video>
-                        </div>
-                        <p class="text-xs font-bold text-white truncate mb-1" title="${arq.nome}">${arq.nome}</p>
-                        <span class="text-[10px] text-emerald-400 font-mono font-bold block mb-2.5">${arq.info || 'Vídeo Pronto'}</span>
-                    </div>
-                    <a href="${videoUrl}" download="${arq.nome}" class="w-full py-2 bg-[#FF2A5F]/20 hover:bg-[#FF2A5F] text-[#FF2A5F] hover:text-white font-extrabold text-xs rounded-lg text-center block transition">
-                        Baixar Este Vídeo
-                    </a>
-                `;
-                gridElement.appendChild(card);
-            });
+        
+// RENDERIZAÇÃO DOS PLAYERS REAIS VINDOS DO SERVIDOR
+// ============================================================
+function renderizarPlayersDoServidor(gridElement, listaArquivos) {
+    // Libera URLs antigas dos vídeos deste painel
+    gridElement.querySelectorAll("video").forEach(video => {
+        if (video.src && video.src.startsWith("blob:")) {
+            liberarUrlTemporaria(video.src);
         }
+    });
+
+    gridElement.replaceChildren();
+
+    listaArquivos.forEach(arq => {
+        const card = document.createElement('div');
+        card.className = "bg-[#080B14] border border-slate-800 hover:border-blue-400/40 rounded-2xl p-3 flex flex-col justify-between transition shadow-md";
+
+        const content = document.createElement('div');
+        const preview = document.createElement('div');
+        preview.className = 'bg-black aspect-[9/16] max-h-52 rounded-xl overflow-hidden mb-3 flex items-center justify-center';
+
+        const video = document.createElement('video');
+        video.controls = true;
+        video.playsInline = true;
+        video.preload = 'metadata';
+        video.className = 'w-full h-full object-contain';
+
+        const carregando = document.createElement('span');
+        carregando.className = 'text-xs text-slate-400';
+        carregando.textContent = 'Carregando vídeo...';
+        preview.appendChild(carregando);
+
+        const title = document.createElement('p');
+        title.className = 'text-xs font-bold text-white truncate mb-1';
+        title.textContent = arq.nome;
+        title.title = arq.nome;
+
+        const info = document.createElement('span');
+        info.className = 'text-[10px] text-emerald-300 font-mono font-bold block mb-2.5';
+        info.textContent = arq.info || 'Vídeo pronto';
+
+        content.append(preview, title, info);
+
+        const download = document.createElement('a');
+        download.href = '#';
+        download.className = 'w-full py-2.5 bg-blue-500/15 hover:bg-blue-500 text-blue-200 hover:text-white font-extrabold text-xs rounded-xl text-center block transition opacity-50 pointer-events-none';
+        download.textContent = 'Carregando...';
+
+        card.append(content, download);
+        gridElement.appendChild(card);
+
+        // Busca o vídeo enviando o token de autenticação
+        (async () => {
+            try {
+                const resposta = await apiFetch(arq.url);
+
+                if (!resposta.ok) {
+                    throw new Error('Não foi possível carregar este vídeo.');
+                }
+
+                const blob = await resposta.blob();
+                const videoUrl = URL.createObjectURL(blob);
+                urlsTemporarias.add(videoUrl);
+
+                video.src = videoUrl;
+                preview.replaceChildren(video);
+
+                download.href = videoUrl;
+                download.download = arq.nome;
+                download.textContent = 'Baixar este vídeo';
+                download.classList.remove('opacity-50', 'pointer-events-none');
+
+            } catch (erro) {
+                carregando.textContent = erro.message || 'Erro ao carregar vídeo.';
+                download.textContent = 'Vídeo indisponível';
+            }
+        })();
+    });
+}
+
 
         // ============================================================
         // MONITORAMENTO E CANCELAMENTO DE TAREFAS
         // ============================================================
         function acompanharTarefa(chave, taskId, pBar, pPct, pTitle, onDone) {
             if (timersAtivos[chave]) clearInterval(timersAtivos[chave]);
-
+            let falhasConsecutivas = 0;
             timersAtivos[chave] = setInterval(async () => {
                 try {
-                    const resp = await fetch(`${API_URL}/api/tarefa/${taskId}`);
-                    if (!resp.ok) return;
+                    const resp = await apiFetch(`/api/tarefa/${taskId}`);
+                    if (!resp.ok) throw new Error(await mensagemErroDaResposta(resp, "Não foi possível consultar o processamento."));
                     const data = await resp.json();
+                    falhasConsecutivas = 0;
 
                     pBar.style.width = `${data.progresso}%`;
                     pPct.innerText = `${data.progresso}%`;
                     pTitle.innerText = data.mensagem;
+                    if (chave === 'f3') {
+                        if (/embaralhando|montando vídeo/i.test(data.mensagem || '')) atualizarEtapasFluxo('multiply');
+                        else if (data.status === 'processando') atualizarEtapasFluxo('clean');
+                    }
 
                     if (data.status === "concluido") {
                         clearInterval(timersAtivos[chave]);
+                        timersAtivos[chave] = null;
                         pBar.style.width = "100%";
                         pPct.innerText = "100%";
                         onDone(data);
                     } else if (data.status === "erro" || data.status === "cancelado") {
                         clearInterval(timersAtivos[chave]);
+                        timersAtivos[chave] = null;
                         document.getElementById(`${chave}-btn-start`).disabled = false;
                         document.getElementById(`${chave}-btn-cancel`).classList.add('hidden');
+                        tasksAtivas[chave] = null;
+                        if (chave === 'f3') atualizarEtapasFluxo('upload');
+                        notificar(data.mensagem || (data.status === 'cancelado' ? 'Processamento cancelado.' : 'Não foi possível concluir o processamento.'), data.status === 'cancelado' ? 'info' : 'error');
                     }
                 } catch (e) {
-                    console.error("Polling error:", e);
+                    falhasConsecutivas += 1;
+                    if (falhasConsecutivas < 5) {
+                        pTitle.innerText = `Reconectando ao servidor (${falhasConsecutivas}/5)...`;
+                        return;
+                    }
+                    clearInterval(timersAtivos[chave]);
+                    timersAtivos[chave] = null;
+                    tasksAtivas[chave] = null;
+                    pTitle.innerText = e.message || "Não foi possível acompanhar o processamento. Tente novamente.";
+                    document.getElementById(`${chave}-btn-start`).disabled = false;
+                    document.getElementById(`${chave}-btn-cancel`).classList.add('hidden');
+                    if (chave === 'f3') atualizarEtapasFluxo('upload');
+                    notificar(pTitle.innerText, 'error');
                 }
             }, 1200);
         }
 
         async function cancelarTarefaAtiva(chave) {
-            if (timersAtivos[chave]) clearInterval(timersAtivos[chave]);
-            const taskId = tasksAtivas[chave];
-            if (taskId) {
-                await fetch(`${API_URL}/api/cancelar/${taskId}`, { method: "POST" }).catch(() => {});
-            }
-            document.getElementById(`${chave}-progress-title`).innerText = "Processo pausado pelo usuário.";
-            document.getElementById(`${chave}-btn-start`).disabled = false;
-            document.getElementById(`${chave}-btn-cancel`).classList.add('hidden');
+    if (processamentoLocalAtivo[chave]) {
+        cancelamentoLocalSolicitado[chave] = true;
+        encerrarFFmpegLocal();
+        tasksAtivas[chave] = null;
+        document.getElementById(`${chave}-progress-title`).textContent = 'Cancelando processamento local...';
+        notificar('Cancelamento solicitado.', 'info');
+        return;
+    }
+    if (enviosAtivos[chave]) {
+        enviosAtivos[chave].abort();
+        const tituloEnvio = document.getElementById(`${chave}-progress-title`);
+        if (tituloEnvio) tituloEnvio.textContent = 'Envio cancelado.';
+        document.getElementById(`${chave}-btn-start`).disabled = false;
+        notificar('Envio cancelado.', 'info');
+        return;
+    }
+    if (timersAtivos[chave]) clearInterval(timersAtivos[chave]);
+    timersAtivos[chave] = null;
+    const taskId = tasksAtivas[chave];
+    if (taskId) {
+        try {
+            const resp = await apiFetch(`/api/cancelar/${taskId}`, { method: 'POST' });
+            if (!resp.ok) throw new Error(await mensagemErroDaResposta(resp, 'Não foi possível cancelar o processamento.'));
+        } catch (erro) {
+            notificar(erro.message || 'Não foi possível confirmar o cancelamento no servidor.', 'error');
         }
+    }
+    tasksAtivas[chave] = null;
+    document.getElementById(`${chave}-progress-title`).innerText = taskId ? 'Processo pausado pelo usuário.' : 'Envio cancelado.';
+    document.getElementById(`${chave}-btn-start`).disabled = false;
+    document.getElementById(`${chave}-btn-cancel`).classList.add('hidden');
+    if (chave === 'f3') atualizarEtapasFluxo('upload');
+    notificar(taskId ? 'Solicitação de cancelamento enviada.' : 'Envio cancelado.', 'info');
+}
+// ============================================================
+// AUTENTICAÇÃO - MAIS VÍDEOS
+// ============================================================
+
+function mostrarAutenticacao(mensagem = "", tipo = "info") {
+    document.getElementById("auth-view").classList.remove("hidden");
+    document.getElementById("inicio-view").classList.add("hidden");
+
+    document.querySelectorAll(".tool-view").forEach(view => {
+        view.classList.add("hidden");
+    });
+
+    const logout = document.getElementById("auth-logout-btn");
+    if (logout) logout.remove();
+
+    const area = document.getElementById("auth-message");
+
+    if (mensagem) {
+        area.textContent = mensagem;
+        area.className = "mt-5 rounded-xl border p-3 text-xs";
+
+        if (tipo === "error") {
+            area.classList.add("border-rose-400/30", "bg-rose-500/10", "text-rose-200");
+        } else if (tipo === "success") {
+            area.classList.add("border-emerald-400/30", "bg-emerald-500/10", "text-emerald-200");
+        } else {
+            area.classList.add("border-blue-400/20", "bg-blue-500/10", "text-blue-200");
+        }
+    } else {
+        area.textContent = "";
+        area.className = "hidden mt-5 rounded-xl border p-3 text-xs";
+    }
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+async function mostrarAplicacao() {
+    if (!authToken) {
+        mostrarAutenticacao();
+        return false;
+    }
+    try {
+        await validarAssinaturaParaProcessar();
+    } catch (erro) {
+        mostrarAutenticacao(erro.message || 'Não foi possível validar sua assinatura.', 'error');
+        return false;
+    }
+    document.getElementById('auth-view').classList.add('hidden');
+    document.getElementById('inicio-view').classList.remove('hidden');
+    document.querySelectorAll('.tool-view').forEach(view => view.classList.add('hidden'));
+    criarBotaoLogout();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return true;
+}
+function criarBotaoLogout() {
+    const area = document.querySelector("header .flex.items-center.gap-3");
+    if (!area || document.getElementById("auth-logout-btn")) return;
+
+    const botao = document.createElement("button");
+    botao.id = "auth-logout-btn";
+    botao.type = "button";
+    botao.textContent = "Sair";
+    botao.className = "px-4 py-2 rounded-xl border border-slate-700 bg-slate-900 text-xs font-bold text-slate-300 hover:text-white hover:border-rose-400/50 transition";
+
+    botao.addEventListener("click", () => {
+        authToken = "";
+        localStorage.removeItem("maisvideos_access_token");
+        localStorage.removeItem("maisvideos_usuario");
+
+        document.getElementById("auth-login-email").value = "";
+        document.getElementById("auth-login-password").value = "";
+
+        alternarFormularioAuth("login");
+        mostrarAutenticacao("Você saiu da sua conta.", "success");
+    });
+
+    area.appendChild(botao);
+}
+
+function alternarFormularioAuth(modo) {
+    const login = document.getElementById("auth-login-panel");
+    const cadastro = document.getElementById("auth-signup-panel");
+    const mensagem = document.getElementById("auth-message");
+
+    login.classList.toggle("hidden", modo !== "login");
+    cadastro.classList.toggle("hidden", modo !== "cadastro");
+
+    mensagem.className = "hidden mt-5 rounded-xl border p-3 text-xs";
+    mensagem.textContent = "";
+}
+
+async function mensagemErroAuth(resp, fallback) {
+    try {
+        const dados = await resp.json();
+        return dados.detail || dados.mensagem || fallback;
+    } catch {
+        return fallback;
+    }
+}
+
+// Alternância entre login e cadastro
+document.getElementById("auth-show-signup").addEventListener("click", () => {
+    alternarFormularioAuth("cadastro");
+});
+
+document.getElementById("auth-show-login").addEventListener("click", () => {
+    alternarFormularioAuth("login");
+});
+
+// Cadastro
+document.getElementById("auth-signup-btn").addEventListener("click", async () => {
+    const email = document.getElementById("auth-signup-email").value.trim().toLowerCase();
+    const senha = document.getElementById("auth-signup-password").value;
+    const botao = document.getElementById("auth-signup-btn");
+
+    if (!email || !senha) {
+        mostrarAutenticacao("Preencha o e-mail e a senha para continuar.", "error");
+        alternarFormularioAuth("cadastro");
+        return;
+    }
+
+    if (senha.length < 8) {
+        alternarFormularioAuth("cadastro");
+        mostrarAutenticacao("A senha precisa ter pelo menos 8 caracteres.", "error");
+        return;
+    }
+
+    botao.disabled = true;
+    botao.textContent = "Criando conta...";
+
+    try {
+        const resp = await fetch(`${API_URL}/api/auth/cadastro`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, senha })
+        });
+
+        if (!resp.ok) {
+            throw new Error(await mensagemErroAuth(resp, "Não foi possível criar sua conta."));
+        }
+
+        const dados = await resp.json();
+
+        document.getElementById("auth-login-email").value = email;
+        document.getElementById("auth-login-password").value = "";
+
+        alternarFormularioAuth("login");
+        mostrarAutenticacao(
+            dados.mensagem || "Cadastro iniciado! Verifique seu e-mail para confirmar sua conta antes de entrar.",
+            "success"
+        );
+
+    } catch (erro) {
+        alternarFormularioAuth("cadastro");
+        mostrarAutenticacao(erro.message || "Erro ao criar sua conta.", "error");
+    } finally {
+        botao.disabled = false;
+        botao.textContent = "Criar minha conta";
+    }
+});
+
+// Login
+document.getElementById("auth-login-btn").addEventListener("click", async () => {
+    const email = document.getElementById("auth-login-email").value.trim().toLowerCase();
+    const senha = document.getElementById("auth-login-password").value;
+    const botao = document.getElementById("auth-login-btn");
+
+    if (!email || !senha) {
+        mostrarAutenticacao("Informe seu e-mail e sua senha.", "error");
+        return;
+    }
+
+    botao.disabled = true;
+    botao.textContent = "Entrando...";
+
+    try {
+        const resp = await fetch(`${API_URL}/api/auth/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, senha })
+        });
+
+        if (!resp.ok) {
+            throw new Error(await mensagemErroAuth(resp, "Não foi possível entrar."));
+        }
+
+        const dados = await resp.json();
+
+        if (!dados.access_token) {
+            throw new Error("O servidor não retornou o token de acesso.");
+        }
+
+        authToken = dados.access_token;
+        localStorage.setItem("maisvideos_access_token", authToken);
+        localStorage.setItem("maisvideos_usuario", JSON.stringify(dados.usuario || {}));
+
+        document.getElementById("auth-login-password").value = "";
+
+        const acessoLiberado = await mostrarAplicacao();
+        if (acessoLiberado) notificar("Login realizado com sucesso!", "success");
+
+    } catch (erro) {
+        mostrarAutenticacao(erro.message || "Erro ao entrar na plataforma.", "error");
+    } finally {
+        botao.disabled = false;
+        botao.textContent = "Entrar na minha conta";
+    }
+});
+
+// Inicialização da autenticação
+if (authToken) {
+    void mostrarAplicacao();
+} else {
+    mostrarAutenticacao();
+}
+
     </script>
-</body>
+<style id=visual-ferramentas-primeira-pagina>
+.tool-view.saas-card{position:relative;isolation:isolate;overflow:hidden;background:radial-gradient(ellipse at 8% 0%,rgba(59,130,246,.25),transparent 38%),radial-gradient(ellipse at 95% 8%,rgba(139,92,246,.24),transparent 36%),linear-gradient(135deg,rgba(15,23,42,.97),rgba(17,24,39,.94))!important;border:1px solid rgba(148,163,184,.28)!important;border-radius:28px!important;box-shadow:0 24px 70px rgba(2,6,23,.48),0 0 35px rgba(99,102,241,.13),inset 0 1px 0 rgba(255,255,255,.08)!important;animation:ferramentaGlow 6s ease-in-out infinite}
+@keyframes ferramentaGlow{0%,100%{box-shadow:0 24px 70px rgba(2,6,23,.48),0 0 24px rgba(59,130,246,.10),inset 0 1px 0 rgba(255,255,255,.07)}50%{box-shadow:0 24px 70px rgba(2,6,23,.48),0 0 38px rgba(139,92,246,.22),inset 0 1px 0 rgba(255,255,255,.12)}}
+.tool-view h2{background-image:linear-gradient(90deg,#93c5fd,#a5b4fc,#c4b5fd)!important;-webkit-background-clip:text!important;background-clip:text!important;-webkit-text-fill-color:transparent!important}
+.tool-view .grid.mb-5>div,#ferramenta-1 .grid>div:nth-child(2),.tool-view .grid.mb-5+div,#f1-progress-box,#f2-progress-box,#f3-progress-box,#f2-preview{background:linear-gradient(145deg,rgba(30,41,59,.78),rgba(15,23,42,.82))!important;border:1px solid rgba(148,163,184,.24)!important;border-radius:22px!important;box-shadow:0 12px 32px rgba(2,6,23,.24),inset 0 1px 0 rgba(255,255,255,.05)!important;backdrop-filter:blur(14px);transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+.tool-view .grid.mb-5>div:hover,#ferramenta-1 .grid>div:nth-child(2):hover{transform:translateY(-4px);border-color:rgba(165,180,252,.55)!important;box-shadow:0 18px 38px rgba(2,6,23,.32),0 0 22px rgba(99,102,241,.14)!important}
+#ferramenta-2 .grid.mb-5>div:nth-child(1),#ferramenta-3 .grid.mb-5>div:nth-child(1){background:linear-gradient(145deg,rgba(59,130,246,.2),rgba(15,23,42,.82))!important;border-color:rgba(96,165,250,.48)!important}
+#ferramenta-2 .grid.mb-5>div:nth-child(2),#ferramenta-3 .grid.mb-5>div:nth-child(2){background:linear-gradient(145deg,rgba(139,92,246,.2),rgba(15,23,42,.82))!important;border-color:rgba(167,139,250,.48)!important}
+#ferramenta-2 .grid.mb-5>div:nth-child(3),#ferramenta-3 .grid.mb-5>div:nth-child(3){background:linear-gradient(145deg,rgba(244,63,94,.16),rgba(15,23,42,.82))!important;border-color:rgba(251,113,133,.42)!important}
+.tool-view .upload-zone{background:linear-gradient(135deg,rgba(51,65,85,.58),rgba(30,41,59,.38))!important;border:1px dashed rgba(165,180,252,.62)!important;border-radius:18px!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.06);transition:all .25s ease}
+.tool-view .upload-zone:hover{background:linear-gradient(135deg,rgba(59,130,246,.2),rgba(139,92,246,.18))!important;border-color:#a5b4fc!important;box-shadow:0 0 25px rgba(99,102,241,.17)!important;transform:translateY(-2px)}
+.tool-view input[type=text],.tool-view select{background:rgba(15,23,42,.88)!important;border:1px solid rgba(148,163,184,.3)!important;border-radius:13px!important;min-height:42px}
+.tool-view input[type=text]:focus,.tool-view select:focus{border-color:#a5b4fc!important;box-shadow:0 0 0 3px rgba(129,140,248,.16)!important}
+.tool-view .tool-back{background:rgba(51,65,85,.55)!important;border:1px solid rgba(148,163,184,.25)!important;border-radius:13px!important;transition:all .2s}
+.tool-view .tool-back:hover{background:rgba(99,102,241,.2)!important;border-color:rgba(165,180,252,.6)!important;color:white!important}
+#f1-btn-start:not(:disabled),#f2-btn-start:not(:disabled),#f3-btn-start:not(:disabled){background:linear-gradient(105deg,#2563eb,#6366f1,#8b5cf6)!important;color:white!important;border:1px solid rgba(255,255,255,.18)!important;box-shadow:0 8px 26px rgba(99,102,241,.32)!important;transition:all .25s}
+#f1-btn-start:not(:disabled):hover,#f2-btn-start:not(:disabled):hover,#f3-btn-start:not(:disabled):hover{transform:translateY(-2px);filter:brightness(1.15);box-shadow:0 12px 32px rgba(99,102,241,.42)!important}
+#f1-btn-start:disabled,#f2-btn-start:disabled,#f3-btn-start:disabled{background:rgba(71,85,105,.4)!important;color:#94a3b8!important}
+.tool-view button[onclick^=limparFerramenta]{background:rgba(51,65,85,.48)!important;border:1px solid rgba(148,163,184,.26)!important;border-radius:13px!important}
+.tool-view button[onclick^=limparFerramenta]:hover{border-color:rgba(165,180,252,.65)!important;color:white!important}
+.tool-view .border-b{border-color:rgba(148,163,184,.22)!important}
+</style>\n</body>
 </html>
+
