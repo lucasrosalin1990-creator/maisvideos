@@ -569,6 +569,7 @@
                         EDITE E MULTIPLIQUE OS VÍDEOS
                     </h2>
                     <p class="text-xs text-slate-400 mt-1">Remove as pausas de todos os Ganchos, Corpos e CTAs e já une e multiplica tudo embaralhado de uma só vez!</p>
+                    <p class="text-[11px] text-violet-200/80 mt-2">Lotes grandes são salvos diretamente em um ZIP no computador para evitar estouro de memória.</p>
                 </div>
 
                 <div class="flex flex-wrap items-center gap-3">
@@ -703,14 +704,12 @@
         +VIDEOS • Edite e Multiplique seus vídeos em minutos © 2026
     </footer>
 
-    <!-- MOTORES DE PROCESSAMENTO LOCAL -->
-    <script src="./ffmpeg/ffmpeg.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <!-- Processamento de vídeo executado no servidor. -->
     <!-- JAVASCRIPT INTEGRADO AO SERVIDOR -->
     <script>
         const API_HOSTNAME = window.location.hostname.toLowerCase();
         const IS_LOCAL_HOST = API_HOSTNAME === "localhost" || API_HOSTNAME === "127.0.0.1";
-        const API_URL = IS_LOCAL_HOST || API_HOSTNAME.includes("onrender.com") ? "" : "https://maisvideos.onrender.com";
+        const API_URL = ""; // API e interface são servidas pelo mesmo domínio.
 let authToken = localStorage.getItem("maisvideos_access_token") || "";
 
 // URLs de arquivos temporários autenticados
@@ -853,7 +852,14 @@ function configurarBotaoZip(id, caminho) {
             if (!window.JSZip) throw new Error('O compactador ZIP não carregou. Atualize a página e tente novamente.');
             if (!ffmpegLocal) {
                 ffmpegLocal = new window.FFmpegWASM.FFmpeg();
-                ffmpegLocal.on('log', ({ message }) => ffmpegLocalLogs.push(message || ''));
+                ffmpegLocal.on('log', ({ message }) => {
+                    const linha = String(message || '');
+                    if (!linha) return;
+                    ffmpegLocalLogs.push(linha);
+                    if (ffmpegLocalLogs.length > 500) {
+                        ffmpegLocalLogs.splice(0, ffmpegLocalLogs.length - 500);
+                    }
+                });
             }
             if (!ffmpegLocalCarregado) {
                 const pasta = new URL('./ffmpeg/', window.location.href);
@@ -1005,6 +1011,310 @@ function configurarBotaoZip(id, caminho) {
             }
         }
 
+        // Normaliza um bloco para Blob: em lotes grandes, evita manter os 11 arquivos no MEMFS.
+        async function normalizarVideoParaBlob(ff, arquivo, destino) {
+            const entrada = `normalizar_${Date.now()}_${Math.floor(Math.random() * 100000)}.mp4`;
+            try {
+                const bytesEntrada = new Uint8Array(await arquivo.arrayBuffer());
+                await ff.writeFile(entrada, bytesEntrada);
+
+                // Inspeciona o arquivo e garante áudio em todos os blocos, para concatenação compatível.
+                ffmpegLocalLogs = [];
+                await ff.exec(['-i', entrada]);
+                const metadados = ffmpegLocalLogs.join('\n');
+                if (!/Video:/i.test(metadados)) throw new Error(`O arquivo ${arquivo.name || ''} não contém uma faixa de vídeo válida.`);
+                const temAudio = /Audio:/i.test(metadados);
+                const duracao = obterDuracaoLocal(metadados);
+                if (!duracao) throw new Error(`Não foi possível identificar a duração de ${arquivo.name || 'o vídeo'}.`);
+                const filtro = 'scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2,setsar=1,fps=30';
+                const args = temAudio ? [
+                    '-i', entrada, '-map', '0:v:0', '-map', '0:a:0', '-vf', filtro,
+                    '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '23', '-pix_fmt', 'yuv420p',
+                    '-c:a', 'aac', '-profile:a', 'aac_low', '-b:a', '128k', '-ar', '44100', '-ac', '2', '-r', '30',
+                    '-video_track_timescale', '15360', '-movflags', '+faststart', '-avoid_negative_ts', 'make_zero', destino
+                ] : [
+                    '-i', entrada, '-f', 'lavfi', '-t', duracao.toFixed(3), '-i', 'anullsrc=channel_layout=stereo:sample_rate=44100',
+                    '-map', '0:v:0', '-map', '1:a:0', '-vf', filtro,
+                    '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '23', '-pix_fmt', 'yuv420p',
+                    '-c:a', 'aac', '-profile:a', 'aac_low', '-b:a', '128k', '-ar', '44100', '-ac', '2', '-r', '30',
+                    '-shortest', '-video_track_timescale', '15360', '-movflags', '+faststart', '-avoid_negative_ts', 'make_zero', destino
+                ];
+                ffmpegLocalLogs = [];
+                let codigo;
+                try {
+                    codigo = await ff.exec(args);
+                } catch (erro) {
+                    const detalhe = ffmpegLocalLogs.slice(-18).join(' | ').slice(-900);
+                    throw new Error(`Não foi possível preparar ${arquivo.name || 'o vídeo'}. ${detalhe || erro.message || String(erro)}`);
+                }
+                if (codigo !== 0) {
+                    const detalhe = ffmpegLocalLogs.slice(-18).join(' | ').slice(-900);
+                    throw new Error(`Não foi possível preparar ${arquivo.name || 'o vídeo'}. ${detalhe || `FFmpeg retornou código ${codigo}.`}`);
+                }
+                const dados = await ff.readFile(destino);
+                if (!dados || !dados.byteLength) throw new Error(`O vídeo preparado ficou vazio: ${arquivo.name || 'arquivo sem nome'}.`);
+                return new Blob([dados], { type: 'video/mp4' });
+            } finally {
+                await apagarArquivoLocal(ff, entrada);
+                await apagarArquivoLocal(ff, destino);
+            }
+        }
+
+        // Gravador ZIP64 sem acumular os 48 MP4s e o ZIP final na memória do navegador.
+        const CRC32_TABELA_ZIP = (() => {
+            const tabela = new Uint32Array(256);
+            for (let n = 0; n < 256; n++) {
+                let c = n;
+                for (let k = 0; k < 8; k++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
+                tabela[n] = c >>> 0;
+            }
+            return tabela;
+        })();
+
+        function calcularCRC32Zip(bytes) {
+            let crc = 0xFFFFFFFF;
+            for (let i = 0; i < bytes.length; i++) {
+                crc = CRC32_TABELA_ZIP[(crc ^ bytes[i]) & 0xFF] ^ (crc >>> 8);
+            }
+            return (crc ^ 0xFFFFFFFF) >>> 0;
+        }
+
+        function dataHoraZip() {
+            const d = new Date();
+            const hora = (d.getHours() << 11) | (d.getMinutes() << 5) | Math.floor(d.getSeconds() / 2);
+            const data = ((Math.max(1980, d.getFullYear()) - 1980) << 9) | ((d.getMonth() + 1) << 5) | d.getDate();
+            return { hora, data };
+        }
+
+        class Zip64StreamWriter {
+            constructor(writable) {
+                this.writable = writable;
+                this.offset = 0n;
+                this.entries = [];
+                this.closed = false;
+            }
+
+            async write(bytes) {
+                if (!bytes || !bytes.byteLength) return;
+                await this.writable.write(bytes);
+                this.offset += BigInt(bytes.byteLength);
+            }
+
+            async addFile(nome, bytes) {
+                if (!(bytes instanceof Uint8Array)) bytes = new Uint8Array(bytes);
+                const nomeBytes = new TextEncoder().encode(nome);
+                const tamanho = BigInt(bytes.byteLength);
+                const crc = calcularCRC32Zip(bytes);
+                const posicaoLocal = this.offset;
+                const { hora, data } = dataHoraZip();
+                const header = new Uint8Array(30 + nomeBytes.length + 20);
+                const v = new DataView(header.buffer);
+                v.setUint32(0, 0x04034B50, true);
+                v.setUint16(4, 45, true);
+                v.setUint16(6, 0x0800, true);
+                v.setUint16(8, 0, true);
+                v.setUint16(10, hora, true);
+                v.setUint16(12, data, true);
+                v.setUint32(14, crc, true);
+                v.setUint32(18, 0xFFFFFFFF, true);
+                v.setUint32(22, 0xFFFFFFFF, true);
+                v.setUint16(26, nomeBytes.length, true);
+                v.setUint16(28, 20, true);
+                header.set(nomeBytes, 30);
+                const x = 30 + nomeBytes.length;
+                v.setUint16(x, 0x0001, true);
+                v.setUint16(x + 2, 16, true);
+                v.setBigUint64(x + 4, tamanho, true);
+                v.setBigUint64(x + 12, tamanho, true);
+                await this.write(header);
+                await this.write(bytes);
+                this.entries.push({ nomeBytes, tamanho, crc, posicaoLocal, hora, data });
+            }
+
+            async close() {
+                if (this.closed) return;
+                const inicioCentral = this.offset;
+                for (const e of this.entries) {
+                    const header = new Uint8Array(46 + e.nomeBytes.length + 28);
+                    const v = new DataView(header.buffer);
+                    v.setUint32(0, 0x02014B50, true);
+                    v.setUint16(4, 0x032D, true);
+                    v.setUint16(6, 45, true);
+                    v.setUint16(8, 0x0800, true);
+                    v.setUint16(10, 0, true);
+                    v.setUint16(12, e.hora, true);
+                    v.setUint16(14, e.data, true);
+                    v.setUint32(16, e.crc, true);
+                    v.setUint32(20, 0xFFFFFFFF, true);
+                    v.setUint32(24, 0xFFFFFFFF, true);
+                    v.setUint16(28, e.nomeBytes.length, true);
+                    v.setUint16(30, 28, true);
+                    v.setUint16(32, 0, true);
+                    v.setUint16(34, 0, true);
+                    v.setUint16(36, 0, true);
+                    v.setUint32(38, 0, true);
+                    v.setUint32(42, 0xFFFFFFFF, true);
+                    header.set(e.nomeBytes, 46);
+                    const x = 46 + e.nomeBytes.length;
+                    v.setUint16(x, 0x0001, true);
+                    v.setUint16(x + 2, 24, true);
+                    v.setBigUint64(x + 4, e.tamanho, true);
+                    v.setBigUint64(x + 12, e.tamanho, true);
+                    v.setBigUint64(x + 20, e.posicaoLocal, true);
+                    await this.write(header);
+                }
+                const tamanhoCentral = this.offset - inicioCentral;
+                const posicaoZip64 = this.offset;
+                const fim64 = new Uint8Array(56);
+                const f = new DataView(fim64.buffer);
+                f.setUint32(0, 0x06064B50, true);
+                f.setBigUint64(4, 44n, true);
+                f.setUint16(12, 45, true);
+                f.setUint16(14, 45, true);
+                f.setUint32(16, 0, true);
+                f.setUint32(20, 0, true);
+                f.setBigUint64(24, BigInt(this.entries.length), true);
+                f.setBigUint64(32, BigInt(this.entries.length), true);
+                f.setBigUint64(40, tamanhoCentral, true);
+                f.setBigUint64(48, inicioCentral, true);
+                await this.write(fim64);
+
+                const localizador = new Uint8Array(20);
+                const l = new DataView(localizador.buffer);
+                l.setUint32(0, 0x07064B50, true);
+                l.setUint32(4, 0, true);
+                l.setBigUint64(8, posicaoZip64, true);
+                l.setUint32(16, 1, true);
+                await this.write(localizador);
+
+                const fim = new Uint8Array(22);
+                const eocd = new DataView(fim.buffer);
+                eocd.setUint32(0, 0x06054B50, true);
+                eocd.setUint16(4, 0, true);
+                eocd.setUint16(6, 0, true);
+                eocd.setUint16(8, 0xFFFF, true);
+                eocd.setUint16(10, 0xFFFF, true);
+                eocd.setUint32(12, 0xFFFFFFFF, true);
+                eocd.setUint32(16, 0xFFFFFFFF, true);
+                eocd.setUint16(20, 0, true);
+                await this.write(fim);
+                await this.writable.close();
+                this.closed = true;
+            }
+
+            async abort() {
+                if (this.closed) return;
+                this.closed = true;
+                try { await this.writable.abort(); } catch (_) {}
+            }
+        }
+
+        // F3: detecta os silêncios e já grava o arquivo final padronizado no MEMFS.
+        // Evita criar um MP4 intermediário em Blob e reencodá-lo pela segunda vez.
+        async function prepararVideoCompletoF3(ff, arquivo, sensibilidade, destino) {
+            const entrada = `f3_entrada_${Date.now()}_${Math.floor(Math.random() * 100000)}.mp4`;
+            const nome = arquivo.name || 'vídeo sem nome';
+            const filtroVertical = 'scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2,setsar=1,fps=30';
+
+            const executar = async (args, etapa) => {
+                ffmpegLocalLogs = [];
+                let codigo;
+                try {
+                    codigo = await ff.exec(args);
+                } catch (erro) {
+                    const detalhe = ffmpegLocalLogs.slice(-18).join(' | ').slice(-900);
+                    throw new Error(`${etapa} (${nome}). ${detalhe || (erro && erro.message) || String(erro)}`);
+                }
+                if (codigo !== 0) {
+                    const detalhe = ffmpegLocalLogs.slice(-18).join(' | ').slice(-900);
+                    throw new Error(`${etapa} (${nome}). ${detalhe || `FFmpeg retornou código ${codigo}.`}`);
+                }
+            };
+
+            try {
+                const entradaBytes = new Uint8Array(await arquivo.arrayBuffer());
+                await ff.writeFile(entrada, entradaBytes);
+
+                ffmpegLocalLogs = [];
+                await ff.exec(['-i', entrada]); // A inspeção não gera arquivo de saída; o código != 0 é esperado.
+                const metadados = ffmpegLocalLogs.join('\n');
+                if (!/Video:/i.test(metadados)) throw new Error(`O arquivo ${nome} não contém uma faixa de vídeo válida.`);
+                const temAudio = /Audio:/i.test(metadados);
+                const duracao = obterDuracaoLocal(metadados);
+                if (!duracao) throw new Error(`Não foi possível identificar a duração do vídeo ${nome}.`);
+
+                let silencios = [];
+                let segmentos = [];
+                if (temAudio) {
+                    await executar(['-i', entrada, '-af', 'volumedetect', '-f', 'null', '-'], 'Falha ao analisar o áudio');
+                    const volumeLog = ffmpegLocalLogs.join('\n');
+                    const volumeMatch = volumeLog.match(/mean_volume:\s*(-?[0-9.]+)\s*dB/i);
+                    const media = volumeMatch ? Number(volumeMatch[1]) : -18;
+                    const config = configurarSensibilidadeLocal(sensibilidade, media);
+                    await executar(['-i', entrada, '-af', `silencedetect=noise=${config.ruido}dB:d=${config.duracao}`, '-f', 'null', '-'], 'Falha ao detectar pausas');
+                    silencios = obterSilenciosLocal(ffmpegLocalLogs.join('\n'), duracao);
+                    segmentos = criarSegmentosLocais(silencios, duracao, 0.04);
+                }
+
+                if (segmentos.length > 300) {
+                    throw new Error(`O vídeo ${nome} possui ${segmentos.length} segmentos de fala; reduza a sensibilidade ou edite o vídeo antes de usar a Ferramenta 3.`);
+                }
+
+                let argsSaida;
+                if (!temAudio) {
+                    // Vídeo sem faixa de áudio: cria uma faixa AAC silenciosa para manter os 3 blocos compatíveis na concatenação.
+                    argsSaida = [
+                        '-i', entrada,
+                        '-f', 'lavfi', '-t', duracao.toFixed(3), '-i', 'anullsrc=channel_layout=stereo:sample_rate=44100',
+                        '-map', '0:v:0', '-map', '1:a:0',
+                        '-vf', filtroVertical,
+                        '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '23', '-pix_fmt', 'yuv420p',
+                        '-c:a', 'aac', '-profile:a', 'aac_low', '-b:a', '128k', '-ar', '44100', '-ac', '2', '-r', '30',
+                        '-shortest', '-video_track_timescale', '15360', '-movflags', '+faststart', '-avoid_negative_ts', 'make_zero', destino
+                    ];
+                } else if (!silencios.length || !segmentos.length) {
+                    argsSaida = [
+                        '-i', entrada, '-map', '0:v:0', '-map', '0:a:0',
+                        '-vf', filtroVertical,
+                        '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '23', '-pix_fmt', 'yuv420p',
+                        '-c:a', 'aac', '-profile:a', 'aac_low', '-b:a', '128k', '-ar', '44100', '-ac', '2', '-r', '30',
+                        '-video_track_timescale', '15360', '-movflags', '+faststart', '-avoid_negative_ts', 'make_zero', destino
+                    ];
+                } else {
+                    const filtros = [];
+                    const entradas = [];
+                    segmentos.forEach(([inicio, fim], i) => {
+                        const a = inicio.toFixed(3);
+                        const b = fim.toFixed(3);
+                        filtros.push(`[0:v:0]trim=start=${a}:end=${b},setpts=PTS-STARTPTS,${filtroVertical}[v${i}]`);
+                        filtros.push(`[0:a:0]atrim=start=${a}:end=${b},asetpts=PTS-STARTPTS[a${i}]`);
+                        entradas.push(`[v${i}][a${i}]`);
+                    });
+                    filtros.push(`${entradas.join('')}concat=n=${segmentos.length}:v=1:a=1[outv][outa]`);
+                    argsSaida = [
+                        '-i', entrada, '-filter_complex', filtros.join(';'),
+                        '-map', '[outv]', '-map', '[outa]',
+                        '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '23', '-pix_fmt', 'yuv420p', '-r', '30',
+                        '-c:a', 'aac', '-profile:a', 'aac_low', '-b:a', '128k', '-ar', '44100', '-ac', '2',
+                        '-video_track_timescale', '15360', '-movflags', '+faststart', '-avoid_negative_ts', 'make_zero', destino
+                    ];
+                }
+
+                await executar(argsSaida, 'Falha ao remover pausas e padronizar o vídeo');
+                const dados = await ff.readFile(destino);
+                if (!dados || !dados.byteLength) throw new Error(`O FFmpeg gerou um arquivo vazio para ${nome}.`);
+                const blob = new Blob([dados], { type: 'video/mp4' });
+                return { blob, pausasRemovidas: silencios.length, duracao, temAudio };
+            } catch (erro) {
+                const msg = erro && erro.message ? erro.message : String(erro);
+                throw new Error(`Falha ao preparar ${nome}: ${msg}`);
+            } finally {
+                // Os arquivos grandes deixam o MEMFS imediatamente após cada origem.
+                await apagarArquivoLocal(ff, entrada);
+                await apagarArquivoLocal(ff, destino);
+            }
+        }
+
         function baixarBlobLocal(blob, nome) {
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
@@ -1026,7 +1336,7 @@ function configurarBotaoZip(id, caminho) {
                 const video = document.createElement('video');
                 video.controls = true;
                 video.playsInline = true;
-                video.preload = 'metadata';
+                video.preload = 'none';
                 video.className = 'w-full h-full object-contain';
                 const url = URL.createObjectURL(arquivo.blob);
                 urlsTemporarias.add(url);
@@ -1249,7 +1559,8 @@ function configurarBotaoZip(id, caminho) {
         titulo: ferramenta === 'f1' ? 'Remover pausas' : ferramenta === 'f2' ? 'Multiplicar vídeos' : 'Fluxo completo',
         total,
         download: resultado.download_url || null,
-        zipBlob: resultado.zipBlob || null
+        zipBlob: resultado.zipBlob || null,
+        zipSalvoLocal: Boolean(resultado.zipSalvoLocal)
     });
     criacoesRecentes.splice(6);
     const container = document.getElementById('recent-creations');
@@ -1268,14 +1579,22 @@ function configurarBotaoZip(id, caminho) {
         const link = document.createElement('button');
         link.type = 'button';
         link.className = 'shrink-0 rounded-xl bg-blue-500/15 border border-blue-400/20 px-3 py-2 text-[11px] font-bold text-blue-200 hover:bg-blue-500/25 transition';
-        link.textContent = 'Baixar ZIP';
+        link.textContent = criacao.zipSalvoLocal ? 'ZIP já salvo' : 'Baixar ZIP';
         link.setAttribute('aria-label', `Baixar arquivos de ${criacao.titulo}`);
         link.addEventListener('click', async () => {
             link.disabled = true;
             link.textContent = 'Preparando...';
             try {
-                if (criacao.zipBlob) baixarBlobLocal(criacao.zipBlob, `${criacao.titulo.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.zip`);
-                else await baixarArquivoProtegido(criacao.download, `${criacao.titulo.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.zip`);
+                if (criacao.zipSalvoLocal) notificar('O ZIP desta criação já foi salvo no local escolhido durante o processamento.', 'info');
+                else if (criacao.zipBlob) baixarBlobLocal(criacao.zipBlob, `${criacao.titulo.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.zip`);
+                else if (criacao.download) {
+                    const a = document.createElement('a');
+                    a.href = `${API_URL}${criacao.download}`;
+                    a.rel = 'noopener';
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                }
             } catch (erro) {
                 notificar(erro.message || 'Não foi possível baixar o ZIP.', 'error');
             } finally {
@@ -1426,7 +1745,43 @@ function configurarBotaoZip(id, caminho) {
             }
         }
 
-        async function iniciarMultiplicador(ferramenta, cortarPausas) {
+        // Este wrapper é síncrono de propósito: abre o seletor de ZIP diretamente no clique do usuário.
+        // Depois entrega a Promise ao processador assíncrono, preservando a ativação do navegador.
+        function iniciarMultiplicador(ferramenta, cortarPausas) {
+            const blocos = estadoBlocos[ferramenta];
+            if (!blocos || !blocos.ganchos.length || !blocos.corpos.length || !blocos.ctas.length || processamentoLocalAtivo[ferramenta]) return;
+
+            const totalCombinacoes = blocos.ganchos.length * blocos.corpos.length * blocos.ctas.length;
+            const usaZipEmDisco = totalCombinacoes > 8;
+            let promessaArquivoZip = null;
+
+            if (usaZipEmDisco) {
+                if (typeof window.showSaveFilePicker !== 'function' || !window.isSecureContext) {
+                    notificar('Para gerar mais de 8 combinações com segurança, abra o Mais Vídeos no Chrome ou Edge atualizado em http://127.0.0.1 ou HTTPS.', 'error');
+                    return;
+                }
+                const prefixoDialogo = nomeSeguroLocal(document.getElementById(`${ferramenta}-prefix`).value.trim() || (ferramenta === 'f3' ? 'Criativo_Limpo' : 'Criativo'));
+                try {
+                    // A chamada ocorre antes de qualquer await, ainda dentro do clique confiável.
+                    promessaArquivoZip = window.showSaveFilePicker({
+                        suggestedName: `${prefixoDialogo}_Videos_${totalCombinacoes}_combinacoes.zip`,
+                        types: [{ description: 'Arquivo ZIP', accept: { 'application/zip': ['.zip'] } }],
+                        excludeAcceptAllOption: true
+                    });
+                } catch (erroPicker) {
+                    notificar(`Não foi possível abrir o seletor de ZIP: ${erroPicker.message || erroPicker.name || erroPicker}`, 'error');
+                    return;
+                }
+            }
+
+            void processarMultiplicador(ferramenta, cortarPausas, promessaArquivoZip, usaZipEmDisco)
+                .catch(erro => {
+                    console.error('[MAIS VIDEOS] Falha inesperada fora do processamento', erro);
+                    notificar(`Falha inesperada: ${erro && erro.message ? erro.message : String(erro)}`, 'error');
+                });
+        }
+
+        async function processarMultiplicador(ferramenta, cortarPausas, promessaArquivoZip, usaZipEmDisco) {
     const blocos = estadoBlocos[ferramenta];
     if (!blocos.ganchos.length || !blocos.corpos.length || !blocos.ctas.length || processamentoLocalAtivo[ferramenta]) return;
     const btn = document.getElementById(`${ferramenta}-btn-start`);
@@ -1440,6 +1795,9 @@ function configurarBotaoZip(id, caminho) {
         { chave: 'ctas', arquivos: blocos.ctas }
     ];
     const totalCombinacoes = blocos.ganchos.length * blocos.corpos.length * blocos.ctas.length;
+    // Calcula o total de arquivos antes do try: ele é usado na mensagem exibida
+    // imediatamente após o usuário escolher onde salvar o ZIP.
+    const totalArquivos = grupos.reduce((soma, grupo) => soma + grupo.arquivos.length, 0);
     btn.disabled = true;
     btnCancel.classList.remove('hidden');
     pBox.classList.remove('hidden');
@@ -1449,88 +1807,228 @@ function configurarBotaoZip(id, caminho) {
     cancelamentoLocalSolicitado[ferramenta] = false;
     tasksAtivas[ferramenta] = 'local';
     let ff = null;
+    let zipWriter = null;
     const normalizados = { ganchos: [], corpos: [], ctas: [] };
     const resultados = [];
+    const previewsLocais = [];
+    let zipBlob = null;
+    let zipSalvoLocal = false;
     try {
+        if (promessaArquivoZip) {
+            const handleZip = await promessaArquivoZip;
+            zipWriter = new Zip64StreamWriter(await handleZip.createWritable());
+        }
+        if (usaZipEmDisco) {
+            atualizarProgressoLocal(ferramenta, 2, `Arquivo ZIP selecionado. Preparando ${totalArquivos} vídeos para gerar ${totalCombinacoes} combinações...`);
+        }
         await validarAssinaturaParaProcessar();
         ff = await obterFFmpegLocal();
         const prefixo = nomeSeguroLocal(document.getElementById(`${ferramenta}-prefix`).value.trim() || (ferramenta === 'f3' ? 'Criativo_Limpo' : 'Criativo'));
         const sensibilidade = cortarPausas ? document.getElementById('f3-sensibilidade').value : null;
-        const totalArquivos = grupos.reduce((soma, grupo) => soma + grupo.arquivos.length, 0);
         let processados = 0;
         for (const grupo of grupos) {
             for (let i = 0; i < grupo.arquivos.length; i++) {
                 verificarCancelamentoLocal(ferramenta);
                 const original = grupo.arquivos[i];
-                let arquivoParaNormalizar = original;
-                if (cortarPausas) {
-                    atualizarProgressoLocal(ferramenta, Math.round(5 + (processados / totalArquivos) * 38), `Removendo pausas: ${original.name}...`);
-                    const limpo = await removerPausasArquivoLocal(ff, original, sensibilidade);
-                    arquivoParaNormalizar = new File([limpo.blob], original.name, { type: 'video/mp4' });
-                }
-                verificarCancelamentoLocal(ferramenta);
                 const destino = `norm_${grupo.chave}_${i}.mp4`;
-                const baseProgresso = cortarPausas ? 45 : 8;
-                const faixaProgresso = cortarPausas ? 18 : 55;
-                atualizarProgressoLocal(ferramenta, Math.round(baseProgresso + (processados / totalArquivos) * faixaProgresso), `Preparando vídeo ${processados + 1} de ${totalArquivos}...`);
-                await normalizarVideoParaFS(ff, arquivoParaNormalizar, destino);
-                normalizados[grupo.chave].push(destino);
+                const numeroArquivo = processados + 1;
+
+                if (cortarPausas) {
+                    const progresso = Math.round(5 + (processados / totalArquivos) * 38);
+                    atualizarProgressoLocal(ferramenta, progresso, `Removendo pausas e preparando vídeo ${numeroArquivo} de ${totalArquivos}: ${original.name || 'vídeo'}...`);
+                    const preparado = await prepararVideoCompletoF3(ff, original, sensibilidade, destino);
+                    // O MP4 normalizado fica como Blob fora do MEMFS; o arquivo WASM já foi removido.
+                    normalizados[grupo.chave].push(preparado.blob);
+                } else if (usaZipEmDisco) {
+                    const progresso = Math.round(8 + (processados / totalArquivos) * 55);
+                    atualizarProgressoLocal(ferramenta, progresso, `Preparando vídeo ${numeroArquivo} de ${totalArquivos}: ${original.name || 'vídeo'}...`);
+                    // Em lote grande, também para o Multiplicador, os MP4s preparados ficam como Blobs fora do MEMFS.
+                    const preparado = await normalizarVideoParaBlob(ff, original, destino);
+                    normalizados[grupo.chave].push(preparado);
+                } else {
+                    const progresso = Math.round(8 + (processados / totalArquivos) * 55);
+                    atualizarProgressoLocal(ferramenta, progresso, `Preparando vídeo ${numeroArquivo} de ${totalArquivos}: ${original.name || 'vídeo'}...`);
+                    await normalizarVideoParaFS(ff, original, destino);
+                    normalizados[grupo.chave].push(destino);
+                }
+
+                verificarCancelamentoLocal(ferramenta);
                 processados++;
+                const progressoConcluido = cortarPausas
+                    ? Math.round(5 + (processados / totalArquivos) * 38)
+                    : Math.round(8 + (processados / totalArquivos) * 55);
+                atualizarProgressoLocal(ferramenta, progressoConcluido, `Vídeo ${processados} de ${totalArquivos} preparado com sucesso.`);
             }
         }
         verificarCancelamentoLocal(ferramenta);
-        if (ferramenta === 'f3') atualizarEtapasFluxo('multiply');
-        const zip = new window.JSZip();
-        let indice = 0;
+        if (ferramenta === 'f3') {
+            atualizarEtapasFluxo('multiply');
+            atualizarProgressoLocal(ferramenta, 45, `${totalArquivos} vídeos preparados. Iniciando ${totalCombinacoes} combinações e gravando o ZIP progressivamente...`);
+        }
+        const zip = usaZipEmDisco ? null : new window.JSZip();
+
+        // Gera todas as combinações possíveis uma única vez e embaralha sua ordem.
+        // Fisher-Yates preserva as 48 combinações sem duplicar nem descartar nenhuma.
+        const combinacoes = [];
         for (let g = 0; g < normalizados.ganchos.length; g++) {
             for (let c = 0; c < normalizados.corpos.length; c++) {
                 for (let t = 0; t < normalizados.ctas.length; t++) {
-                    verificarCancelamentoLocal(ferramenta);
-                    indice++;
-                    const lista = `lista_${indice}.txt`;
-                    const saida = `resultado_${indice}.mp4`;
-                    const conteudo = [normalizados.ganchos[g], normalizados.corpos[c], normalizados.ctas[t]]
-                        .map(nome => `file '${nome}'`).join('\n') + '\n';
-                    await ff.writeFile(lista, new TextEncoder().encode(conteudo));
-                    const codigo = await ff.exec(['-f', 'concat', '-safe', '0', '-i', lista, '-c', 'copy', '-movflags', '+faststart', saida]);
-                    await apagarArquivoLocal(ff, lista);
-                    if (codigo !== 0) throw new Error(`Falha ao montar a combinação ${indice}.`);
-                    const dados = await ff.readFile(saida);
-                    await apagarArquivoLocal(ff, saida);
-                    const nome = `${prefixo}_${String(indice).padStart(3, '0')}.mp4`;
-                    const blob = new Blob([dados], { type: 'video/mp4' });
-                    zip.file(nome, blob);
-                    resultados.push({ nome, blob, info: `Combinação ${indice} de ${totalCombinacoes}` });
-                    const inicioZip = cortarPausas ? 65 : 63;
-                    atualizarProgressoLocal(ferramenta, Math.round(inicioZip + (indice / totalCombinacoes) * 27), `Montando vídeo ${indice} de ${totalCombinacoes}...`);
+                    combinacoes.push({ g, c, t });
                 }
             }
         }
-        for (const lista of Object.values(normalizados)) {
-            for (const nome of lista) await apagarArquivoLocal(ff, nome);
+        for (let i = combinacoes.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [combinacoes[i], combinacoes[j]] = [combinacoes[j], combinacoes[i]];
         }
-        atualizarProgressoLocal(ferramenta, 93, 'Compactando vídeos em um arquivo ZIP...');
-        const zipBlob = await zip.generateAsync({ type: 'blob', compression: 'STORE' }, info => {
-            atualizarProgressoLocal(ferramenta, Math.round(93 + info.percent * 0.06), `Compactando resultados... ${Math.round(info.percent)}%`);
-        });
-        verificarCancelamentoLocal(ferramenta);
-        renderizarPlayersLocais(grid, resultados);
-        rBox.classList.remove('hidden');
-        configurarBotaoZip(`${ferramenta}-btn-zip`, zipBlob);
-        atualizarProgressoLocal(ferramenta, 100, 'PROCESSAMENTO CONCLUÍDO! Os vídeos foram gerados no seu dispositivo.');
-        if (ferramenta === 'f3') atualizarEtapasFluxo('done');
-        registrarCriacao(ferramenta, { arquivos: resultados, zipBlob });
-    } catch (erro) {
-        if (ff) {
+
+        let indice = 0;
+        for (const combinacao of combinacoes) {
+            const { g, c, t } = combinacao;
+            verificarCancelamentoLocal(ferramenta);
+                    indice++;
+                    const lista = `lista_${indice}.txt`;
+                    const saida = `resultado_${indice}.mp4`;
+                    const inicioZip = cortarPausas ? 65 : 63;
+                    atualizarProgressoLocal(
+                        ferramenta,
+                        Math.round(inicioZip + ((indice - 1) / totalCombinacoes) * 27),
+                        `Montando combinação ${indice} de ${totalCombinacoes}...`
+                    );
+
+                    let dados = null;
+                    let nome = `${prefixo}_${String(indice).padStart(3, '0')}.mp4`;
+                    const arquivosTemporarios = [];
+                    try {
+                        let conteudo;
+                        if (cortarPausas || usaZipEmDisco) {
+                            const prefixoTemp = cortarPausas ? 'f3' : 'f2';
+                            const entradasCombo = [
+                                { nome: `${prefixoTemp}_g_${indice}.mp4`, blob: normalizados.ganchos[g] },
+                                { nome: `${prefixoTemp}_c_${indice}.mp4`, blob: normalizados.corpos[c] },
+                                { nome: `${prefixoTemp}_t_${indice}.mp4`, blob: normalizados.ctas[t] }
+                            ];
+                            for (const item of entradasCombo) {
+                                const bytes = new Uint8Array(await item.blob.arrayBuffer());
+                                await ff.writeFile(item.nome, bytes);
+                                arquivosTemporarios.push(item.nome);
+                            }
+                            conteudo = entradasCombo.map(item => `file '${item.nome}'`).join('\n') + '\n';
+                        } else {
+                            conteudo = [normalizados.ganchos[g], normalizados.corpos[c], normalizados.ctas[t]]
+                                .map(nomeArquivo => `file '${nomeArquivo}'`).join('\n') + '\n';
+                        }
+
+                        await ff.writeFile(lista, new TextEncoder().encode(conteudo));
+                        ffmpegLocalLogs = [];
+                        let codigo;
+                        try {
+                            codigo = await ff.exec(['-f', 'concat', '-safe', '0', '-i', lista, '-map', '0:v:0', '-map', '0:a:0', '-c', 'copy', '-movflags', '+faststart', saida]);
+                        } catch (erroFF) {
+                            const detalhe = ffmpegLocalLogs.slice(-18).join(' | ').slice(-900);
+                            throw new Error(`Falha ao montar a combinação ${indice} de ${totalCombinacoes}. ${detalhe || (erroFF && erroFF.message) || String(erroFF)}`);
+                        }
+                        if (codigo !== 0) {
+                            const detalhe = ffmpegLocalLogs.slice(-18).join(' | ').slice(-900);
+                            throw new Error(`Falha ao montar a combinação ${indice} de ${totalCombinacoes}. ${detalhe || `FFmpeg retornou código ${codigo}.`}`);
+                        }
+                        dados = await ff.readFile(saida);
+                        if (!dados || !dados.byteLength) throw new Error(`A combinação ${indice} foi criada sem dados de vídeo.`);
+
+                        if (usaZipEmDisco) {
+                            if (!zipWriter) throw new Error('O arquivo ZIP não foi aberto para gravação. Cancele e inicie novamente escolhendo o local do arquivo.');
+                            await zipWriter.addFile(nome, dados);
+                            // Mantém apenas algumas prévias; os MP4s completos já estão seguros no ZIP em disco.
+                            if (previewsLocais.length < 6) {
+                                const blobPreview = new Blob([dados], { type: 'video/mp4' });
+                                previewsLocais.push({ nome, blob: blobPreview, info: `Combinação ${indice} de ${totalCombinacoes}` });
+                            }
+                            resultados.push({ nome, info: `Combinação ${indice} de ${totalCombinacoes}` });
+                        } else {
+                            const blob = new Blob([dados], { type: 'video/mp4' });
+                            zip.file(nome, blob);
+                            resultados.push({ nome, blob, info: `Combinação ${indice} de ${totalCombinacoes}` });
+                        }
+                    } finally {
+                        dados = null;
+                        await apagarArquivoLocal(ff, lista);
+                        await apagarArquivoLocal(ff, saida);
+                        for (const arquivoTemp of arquivosTemporarios) await apagarArquivoLocal(ff, arquivoTemp);
+                    }
+
+            atualizarProgressoLocal(ferramenta, Math.round(inicioZip + (indice / totalCombinacoes) * 27), `Combinação ${indice} de ${totalCombinacoes} gravada.`);
+        }
+        if (!cortarPausas && !usaZipEmDisco) {
             for (const lista of Object.values(normalizados)) {
                 for (const nome of lista) await apagarArquivoLocal(ff, nome);
             }
         }
-        if (cancelamentoLocalSolicitado[ferramenta] || erro.message === 'PROCESSAMENTO_CANCELADO') {
-            atualizarProgressoLocal(ferramenta, 0, 'Processamento cancelado.');
+        if (usaZipEmDisco) {
+            atualizarProgressoLocal(ferramenta, 94, 'Finalizando o índice do ZIP com todas as combinações...');
+            await zipWriter.close();
+            zipWriter = null;
+            zipSalvoLocal = true;
+            renderizarPlayersLocais(grid, previewsLocais);
+            const avisoPrevia = document.createElement('p');
+            avisoPrevia.className = 'col-span-full text-xs text-emerald-200 bg-emerald-950/30 border border-emerald-500/20 rounded-xl p-3';
+            avisoPrevia.textContent = `ZIP salvo no local escolhido com ${resultados.length} vídeos. Abaixo estão as ${previewsLocais.length} primeiras prévias.`;
+            grid.prepend(avisoPrevia);
+            const botaoZip = document.getElementById(`${ferramenta}-btn-zip`);
+            botaoZip.href = '#';
+            botaoZip.onclick = evento => {
+                evento.preventDefault();
+                notificar('O ZIP já foi salvo no local escolhido antes do processamento.', 'info');
+            };
+            const textoBotaoZip = botaoZip.querySelector('span');
+            if (textoBotaoZip) textoBotaoZip.textContent = 'ZIP salvo no computador';
+            botaoZip.classList.add('opacity-80');
         } else {
-            atualizarProgressoLocal(ferramenta, 0, erro.message || 'Não foi possível processar os vídeos.');
-            notificar(erro.message || 'Não foi possível processar os vídeos.', 'error');
+            atualizarProgressoLocal(ferramenta, 93, 'Compactando vídeos em um arquivo ZIP...');
+            zipBlob = await zip.generateAsync({ type: 'blob', compression: 'STORE', streamFiles: true }, info => {
+                atualizarProgressoLocal(ferramenta, Math.round(93 + info.percent * 0.06), `Compactando resultados... ${Math.round(info.percent)}%`);
+            });
+            verificarCancelamentoLocal(ferramenta);
+            renderizarPlayersLocais(grid, resultados);
+            configurarBotaoZip(`${ferramenta}-btn-zip`, zipBlob);
+        }
+        rBox.classList.remove('hidden');
+        atualizarProgressoLocal(ferramenta, 100, zipSalvoLocal ? `PROCESSAMENTO CONCLUÍDO! O ZIP com ${resultados.length} vídeos foi salvo no computador.` : 'PROCESSAMENTO CONCLUÍDO! Os vídeos foram gerados no seu dispositivo.');
+        if (ferramenta === 'f3') atualizarEtapasFluxo('done');
+        registrarCriacao(ferramenta, { arquivos: resultados, zipBlob, zipSalvoLocal });
+    } catch (erro) {
+        const detalheErro = erro && erro.message ? String(erro.message) : (erro == null ? 'Erro sem detalhes retornados pelo FFmpeg.' : String(erro));
+        const etapaErro = document.getElementById(`${ferramenta}-progress-title`)?.textContent || "etapa desconhecida";
+        const diagnosticoErro = `[FERRAMENTA ${ferramenta}] Etapa: ${etapaErro}. Erro: ${detalheErro}. Gerados: ${resultados.length}/${totalCombinacoes}. Tipo: ${erro && erro.name ? erro.name : typeof erro}`;
+        console.error("[MAIS VIDEOS] FALHA no processamento", { ferramenta, erro, diagnosticoErro, mensagem: erro && erro.message, nome: erro && erro.name, stack: erro && erro.stack, totalCombinacoes, resultadosGerados: resultados.length, logsFFmpeg: ffmpegLocalLogs.slice(-80) });
+
+        const foiCancelado = Boolean(cancelamentoLocalSolicitado[ferramenta] || (erro && (erro.message === 'PROCESSAMENTO_CANCELADO' || erro.name === 'AbortError')));
+        if (zipWriter) {
+            await zipWriter.abort();
+            zipWriter = null;
+        }
+        if (foiCancelado) {
+            atualizarProgressoLocal(ferramenta, 0, erro && erro.name === 'AbortError' ? 'Salvamento cancelado antes do processamento.' : 'Processamento cancelado.');
+        } else {
+            // Exibe o erro antes da limpeza: uma falha ao apagar arquivos temporarios nao pode ocultar o diagnostico.
+            atualizarProgressoLocal(ferramenta, 0, diagnosticoErro);
+            try {
+                notificar(diagnosticoErro.slice(0, 450), 'error');
+            } catch (falhaExibicao) {
+                console.error("[MAIS VIDEOS] Nao foi possivel exibir o diagnostico", falhaExibicao);
+            }
+        }
+
+        // Limpeza de arquivos temporarios em melhor esforco; nao substitui o erro original.
+        if (ff && !cortarPausas) {
+            for (const lista of Object.values(normalizados)) {
+                for (const nome of lista) {
+                    try {
+                        await apagarArquivoLocal(ff, nome);
+                    } catch (falhaLimpeza) {
+                        console.warn("[MAIS VIDEOS] Falha ao limpar arquivo temporario", nome, falhaLimpeza);
+                    }
+                }
+            }
         }
         if (ferramenta === 'f3') atualizarEtapasFluxo('upload');
     } finally {
@@ -1929,6 +2427,178 @@ if (authToken) {
     void mostrarAplicacao();
 } else {
     mostrarAutenticacao();
+}
+
+// ============================================================
+// PROCESSAMENTO EM NUVEM (VERSÃO ATIVA PARA AS 3 FERRAMENTAS)
+// ============================================================
+function atualizarProgressoNuvem(chave, valor, mensagem) {
+    const box = document.getElementById(`${chave}-progress-box`);
+    const bar = document.getElementById(`${chave}-progress-bar`);
+    const pct = document.getElementById(`${chave}-progress-pct`);
+    const title = document.getElementById(`${chave}-progress-title`);
+    if (box) box.classList.remove('hidden');
+    if (bar) bar.style.width = `${Math.max(0, Math.min(100, valor))}%`;
+    if (pct) pct.textContent = `${Math.round(valor)}%`;
+    if (title) title.textContent = mensagem;
+}
+
+function enviarFormDataNuvem(chave, rota, formData) {
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        enviosAtivos[chave] = xhr;
+        xhr.open('POST', `${API_URL}${rota}`, true);
+        xhr.setRequestHeader('Authorization', `Bearer ${authToken}`);
+        xhr.upload.onprogress = evento => {
+            if (evento.lengthComputable) {
+                const pct = Math.round((evento.loaded / evento.total) * 18);
+                atualizarProgressoNuvem(chave, pct, `Enviando vídeos ao servidor... ${Math.round(evento.loaded / evento.total * 100)}%`);
+            } else {
+                atualizarProgressoNuvem(chave, 8, 'Enviando vídeos ao servidor...');
+            }
+        };
+        xhr.onload = () => {
+            enviosAtivos[chave] = null;
+            let dados = {};
+            try { dados = JSON.parse(xhr.responseText || '{}'); } catch (_) {}
+            if (xhr.status >= 200 && xhr.status < 300 && dados.task_id) resolve(dados);
+            else reject(new Error(dados.detail || dados.mensagem || `Falha no envio (HTTP ${xhr.status}).`));
+        };
+        xhr.onerror = () => { enviosAtivos[chave] = null; reject(new Error('Falha de conexão durante o envio. Confira a internet e tente novamente.')); };
+        xhr.onabort = () => { enviosAtivos[chave] = null; reject(new DOMException('Envio cancelado.', 'AbortError')); };
+        xhr.send(formData);
+    });
+}
+
+function configurarDownloadZipNuvem(chave, caminho) {
+    const link = document.getElementById(`${chave}-btn-zip`);
+    if (!link || !caminho) return;
+    link.href = `${API_URL}${caminho}`;
+    link.removeAttribute('download');
+    link.onclick = () => {
+        link.classList.add('opacity-70');
+        const texto = link.querySelector('span');
+        if (texto) texto.textContent = 'Preparando download...';
+        // O navegador faz o download em streaming; não carregamos o ZIP inteiro na RAM do celular.
+        setTimeout(() => {
+            if (texto) texto.textContent = 'Baixar ZIP';
+            link.classList.remove('opacity-70');
+        }, 2500);
+    };
+    link.classList.remove('hidden');
+    const texto = link.querySelector('span');
+    if (texto) texto.textContent = 'Baixar ZIP';
+}
+
+function renderizarPlayersDoServidor(gridElement, listaArquivos) {
+    gridElement.replaceChildren();
+    const aviso = document.createElement('p');
+    aviso.className = 'col-span-full text-xs text-slate-400 bg-slate-900/60 border border-slate-700 rounded-xl p-3';
+    aviso.textContent = `${listaArquivos.length} vídeo(s) pronto(s). As prévias carregam somente quando você der play, economizando memória no celular.`;
+    gridElement.appendChild(aviso);
+    listaArquivos.forEach(arq => {
+        const card = document.createElement('div');
+        card.className = 'bg-[#080B14] border border-slate-800 rounded-2xl p-3 flex flex-col gap-2';
+        const video = document.createElement('video');
+        video.controls = true;
+        video.playsInline = true;
+        video.preload = 'none';
+        video.className = 'w-full max-h-64 bg-black rounded-xl object-contain';
+        const urlVideo = `${API_URL}${arq.url}`;
+        video.src = urlVideo;
+        const nome = document.createElement('p');
+        nome.className = 'text-xs font-bold text-white break-all';
+        nome.textContent = arq.nome;
+        const info = document.createElement('p');
+        info.className = 'text-[10px] text-emerald-300';
+        info.textContent = arq.info || 'Vídeo pronto';
+        const baixar = document.createElement('a');
+        const urlDownload = new URL(urlVideo, window.location.href);
+        urlDownload.searchParams.set('download', '1');
+        baixar.href = urlDownload.toString();
+        baixar.download = arq.nome;
+        baixar.className = 'w-full py-2.5 bg-blue-500/15 hover:bg-blue-500 text-blue-200 hover:text-white font-extrabold text-xs rounded-xl text-center block';
+        baixar.textContent = 'Baixar este vídeo';
+        card.append(video, nome, info, baixar);
+        gridElement.appendChild(card);
+    });
+}
+
+function iniciarAcompanhamentoNuvem(chave, taskId) {
+    tasksAtivas[chave] = taskId;
+    const pBar = document.getElementById(`${chave}-progress-bar`);
+    const pPct = document.getElementById(`${chave}-progress-pct`);
+    const pTitle = document.getElementById(`${chave}-progress-title`);
+    acompanharTarefa(chave, taskId, pBar, pPct, pTitle, data => {
+        const grid = document.getElementById(`${chave}-videos-grid`);
+        const rBox = document.getElementById(`${chave}-results-box`);
+        renderizarPlayersDoServidor(grid, data.arquivos || []);
+        if (rBox) rBox.classList.remove('hidden');
+        configurarDownloadZipNuvem(chave, data.download_url);
+        registrarCriacao(chave, { arquivos: data.arquivos || [], download_url: data.download_url });
+        atualizarProgressoNuvem(chave, 100, data.mensagem || 'Processamento concluído!');
+        if (chave === 'f3') atualizarEtapasFluxo('done');
+        document.getElementById(`${chave}-btn-start`).disabled = false;
+        document.getElementById(`${chave}-btn-cancel`).classList.add('hidden');
+        tasksAtivas[chave] = null;
+        notificar(`${(data.arquivos || []).length} vídeo(s) gerado(s) no servidor.`, 'success');
+    });
+}
+
+async function iniciarRemovedorF1() {
+    if (!f1Arquivos.length || enviosAtivos.f1 || tasksAtivas.f1) return;
+    const chave = 'f1';
+    const btn = document.getElementById('f1-btn-start');
+    const cancelar = document.getElementById('f1-btn-cancel');
+    const grid = document.getElementById('f1-videos-grid');
+    const resultados = document.getElementById('f1-results-box');
+    btn.disabled = true; cancelar.classList.remove('hidden'); resultados.classList.add('hidden'); grid.replaceChildren();
+    try {
+        await validarAssinaturaParaProcessar();
+        const fd = new FormData();
+        f1Arquivos.forEach(arquivo => fd.append('arquivos', arquivo, arquivo.name));
+        fd.append('prefixo', document.getElementById('f1-prefix').value.trim() || 'Video_Limpo');
+        fd.append('sensibilidade', document.getElementById('f1-sensibilidade').value);
+        atualizarProgressoNuvem(chave, 1, 'Preparando envio seguro dos vídeos...');
+        const resposta = await enviarFormDataNuvem(chave, '/api/remover-pausas', fd);
+        atualizarProgressoNuvem(chave, 20, 'Vídeos recebidos. Aguardando processamento no servidor...');
+        iniciarAcompanhamentoNuvem(chave, resposta.task_id);
+    } catch (erro) {
+        if (erro.name === 'AbortError') atualizarProgressoNuvem(chave, 0, 'Envio cancelado.');
+        else { atualizarProgressoNuvem(chave, 0, erro.message || 'Não foi possível enviar os vídeos.'); notificar(erro.message || 'Falha no processamento.', 'error'); }
+        btn.disabled = false; cancelar.classList.add('hidden');
+    }
+}
+
+function iniciarMultiplicador(ferramenta, cortarPausas) {
+    const blocos = estadoBlocos[ferramenta];
+    if (!blocos || !blocos.ganchos.length || !blocos.corpos.length || !blocos.ctas.length || enviosAtivos[ferramenta] || tasksAtivas[ferramenta]) return;
+    void (async () => {
+        const btn = document.getElementById(`${ferramenta}-btn-start`);
+        const cancelar = document.getElementById(`${ferramenta}-btn-cancel`);
+        const grid = document.getElementById(`${ferramenta}-videos-grid`);
+        const resultados = document.getElementById(`${ferramenta}-results-box`);
+        btn.disabled = true; cancelar.classList.remove('hidden'); resultados.classList.add('hidden'); grid.replaceChildren();
+        try {
+            await validarAssinaturaParaProcessar();
+            const fd = new FormData();
+            blocos.ganchos.forEach(a => fd.append('ganchos', a, a.name));
+            blocos.corpos.forEach(a => fd.append('corpos', a, a.name));
+            blocos.ctas.forEach(a => fd.append('ctas', a, a.name));
+            fd.append('prefixo', document.getElementById(`${ferramenta}-prefix`).value.trim() || 'Criativo');
+            fd.append('remover_pausas', cortarPausas ? 'true' : 'false');
+            if (cortarPausas) fd.append('sensibilidade', document.getElementById('f3-sensibilidade').value);
+            atualizarProgressoNuvem(ferramenta, 1, 'Preparando os blocos para envio...');
+            const resposta = await enviarFormDataNuvem(ferramenta, '/api/multiplicar', fd);
+            atualizarProgressoNuvem(ferramenta, 20, 'Arquivos recebidos. Aguardando processamento no servidor...');
+            iniciarAcompanhamentoNuvem(ferramenta, resposta.task_id);
+        } catch (erro) {
+            if (erro.name === 'AbortError') atualizarProgressoNuvem(ferramenta, 0, 'Envio cancelado.');
+            else { atualizarProgressoNuvem(ferramenta, 0, erro.message || 'Não foi possível enviar os vídeos.'); notificar(erro.message || 'Falha no processamento.', 'error'); }
+            btn.disabled = false; cancelar.classList.add('hidden');
+            if (ferramenta === 'f3') atualizarEtapasFluxo('upload');
+        }
+    })();
 }
 
     </script>

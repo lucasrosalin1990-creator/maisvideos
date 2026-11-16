@@ -12,9 +12,12 @@ import shutil
 import zipfile
 
 import subprocess
+import threading
+import time
+import tempfile
 from datetime import datetime, timezone
 
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 
 from pathlib import Path
 
@@ -22,11 +25,12 @@ from fastapi import (
 
     FastAPI, UploadFile, File, Form,
 
-    BackgroundTasks, HTTPException, Depends
+    BackgroundTasks, HTTPException, Depends, Query
 
 )
 
 from fastapi.responses import FileResponse
+from starlette.background import BackgroundTask
 
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -38,11 +42,24 @@ from supabase import create_client
 
 from pydantic import BaseModel
 
-# CONFIGURAÇÃO DO SUPABASE
+app = FastAPI()
+
+# CONFIGURAÇÃO DO SUPABASE E DO AMBIENTE
 
 BASE_DIR = Path(__file__).resolve().parent
-
 load_dotenv(dotenv_path=BASE_DIR / ".env")
+# Arquivos de mídia ficam apenas em área temporária local do serviço.
+TEMP_DIR = Path(os.getenv("TEMP_DIR") or (Path(tempfile.gettempdir()) / "maisvideos")).expanduser().resolve()
+TEMP_DIR.mkdir(parents=True, exist_ok=True)
+MAX_UPLOAD_MB = max(10, int(os.getenv("MAX_UPLOAD_MB", "200")))
+MAX_TOTAL_UPLOAD_MB = max(MAX_UPLOAD_MB, int(os.getenv("MAX_TOTAL_UPLOAD_MB", "500")))
+MAX_UPLOAD_BYTES = MAX_UPLOAD_MB * 1024 * 1024
+MAX_TOTAL_UPLOAD_BYTES = MAX_TOTAL_UPLOAD_MB * 1024 * 1024
+MAX_COMBINACOES = max(1, int(os.getenv("MAX_COMBINACOES", "48")))
+TAMANHO_BLOCO_UPLOAD = 1024 * 1024
+EXTENSOES_VIDEO_PERMITIDAS = {".mp4", ".mov", ".m4v", ".webm", ".avi", ".mkv"}
+TEMPO_RETENCAO_SEGUNDOS = max(900, int(os.getenv("TEMP_RETENTION_SECONDS", "10800")))
+PROCESSING_LOCK = threading.Lock()
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 
@@ -179,6 +196,7 @@ def verificar_assinatura(user_id: str):
             detail="Não foi possível verificar sua assinatura."
         )
 
+@app.post("/api/auth/login")
 def login_usuario(dados: LoginRequest):
     email = dados.email.strip().lower()
 
@@ -236,6 +254,76 @@ def login_usuario(dados: LoginRequest):
 # GERENCIADOR DE TAREFAS NA NUVEM
 
 TAREFAS: Dict[str, Dict[str, Any]] = {}
+
+
+def limpar_diretorio_tarefa(task_id: str) -> None:
+    """Remove mídia temporária somente depois da transferência ou do TTL."""
+    try:
+        raiz = TEMP_DIR.resolve()
+        pasta = raiz / str(task_id)
+        if pasta.is_symlink():
+            return
+        resolvida = pasta.resolve()
+        if resolvida.parent == raiz and resolvida.is_dir():
+            shutil.rmtree(resolvida, ignore_errors=True)
+    finally:
+        TAREFAS.pop(str(task_id), None)
+
+
+def limpar_tarefas_expiradas() -> None:
+    """Limpa tarefas concluídas/abandonadas antigas e pastas órfãs."""
+    agora = time.time()
+    for task_id, tarefa in list(TAREFAS.items()):
+        criada = float(tarefa.get("criado_ts", agora))
+        status = tarefa.get("status")
+        limite = float(tarefa.get("download_expira", criada + TEMPO_RETENCAO_SEGUNDOS)) if status == "concluido" else criada + TEMPO_RETENCAO_SEGUNDOS
+        if agora > limite and status not in {"pendente", "na_fila", "processando"}:
+            limpar_diretorio_tarefa(task_id)
+    try:
+        for pasta in TEMP_DIR.iterdir():
+            if pasta.is_dir() and not pasta.is_symlink() and pasta.name not in TAREFAS:
+                try:
+                    if agora - pasta.stat().st_mtime > TEMPO_RETENCAO_SEGUNDOS:
+                        shutil.rmtree(pasta, ignore_errors=True)
+                except OSError:
+                    pass
+    except OSError:
+        pass
+
+
+def executar_tarefa_serializada(funcao, *args) -> None:
+    """Render Free: mantém apenas uma renderização pesada por vez."""
+    task_id = str(args[0])
+    tarefa = TAREFAS.get(task_id)
+    if not tarefa or tarefa.get("cancelado"):
+        return
+    tarefa["status"] = "na_fila"
+    tarefa["progresso"] = max(1, int(tarefa.get("progresso", 1)))
+    tarefa["mensagem"] = "Aguardando disponibilidade do processador..."
+    with PROCESSING_LOCK:
+        tarefa = TAREFAS.get(task_id)
+        if not tarefa or tarefa.get("cancelado"):
+            return
+        funcao(*args)
+
+
+def validar_token_download(task_id: str, token: Optional[str]) -> bool:
+    tarefa = TAREFAS.get(task_id)
+    if not tarefa or not token:
+        return False
+    expiracao = float(tarefa.get("download_expira", 0))
+    return bool(expiracao > time.time() and token == tarefa.get("download_token"))
+
+
+def _rotina_limpeza_temporaria() -> None:
+    while True:
+        time.sleep(600)
+        limpar_tarefas_expiradas()
+
+
+@app.on_event("startup")
+def iniciar_limpeza_temporaria() -> None:
+    threading.Thread(target=_rotina_limpeza_temporaria, daemon=True, name="maisvideos-temp-cleaner").start()
 
 def usuario_com_assinatura(
     usuario: Dict[str, str] = Depends(obter_usuario_atual)
@@ -449,122 +537,125 @@ def detectar_limiar_inteligente(caminho: Path, sensibilidade: str) -> tuple:
 
     return f"{limiar_db:.1f}dB", dur_min
 
+def video_tem_audio(caminho: Path) -> bool:
+    """Detecta a primeira faixa de áudio. A informação padroniza a concatenação."""
+    cmd = [
+        "ffprobe", "-v", "error", "-select_streams", "a:0",
+        "-show_entries", "stream=index", "-of", "csv=p=0", str(caminho)
+    ]
+    try:
+        resultado = subprocess.run(
+            cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+            text=True, check=True, timeout=120
+        )
+    except FileNotFoundError as exc:
+        raise RuntimeError("FFprobe não foi encontrado no servidor.") from exc
+    except subprocess.SubprocessError as exc:
+        detalhe = (getattr(exc, "stderr", None) or "").strip()[-500:]
+        raise RuntimeError(f"Não foi possível verificar o áudio de {caminho.name}. {detalhe}") from exc
+    return bool(resultado.stdout.strip())
+
+
 def cortar_pausas_ffmpeg(video_in: Path, video_out: Path, sensibilidade: str, pad_9_16: bool = False) -> tuple:
-
-    """Remove os silêncios de um vídeo e retorna (duracao_antes, duracao_depois)."""
-
+    """Remove silêncios quando há áudio; normaliza vídeos sem áudio sem inventar cortes."""
     dur_antes = obter_duracao(video_in)
+    tem_audio = video_tem_audio(video_in)
+    escala_9_16 = (
+        "scale=1080:1920:force_original_aspect_ratio=decrease,"
+        "pad=1080:1920:(ow-iw)/2:(oh-ih)/2,setsar=1"
+        if pad_9_16 else "null"
+    )
+
+    # Um vídeo sem faixa de áudio não possui pausas detectáveis. No multiplicador,
+    # adicionamos silêncio para que todos os blocos tenham as mesmas faixas ao concatenar.
+    if not tem_audio:
+        cmd_sem_audio = ["ffmpeg", "-y", "-i", str(video_in)]
+        if pad_9_16:
+            cmd_sem_audio += [
+                "-f", "lavfi", "-i", "anullsrc=channel_layout=stereo:sample_rate=44100",
+                "-map", "0:v:0", "-map", "1:a:0",
+            ]
+        else:
+            cmd_sem_audio += ["-map", "0:v:0"]
+        cmd_sem_audio += [
+            "-vf", escala_9_16, "-r", "30",
+            "-c:v", "libx264", "-preset", "ultrafast", "-crf", "23",
+            "-pix_fmt", "yuv420p",
+        ]
+        if pad_9_16:
+            cmd_sem_audio += [
+                "-c:a", "aac", "-b:a", "128k", "-ar", "44100", "-shortest"
+            ]
+        else:
+            cmd_sem_audio += ["-an"]
+        cmd_sem_audio += ["-movflags", "+faststart", str(video_out)]
+        executar_ffmpeg(cmd_sem_audio, "normalizar vídeo sem faixa de áudio", timeout=3600)
+        dur_depois = validar_saida_video(video_out)
+        return dur_antes, dur_depois
 
     db_limiar, dur_min = detectar_limiar_inteligente(video_in, sensibilidade)
-
     cmd_detect = [
-
         "ffmpeg", "-y", "-i", str(video_in),
-
-        "-af", f"silencedetect=noise={db_limiar}:d={dur_min}",
-
+        "-map", "0:a:0", "-af", f"silencedetect=noise={db_limiar}:d={dur_min}",
         "-f", "null", "-"
-
     ]
-
     res_detect = executar_ffmpeg(cmd_detect, "detectar as pausas do vídeo", timeout=600)
-
     stderr = res_detect.stderr or ""
-
     starts = [float(x) for x in re.findall(r"silence_start:\s*(\d+\.?\d*)", stderr)]
-
     ends = [float(x) for x in re.findall(r"silence_end:\s*(\d+\.?\d*)", stderr)]
 
-    # Se o silêncio foi até o final do vídeo sem fechar silence_end
-
     if len(starts) > len(ends):
-
         ends.append(dur_antes)
 
     segmentos = []
-
     ultimo = 0.0
-
     for s, e in zip(starts, ends):
-
         if s > ultimo + 0.08:
-
             ini = max(0.0, ultimo - 0.04)
-
             fim = min(dur_antes, s + 0.04)
-
             segmentos.append((ini, fim))
-
         ultimo = e
-
     if ultimo < dur_antes - 0.08:
-
         ini = max(0.0, ultimo - 0.04)
-
         segmentos.append((ini, dur_antes))
 
-    escala_9_16 = ",scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2,setsar=1" if pad_9_16 else ""
-
+    cmd_cut = ["ffmpeg", "-y", "-i", str(video_in), "-map", "0:v:0", "-map", "0:a:0"]
     if not segmentos or (len(segmentos) == 1 and (segmentos[0][1] - segmentos[0][0]) >= dur_antes - 0.15):
-
-        vf_filter = escala_9_16.lstrip(",") if pad_9_16 else "null"
-
-        cmd_cut = [
-
-            "ffmpeg", "-y", "-i", str(video_in),
-
-            "-vf", vf_filter,
-
-            "-r", "30", "-c:v", "libx264", "-preset", "ultrafast", "-crf", "23",
-
-            "-c:a", "aac", "-b:a", "128k", "-ar", "44100", str(video_out)
-
-        ]
-
+        cmd_cut += ["-vf", escala_9_16]
     else:
-
         select_v = "+".join([f"between(t,{s:.3f},{e:.3f})" for s, e in segmentos])
-
-        vf_full = f"select='{select_v}',setpts=N/FRAME_RATE/TB{escala_9_16}"
-
+        vf_full = f"select='{select_v}',setpts=N/FRAME_RATE/TB"
+        if pad_9_16:
+            vf_full += "," + escala_9_16
         af_full = f"aselect='{select_v}',asetpts=N/SR/TB"
+        cmd_cut += ["-vf", vf_full, "-af", af_full]
 
-        cmd_cut = [
-
-            "ffmpeg", "-y", "-i", str(video_in),
-
-            "-vf", vf_full,
-
-            "-af", af_full,
-
-            "-r", "30", "-c:v", "libx264", "-preset", "ultrafast", "-crf", "23",
-
-            "-c:a", "aac", "-b:a", "128k", "-ar", "44100", str(video_out)
-
-        ]
-
+    cmd_cut += [
+        "-r", "30", "-c:v", "libx264", "-preset", "ultrafast", "-crf", "23",
+        "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "128k", "-ar", "44100",
+        "-movflags", "+faststart", str(video_out)
+    ]
     executar_ffmpeg(cmd_cut, "gerar o vídeo sem pausas", timeout=3600)
-
     dur_depois = validar_saida_video(video_out)
-
     return dur_antes, dur_depois
 
+
 def padronizar_apenas_9_16(video_in: Path, video_out: Path):
-
-    """Padroniza para 9:16 (1080x1920) sem cortar nenhuma pausa."""
-
-    cmd = [
-
-        "ffmpeg", "-y", "-i", str(video_in),
-
-        "-vf", "scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2,setsar=1",
-
-        "-r", "30", "-c:v", "libx264", "-preset", "ultrafast", "-crf", "23",
-
-        "-c:a", "aac", "-b:a", "128k", "-ar", "44100", str(video_out)
-
+    """Padroniza 9:16 e garante faixa AAC em todos os blocos para concatenação."""
+    filtro = "scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2,setsar=1"
+    cmd = ["ffmpeg", "-y", "-i", str(video_in)]
+    if video_tem_audio(video_in):
+        cmd += ["-map", "0:v:0", "-map", "0:a:0"]
+    else:
+        cmd += [
+            "-f", "lavfi", "-i", "anullsrc=channel_layout=stereo:sample_rate=44100",
+            "-map", "0:v:0", "-map", "1:a:0"
+        ]
+    cmd += [
+        "-vf", filtro, "-r", "30", "-c:v", "libx264", "-preset", "ultrafast",
+        "-crf", "23", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "128k",
+        "-ar", "44100", "-shortest", "-movflags", "+faststart", str(video_out)
     ]
-
     executar_ffmpeg(cmd, "padronizar o vídeo para 9:16", timeout=3600)
     validar_saida_video(video_out)
 
@@ -623,7 +714,7 @@ def task_remover_pausas(task_id: str, caminhos_videos: List[Path], prefixo: str,
 
                 "nome": nome_saida,
 
-                "url": f"/api/arquivo/{task_id}/{nome_saida}",
+                "url": f"/api/arquivo/{task_id}/{nome_saida}?token={TAREFAS[task_id]['download_token']}",
 
                 "info": f"{dur_antes:.1f}s ➔ {dur_depois:.1f}s (-{economia}%)"
 
@@ -642,7 +733,7 @@ def task_remover_pausas(task_id: str, caminhos_videos: List[Path], prefixo: str,
 
         zip_path = task_dir / f"{limpar_prefixo(prefixo)}_Videos_Sem_Pausa.zip"
 
-        with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
+        with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_STORED) as z:
 
             for v in arquivos_prontos:
 
@@ -660,7 +751,8 @@ def task_remover_pausas(task_id: str, caminhos_videos: List[Path], prefixo: str,
 
         TAREFAS[task_id]["mensagem"] = f"Concluído! {total} vídeo(s) processado(s) sem pausas."
 
-        TAREFAS[task_id]["download_url"] = f"/api/download/{task_id}"
+        TAREFAS[task_id]["download_expira"] = time.time() + TEMPO_RETENCAO_SEGUNDOS
+        TAREFAS[task_id]["download_url"] = f"/api/download/{task_id}?token={TAREFAS[task_id]['download_token']}"
 
         TAREFAS[task_id]["arquivos"] = lista_metadados
 
@@ -824,7 +916,7 @@ def task_multiplicar_videos(
 
                 "nome": nome_arq,
 
-                "url": f"/api/arquivo/{task_id}/{nome_arq}",
+                "url": f"/api/arquivo/{task_id}/{nome_arq}?token={TAREFAS[task_id]['download_token']}",
 
                 "info": f"Duração: {dur_final:.1f}s • 9:16"
 
@@ -843,7 +935,7 @@ def task_multiplicar_videos(
 
         zip_path = task_dir / f"{limpar_prefixo(prefixo)}_Lote_Multiplicado.zip"
 
-        with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
+        with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_STORED) as z:
 
             for f in finais:
 
@@ -863,7 +955,8 @@ def task_multiplicar_videos(
 
         TAREFAS[task_id]["mensagem"] = f"{total_vids} vídeos gerados e embaralhados com sucesso!"
 
-        TAREFAS[task_id]["download_url"] = f"/api/download/{task_id}"
+        TAREFAS[task_id]["download_expira"] = time.time() + TEMPO_RETENCAO_SEGUNDOS
+        TAREFAS[task_id]["download_url"] = f"/api/download/{task_id}?token={TAREFAS[task_id]['download_token']}"
 
         TAREFAS[task_id]["arquivos"] = lista_metadados
 
@@ -954,6 +1047,17 @@ def cadastrar_usuario(dados: CadastroRequest):
             detail="Não foi possível concluir o cadastro. Verifique o e-mail ou tente entrar."
         )
 
+@app.get("/health")
+def health():
+    ffmpeg_ok = shutil.which("ffmpeg") is not None
+    ffprobe_ok = shutil.which("ffprobe") is not None
+    if not ffmpeg_ok or not ffprobe_ok:
+        raise HTTPException(
+            status_code=503,
+            detail={"ok": False, "service": "maisvideos", "ffmpeg": ffmpeg_ok, "ffprobe": ffprobe_ok}
+        )
+    return {"ok": True, "service": "maisvideos", "ffmpeg": True, "ffprobe": True}
+
 @app.get("/vendas")
 def pagina_vendas():
     return FileResponse(BASE_DIR / "vendas.html")
@@ -978,6 +1082,7 @@ async def rota_remover_pausas(
     prefixo: str = Form("Meu_Video"),
     sensibilidade: str = Form("equilibrado")
 ):
+    limpar_tarefas_expiradas()
     if not arquivos:
         raise HTTPException(status_code=400, detail="Selecione pelo menos um vídeo.")
     if sensibilidade not in {"suave", "equilibrado", "agressivo"}:
@@ -1004,10 +1109,12 @@ async def rota_remover_pausas(
     TAREFAS[task_id] = {
         "id": task_id, "user_id": usuario["id"], "status": "pendente",
         "progresso": 5, "mensagem": "Iniciando corte no servidor...",
-        "download_url": None, "arquivos": [], "cancelado": False
+        "download_url": None, "arquivos": [], "cancelado": False,
+        "criado_ts": time.time(), "download_token": uuid.uuid4().hex,
+        "download_expira": time.time() + TEMPO_RETENCAO_SEGUNDOS
     }
     background_tasks.add_task(
-        task_remover_pausas, task_id, salvos, limpar_prefixo(prefixo), sensibilidade
+        executar_tarefa_serializada, task_remover_pausas, task_id, salvos, limpar_prefixo(prefixo), sensibilidade
     )
     return {"task_id": task_id}
 
@@ -1023,10 +1130,17 @@ async def rota_multiplicar(
     remover_pausas: str = Form("false"),
     sensibilidade: str = Form("equilibrado")
 ):
+    limpar_tarefas_expiradas()
     if not ganchos or not corpos or not ctas:
         raise HTTPException(
             status_code=400,
             detail="Envie pelo menos um vídeo em cada bloco: Ganchos, Corpos e CTAs."
+        )
+    total_combinacoes = len(ganchos) * len(corpos) * len(ctas)
+    if total_combinacoes > MAX_COMBINACOES:
+        raise HTTPException(
+            status_code=413,
+            detail=f"Este ambiente permite até {MAX_COMBINACOES} combinações por lote. Seu lote produziria {total_combinacoes}. Reduza os blocos e tente novamente."
         )
     cortar = remover_pausas.strip().lower() in {"true", "1", "sim", "yes"}
     if cortar and sensibilidade not in {"suave", "equilibrado", "agressivo"}:
@@ -1061,10 +1175,12 @@ async def rota_multiplicar(
     TAREFAS[task_id] = {
         "id": task_id, "user_id": usuario["id"], "status": "pendente",
         "progresso": 5, "mensagem": "Iniciando processamento em nuvem...",
-        "download_url": None, "arquivos": [], "cancelado": False
+        "download_url": None, "arquivos": [], "cancelado": False,
+        "criado_ts": time.time(), "download_token": uuid.uuid4().hex,
+        "download_expira": time.time() + TEMPO_RETENCAO_SEGUNDOS
     }
     background_tasks.add_task(
-        task_multiplicar_videos, task_id, g_paths, c_paths, t_paths,
+        executar_tarefa_serializada, task_multiplicar_videos, task_id, g_paths, c_paths, t_paths,
         limpar_prefixo(prefixo), cortar, sensibilidade
     )
     return {"task_id": task_id}
@@ -1093,9 +1209,16 @@ async def checar_status_tarefa(
 async def servir_video_individual(
     task_id: str,
     filename: str,
-    usuario: Dict[str, str] = Depends(usuario_com_assinatura)
+    token: Optional[str] = Query(None),
+    download: bool = Query(False),
+    credentials: Optional[HTTPAuthorizationCredentials] = Depends(bearer_scheme)
 ):
-    tarefa = exigir_dono_tarefa(task_id, usuario)
+    validar_task_id(task_id)
+    if validar_token_download(task_id, token):
+        tarefa = TAREFAS.get(task_id)
+    else:
+        usuario = usuario_com_assinatura(obter_usuario_atual(credentials))
+        tarefa = exigir_dono_tarefa(task_id, usuario)
     if tarefa.get("status") != "concluido":
         raise HTTPException(status_code=409, detail="O vídeo ainda não está disponível para download.")
     task_dir = caminho_da_tarefa(task_id)
@@ -1129,35 +1252,40 @@ async def servir_video_individual(
     if arq_path.parent != output_dir or not arq_path.is_file():
         raise HTTPException(status_code=404, detail="Vídeo não encontrado")
 
-    return FileResponse(arq_path, filename=filename, media_type="video/mp4")
+    return FileResponse(
+        arq_path,
+        filename=filename,
+        media_type="video/mp4",
+        content_disposition_type="attachment" if download else "inline",
+        headers={"Cache-Control": "no-store"}
+    )
 
 @app.get("/api/download/{task_id}")
 async def download_zip(
     task_id: str,
-    usuario: Dict[str, str] = Depends(usuario_com_assinatura)
+    token: Optional[str] = Query(None),
+    credentials: Optional[HTTPAuthorizationCredentials] = Depends(bearer_scheme)
 ):
-    tarefa = exigir_dono_tarefa(task_id, usuario)
-    if tarefa.get("status") != "concluido":
-        raise HTTPException(status_code=409, detail="O arquivo ZIP ainda não está disponível.")
+    validar_task_id(task_id)
+    if validar_token_download(task_id, token):
+        tarefa = TAREFAS.get(task_id)
+    else:
+        usuario = usuario_com_assinatura(obter_usuario_atual(credentials))
+        tarefa = exigir_dono_tarefa(task_id, usuario)
+    if not tarefa or tarefa.get("status") != "concluido":
+        raise HTTPException(status_code=409, detail="O arquivo ZIP ainda não está disponível ou expirou.")
     task_dir = caminho_da_tarefa(task_id)
-
-    for candidate in sorted(task_dir.glob("*.zip")):
-        if candidate.is_symlink():
-            continue
-
-        try:
-            zip_path = candidate.resolve(strict=True)
-        except (OSError, RuntimeError):
-            continue
-
-        if zip_path.parent == task_dir and zip_path.is_file():
-            return FileResponse(
-                zip_path,
-                filename=zip_path.name,
-                media_type="application/zip"
-            )
-
-    raise HTTPException(status_code=404, detail="Arquivo ZIP não encontrado")
+    zip_path = next((p.resolve(strict=True) for p in task_dir.glob("*.zip") if p.is_file() and not p.is_symlink()), None)
+    if not zip_path or zip_path.parent != task_dir:
+        raise HTTPException(status_code=404, detail="Arquivo ZIP não encontrado.")
+    # A pasta é excluída apenas depois que o servidor termina de transmitir o ZIP.
+    return FileResponse(
+        zip_path,
+        filename=zip_path.name,
+        media_type="application/zip",
+        headers={"Cache-Control": "no-store"},
+        background=BackgroundTask(limpar_diretorio_tarefa, task_id)
+    )
 
 if __name__ == "__main__":
 
@@ -1168,7 +1296,7 @@ if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=port)
 
 # MAIS_VIDEOS_CAKTO_WEBHOOK_V1
-# Integração Cakto -> Supabase. O vídeo continua sendo processado no navegador.
+# Integração Cakto -> Supabase. O processamento de mídia ocorre no backend.
 def _mv_data_iso(valor, padrao=None):
     from datetime import datetime, timezone
     if not valor:

@@ -5,7 +5,7 @@ services:
     plan: free
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
-    healthCheckPath: /
+    healthCheckPath: /health
     envVars:
       - key: SUPABASE_URL
         sync: false
@@ -21,3 +21,13 @@ services:
         sync: false
       - key: CAKTO_ANUAL_OFFER_ID
         sync: false
+      - key: MAX_UPLOAD_MB
+        value: "100"
+      - key: MAX_TOTAL_UPLOAD_MB
+        value: "250"
+      - key: MAX_COMBINACOES
+        value: "48"
+      - key: TEMP_DIR
+        value: "/tmp/maisvideos"
+      - key: TEMP_RETENTION_SECONDS
+        value: "10800"
