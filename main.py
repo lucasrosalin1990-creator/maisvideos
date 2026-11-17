@@ -10,6 +10,8 @@ import random
 import shutil
 
 import zipfile
+import queue
+from urllib.parse import quote
 
 import subprocess
 import threading
@@ -29,7 +31,7 @@ from fastapi import (
 
 )
 
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, StreamingResponse
 from starlette.background import BackgroundTask
 
 from fastapi.middleware.cors import CORSMiddleware
@@ -731,18 +733,7 @@ def task_remover_pausas(task_id: str, caminhos_videos: List[Path], prefixo: str,
         if not arquivos_prontos:
             raise RuntimeError("Nenhum vídeo válido foi gerado.")
 
-        zip_path = task_dir / f"{limpar_prefixo(prefixo)}_Videos_Sem_Pausa.zip"
-
-        with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_STORED) as z:
-
-            for v in arquivos_prontos:
-
-                z.write(v, arcname=v.name)
-
-        with zipfile.ZipFile(zip_path, "r") as zip_teste:
-            if zip_teste.testzip() is not None:
-                raise RuntimeError("O arquivo ZIP gerado apresentou erro de integridade.")
-
+        TAREFAS[task_id]["zip_filename"] = f"{limpar_prefixo(prefixo)}_Videos_Sem_Pausa.zip"
         shutil.rmtree(task_dir / "inputs", ignore_errors=True)
 
         TAREFAS[task_id]["status"] = "concluido"
@@ -849,6 +840,9 @@ def task_multiplicar_videos(
         norm_c = [preparar_bloco(c, f"c{i}") for i, c in enumerate(corpos)]
 
         norm_t = [preparar_bloco(t, f"t{i}") for i, t in enumerate(ctas)]
+        # Os uploads originais nao sao mais necessarios apos a normalizacao.
+        shutil.rmtree(task_dir / "inputs", ignore_errors=True)
+
 
         if TAREFAS[task_id].get("cancelado"):
 
@@ -933,21 +927,13 @@ def task_multiplicar_videos(
         if not finais:
             raise RuntimeError("Nenhum vídeo final foi gerado.")
 
-        zip_path = task_dir / f"{limpar_prefixo(prefixo)}_Lote_Multiplicado.zip"
-
-        with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_STORED) as z:
-
-            for f in finais:
-
-                z.write(f, arcname=f.name)
-
-        with zipfile.ZipFile(zip_path, "r") as zip_teste:
-            if zip_teste.testzip() is not None:
-                raise RuntimeError("O arquivo ZIP gerado apresentou erro de integridade.")
-
+        # Preserva outputs para previas e downloads individuais.
         shutil.rmtree(norm_dir, ignore_errors=True)
-
-        shutil.rmtree(task_dir / "inputs", ignore_errors=True)
+        tamanho_finais = sum(f.stat().st_size for f in finais)
+        espaco_livre = shutil.disk_usage(task_dir).free
+        print(f"[MAISVIDEOS] F3 antes do ZIP: {len(finais)} videos; saidas={tamanho_finais / (1024**3):.2f} GB; livre={espaco_livre / (1024**3):.2f} GB")
+        TAREFAS[task_id]["mensagem"] = "Preparando o ZIP..."
+        TAREFAS[task_id]["zip_filename"] = f"{limpar_prefixo(prefixo)}_Lote_Multiplicado.zip"
 
         TAREFAS[task_id]["status"] = "concluido"
 
@@ -1260,6 +1246,78 @@ async def servir_video_individual(
         headers={"Cache-Control": "no-store"}
     )
 
+
+def gerar_zip_em_stream(arquivos: List[tuple]):
+    """Gera ZIP progressivamente, sem copia completa no armazenamento temporario."""
+    partes = queue.Queue(maxsize=4)
+    cancelar = threading.Event()
+    fim = object()
+
+    def enviar(item):
+        while not cancelar.is_set():
+            try:
+                partes.put(item, timeout=0.25)
+                return True
+            except queue.Full:
+                continue
+        return False
+
+    class EscritorFila:
+        def write(self, dados):
+            dados = bytes(dados)
+            if dados and not enviar(dados):
+                raise BrokenPipeError("Download encerrado pelo cliente.")
+            return len(dados)
+
+        def flush(self):
+            pass
+
+    def montar():
+        try:
+            with zipfile.ZipFile(
+                EscritorFila(),
+                mode="w",
+                compression=zipfile.ZIP_STORED,
+                allowZip64=True
+            ) as arquivo_zip:
+                for caminho, nome in arquivos:
+                    info = zipfile.ZipInfo(nome)
+                    info.compress_type = zipfile.ZIP_STORED
+
+                    with caminho.open("rb") as origem:
+                        with arquivo_zip.open(info, "w", force_zip64=True) as destino:
+                            shutil.copyfileobj(
+                                origem, destino, length=1024 * 1024
+                            )
+        except Exception as exc:
+            print(f"[MAISVIDEOS] Erro no ZIP em fluxo: {exc}")
+            enviar(exc)
+        finally:
+            enviar(fim)
+
+    produtor = threading.Thread(
+        target=montar,
+        daemon=True,
+        name="maisvideos-zip-stream"
+    )
+    produtor.start()
+
+    try:
+        while True:
+            item = partes.get()
+
+            if item is fim:
+                break
+
+            if isinstance(item, Exception):
+                raise RuntimeError(f"Falha ao gerar ZIP: {item}") from item
+
+            yield item
+    finally:
+        cancelar.set()
+        produtor.join()
+
+
 @app.get("/api/download/{task_id}")
 async def download_zip(
     task_id: str,
@@ -1267,25 +1325,95 @@ async def download_zip(
     credentials: Optional[HTTPAuthorizationCredentials] = Depends(bearer_scheme)
 ):
     validar_task_id(task_id)
+
     if validar_token_download(task_id, token):
         tarefa = TAREFAS.get(task_id)
     else:
         usuario = usuario_com_assinatura(obter_usuario_atual(credentials))
         tarefa = exigir_dono_tarefa(task_id, usuario)
+
     if not tarefa or tarefa.get("status") != "concluido":
-        raise HTTPException(status_code=409, detail="O arquivo ZIP ainda não está disponível ou expirou.")
-    task_dir = caminho_da_tarefa(task_id)
-    zip_path = next((p.resolve(strict=True) for p in task_dir.glob("*.zip") if p.is_file() and not p.is_symlink()), None)
-    if not zip_path or zip_path.parent != task_dir:
-        raise HTTPException(status_code=404, detail="Arquivo ZIP não encontrado.")
-    # A pasta é excluída apenas depois que o servidor termina de transmitir o ZIP.
-    return FileResponse(
-        zip_path,
-        filename=zip_path.name,
+        raise HTTPException(
+            status_code=409,
+            detail="Os videos ainda nao estao disponiveis ou a tarefa expirou."
+        )
+
+    try:
+        task_dir = caminho_da_tarefa(task_id).resolve(strict=True)
+        output_dir = task_dir / "outputs"
+
+        if output_dir.is_symlink():
+            raise HTTPException(status_code=404, detail="Arquivos nao encontrados.")
+
+        output_dir = output_dir.resolve(strict=True)
+
+        if output_dir.parent != task_dir or not output_dir.is_dir():
+            raise HTTPException(status_code=404, detail="Arquivos nao encontrados.")
+
+    except HTTPException:
+        raise
+    except (OSError, RuntimeError, ValueError):
+        raise HTTPException(status_code=404, detail="Arquivos nao encontrados.")
+
+    arquivos_zip = []
+
+    for item in tarefa.get("arquivos") or []:
+        nome = item.get("nome") if isinstance(item, dict) else None
+
+        if (
+            not isinstance(nome, str)
+            or Path(nome).name != nome
+            or "/" in nome
+            or "\\" in nome
+            or "\x00" in nome
+            or not nome.lower().endswith(".mp4")
+        ):
+            raise HTTPException(status_code=404, detail="Nome de video invalido.")
+
+        candidato = output_dir / nome
+
+        if candidato.is_symlink():
+            raise HTTPException(status_code=404, detail="Video nao encontrado.")
+
+        try:
+            caminho = candidato.resolve(strict=True)
+        except (OSError, RuntimeError, ValueError):
+            raise HTTPException(status_code=404, detail="Video nao encontrado.")
+
+        if caminho.parent != output_dir or not caminho.is_file():
+            raise HTTPException(status_code=404, detail="Video nao encontrado.")
+
+        arquivos_zip.append((caminho, nome))
+
+    if not arquivos_zip:
+        raise HTTPException(status_code=404, detail="Nenhum video disponivel.")
+
+    nome_zip = tarefa.get("zip_filename")
+
+    if (
+        not isinstance(nome_zip, str)
+        or Path(nome_zip).name != nome_zip
+        or "/" in nome_zip
+        or "\\" in nome_zip
+        or not nome_zip.lower().endswith(".zip")
+    ):
+        nome_zip = "Mais_Videos.zip"
+
+    return StreamingResponse(
+        gerar_zip_em_stream(arquivos_zip),
         media_type="application/zip",
-        headers={"Cache-Control": "no-store"},
+        headers={
+            "Content-Disposition": (
+                'attachment; filename="Mais_Videos.zip"; '
+                f"filename*=UTF-8''{quote(nome_zip)}"
+            ),
+            "Cache-Control": "no-store",
+            "X-Content-Type-Options": "nosniff"
+        },
         background=BackgroundTask(limpar_diretorio_tarefa, task_id)
     )
+
+
 
 if __name__ == "__main__":
 
