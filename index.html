@@ -377,7 +377,7 @@
                         <svg class="w-8 h-8 text-slate-500 mb-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
                         <p class="text-xs font-bold text-slate-200">Clique para selecionar 1 ou múltiplos vídeos com pausas</p>
                         <p class="text-[11px] text-slate-500 mt-1 font-mono">MP4, MOV (iPhone) ou WebM</p>
-                        <input type="file" id="f1-input" multiple accept="video/*" class="hidden" onchange="carregarArquivosF1(this.files)">
+                        <input type="file" id="f1-input" multiple accept="*/*" class="hidden" onchange="carregarArquivosF1(this.files)">
                     </label>
 
                     <div id="f1-queue-box" class="mt-3 hidden">
@@ -465,7 +465,7 @@
                     <div>
                         <label for="f2-in-ganchos" class="upload-zone border border-dashed border-blue-400/60 hover:bg-blue-900/30 rounded-xl p-4 text-center cursor-pointer transition mb-2 block">
                             <p class="text-xs font-extrabold text-blue-200">+ Adicionar Ganchos</p>
-                            <input type="file" id="f2-in-ganchos" multiple accept="video/*" class="hidden" onchange="selecionarBloco('f2', 'ganchos', this.files)">
+                            <input type="file" id="f2-in-ganchos" multiple accept="*/*" class="hidden" onchange="selecionarBloco('f2', 'ganchos', this.files)">
                         </label>
                         <ul id="f2-list-ganchos" class="space-y-1 max-h-28 overflow-y-auto custom-scroll pr-1 empty:hidden text-xs text-blue-100 font-medium"></ul>
                     </div>
@@ -483,7 +483,7 @@
                     <div>
                         <label for="f2-in-corpos" class="upload-zone border border-dashed border-emerald-400/60 hover:bg-emerald-900/30 rounded-xl p-4 text-center cursor-pointer transition mb-2 block">
                             <p class="text-xs font-extrabold text-emerald-200">+ Adicionar Corpos</p>
-                            <input type="file" id="f2-in-corpos" multiple accept="video/*" class="hidden" onchange="selecionarBloco('f2', 'corpos', this.files)">
+                            <input type="file" id="f2-in-corpos" multiple accept="*/*" class="hidden" onchange="selecionarBloco('f2', 'corpos', this.files)">
                         </label>
                         <ul id="f2-list-corpos" class="space-y-1 max-h-28 overflow-y-auto custom-scroll pr-1 empty:hidden text-xs text-emerald-100 font-medium"></ul>
                     </div>
@@ -501,7 +501,7 @@
                     <div>
                         <label for="f2-in-ctas" class="upload-zone border border-dashed border-rose-400/60 hover:bg-rose-900/30 rounded-xl p-4 text-center cursor-pointer transition mb-2 block">
                             <p class="text-xs font-extrabold text-rose-200">+ Adicionar CTAs</p>
-                            <input type="file" id="f2-in-ctas" multiple accept="video/*" class="hidden" onchange="selecionarBloco('f2', 'ctas', this.files)">
+                            <input type="file" id="f2-in-ctas" multiple accept="*/*" class="hidden" onchange="selecionarBloco('f2', 'ctas', this.files)">
                         </label>
                         <ul id="f2-list-ctas" class="space-y-1 max-h-28 overflow-y-auto custom-scroll pr-1 empty:hidden text-xs text-rose-100 font-medium"></ul>
                     </div>
@@ -601,7 +601,7 @@
                     <div>
                         <label for="f3-in-ganchos" class="upload-zone border border-dashed border-blue-400/60 hover:bg-blue-900/30 rounded-xl p-4 text-center cursor-pointer transition mb-2 block">
                             <p class="text-xs font-extrabold text-blue-200">+ Adicionar Ganchos</p>
-                            <input type="file" id="f3-in-ganchos" multiple accept="video/*" class="hidden" onchange="selecionarBloco('f3', 'ganchos', this.files)">
+                            <input type="file" id="f3-in-ganchos" multiple accept="*/*" class="hidden" onchange="selecionarBloco('f3', 'ganchos', this.files)">
                         </label>
                         <ul id="f3-list-ganchos" class="space-y-1 max-h-28 overflow-y-auto custom-scroll pr-1 empty:hidden text-xs text-blue-100 font-medium"></ul>
                     </div>
@@ -619,7 +619,7 @@
                     <div>
                         <label for="f3-in-corpos" class="upload-zone border border-dashed border-emerald-400/60 hover:bg-emerald-900/30 rounded-xl p-4 text-center cursor-pointer transition mb-2 block">
                             <p class="text-xs font-extrabold text-emerald-200">+ Adicionar Corpos</p>
-                            <input type="file" id="f3-in-corpos" multiple accept="video/*" class="hidden" onchange="selecionarBloco('f3', 'corpos', this.files)">
+                            <input type="file" id="f3-in-corpos" multiple accept="*/*" class="hidden" onchange="selecionarBloco('f3', 'corpos', this.files)">
                         </label>
                         <ul id="f3-list-corpos" class="space-y-1 max-h-28 overflow-y-auto custom-scroll pr-1 empty:hidden text-xs text-emerald-100 font-medium"></ul>
                     </div>
@@ -637,7 +637,7 @@
                     <div>
                         <label for="f3-in-ctas" class="upload-zone border border-dashed border-rose-400/60 hover:bg-rose-900/30 rounded-xl p-4 text-center cursor-pointer transition mb-2 block">
                             <p class="text-xs font-extrabold text-rose-200">+ Adicionar CTAs</p>
-                            <input type="file" id="f3-in-ctas" multiple accept="video/*" class="hidden" onchange="selecionarBloco('f3', 'ctas', this.files)">
+                            <input type="file" id="f3-in-ctas" multiple accept="*/*" class="hidden" onchange="selecionarBloco('f3', 'ctas', this.files)">
                         </label>
                         <ul id="f3-list-ctas" class="space-y-1 max-h-28 overflow-y-auto custom-scroll pr-1 empty:hidden text-xs text-rose-100 font-medium"></ul>
                     </div>
@@ -1430,7 +1430,7 @@ function configurarBotaoZip(id, caminho) {
                     criarBotaoAcao('Substituir arquivo', '↻', '', () => {
                         const input = document.createElement('input');
                         input.type = 'file';
-                        input.accept = 'video/*';
+                        input.accept = '*/*';
                         input.addEventListener('change', () => {
                             if (input.files.length) acoes.substituir(indice, input.files[0]);
                         }, { once: true });

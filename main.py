@@ -1,5 +1,8 @@
 from fastapi import Request
 import os
+import base64
+import hashlib
+import json
 
 import re
 
@@ -12,6 +15,8 @@ import shutil
 import zipfile
 import queue
 from urllib.parse import quote
+from urllib.request import Request as UrlRequest, urlopen
+from urllib.error import HTTPError, URLError
 
 import subprocess
 import threading
@@ -32,6 +37,7 @@ from fastapi import (
 )
 
 from fastapi.responses import FileResponse, StreamingResponse
+from fastapi.staticfiles import StaticFiles
 from starlette.background import BackgroundTask
 
 from fastapi.middleware.cors import CORSMiddleware
@@ -40,7 +46,6 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 from dotenv import load_dotenv
 
-from supabase import create_client
 
 from pydantic import BaseModel
 
@@ -49,37 +54,50 @@ app = FastAPI()
 # CONFIGURAÇÃO DO SUPABASE E DO AMBIENTE
 
 BASE_DIR = Path(__file__).resolve().parent
-load_dotenv(dotenv_path=BASE_DIR / ".env")
-# Arquivos de mídia ficam apenas em área temporária local do serviço.
+app.mount('/ffmpeg', StaticFiles(directory=BASE_DIR / 'ffmpeg'), name='ffmpeg')
+# O launcher comercial define o modo Windows antes do import. Nesse modo nao
+# abrimos nem lemos um .env local; credenciais administrativas ficam no Render.
+MODO_WINDOWS_LOCAL = os.getenv("MAISVIDEOS_WINDOWS_LOCAL", "").strip().lower() in {"1", "true", "sim", "yes"}
+if not MODO_WINDOWS_LOCAL:
+    load_dotenv(dotenv_path=BASE_DIR / ".env")
+
+# Arquivos de mídia ficam em diretório temporário local do serviço/cliente.
 TEMP_DIR = Path(os.getenv("TEMP_DIR") or (Path(tempfile.gettempdir()) / "maisvideos")).expanduser().resolve()
 TEMP_DIR.mkdir(parents=True, exist_ok=True)
-MAX_UPLOAD_MB = max(10, int(os.getenv("MAX_UPLOAD_MB", "200")))
-MAX_TOTAL_UPLOAD_MB = max(MAX_UPLOAD_MB, int(os.getenv("MAX_TOTAL_UPLOAD_MB", "500")))
-MAX_UPLOAD_BYTES = MAX_UPLOAD_MB * 1024 * 1024
-MAX_TOTAL_UPLOAD_BYTES = MAX_TOTAL_UPLOAD_MB * 1024 * 1024
+MAX_UPLOAD_MB = None if MODO_WINDOWS_LOCAL else max(10, int(os.getenv("MAX_UPLOAD_MB", "200")))
+MAX_TOTAL_UPLOAD_MB = None if MODO_WINDOWS_LOCAL else max(MAX_UPLOAD_MB, int(os.getenv("MAX_TOTAL_UPLOAD_MB", "500")))
+MAX_UPLOAD_BYTES = None if MAX_UPLOAD_MB is None else MAX_UPLOAD_MB * 1024 * 1024
+MAX_TOTAL_UPLOAD_BYTES = None if MAX_TOTAL_UPLOAD_MB is None else MAX_TOTAL_UPLOAD_MB * 1024 * 1024
 MAX_COMBINACOES = max(1, int(os.getenv("MAX_COMBINACOES", "150")))
 TAMANHO_BLOCO_UPLOAD = 1024 * 1024
 EXTENSOES_VIDEO_PERMITIDAS = {".mp4", ".mov", ".m4v", ".webm", ".avi", ".mkv"}
 TEMPO_RETENCAO_SEGUNDOS = max(900, int(os.getenv("TEMP_RETENTION_SECONDS", "10800")))
 PROCESSING_LOCK = threading.Lock()
+MAISVIDEOS_AUTH_API_URL = os.getenv("MAISVIDEOS_AUTH_API_URL", "").strip().rstrip("/")
 
-SUPABASE_URL = os.getenv("SUPABASE_URL")
-
-SUPABASE_ANON_KEY = os.getenv("SUPABASE_ANON_KEY")
-
-SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
-ADMIN_EMAIL = os.getenv("ADMIN_EMAIL", "").strip().lower()
-if not SUPABASE_URL or not SUPABASE_ANON_KEY or not SUPABASE_SERVICE_ROLE_KEY:
-
-    raise RuntimeError("Configuração do Supabase incompleta.")
-
-supabase_admin = create_client(
-
-    SUPABASE_URL,
-
-    SUPABASE_SERVICE_ROLE_KEY
-
-)
+if MODO_WINDOWS_LOCAL:
+    # O desktop nao le nem carrega chaves privadas do Supabase ou do webhook.
+    SUPABASE_URL = None
+    SUPABASE_CLIENT_KEY = None
+    SUPABASE_ADMIN_KEY = None
+    SUPABASE_ANON_KEY = None
+    SUPABASE_SERVICE_ROLE_KEY = None
+    SUPABASE_SECRET_KEY = None
+    ADMIN_EMAIL = ""
+    if not MAISVIDEOS_AUTH_API_URL or not MAISVIDEOS_AUTH_API_URL.startswith("https://"):
+        raise RuntimeError("URL HTTPS do serviço de autenticação não configurada no aplicativo.")
+    supabase_admin = None
+else:
+    # Suporta os nomes novos (publishable/secret) e os legados (anon/service_role).
+    # Somente o backend privado (Render) carrega chaves administrativas.
+    SUPABASE_URL = os.getenv("SUPABASE_URL")
+    SUPABASE_CLIENT_KEY = os.getenv("SUPABASE_PUBLISHABLE_KEY") or os.getenv("SUPABASE_ANON_KEY")
+    SUPABASE_ADMIN_KEY = os.getenv("SUPABASE_SECRET_KEY") or os.getenv("SUPABASE_SERVICE_ROLE_KEY")
+    ADMIN_EMAIL = os.getenv("ADMIN_EMAIL", "").strip().lower()
+    create_client = __import__("supabase", fromlist=["create_client"]).create_client
+    if not SUPABASE_URL or not SUPABASE_CLIENT_KEY or not SUPABASE_ADMIN_KEY:
+        raise RuntimeError("Configuração do Supabase incompleta no backend.")
+    supabase_admin = create_client(SUPABASE_URL, SUPABASE_ADMIN_KEY)
 
 class CadastroRequest(BaseModel):
 
@@ -99,6 +117,87 @@ class RefreshRequest(BaseModel):
 
 bearer_scheme = HTTPBearer(auto_error=False)
 
+
+def _chamar_api_autenticacao(caminho: str, metodo: str = "GET", payload: Optional[dict] = None, token: Optional[str] = None):
+    """Encaminha operações de conta/licença para o backend privado do Mais Vídeos."""
+    if not MODO_WINDOWS_LOCAL or not MAISVIDEOS_AUTH_API_URL:
+        raise HTTPException(status_code=503, detail="Serviço de autenticação não configurado.")
+    if not caminho.startswith("/api/auth/"):
+        raise HTTPException(status_code=400, detail="Rota de autenticação inválida.")
+
+    cabecalhos = {"Accept": "application/json"}
+    corpo = None
+    if payload is not None:
+        corpo = json.dumps(payload, ensure_ascii=False).encode("utf-8")
+        cabecalhos["Content-Type"] = "application/json"
+    if token:
+        cabecalhos["Authorization"] = f"Bearer {token}"
+
+    requisicao = UrlRequest(
+        MAISVIDEOS_AUTH_API_URL + caminho,
+        data=corpo,
+        headers=cabecalhos,
+        method=metodo.upper(),
+    )
+    try:
+        with urlopen(requisicao, timeout=60) as resposta:
+            bruto = resposta.read(1024 * 1024)
+            return json.loads(bruto.decode("utf-8") or "{}")
+    except HTTPError as exc:
+        try:
+            dados = json.loads(exc.read(65536).decode("utf-8") or "{}")
+        except Exception:
+            dados = {}
+        detalhe = dados.get("detail") or dados.get("mensagem") or "Não foi possível validar sua conta."
+        raise HTTPException(status_code=exc.code, detail=detalhe)
+    except (URLError, TimeoutError, OSError) as exc:
+        raise HTTPException(
+            status_code=503,
+            detail="Não foi possível conectar ao serviço de licença. Verifique a internet e tente novamente.",
+        ) from exc
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise HTTPException(status_code=503, detail="O serviço de licença retornou uma resposta inválida.") from exc
+
+
+_CACHE_ASSINATURA_REMOTA: Dict[str, float] = {}
+_CACHE_ASSINATURA_REMOTA_LOCK = threading.Lock()
+
+
+def _validar_assinatura_remota(token: str) -> None:
+    """Confere licença no backend e evita repetir a chamada durante cada poll da tarefa."""
+    chave = hashlib.sha256(token.encode("utf-8")).hexdigest()
+    agora = time.monotonic()
+    with _CACHE_ASSINATURA_REMOTA_LOCK:
+        validade = _CACHE_ASSINATURA_REMOTA.get(chave, 0.0)
+        if validade > agora:
+            return
+
+    _chamar_api_autenticacao("/api/auth/verificar-assinatura", "GET", token=token)
+
+    with _CACHE_ASSINATURA_REMOTA_LOCK:
+        if len(_CACHE_ASSINATURA_REMOTA) > 2000:
+            for token_hash, expira in list(_CACHE_ASSINATURA_REMOTA.items()):
+                if expira <= agora:
+                    _CACHE_ASSINATURA_REMOTA.pop(token_hash, None)
+        _CACHE_ASSINATURA_REMOTA[chave] = agora + 45.0
+
+
+def _claims_token_validado_remotamente(token: str) -> dict:
+    """Lê claims apenas depois de o backend remoto validar o mesmo JWT e a assinatura."""
+    try:
+        partes = token.split(".")
+        if len(partes) != 3:
+            raise ValueError("JWT inválido")
+        trecho = partes[1]
+        trecho += "=" * (-len(trecho) % 4)
+        claims = json.loads(base64.urlsafe_b64decode(trecho.encode("ascii")).decode("utf-8"))
+        if not claims.get("sub"):
+            raise ValueError("JWT sem identificador de usuário")
+        return claims
+    except Exception as exc:
+        raise HTTPException(status_code=401, detail="Token inválido ou sem usuário associado.") from exc
+
+
 def obter_usuario_atual(
 
     credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme)
@@ -116,6 +215,12 @@ def obter_usuario_atual(
         )
 
     token = credentials.credentials
+
+    if MODO_WINDOWS_LOCAL:
+        # O servidor remoto valida assinatura ativa e autenticidade do JWT.
+        _validar_assinatura_remota(token)
+        claims = _claims_token_validado_remotamente(token)
+        return {"id": str(claims["sub"]), "email": str(claims.get("email") or "")}
 
     try:
 
@@ -209,8 +314,13 @@ def login_usuario(dados: LoginRequest):
     if not re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", email):
         raise HTTPException(status_code=400, detail="Informe um e-mail válido.")
 
+    if MODO_WINDOWS_LOCAL:
+        return _chamar_api_autenticacao(
+            "/api/auth/login", "POST", {"email": email, "senha": dados.senha}
+        )
+
     try:
-        cliente = create_client(SUPABASE_URL, SUPABASE_ANON_KEY)
+        cliente = create_client(SUPABASE_URL, SUPABASE_CLIENT_KEY)
         resposta = cliente.auth.sign_in_with_password({
             "email": email,
             "password": dados.senha
@@ -264,8 +374,13 @@ def renovar_sessao(dados: RefreshRequest):
     if not refresh_token or len(refresh_token) > 8192:
         raise HTTPException(status_code=401, detail="Sessão expirada. Entre novamente.")
 
+    if MODO_WINDOWS_LOCAL:
+        return _chamar_api_autenticacao(
+            "/api/auth/refresh", "POST", {"refresh_token": refresh_token}
+        )
+
     try:
-        cliente = create_client(SUPABASE_URL, SUPABASE_ANON_KEY)
+        cliente = create_client(SUPABASE_URL, SUPABASE_CLIENT_KEY)
         resposta = cliente.auth.refresh_session(refresh_token)
         sessao = resposta.session
         usuario = resposta.user
@@ -366,6 +481,10 @@ def usuario_com_assinatura(
 ):
     email_usuario = (usuario.get("email") or "").strip().lower()
 
+    if MODO_WINDOWS_LOCAL:
+        # obter_usuario_atual só retorna depois de o backend privado validar o JWT e a assinatura.
+        return usuario
+
     # Administrador com acesso permanente
     if ADMIN_EMAIL and email_usuario == ADMIN_EMAIL:
         return usuario
@@ -464,7 +583,7 @@ async def salvar_upload_video(upload: UploadFile, destino: Path, total_recebido:
     """Salva upload em blocos, validando extensão e limites por arquivo e por tarefa."""
     nome_original = upload.filename or ""
     extensao = Path(nome_original.replace("\\", "/")).suffix.lower()
-    if extensao not in EXTENSOES_VIDEO_PERMITIDAS:
+    if not MODO_WINDOWS_LOCAL and extensao not in EXTENSOES_VIDEO_PERMITIDAS:
         raise HTTPException(
             status_code=415,
             detail=f"Formato não permitido: {extensao or 'arquivo sem extensão'}. Envie MP4, MOV, M4V, WEBM, AVI ou MKV."
@@ -480,12 +599,12 @@ async def salvar_upload_video(upload: UploadFile, destino: Path, total_recebido:
                 tamanho += len(bloco)
                 total_recebido[0] += len(bloco)
 
-                if tamanho > MAX_UPLOAD_BYTES:
+                if MAX_UPLOAD_BYTES is not None and tamanho > MAX_UPLOAD_BYTES:
                     raise HTTPException(
                         status_code=413,
                         detail=f"O arquivo {Path(nome_original).name} ultrapassa o limite de {MAX_UPLOAD_MB} MB."
                     )
-                if total_recebido[0] > MAX_TOTAL_UPLOAD_BYTES:
+                if MAX_TOTAL_UPLOAD_BYTES is not None and total_recebido[0] > MAX_TOTAL_UPLOAD_BYTES:
                     raise HTTPException(
                         status_code=413,
                         detail=f"O conjunto de arquivos ultrapassa o limite de {MAX_TOTAL_UPLOAD_MB} MB por processamento."
@@ -592,10 +711,32 @@ def video_tem_audio(caminho: Path) -> bool:
     return bool(resultado.stdout.strip())
 
 
+def arquivo_tem_video(caminho: Path) -> bool:
+    """Identifica uma faixa de vídeo com FFprobe, inclusive em arquivos de ?udio."""
+    cmd = [
+        "ffprobe", "-v", "error", "-select_streams", "v:0",
+        "-show_entries", "stream=codec_type", "-of", "csv=p=0",
+        str(caminho)
+    ]
+    try:
+        resultado = subprocess.run(
+            cmd, capture_output=True, text=True, check=True, timeout=60
+        )
+        return bool(resultado.stdout.strip())
+    except FileNotFoundError as exc:
+        raise RuntimeError("FFprobe não foi encontrado no computador.") from exc
+    except subprocess.CalledProcessError as exc:
+        detalhe = (exc.stderr or "").strip()[-500:]
+        raise RuntimeError(f"Não foi possível identificar o formato de mídia. {detalhe}") from exc
+
+
 def cortar_pausas_ffmpeg(video_in: Path, video_out: Path, sensibilidade: str, pad_9_16: bool = False) -> tuple:
     """Remove silêncios quando há áudio; normaliza vídeos sem áudio sem inventar cortes."""
     dur_antes = obter_duracao(video_in)
     tem_audio = video_tem_audio(video_in)
+    tem_video = arquivo_tem_video(video_in)
+    if not tem_video and not tem_audio:
+        raise RuntimeError("O arquivo n?o cont?m uma faixa de vídeo ou ?udio compat?vel.")
     escala_9_16 = (
         "scale=1080:1920:force_original_aspect_ratio=decrease,"
         "pad=1080:1920:(ow-iw)/2:(oh-ih)/2,setsar=1"
@@ -604,7 +745,7 @@ def cortar_pausas_ffmpeg(video_in: Path, video_out: Path, sensibilidade: str, pa
 
     # Um vídeo sem faixa de áudio não possui pausas detectáveis. No multiplicador,
     # adicionamos silêncio para que todos os blocos tenham as mesmas faixas ao concatenar.
-    if not tem_audio:
+    if tem_video and not tem_audio:
         cmd_sem_audio = ["ffmpeg", "-y", "-i", str(video_in)]
         if pad_9_16:
             cmd_sem_audio += [
@@ -655,7 +796,15 @@ def cortar_pausas_ffmpeg(video_in: Path, video_out: Path, sensibilidade: str, pa
         ini = max(0.0, ultimo - 0.04)
         segmentos.append((ini, dur_antes))
 
-    cmd_cut = ["ffmpeg", "-y", "-i", str(video_in), "-map", "0:v:0", "-map", "0:a:0"]
+    if tem_video:
+        cmd_cut = ["ffmpeg", "-y", "-i", str(video_in), "-map", "0:v:0", "-map", "0:a:0"]
+    else:
+        # Áudio puro recebe fundo preto vertical para funcionar nas combinações de vídeo.
+        cmd_cut = [
+            "ffmpeg", "-y", "-f", "lavfi", "-i",
+            f"color=c=black:s=1080x1920:r=30:d={dur_antes:.3f}",
+            "-i", str(video_in), "-map", "0:v:0", "-map", "1:a:0"
+        ]
     if not segmentos or (len(segmentos) == 1 and (segmentos[0][1] - segmentos[0][0]) >= dur_antes - 0.15):
         cmd_cut += ["-vf", escala_9_16]
     else:
@@ -679,14 +828,22 @@ def cortar_pausas_ffmpeg(video_in: Path, video_out: Path, sensibilidade: str, pa
 def padronizar_apenas_9_16(video_in: Path, video_out: Path):
     """Padroniza 9:16 e garante faixa AAC em todos os blocos para concatenação."""
     filtro = "scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2,setsar=1"
-    cmd = ["ffmpeg", "-y", "-i", str(video_in)]
-    if video_tem_audio(video_in):
-        cmd += ["-map", "0:v:0", "-map", "0:a:0"]
-    else:
-        cmd += [
-            "-f", "lavfi", "-i", "anullsrc=channel_layout=stereo:sample_rate=44100",
-            "-map", "0:v:0", "-map", "1:a:0"
+    if not arquivo_tem_video(video_in):
+        duracao = obter_duracao(video_in)
+        cmd = [
+            "ffmpeg", "-y", "-f", "lavfi", "-i",
+            f"color=c=black:s=1080x1920:r=30:d={duracao:.3f}",
+            "-i", str(video_in), "-map", "0:v:0", "-map", "1:a:0"
         ]
+    else:
+        cmd = ["ffmpeg", "-y", "-i", str(video_in)]
+        if video_tem_audio(video_in):
+            cmd += ["-map", "0:v:0", "-map", "0:a:0"]
+        else:
+            cmd += [
+                "-f", "lavfi", "-i", "anullsrc=channel_layout=stereo:sample_rate=44100",
+                "-map", "0:v:0", "-map", "1:a:0"
+            ]
     cmd += [
         "-vf", filtro, "-r", "30", "-c:v", "libx264", "-preset", "ultrafast",
         "-crf", "23", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "128k",
@@ -1006,6 +1163,11 @@ def cadastrar_usuario(dados: CadastroRequest):
             detail="A senha precisa ter pelo menos 8 caracteres."
         )
 
+    if MODO_WINDOWS_LOCAL:
+        return _chamar_api_autenticacao(
+            "/api/auth/cadastro", "POST", {"email": email, "senha": senha}
+        )
+
     # A compra deve estar aprovada e ainda não vinculada a outra conta.
     try:
         compra = (
@@ -1030,7 +1192,7 @@ def cadastrar_usuario(dados: CadastroRequest):
         )
 
     try:
-        cliente = create_client(SUPABASE_URL, SUPABASE_ANON_KEY)
+        cliente = create_client(SUPABASE_URL, SUPABASE_CLIENT_KEY)
         resposta = cliente.auth.sign_up({
             "email": email,
             "password": senha
@@ -1560,6 +1722,7 @@ def _mv_vincular_compras_e_ativar_assinaturas(email, user_id):
         evento = compra.get("dados_evento") or {}
         if not compra_id or plano not in ("mensal", "anual"):
             continue
+        produto_slug = str(compra.get("produto_slug") or ("mais-videos-mensal" if plano == "mensal" else "mais-videos-anual"))
 
         # A chave compra_id é única. Se já está na assinatura, não renova de novo.
         por_compra = (
@@ -1629,7 +1792,7 @@ def _mv_vincular_compras_e_ativar_assinaturas(email, user_id):
             "vence_em": novo_vencimento.isoformat(),
             "atualizado_em": agora.isoformat(),
             "cakto_subscription_id": str(assinatura_cakto_id) if assinatura_cakto_id else None,
-            "produto_slug": compra.get("produto_slug") or ("mais-videos-mensal" if plano == "mensal" else "mais-videos-anual"),
+            "produto_slug": produto_slug,
         }
 
         if assinatura_existente:
@@ -1649,6 +1812,8 @@ def _mv_vincular_compras_e_ativar_assinaturas(email, user_id):
 
 @app.post("/api/webhooks/cakto")
 async def webhook_cakto(request: Request):
+    if MODO_WINDOWS_LOCAL:
+        raise HTTPException(status_code=404, detail="Rota não encontrada.")
     import hashlib
     import hmac
     import json
