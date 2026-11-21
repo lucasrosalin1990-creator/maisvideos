@@ -93,6 +93,10 @@ class LoginRequest(BaseModel):
 
     senha: str
 
+
+class RefreshRequest(BaseModel):
+    refresh_token: str
+
 bearer_scheme = HTTPBearer(auto_error=False)
 
 def obter_usuario_atual(
@@ -238,6 +242,7 @@ def login_usuario(dados: LoginRequest):
         return {
             "ok": True,
             "access_token": resposta.session.access_token,
+            "refresh_token": resposta.session.refresh_token,
             "token_type": "bearer",
             "usuario": {
                 "id": str(usuario.id),
@@ -252,6 +257,35 @@ def login_usuario(dados: LoginRequest):
             status_code=401,
             detail="Não foi possível entrar. Verifique seu e-mail e senha."
         )
+
+@app.post("/api/auth/refresh")
+def renovar_sessao(dados: RefreshRequest):
+    refresh_token = (dados.refresh_token or "").strip()
+    if not refresh_token or len(refresh_token) > 8192:
+        raise HTTPException(status_code=401, detail="Sessão expirada. Entre novamente.")
+
+    try:
+        cliente = create_client(SUPABASE_URL, SUPABASE_ANON_KEY)
+        resposta = cliente.auth.refresh_session(refresh_token)
+        sessao = resposta.session
+        usuario = resposta.user
+        if not sessao or not usuario or not sessao.access_token or not sessao.refresh_token:
+            raise HTTPException(status_code=401, detail="Não foi possível renovar a sessão. Entre novamente.")
+        return {
+            "ok": True,
+            "access_token": sessao.access_token,
+            "refresh_token": sessao.refresh_token,
+            "token_type": "bearer",
+            "usuario": {
+                "id": str(usuario.id),
+                "email": usuario.email
+            }
+        }
+    except HTTPException:
+        raise
+    except Exception:
+        raise HTTPException(status_code=401, detail="Sessão inválida ou expirada. Entre novamente.")
+
 
 # GERENCIADOR DE TAREFAS NA NUVEM
 
