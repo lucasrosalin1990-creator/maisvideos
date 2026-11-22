@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
@@ -293,7 +293,7 @@
                 </button>
             </div>
 
-            <p class="text-center text-sm text-slate-400 mt-6">
+            <p class="text-center text-sm text-slate-400 mt-6 hidden">
                 Ainda não tem acesso?
                 <button id="auth-show-signup" type="button" class="text-blue-400 font-bold hover:text-blue-300">
                     Criar minha conta
@@ -328,7 +328,7 @@
                 </button>
             </div>
 
-            <p class="text-center text-sm text-slate-400 mt-6">
+            <p class="text-center text-sm text-slate-400 mt-6 hidden">
                 Já tem uma conta?
                 <button id="auth-show-login" type="button" class="text-blue-400 font-bold hover:text-blue-300">
                     Fazer login
@@ -338,7 +338,7 @@
 
         <div id="auth-message" class="hidden mt-5 rounded-xl border border-blue-400/20 bg-blue-500/10 p-3 text-xs text-blue-200" role="status" aria-live="polite"></div>
 
-        <p class="text-center text-[10px] text-slate-500 mt-7">
+        <p class="text-center text-[10px] text-slate-500 mt-7 hidden">
             Acesso protegido • Mais Vídeos
         </p>
     </div>
@@ -352,16 +352,16 @@
                 <p class="text-sm sm:text-base text-slate-400 mt-4 max-w-xl leading-relaxed">Escolha uma ferramenta para começar a criar, editar e multiplicar seus vídeos.</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
-                <button type="button" onclick="abrirFerramenta('ferramenta-1')" class="app-tile rounded-[26px] p-6 sm:p-7 text-left group" style="--tile-accent:#fb7185;--tile-accent-dark:#e11d48;--tile-glow:rgba(244,63,94,.35)">
-                    <span class="app-icon w-14 h-14 rounded-[19px] flex items-center justify-center text-white mb-7"><svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M13 2 4.5 13h6l-.8 9L19.5 11h-6z"/></svg></span>
+                <button type="button" onclick="abrirFerramenta('ferramenta-1')" class="app-tile rounded-[26px] p-6 sm:p-7 text-center group" style="--tile-accent:#fb7185;--tile-accent-dark:#e11d48;--tile-glow:rgba(244,63,94,.35)">
+                    <span class="app-icon w-14 h-14 rounded-[19px] flex items-center justify-center text-white mb-7 mx-auto"><svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M13 2 4.5 13h6l-.8 9L19.5 11h-6z"/></svg></span>
                     <span class="block text-lg font-extrabold text-white">Removedor de pausas no vídeo</span>
                 </button>
-                <button type="button" onclick="abrirFerramenta('ferramenta-2')" class="app-tile rounded-[26px] p-6 sm:p-7 text-left group" style="--tile-accent:#60a5fa;--tile-accent-dark:#4f46e5;--tile-glow:rgba(59,130,246,.36)">
-                    <span class="app-icon w-14 h-14 rounded-[19px] flex items-center justify-center text-white mb-7"><svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="13" height="16" rx="3"/><path stroke-linecap="round" stroke-linejoin="round" d="m16 9 5-3v12l-5-3M8 9l4 3-4 3z"/></svg></span>
+                <button type="button" onclick="abrirFerramenta('ferramenta-2')" class="app-tile rounded-[26px] p-6 sm:p-7 text-center group" style="--tile-accent:#60a5fa;--tile-accent-dark:#4f46e5;--tile-glow:rgba(59,130,246,.36)">
+                    <span class="app-icon w-14 h-14 rounded-[19px] flex items-center justify-center text-white mb-7 mx-auto"><svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="13" height="16" rx="3"/><path stroke-linecap="round" stroke-linejoin="round" d="m16 9 5-3v12l-5-3M8 9l4 3-4 3z"/></svg></span>
                     <span class="block text-lg font-extrabold text-white">Multiplicar vídeos</span>
                 </button>
-                <button type="button" onclick="abrirFerramenta('ferramenta-3')" class="app-tile rounded-[26px] p-6 sm:p-7 text-left group" style="--tile-accent:#a78bfa;--tile-accent-dark:#7c3aed;--tile-glow:rgba(139,92,246,.34)">
-                    <span class="app-icon w-14 h-14 rounded-[19px] flex items-center justify-center text-white mb-7"><svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3 4 7v5c0 5 3.4 8 8 9 4.6-1 8-4 8-9V7z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 12 2 2 4-4"/></svg></span>
+                <button type="button" onclick="abrirFerramenta('ferramenta-3')" class="app-tile rounded-[26px] p-6 sm:p-7 text-center group" style="--tile-accent:#a78bfa;--tile-accent-dark:#7c3aed;--tile-glow:rgba(139,92,246,.34)">
+                    <span class="app-icon w-14 h-14 rounded-[19px] flex items-center justify-center text-white mb-7 mx-auto"><svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3 4 7v5c0 5 3.4 8 8 9 4.6-1 8-4 8-9V7z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 12 2 2 4-4"/></svg></span>
                     <span class="block text-lg font-extrabold text-white">Remover + multiplicar</span>
                 </button>
             </div>
@@ -392,7 +392,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
                 <div class="lg:col-span-2">
                     <label for="f1-input" class="upload-zone border-2 border-dashed border-slate-800 hover:border-[#FF2A5F]/50 bg-[#080B14]/70 rounded-2xl p-6 text-center cursor-pointer transition flex flex-col items-center justify-center min-h-[130px]">
-                        <svg class="w-8 h-8 text-slate-500 mb-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                        
                         <span class="upload-plus" aria-hidden="true">+</span>
                         <p class="text-sm font-extrabold text-slate-100">Adicionar vídeos</p>
                         <input type="file" id="f1-input" multiple accept="*/*" class="hidden" onchange="carregarArquivosF1(this.files)">
@@ -476,7 +476,7 @@
                             <span class="text-xs font-black text-blue-300 uppercase tracking-wider">1. Ganchos</span>
                             <span id="f2-badge-ganchos" class="text-[10px] bg-blue-900/60 text-blue-200 border border-blue-500/30 px-2 py-0.5 rounded-full font-mono">0 vídeos</span>
                         </div>
-                        <p class="text-[11px] text-blue-200/70 mb-3">Mínimo 1 vídeo obrigatório.</p>
+                        <p class="text-[11px] text-blue-200/70 mb-3"></p>
                     </div>
                     <div>
                         <label for="f2-in-ganchos" class="upload-zone border border-dashed border-blue-400/60 hover:bg-blue-900/30 rounded-xl p-4 text-center cursor-pointer transition mb-2 block">
@@ -494,7 +494,7 @@
                             <span class="text-xs font-black text-emerald-300 uppercase tracking-wider">2. Corpos</span>
                             <span id="f2-badge-corpos" class="text-[10px] bg-emerald-900/60 text-emerald-200 border border-emerald-500/30 px-2 py-0.5 rounded-full font-mono">0 vídeos</span>
                         </div>
-                        <p class="text-[11px] text-emerald-200/70 mb-3">Mínimo 1 vídeo obrigatório.</p>
+                        <p class="text-[11px] text-emerald-200/70 mb-3"></p>
                     </div>
                     <div>
                         <label for="f2-in-corpos" class="upload-zone border border-dashed border-emerald-400/60 hover:bg-emerald-900/30 rounded-xl p-4 text-center cursor-pointer transition mb-2 block">
@@ -512,7 +512,7 @@
                             <span class="text-xs font-black text-rose-300 uppercase tracking-wider">3. CTAs</span>
                             <span id="f2-badge-ctas" class="text-[10px] bg-rose-900/60 text-rose-200 border border-rose-500/30 px-2 py-0.5 rounded-full font-mono">0 vídeos</span>
                         </div>
-                        <p class="text-[11px] text-rose-200/70 mb-3">Mínimo 1 vídeo obrigatório.</p>
+                        <p class="text-[11px] text-rose-200/70 mb-3"></p>
                     </div>
                     <div>
                         <label for="f2-in-ctas" class="upload-zone border border-dashed border-rose-400/60 hover:bg-rose-900/30 rounded-xl p-4 text-center cursor-pointer transition mb-2 block">
@@ -606,10 +606,10 @@
                 <div class="bg-blue-950/40 border-2 border-blue-500/50 hover:border-blue-400 rounded-2xl p-5 transition flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-2">
-                            <span class="text-xs font-black text-blue-300 uppercase tracking-wider">1. Ganchos Brutos</span>
+                            <span class="text-xs font-black text-blue-300 uppercase tracking-wider">1. Ganchos</span>
                             <span id="f3-badge-ganchos" class="text-[10px] bg-blue-900/60 text-blue-200 border border-blue-500/30 px-2 py-0.5 rounded-full font-mono">0 vídeos</span>
                         </div>
-                        <p class="text-[11px] text-blue-200/70 mb-3">Remove pausas + Multiplica.</p>
+                        <p class="text-[11px] text-blue-200/70 mb-3"></p>
                     </div>
                     <div>
                         <label for="f3-in-ganchos" class="upload-zone border border-dashed border-blue-400/60 hover:bg-blue-900/30 rounded-xl p-4 text-center cursor-pointer transition mb-2 block">
@@ -624,10 +624,10 @@
                 <div class="bg-emerald-950/40 border-2 border-emerald-500/50 hover:border-emerald-400 rounded-2xl p-5 transition flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-2">
-                            <span class="text-xs font-black text-emerald-300 uppercase tracking-wider">2. Corpos Brutos</span>
+                            <span class="text-xs font-black text-emerald-300 uppercase tracking-wider">2. Corpos</span>
                             <span id="f3-badge-corpos" class="text-[10px] bg-emerald-900/60 text-emerald-200 border border-emerald-500/30 px-2 py-0.5 rounded-full font-mono">0 vídeos</span>
                         </div>
-                        <p class="text-[11px] text-emerald-200/70 mb-3">Remove pausas + Multiplica.</p>
+                        <p class="text-[11px] text-emerald-200/70 mb-3"></p>
                     </div>
                     <div>
                         <label for="f3-in-corpos" class="upload-zone border border-dashed border-emerald-400/60 hover:bg-emerald-900/30 rounded-xl p-4 text-center cursor-pointer transition mb-2 block">
@@ -642,10 +642,10 @@
                 <div class="bg-rose-950/40 border-2 border-rose-500/50 hover:border-rose-400 rounded-2xl p-5 transition flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-2">
-                            <span class="text-xs font-black text-rose-300 uppercase tracking-wider">3. CTAs Brutos</span>
+                            <span class="text-xs font-black text-rose-300 uppercase tracking-wider">3. CTAs</span>
                             <span id="f3-badge-ctas" class="text-[10px] bg-rose-900/60 text-rose-200 border border-rose-500/30 px-2 py-0.5 rounded-full font-mono">0 vídeos</span>
                         </div>
-                        <p class="text-[11px] text-rose-200/70 mb-3">Remove pausas + Multiplica.</p>
+                        <p class="text-[11px] text-rose-200/70 mb-3"></p>
                     </div>
                     <div>
                         <label for="f3-in-ctas" class="upload-zone border border-dashed border-rose-400/60 hover:bg-rose-900/30 rounded-xl p-4 text-center cursor-pointer transition mb-2 block">
@@ -677,7 +677,7 @@
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5" aria-label="Etapas do fluxo completo">
-                <div id="f3-step-upload" class="step-card is-active rounded-2xl p-4"><span class="text-[10px] uppercase tracking-widest text-blue-300 font-extrabold">Etapa 1</span><p class="text-sm font-bold text-white mt-1">Adicione os blocos</p><p class="text-[11px] text-slate-500 mt-1">Gancho, corpo e CTA</p></div>
+                <div id="f3-step-upload" class="step-card is-active rounded-2xl p-4"><span class="text-[10px] uppercase tracking-widest text-blue-300 font-extrabold">Etapa 1</span><p class="text-sm font-bold text-white mt-1">Adicione os blocos</p><p class="text-[11px] text-slate-500 mt-1"></p></div>
                 <div id="f3-step-clean" class="step-card rounded-2xl p-4"><span class="text-[10px] uppercase tracking-widest text-violet-300 font-extrabold">Etapa 2</span><p class="text-sm font-bold text-white mt-1">Remova as pausas</p><p class="text-[11px] text-slate-500 mt-1">Corte automático em cada vídeo</p></div>
                 <div id="f3-step-multiply" class="step-card rounded-2xl p-4"><span class="text-[10px] uppercase tracking-widest text-emerald-300 font-extrabold">Etapa 3</span><p class="text-sm font-bold text-white mt-1">Receba suas variações</p><p class="text-[11px] text-slate-500 mt-1">Combinações prontas para baixar</p></div>
             </div>
